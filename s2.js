@@ -27,23 +27,24 @@ registerBtn.addEventListener('click', () => container.classList.add("active"));
 loginBtn.addEventListener('click', () => container.classList.remove("active"));
 
 
-function getForm(el) {
-    let parent = el.parentNode;
-    let form = {}
-    for (let input of parent.querySelectorAll("input")) {
-        form[input.getAttribute("name")] = input.value;
-    }
-    return form;
-}
-
+// Sometimes user may already be authenticated before siging in to the app
 let init = true;
-onAuthStateChanged(Auth, async (userData) => {
-    console.log("auth state change: user data", userData);
+onAuthStateChanged(Auth, async (user) => {
+    console.log("auth state change: user data", user);
     if (init) {
+        // User is already authenticated
+        if (user.emailVerified) {
+            // CASE 1
+            // User has had email verified 
+            // and is successfuly authenticated 
+        } else {
+            // CASE 2
+            // User has still not verified their email
+            // TODO: show some page to say user should check email
+        }
         init = false;
     }
 });
-
 
 
 async function register(element){
@@ -62,12 +63,13 @@ async function register(element){
         };
         await sendEmailVerification(user, actionCodeSettings); 
 
-        // User has still not verified
-        // their email
+        // CASE 2
+        // User has still not verified their email
         // TODO: show some page to say user should check email
         alert("verification sent");
+
     } catch(error) {
-        registerError(error);
+        displayError(error, "register");
     }
 }
 
@@ -81,11 +83,12 @@ async function login(element) {
         await signInWithEmailAndPassword(Auth, email, password);
         let user = Auth.currentUser;
         if (user.emailVerified) {
+            // CASE 1
             // User has had email verified 
             // and is successfuly authenticated 
         } else {
-            // User has still not verified
-            // their email
+            // CASE 2
+            // User has still not verified their email
             // TODO: show some page to say user should check email
         }
     } catch (error) {
@@ -93,7 +96,7 @@ async function login(element) {
     }
 }
 
-
+// Display the error message
 function displayError(errorCode, type){
     let message = "";
     switch (errorCode) {
@@ -123,8 +126,20 @@ function displayError(errorCode, type){
     alert(message);
 }
 
+// Get the all inputs in the parent of the given node and store their values in a json object 
+function getForm(el) {
+    let parent = el.parentNode;
+    let form = {}
+    for (let input of parent.querySelectorAll("input")) {
+        // name attribute used as the key for the input value
+        form[input.getAttribute("name")] = input.value;
+    }
+    return form;
+}
 
 
+/* TODO: Forgot password procedure
+*/
 
 window.register = register
 window.login = login
