@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
         <link rel="stylesheet" href="style.css">
+        <script src="s2.js" type = "module"></script>
         <title>Login Page</title>
     </head>
 
@@ -22,11 +23,11 @@
                         <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                     </div>
                     <span>or use your email for registeration</span>
-                    <input type="text" placeholder="First Name" id="first_name">
-                    <input type="text" placeholder="Last Name" id="last_name">                    
-                    <input type="email" placeholder="Email" id="email">
-                    <input type="password" placeholder="Password" id="password">
-                    <button onclick="register()">Register</button>
+                    <input type="text" placeholder="First Name" name="first_name">
+                    <input type="text" placeholder="Last Name" name="last_name">                    
+                    <input type="email" placeholder="Email" name="email">
+                    <input type="password" placeholder="Password" name="password">
+                    <button onclick="register(this)">Register</button>
                 </div>
             </div>
             <div class="form-container sign-in">
@@ -39,10 +40,10 @@
                         <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                     </div>
                     <span>or use your email and password</span>
-                    <input type="email" placeholder="Email" id="email-same">
-                    <input type="password" placeholder="Password" id="password-same">
+                    <input type="email" placeholder="Email" name="email">
+                    <input type="password" placeholder="Password" name="password">
                     <a href="#">Forget Your Password?</a>
-                    <button onclick="login()">Sign In</button>
+                    <button onclick="login(this)">Sign In</button>
                 </div>
             </div>
             <div class="toggle-container">
@@ -64,16 +65,9 @@
         </div>
 
     </body>
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-            https://firebase.google.com/docs/web/setup#available-libraries -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
 
     <!-- Our script must be loaded after firebase references -->
-    <script src="script.js"></script>
+    
 
 
 </html>
