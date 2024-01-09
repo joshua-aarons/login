@@ -164,4 +164,10 @@ function getForm(el) {
 window.register = register
 window.login = login
 
+let pages = {}
+
+for(let name of ["dashboard", "login"]) {
+    pages[name] = await (await fetch(`./pages/${name}.html`)).text();
+}
+
 
