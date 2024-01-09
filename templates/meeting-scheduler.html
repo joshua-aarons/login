@@ -1,0 +1,44 @@
+<h2>Schedule Meeting</h2>
+<div class="col" style="gap: 1rem">
+    <input-plus>
+        <input autocomplete="off" type="text" id="meeting-description"
+            name="description" required>
+        <label>Meeting Description</label>
+        <span class="icon material-symbols-outlined">description</span>
+    </input-plus>
+    <input-plus>
+        <input autocomplete="off" type="datetime-local" name="start-time"
+            required>
+        <label>When</label>
+        <span class="icon material-symbols-outlined">event</span>
+    </input-plus>
+    <input-plus>
+        <input autocomplete="off" type="datetime-local" name="end-time" required>
+        <label>Finish</label>
+        <span class="icon material-symbols-outlined">schedule</span>
+    </input-plus>
+    <input-plus name ="time-stamp">
+        <input autocomplete="off" id="total-hours" type="text" required disabled>
+        <label>Total Minutes</label>
+        <span class="icon material-symbols-outlined">hourglass_bottom</span>
+    </input-plus>
+
+    <input-plus>
+        <label>Timezone</label>
+        <select name="timezone" autocomplete="off" style="color: inherit; cursor: pointer;" required>
+            <option value="" disabled selected></option>
+            <option value="(GMT+8:00) Perth">(GMT+8:00) Perth</option>
+            <option value="(GMT+9:30) Darwin">(GMT+9:30) Darwin</option>
+            <option value="(GMT+10:00) Brisbane">(GMT+10:00) Brisbane</option>
+            <option value="(GMT+10:30) Adelaide">(GMT+10:30) Adelaide</option>
+            <option value="(GMT+11:00) Canberra, Melbourne, Sydney">(GMT+11:00) Canberra, Melbourne, Sydney</option>
+            <option value="(GMT+11:00) Hobart">(GMT+11:00) Hobart</option>
+        </select>
+        <i class="icon fa-solid fa-angle-down" id="fas"></i>
+    </input-plus>
+
+    <div class="contact-buttons">
+        <button class="btn upload" name = "cancel" style="background-color: var(--color-great);">Cancel</button>
+        <button class="btn" name = "save">Save</button>
+    </div>
+</div>

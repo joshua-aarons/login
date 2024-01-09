@@ -58,12 +58,6 @@ let tiers = {
     }
 }
 
-// change sidebar 
-// pageToggler.addEventListener('click', () => {
-
-//     themeToggler.querySelector('span:nth-child(1)').classList.toggle('active')
-//     themeToggler.querySelector('span:nth-child(2)').classList.toggle('active')
-// })
 
 function setMain(el) {
     let page = el.getAttribute('type')
@@ -214,22 +208,7 @@ closebtn.addEventListener("click", () => {
     clearForm() 
 })
 
-function clearForm() {
-    for(let input of modal.querySelectorAll("input, select")){
-        input.value = "";
-        input.parentNode.classList.remove("not-empty");
-    } 
-}
 
-function getForm() {
-    let form = {}
-    for(let input of modal.querySelectorAll("input, select")){
-        form[input.getAttribute('name')] = input.value
-        if (input.value.length == 0 && input.hasAttribute("required"))
-            return null;
-    }
-    return form;
-}
 
 function scheduleMeeting(form) {
 
@@ -293,17 +272,3 @@ function detailsPage() {
         detailsMain[i].classList.add("not-empty");
 
 }
-
-
-
-
-// const clearBtn = document.getElementById('closeModal');
-
-// clearBtn.addEventListener('click', () => {
-//   var d =   document.querySelector('input[type=datetime-local]');
-//   d.value = null;
-//   document.getElementById('meeting-description').value = '';
-
-//   inputWrap.classList.remove("not-empty");
-
-// })

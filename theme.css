@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --color-primary: #7380ec;
+    --color-danger: #8f53c9;
+    --color-danger-hover: #843ac9;
+    --color-great: #ff7782;
+    --color-success: #41f1b6;
+    --color-wanring: #ffbb55;
+    --color-white: #fff;
+    --color-info-dark: #7d8da1;
+    --color-info-light: #dce1eb;
+    --color-dark: #363949;
+    --color-light: rgba(132, 139, 200, 0.18);
+    --color-primary-variant: #111e88;
+    --color-dark-variart: #677483;
+    --color-background: #f6f6f9;
+  
+    --input-bg: hsla(208, 50%, 50%, 6.5%);
+    --input-bg-hover: hsla(208, 50%, 50%, 14%);
+    --input-text: #8c9aaf;
+    --input-shadow: hsla(208, 92%, 54%, 0.169);
+  
+    --card-border-radius: 2rem;
+    --border-radius-1: 0.4rem;
+    --border-radius-2: 0.8rem;
+    --border-radius-3: 1.2rem;
+  
+    --card-padding: 1.8rem;
+    --padding-1: 1.2rem;
+    --button-padding: 0.5rem 1rem;
+  
+    --box-shadow: 0 2rem 3rem var(--color-light);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.88rem;
+  }
+  
+  /* ---------------- DARK THEME VARIABLES ---------------- */
+  .dark-theme-variables {
+      --color-background: #181a1e;
+      --color-white: #202528;
+      --color-dark: #edeffd;
+      --color-dark-variant: #a3bdcc;
+      --color-light: rgba(0, 0, 0, 0.4);
+      --box-shadow: 0 2rem 3rem var(--color-light);
+  
+      --input-bg: hsla(208, 22%, 50%, 11%);
+      --input-bg-hover: hsla(208, 22%, 50%, 18.5%);
+      --input-text: hsla(208, 10%, 55%);
+      --input-shadow: hsla(208, 92%, 58%, 0.2);
+  }
+
+
+.btn {
+    display: inline-block;
+    padding: 1.1rem 2rem;
+    background-color: var(--color-danger);
+    color: var(--color-white);
+    border-radius: 40px;
+    border: none;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+/* background-color: var(--color-great); */
+
+.btn:hover {
+    background-color: var(--color-danger-hover);
+}
+
+.btn.upload {
+    position: relative;
+    background-color: var(--input-bg);
+}
+
+.col, form, .col-passcode, .col-stack {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.3rem;
+}
+
+.contact-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1rem;
+    margin-top: 1rem;
+    width: 100%;
+    grid-column: span 2;
+}
