@@ -19,7 +19,6 @@ class MeetingScheduler extends SvgPlus {
 
         save.addEventListener("click", () => {
             let meeting = this.value;
-            console.log(meeting);
             if (meeting == null) {
                 alert('please finish meeting')
             } else {

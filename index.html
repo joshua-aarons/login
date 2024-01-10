@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-    <meeting-scheduler></meeting-schedular>
+    <meeting-scheduler></meeting-scheduler>
 </body>
 
 <style>
@@ -20,5 +20,11 @@
 </style>
 <script type = "module">
 import {} from "./meeting-scheduler.js"
+
+let ms = document.querySelector("meeting-scheduler");
+ms.addEventListener("close", () => {
+    console.log(ms.value);
+});
+
 </script>
 </html>
