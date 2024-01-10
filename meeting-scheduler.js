@@ -1,10 +1,13 @@
 import {SvgPlus} from "./SvgPlus/4.js"
-import { templates } from "./template.js"
+import { getHTMLTemplate, useCSSStyle } from "./template.js"
 import {} from "./input-plus.js"
+
+useCSSStyle("theme")
 
 class MeetingScheduler extends SvgPlus {
     onconnect(){
-        this.innerHTML = templates["meeting-scheduler"];
+        this.innerHTML = getHTMLTemplate("meeting-scheduler");
+
         const save = this.querySelector("button[name = 'save'");
         const cancel = this.querySelector("button[name = 'cancel']");
 
@@ -52,7 +55,7 @@ class MeetingScheduler extends SvgPlus {
         if (input) value = input.value;
         return value;
     }
-    
+
     getInput(name) {
         let input = null
         for (let i of this.inputs) {

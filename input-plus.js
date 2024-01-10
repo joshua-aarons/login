@@ -1,4 +1,9 @@
 import {SvgPlus} from "./SvgPlus/4.js"
+import { useCSSStyle } from "./template.js";
+
+useCSSStyle("input-plus");
+useCSSStyle("theme")
+
 class InputPlus extends SvgPlus {
     onconnect(){
         let {input} = this;
@@ -23,6 +28,7 @@ class InputPlus extends SvgPlus {
         if (!name) name = this.getAttribute("name");
         return name
     }
+
     get required(){
         let required = this.input.hasAttribute("required");
         if (!required) required = this.hasAttribute("required");
