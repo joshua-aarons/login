@@ -1,5 +1,5 @@
-import {SvgPlus} from "./SvgPlus/4.js"
-import { useCSSStyle } from "./template.js";
+import {SvgPlus} from "../SvgPlus/4.js"
+import { useCSSStyle } from "../template.js";
 
 useCSSStyle("input-plus");
 useCSSStyle("theme")

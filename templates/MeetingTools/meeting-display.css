@@ -4,6 +4,9 @@
     column-gap: 2rem;
     row-gap: 1rem;
 }
+.schedule-shape > div:last-child {
+    overflow: hidden;
+}
 
 .schedule-wrap {
     position: relative;
@@ -36,7 +39,8 @@
 }
 
 .link-copy p {
-    padding-right: 1rem;
+    padding-right: 1.5rem;
+    white-space: pre;
 }
 
 .link-copy {

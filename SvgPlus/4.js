@@ -203,7 +203,6 @@ function extendable(obj, cdef, plus = "__+") {
   return res;
 }
 
-
 class SvgPlus{
   constructor(el){
     el = SvgPlus.parseElement(el)

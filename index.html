@@ -8,7 +8,10 @@
     <title>Document</title>
 </head>
 <body>
-    <meeting-display></meeting-display>
+    <div class = "popup open">
+        <meeting-display></meeting-display>
+    </div>
+    <!-- <app-view></app-view> -->
     
 </body>
 
@@ -20,19 +23,8 @@
     }
 </style>
 <script type = "module">
-import {} from "./meeting-scheduler.js"
+import {} from "./templates/app-view.js"
 
-import {} from "./meeting-display.js"
-
-
-let ms = document.querySelector("meeting-display");
-ms.value = {
-    description: "Meeting with gabe",
-    "start-time": "Today",
-    duration: 40,
-    "meeting-id": "nweflkwejflowe",
-    link: "www.google.com"
-}
 // ms.addEventListener("close", () => {
 //     console.log(ms.value);
 // });

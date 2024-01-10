@@ -1,10 +1,10 @@
-import {SvgPlus} from "./SvgPlus/4.js"
-import { getHTMLTemplate, useCSSStyle } from "./template.js"
-import {} from "./input-plus.js"
+import { CustomComponent, SvgPlus } from "../../CustomComponent.js";
+import { getHTMLTemplate, useCSSStyle } from "../../template.js"
+import {} from "../input-plus.js"
 
 useCSSStyle("theme")
 
-class MeetingScheduler extends SvgPlus {
+class MeetingScheduler extends CustomComponent {
     onconnect(){
         this.innerHTML = getHTMLTemplate("meeting-scheduler");
 

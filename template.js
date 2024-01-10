@@ -1,5 +1,5 @@
-let html_templates = ["./templates/dashboard-components/meetings-page.html","./templates/dashboard.html","./templates/login.html","./templates/meeting-display.html","./templates/meeting-scheduler.html"];
-let css_styles = ["./templates/input-plus.css","./templates/meeting-display.css","./templates/theme.css"];
+let html_templates = ["./templates/MainPages/dash-board.html","./templates/MainPages/data-and-privacy.html","./templates/MainPages/meetings-panel.html","./templates/MainPages/profile-panel.html","./templates/MainPages/support-panel.html","./templates/MeetingTools/meeting-display.html","./templates/MeetingTools/meeting-scheduler.html","./templates/app-view.html","./templates/login.html"];
+let css_styles = ["./templates/MeetingTools/meeting-display.css","./templates/app-view.css","./templates/input-plus.css","./templates/theme.css"];
 
 let HTMLTemplates = {};
 let CSSStyles = {};

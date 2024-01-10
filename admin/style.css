@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-/* ---------------- ROOT VARIABLES ---------------- */
-:root {
+---------------- ROOT VARIABLES ----------------
+/* :root {
   --color-primary: #7380ec;
   --color-danger: #8f53c9;
   --color-danger-hover: #843ac9;
@@ -32,10 +32,10 @@
   --button-padding: 0.5rem 1rem;
 
   --box-shadow: 0 2rem 3rem var(--color-light);
-}
+} */
 
 /* ---------------- DARK THEME VARIABLES ---------------- */
-.dark-theme-variables {
+/* .dark-theme-variables {
     --color-background: #181a1e;
     --color-white: #202528;
     --color-dark: #edeffd;
@@ -58,22 +58,13 @@
     text-decoration: none;
     list-style: none;
     box-sizing: border-box;
-}
+} */
 
-html {
+/* html {
     font-size: 14px;
-}
+} */
 
-body {
-    width: 100vw;
-    height: 100vh;
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.88rem;
-    background: var(--color-background);
-    user-select: none;
-    overflow-x: hidden;
-    color: var(--color-dark);
-}
+
 
 .container {
     display: grid;
@@ -1280,7 +1271,7 @@ input:checked + .slider:before {
     opacity: 0.8;
 } */
 
-.modal {
+/* .modal {
     background-color: rgba(0, 0, 0, 0.3);
     opacity: 0;
     position: fixed;
@@ -1299,7 +1290,7 @@ input:checked + .slider:before {
 .modal.open {
     opacity: 1;
     z-index: 999;
-}
+} */
 
 .modal-inner {
     background: var(--color-white);

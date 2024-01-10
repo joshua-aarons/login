@@ -1,0 +1,93 @@
+<h1>Profile</h1>
+<div class="profile-wrapper">
+
+    <div class="card">
+        <div class="row spi">
+            <div class="row">
+                <div class="profile-photo">
+                    <img vname="displayPhoto" vfield="src" />
+                </div>
+                <div class="stack">
+                    <h2 vname="name" vfield="innerHTML"></h2>
+                    <small class="text-muted" vname="pronouns" vfield="innerHTML"></small>
+                </div>
+            </div>
+            <button id="update-profile">Update</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Account Details</h2>
+        <div class = "col" gap = "0.5rem">
+            <div class="row">
+                <input-plus>
+                    <input vname="firstName" vfield="value" />
+                    <label>First Name*</field>
+                </input-plus>
+                <input-plus>
+                    <input vname="lastName" vfield="value" />
+                    <label>Last Name*</field>
+                </input-plus>
+            </div>
+            <div class="row">
+                <input-plus>
+                    <label class="text-muted">Display Name*</label>
+                    <input vname="name" vlabel="value" />
+                </input-plus>
+                <input-plus>
+                    <label class="text-muted">Pronouns</label>
+                    <input vname="pronouns" />
+                </input-plus>
+            </div>
+            <div class="row">
+                <input-plus class="col">
+                    <label class="text-muted">Email</label>
+                    <input class="dummy-button" vname="email" vlabel="innerHTML"></input>
+                </input-plus>
+            </div>
+            <div class="row">
+                <input-plus>
+                    <label class="text-muted">Old Passcode</label>
+                    <input />
+                </input-plus>
+            </div>
+            <div class="row">
+                <input-plus>
+                    <input />
+                    <label class="text-muted">New Passcode</label>
+                </input-plus>
+                <input-plus>
+                    <input />
+                    <label class="text-muted">Confirm Passcode</label>
+                </input-plus>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button name="update">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Subscription</h2>
+        <form>
+            <div class="row">
+                <div class="col">
+                    <div>Licence</div>
+                </div>
+                <div class="col-stack">
+                    <div vname="tier" vfield="innerHTML"></div>
+                    <h3>Total Hours</h3>
+                    <h3>Total Sessions</h3>
+                    <h3>Total Storage</h3>
+                </div>
+                <div class="col-stack">
+                    <div>50</div>
+                    <div>20</div>
+                    <div>300MB</div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

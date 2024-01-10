@@ -61,6 +61,17 @@
     box-sizing: border-box;
 }
 
+body {
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.88rem;
+    background: var(--color-background);
+    user-select: none;
+    overflow-x: hidden;
+    color: var(--color-dark);
+}
+
 .btn {
     display: inline-block;
     padding: 1.1rem 2rem;
@@ -86,14 +97,18 @@
     background-color: var(--input-bg);
 }
 
-.col,
-form,
-.col-passcode,
-.col-stack {
+.col {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 0.3rem;
+    gap: 1.3em;
+}
+
+.row {
+    display: flex;
+    gap: 1.3em;
+    gap: attr(gap);
+    align-items: center;
 }
 
 .contact-buttons {

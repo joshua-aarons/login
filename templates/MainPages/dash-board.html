@@ -1,0 +1,88 @@
+<h1>Dashboard</h1>
+
+<div class="date">
+    <input type="date">
+</div>
+
+<div class="insights">
+    <div class="hours">
+        <span class="material-symbols-outlined">analytics</span>
+        <div class="middle">
+            <div class="left">
+                <h3>Total Hours</h3>
+                <h1>25.6</h1>
+            </div>
+            <div class="progress">
+                <svg>
+                    <circle r="36"></circle>
+                </svg>
+                <div class="number">
+                    <p>percent</p>
+                </div>
+            </div>
+        </div>
+        <small class="text-muted">Last 6 Months</small>
+    </div>
+    <!-------------------- END OF HOURS -------------------->
+    <div class="sessions-count">
+        <span class="material-symbols-outlined">bar_chart</span>
+        <div class="middle">
+            <div class="left">
+                <h3>Total Sessions</h3>
+                <h1>14</h1>
+            </div>
+            <div class="progress">
+                <svg>
+                    <circle r="36"></circle>
+                </svg>
+                <div class="number">
+                    <p>percent</p>
+                </div>
+            </div>
+        </div>
+        <small class="text-muted">Last 6 Months</small>
+    </div>
+    <!-------------------- END OF SESSIONS -------------------->
+    <div class="storage">
+        <span class="material-symbols-outlined">stacked_line_chart</span>
+        <div class="middle">
+            <div class="left">
+                <h3>Total Storage</h3>
+                <h1>150MB</h1>
+            </div>
+            <div class="progress">
+                <svg>
+                    <circle r="36"></circle>
+                </svg>
+                <div class="number">
+                    <p>percent</p>
+                </div>
+            </div>
+        </div>
+        <small class="text-muted">Last 6 Months</small>
+    </div>
+    <!-------------------- END OF STORAGE -------------------->
+</div>
+<!-------------------- END OF INSIGHTS -------------------->
+
+<div class="recent-sessions">
+    <h2>Recent Sessions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Session Name</th>
+                <th>Session Date</th>
+                <th>Session Length</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <a href="#">Show All</a>
+</div>
+<!-------------------- END OF TABLE -------------------->
+
+<canvas id="chart">hart</canvas>
