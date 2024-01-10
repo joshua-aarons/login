@@ -1,0 +1,111 @@
+.schedule-shape {
+    display: grid;
+    grid-template-columns: 0.3fr 1fr;
+    column-gap: 2rem;
+    row-gap: 1rem;
+}
+
+.schedule-wrap {
+    position: relative;
+}
+
+.schedule-heading {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 2.5rem;
+}
+
+.schedule-content {
+    font-size: 0.95rem;
+    font-weight: 400;
+    line-height: 2.5rem;
+}
+
+.link-copy .icon {
+    position: absolute;
+    right: 0;
+    top: 0.5rem;
+    cursor: pointer;
+    color: var(--color-dark-variart);
+    font-size: 1.5rem;
+    transition: 0.3s;
+}
+
+.link-copy .icon:hover {
+    color: var(--color-dark);
+}
+
+.link-copy p {
+    padding-right: 1rem;
+}
+
+.link-copy {
+    padding: 0;
+    position: relative;
+}
+
+.calendar-icon {
+    /* width: 50%; */
+    font-size: inherit;
+    font-family: inherit;
+    color: #0E71Eb;
+    background-color: transparent;
+    cursor: pointer;
+    text-align: left;
+    text-indent: 1px;
+    line-height: 28px;
+}
+
+.calendar-icon img {
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin: 6px 4px 0px 0px;
+}
+
+.calendar-icon span {
+    color: #0E71EB;
+    transition: 0.3s;
+}
+
+.calendar-icon:hover {
+    transition: 0.3s;
+    text-decoration: underline;
+    text-decoration-color: #0E71EB;
+}
+
+.calendar-icon.outlook {
+    color: #3171BB;
+}
+
+.calendar-icon.outlook:hover {
+    transition: 0.3s;
+    text-decoration: underline;
+    text-decoration-color: #3171BB;
+}
+
+.schedule-shape-calendar {
+    grid-template-columns: 0.3fr 0.4fr 0.4fr;
+    grid-gap: 2rem 1rem;
+    display: grid;
+    row-gap: 1rem;
+    padding-bottom: 6.5rem;
+}
+
+.contact-buttons-finish {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 1rem;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.btn.upload.close {
+    background-color: var(--color-great);
+    transition: 0.3s;
+}
+
+.btn.upload.close:hover {
+    background-color: var(--color-great-hover);
+    transition: 0.3s;
+}

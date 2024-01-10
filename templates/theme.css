@@ -15,41 +15,51 @@
     --color-primary-variant: #111e88;
     --color-dark-variart: #677483;
     --color-background: #f6f6f9;
-  
+
     --input-bg: hsla(208, 50%, 50%, 6.5%);
     --input-bg-hover: hsla(208, 50%, 50%, 14%);
     --input-text: #8c9aaf;
     --input-shadow: hsla(208, 92%, 54%, 0.169);
-  
+
     --card-border-radius: 2rem;
     --border-radius-1: 0.4rem;
     --border-radius-2: 0.8rem;
     --border-radius-3: 1.2rem;
-  
+
     --card-padding: 1.8rem;
     --padding-1: 1.2rem;
     --button-padding: 0.5rem 1rem;
-  
+
     --box-shadow: 0 2rem 3rem var(--color-light);
     font-family: 'Poppins', sans-serif;
     font-size: 0.88rem;
-  }
-  
-  /* ---------------- DARK THEME VARIABLES ---------------- */
-  .dark-theme-variables {
-      --color-background: #181a1e;
-      --color-white: #202528;
-      --color-dark: #edeffd;
-      --color-dark-variant: #a3bdcc;
-      --color-light: rgba(0, 0, 0, 0.4);
-      --box-shadow: 0 2rem 3rem var(--color-light);
-  
-      --input-bg: hsla(208, 22%, 50%, 11%);
-      --input-bg-hover: hsla(208, 22%, 50%, 18.5%);
-      --input-text: hsla(208, 10%, 55%);
-      --input-shadow: hsla(208, 92%, 58%, 0.2);
-  }
+}
 
+/* ---------------- DARK THEME VARIABLES ---------------- */
+.dark-theme-variables {
+    --color-background: #181a1e;
+    --color-white: #202528;
+    --color-dark: #edeffd;
+    --color-dark-variant: #a3bdcc;
+    --color-light: rgba(0, 0, 0, 0.4);
+    --box-shadow: 0 2rem 3rem var(--color-light);
+
+    --input-bg: hsla(208, 22%, 50%, 11%);
+    --input-bg-hover: hsla(208, 22%, 50%, 18.5%);
+    --input-text: hsla(208, 10%, 55%);
+    --input-shadow: hsla(208, 92%, 58%, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    appearance: 0;
+    border: 0;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+}
 
 .btn {
     display: inline-block;
@@ -64,6 +74,7 @@
     cursor: pointer;
     transition: 0.3s;
 }
+
 /* background-color: var(--color-great); */
 
 .btn:hover {
@@ -75,7 +86,10 @@
     background-color: var(--input-bg);
 }
 
-.col, form, .col-passcode, .col-stack {
+.col,
+form,
+.col-passcode,
+.col-stack {
     display: flex;
     flex-direction: column;
     width: 100%;

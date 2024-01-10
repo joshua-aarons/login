@@ -8,7 +8,8 @@
     <title>Document</title>
 </head>
 <body>
-    <meeting-scheduler></meeting-scheduler>
+    <meeting-display></meeting-display>
+    
 </body>
 
 <style>
@@ -21,10 +22,20 @@
 <script type = "module">
 import {} from "./meeting-scheduler.js"
 
-let ms = document.querySelector("meeting-scheduler");
-ms.addEventListener("close", () => {
-    console.log(ms.value);
-});
+import {} from "./meeting-display.js"
+
+
+let ms = document.querySelector("meeting-display");
+ms.value = {
+    description: "Meeting with gabe",
+    "start-time": "Today",
+    duration: 40,
+    "meeting-id": "nweflkwejflowe",
+    link: "www.google.com"
+}
+// ms.addEventListener("close", () => {
+//     console.log(ms.value);
+// });
 
 </script>
 </html>

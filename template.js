@@ -1,5 +1,5 @@
 let html_templates = ["./templates/dashboard-components/meetings-page.html","./templates/dashboard.html","./templates/login.html","./templates/meeting-display.html","./templates/meeting-scheduler.html"];
-let css_styles = ["./templates/input-plus.css","./templates/theme.css"];
+let css_styles = ["./templates/input-plus.css","./templates/meeting-display.css","./templates/theme.css"];
 
 let HTMLTemplates = {};
 let CSSStyles = {};
