@@ -103,13 +103,3 @@
     margin-top: 1rem;
     width: 100%;
 }
-
-.btn.upload.close {
-    background-color: var(--color-great);
-    transition: 0.3s;
-}
-
-.btn.upload.close:hover {
-    background-color: var(--color-great-hover);
-    transition: 0.3s;
-}

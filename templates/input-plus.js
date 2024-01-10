@@ -1,8 +1,16 @@
-import {SvgPlus} from "../SvgPlus/4.js"
+import {SvgPlus, CustomForm} from "../CustomComponent.js"
 import { useCSSStyle } from "../template.js";
 
 useCSSStyle("input-plus");
 useCSSStyle("theme")
+
+class FormPlus extends CustomForm {
+    onconnect(){
+        
+    }
+}
+
+SvgPlus.defineHTMLElement(FormPlus);
 
 class InputPlus extends SvgPlus {
     onconnect(){
@@ -17,16 +25,45 @@ class InputPlus extends SvgPlus {
             };
             this.classList.remove("focus");
         });
-
         input.addEventListener("change", (e) => {
+            this.showFile()
             this.dispatchEvent(new Event(e));
         });
+        this.errorBox = this.createChild('div', {class: 'error-message'})
+        this.errorBox.createChild('i', {class: 'fa-solid fa-circle-exclamation'})
+        this.errormessage = this.errorBox.createChild('span')
+
+        this.fileBox = this.createChild('div', {class: 'file-name'})
+        this.fileBox.createChild('i', {class: 'fa-solid fa-file'})
+        this.filename = this.fileBox.createChild('span')
+
+    }
+
+    showFile(){
+        if(this.type == 'file' && this.input.files.length > 0){
+            this.toggleAttribute('file', true)
+            this.filename.innerHTML = this.value.name
+            console.log(this.value)
+        } else {
+            this.toggleAttribute('file', false)
+        }
+    }
+
+    onclick(){
+        if(this.type == "file")
+            this.input.click()
     }
 
     get name(){
         let name = this.input.getAttribute("name");
         if (!name) name = this.getAttribute("name");
         return name
+    }
+
+    get type(){
+        let type = this.input.getAttribute("type");
+        if (!type) type = this.getAttribute("type");
+        return type
     }
 
     get required(){
@@ -40,6 +77,9 @@ class InputPlus extends SvgPlus {
     }
 
     get value(){
+        if(this.type == 'file') {
+            return this.input.files[0]
+        }
         return this.input.value;
     }
 
@@ -50,6 +90,23 @@ class InputPlus extends SvgPlus {
         } else {
             this.classList.add("not-empty"); 
         }
+    }
+
+    set error(error){
+        this.toggleAttribute(`invalid`, typeof error == 'string');
+        if (typeof error != 'string')
+            error = ''
+        this.errormessage.innerHTML = error
+    }
+
+    validate(){
+        let valid = this.required? (this.value != '' || this.value instanceof File):true;
+        if (!valid) {
+            this.error = this.querySelector('label').innerHTML.replace('*', '') + ' required';
+        } else {
+            this.error = null;
+        }
+        return valid
     }
 }
 

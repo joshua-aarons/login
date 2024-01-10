@@ -5,6 +5,7 @@
     --color-danger: #8f53c9;
     --color-danger-hover: #843ac9;
     --color-great: #ff7782;
+    --color-great-hover: #ff6874;
     --color-success: #41f1b6;
     --color-wanring: #ffbb55;
     --color-white: #fff;
@@ -27,6 +28,7 @@
     --border-radius-3: 1.2rem;
 
     --card-padding: 1.8rem;
+    --popup-padding: 3.5rem;
     --padding-1: 1.2rem;
     --button-padding: 0.5rem 1rem;
 
@@ -72,10 +74,82 @@ body {
     color: var(--color-dark);
 }
 
+h1 {
+    font-weight: 800;
+    font-size: 1.8rem;
+}
+
+h2 {
+    font-size: 1.4rem
+}
+
+h3 {
+    font-size: 0.87rem;
+}
+
+h4 {
+    font-size: 0.8rem;
+}
+
+h5 {
+    font-size: 0.77rem;
+}
+
+small {
+    font-size: 0.75rem;
+}
+
+.text-muted {
+    color: var(--color-info-dark);
+}
+
+p {
+    color: var(--color-dark-variart);
+}
+
+b {
+   color: var(--color-dark); 
+}
+
+.top-margin {
+    margin-top: 1.8rem;
+}
+
+a {
+    color: var(--color-primary);
+    transition: 0.3s;
+}
+
+.spi {
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 1.8rem;
+}
+
+a:hover {
+    color: var(--color-primary-variant);
+    transition: 0.3s;
+}
+
+.primary {
+    color: var(--color-primary);
+}
+.danger {
+    color: var(--color-danger);
+}
+.success {
+    color: var(--color-success);
+}
+.warning {
+    color: var(--color-wanring);
+}
+
 .btn {
     display: inline-block;
     padding: 1.1rem 2rem;
-    background-color: var(--color-danger);
+    --color: var(--color-danger);
+    --hover-color: var(--color-danger-hover);
+    background-color: var(--color);
     color: var(--color-white);
     border-radius: 40px;
     border: none;
@@ -86,22 +160,30 @@ body {
     transition: 0.3s;
 }
 
-/* background-color: var(--color-great); */
-
-.btn:hover {
-    background-color: var(--color-danger-hover);
+img {
+    width: 100%;
 }
 
-.btn.upload {
-    position: relative;
-    background-color: var(--input-bg);
+.btn:hover {
+    background-color: var(--hover-color);
+}
+
+.btn[color='gray'] {
+    --color: var(--input-bg);
+    --hover-color: var(--input-bg-hover);
+    color: var(--color-dark);
+}
+
+.btn[color='red'] {
+    --color: var(--color-great);
+    --hover-color: var(--color-great-hover);
 }
 
 .col {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 1.3em;
+    gap: 1.7em;
 }
 
 .row {
@@ -119,3 +201,45 @@ body {
     width: 100%;
     grid-column: span 2;
 }
+
+.popup {
+    background-color: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: all 0.3s ease-in-out;
+    z-index: -1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup.open {
+    opacity: 1;
+    z-index: 999;
+}
+
+.popup > * {
+    padding: var(--popup-padding);
+    text-align: left;
+    justify-content: center;
+    width: 600px;
+}
+
+.card, .popup > * {
+    background: var(--color-white);
+    padding: var(--popup-padding);
+    border-radius: var(--card-border-radius);
+    margin-top: 1rem;
+    box-shadow: var(--box-shadow);
+    transition: all 300ms ease;
+}
+
+.card:hover, .popup > *:hover{
+    box-shadow: none;
+}
+
