@@ -1137,7 +1137,7 @@ form {
     cursor: pointer;
     transition: 0.3s;
 }
-background-color: var(--color-great);
+
 
 .btn:hover {
     background-color: var(--color-danger-hover);
