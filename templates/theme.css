@@ -95,6 +95,16 @@ h5 {
     font-size: 0.77rem;
 }
 
+.data-preferences-heading {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.data-preferences-body {
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+
 small {
     font-size: 0.75rem;
 }
@@ -115,6 +125,10 @@ b {
     margin-top: 1.8rem;
 }
 
+.bottom-margin {
+    margin-bottom: 1rem;
+}
+
 a {
     color: var(--color-primary);
     transition: 0.3s;
@@ -123,7 +137,14 @@ a {
 .spi {
     justify-content: space-between;
     width: 100%;
+}
+
+.profilehead {
     padding: 0 1.8rem;
+}
+
+.width-65 {
+    width: 65%;
 }
 
 a:hover {
@@ -193,6 +214,13 @@ img {
     align-items: center;
 }
 
+.row-stretch {
+    display: flex;
+    gap: 1.3em;
+    gap: attr(gap);
+    align-items: stretch;
+}
+
 .contact-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -230,16 +258,162 @@ img {
     width: 600px;
 }
 
-.card, .popup > * {
+.card, .insights, .popup > * {
     background: var(--color-white);
-    padding: var(--popup-padding);
+    padding: var(--card-padding);
     border-radius: var(--card-border-radius);
     margin-top: 1rem;
     box-shadow: var(--box-shadow);
     transition: all 300ms ease;
 }
 
-.card:hover, .popup > *:hover{
+.popup {
+    padding: var(--popup-padding);
+}
+
+.insights {
+    width: 50%;
+}
+
+.card:hover, .insights:hover, .popup > *:hover{
     box-shadow: none;
 }
+
+.insights > div span {
+    background: var(--color-primary);
+    padding: 0.5rem;
+    border-radius: 50%;
+    color: var(--color-white);
+    font-size: 2rem;
+}
+
+.insights > div .center {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.insights h3 {
+    margin: 1rem 0 0.6rem;
+    font-size: 1rem;
+}
+
+.insights .progress {
+    position: relative;
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+}
+
+.insights svg {
+    width: 7rem;
+    height: 7rem;
+}
+
+.insights svg circle {
+    fill: none;
+    stroke: var(--color-primary);
+    stroke-width: 14;
+    stroke-linecap: round;
+    transform:  translate(43px, 43px);
+    --percent: 0.75;
+    stroke-dashoffset: calc(226.2/4);
+    stroke-dasharray: calc(var(--percent) * 226.2) calc((1 - var(--percent)) * 227);
+}
+
+.insights .total-users svg circle {
+    --percent: 0.75;
+}
+
+.insights .progress .number {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 25.5px;
+    top: 0%;
+    transform: translateY(-125%);
+    left: 150%;
+}
+  
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+  
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+  
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 19.5px;
+    width: 19.5px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input {
+    font-family: inherit;
+}
+  
+input:checked + .slider {
+    background-color: #2196F3;
+}
+  
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+  
+input:checked + .slider:before {
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
+}
+  
+/* Rounded sliders */
+.slider.round {
+    border-radius: 25.5px;
+}
+  
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    font-size: 0.95rem;
+  }
+
+td {
+    padding-bottom: 5px;
+} */
 

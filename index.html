@@ -11,9 +11,11 @@
     <!-- <div class = "popup open">
         <meeting-scheduler></meeting-scheduler>
     </div> -->
-    <!-- <app-view></app-view> -->
-    <profile-panel></profile-panel>
+    <app-view></app-view>
+    <!-- <profile-panel></profile-panel> -->
     <!-- <support-panel></support-panel> -->
+    <!-- <data-and-privacy></data-and-privacy> -->
+    <!-- <admin-control></admin-control> -->
     
 </body>
 
@@ -33,7 +35,7 @@ let tiers = {
     Standard: {
         hours: 50,
         'sessions-count': 20,
-        storage: 300
+        storage: '300MB'
     }
 }
 
@@ -41,6 +43,7 @@ let userData = {
     displayPhoto: "./images/profile-1.jpg",
     firstName: "Josh",
     lastName: "Aarons",
+    email: "joshua.aarons@ymail.com",
     displayName: "Josh Aarons",
     pronouns: "he/him",
     tier: "Standard",
@@ -68,16 +71,16 @@ profilePanel.addEventListener("updateDetails", e => {
 
 })
 
-// let ms = document.querySelector('meeting-scheduler')
+let ms = document.querySelector('meeting-scheduler')
 
-// ms.addEventListener('save', e => {
-//     ms.validate()
-//     // console.log(profilePanel.details.value)
-// })
+ms.addEventListener('save', e => {
+    ms.validate()
+    // console.log(profilePanel.details.value)
+})
 
-// ms.addEventListener("close", () => {
-//     console.log(ms.value);
-// });
+ms.addEventListener("close", () => {
+    console.log(ms.value);
+});
 
 </script>
 </html>

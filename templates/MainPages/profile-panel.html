@@ -2,7 +2,7 @@
 <div class="profile-wrapper">
 
     <div class="card">
-        <div class="row spi">
+        <div class="row spi profilehead">
             <div class="row">
                 <div class="profile-photo">
                     <img name="displayPhoto" vfield="src"/>
@@ -47,6 +47,9 @@
             </div>
             <div class="row">
                 <div class="col">
+                    <button class="btn" color="gray" name="update">Cancel</button>
+                </div>
+                <div class="col">
                     <button class="btn" name="update">Update</button>
                 </div>
             </div>
@@ -74,31 +77,45 @@
             </div>
             <div class="row">
                 <div class="col">
+                    <button class="btn" color="gray" name="update">Cancel</button>
+                </div>
+                <div class="col">
                     <button class="btn" name="updateDetails">Update</button>
                 </div>
             </div>
         </form-plus>
     </div>
 
-    <div class="card">
+    <div class="card bottom-margin">
         <h2>Subscription</h2>
-        <form>
-            <div class="row">
-                <div class="col">
-                    <div>Licence</div>
-                </div>
-                <div class="col-stack">
-                    <div name="tier" vfield="innerHTML"></div>
-                    <h3>Total Hours</h3>
-                    <h3>Total Sessions</h3>
-                    <h3>Total Storage</h3>
-                </div>
-                <div class="col-stack">
-                    <div name = "maxhours" vfield = "innerHTML">50</div>
-                    <div name = "maxsessions" vfield = "innerHTML">20</div>
-                    <div name = "maxstorage" vfield = "innerHTML">300MB</div>
-                </div>
-            </div>
-        </form>
+        <table class="top-margin">
+            <colgroup>
+                <col style="width:25%">
+                <col style="width:20%">
+                <col style="width:50%">
+              </colgroup>  
+            <tbody class="top-margin">
+                <tr>
+                    <td scope="row">Licence</td>
+                    <td>Standard</td>
+                    <td><a>Upgrade to get more features</a></td>
+                </tr>
+                <tr>
+                    <td scope="row">Per month</td>
+                    <td><b>Total Hours</b></td>
+                    <td name = "maxhours" vfield = "innerHTML">50</td>
+                </tr>
+                <tr>
+                    <td scope="row"></td>
+                    <td><b>Total Sessions</b></td>
+                    <td name = "maxsessions" vfield = "innerHTML">20</td>
+                </tr>
+                <tr>
+                    <td scope="row"></td>
+                    <td><b>Total Storage</b></td>
+                    <td name = "maxstorage" vfield = "innerHTML">300MB</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
