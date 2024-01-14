@@ -15,8 +15,9 @@ import { CustomComponent, SvgPlus } from "../CustomComponent.js"
 useCSSStyle("theme");
 useCSSStyle("app-view");
 
-class AppView extends CustomComponent {
-    onconnect(){
+export class AppView extends CustomComponent {
+    constructor(el = "app-view"){
+        super(el)
         this.innerHTML = getHTMLTemplate("app-view");
         let els = this.getElementLibrary();
         
@@ -46,4 +47,4 @@ class AppView extends CustomComponent {
     }
 }
 
-SvgPlus.defineHTMLElement(AppView);
+// SvgPlus.defineHTMLElement(AppView);

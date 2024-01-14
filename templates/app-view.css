@@ -1,15 +1,45 @@
-
-
-
-
-
-
 app-view {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.88rem;
+    background: var(--color-background);
+    user-select: none;
+    overflow-x: hidden;
+    color: var(--color-dark);
     display: grid;
-    width: 96%;
     margin: 0 auto;
     gap: 1.8rem;
     grid-template-columns: 14rem auto 23rem;
+    font-size: 0.88rem;
+}
+
+app-view h1 {
+    font-weight: 800;
+    font-size: 1.8rem;
+}
+
+app-view h2 {
+    font-size: 1.4rem
+}
+
+app-view h3 {
+    font-size: 0.87rem;
+}
+
+app-view h4 {
+    font-size: 0.8rem;
+}
+
+app-view h5 {
+    font-size: 0.77rem;
+}
+
+app-view p {
+    color: var(--color-dark-variart);
 }
 
 /* ASIDE */
