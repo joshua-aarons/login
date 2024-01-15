@@ -8,10 +8,14 @@
     <title>Document</title>
 </head>
 <body>
-    <div class = "popup open">
-        <meeting-display></meeting-display>
-    </div>
+    <!-- <div class = "popup open">
+        <meeting-scheduler></meeting-scheduler>
+    </div> -->
     <!-- <app-view></app-view> -->
+    <!-- <profile-panel></profile-panel> -->
+    <!-- <support-panel></support-panel> -->
+    <!-- <data-and-privacy></data-and-privacy> -->
+    <!-- <admin-control></admin-control> -->
     
 </body>
 
@@ -23,7 +27,56 @@
     }
 </style>
 <script type = "module">
-import {} from "./templates/app-view.js"
+import {} from "./app.js"
+
+// var profilePanel = document.querySelector("profile-panel")
+
+// let tiers = {
+//     Standard: {
+//         hours: 50,
+//         'sessions-count': 20,
+//         storage: '300MB'
+//     }
+// }
+
+// let userData = {
+//     displayPhoto: "./images/profile-1.jpg",
+//     firstName: "Josh",
+//     lastName: "Aarons",
+//     email: "joshua.aarons@ymail.com",
+//     displayName: "Josh Aarons",
+//     pronouns: "he/him",
+//     tier: "Standard",
+// }
+
+// function updateUserData(value) {
+//     if ("tier" in value && value.tier in tiers) {
+//         for (let key in tiers[value.tier]) {
+//             userData['max' + key] = tiers[value.tier][key];
+//         }
+//     }
+//     for (let key in value){
+//             userData[key] = value[key]
+//     }
+//     profilePanel.value = userData
+// }
+
+// updateUserData(userData);
+
+// profilePanel.addEventListener("updateDetails", e => {
+//     if(profilePanel.details.validate()){
+//         let value = profilePanel.details.value;
+//         updateUserData(value);
+//     }
+
+// })
+
+// let ms = document.querySelector('meeting-scheduler')
+
+// ms.addEventListener('save', e => {
+//     ms.validate()
+//     // console.log(profilePanel.details.value)
+// })
 
 // ms.addEventListener("close", () => {
 //     console.log(ms.value);

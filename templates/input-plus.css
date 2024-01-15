@@ -3,6 +3,13 @@ input-plus {
     position: relative;
     width: 100%;
 }
+
+input-plus.btn[color='gray']{
+    justify-content: center;
+    display: flex;
+    color: var(--color-info-dark);
+}
+
 input-plus textarea {
     resize: none;
     width: 100%;
@@ -19,7 +26,7 @@ input-plus textarea ~ .icon {
     transform: none;
 }
 
-input-plus input, input-plus select {
+input-plus input, input-plus textarea, input-plus select {
     width: 100%;
     background-color: var(--input-bg);
     padding: 1.5rem 1.35rem calc(0.75rem - 2px) 1.35rem;
@@ -34,7 +41,7 @@ input-plus input, input-plus select {
     transition: 0.3s;
 }
 
-input-plus input:hover, input-plus select:hover {
+input-plus input:hover, input-plus textarea:hover, input-plus select:hover {
     background-color: var(--input-bg-hover);
 }
 
@@ -49,7 +56,7 @@ input-plus label {
     font-size: 0.95rem;
 }
 
-input-plus .icon {
+input-plus > .icon {
     position: absolute;
     right: calc(1.35rem + 2px);
     top: 50%;
@@ -60,7 +67,7 @@ input-plus .icon {
     transition: 0.3s;
 }
 
-input-plus.focus input {
+input-plus.focus input, input-plus.focus textarea, input-plus.focus select {
     background-color: var(--color-white);
     border: 2px solid var(--color-primary);
     box-shadow: 0 0 0 5px var(--input-shadow);
@@ -120,4 +127,44 @@ select {
     -moz-appearance: none;
     text-indent: 1px;
     text-overflow: '';
+}
+
+input-plus input[disabled] {
+    background-color: var(--input-bg-hover);
+}
+
+
+input-plus[invalid] input, input-plus[invalid] textarea, input-plus[invalid] select {
+    border: 2px solid var(--color-great);
+}
+
+input-plus[invalid] label {
+    color: var(--color-great);
+}
+
+input-plus .error-message, input-plus .file-name {
+    display: none;
+}
+
+input-plus[invalid] .error-message, input-plus[file] .file-name {
+    display: flex;
+    position: absolute;
+    bottom: -1.2rem;
+    left: 1.35rem;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 0.8rem;
+}
+
+input-plus[invalid] .error-message {
+    color: var(--color-great);
+}
+
+/* input-plus .error-message i, input-plus .file-name i {
+    width: 10px;
+    height: 10px;
+} */
+
+input-plus input[type='file'] {
+    display: none;
 }

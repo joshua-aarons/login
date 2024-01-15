@@ -2,92 +2,120 @@
 <div class="profile-wrapper">
 
     <div class="card">
-        <div class="row spi">
+        <div class="row spi profilehead">
             <div class="row">
                 <div class="profile-photo">
-                    <img vname="displayPhoto" vfield="src" />
+                    <img name="displayPhoto" vfield="src"/>
                 </div>
                 <div class="stack">
-                    <h2 vname="name" vfield="innerHTML"></h2>
-                    <small class="text-muted" vname="pronouns" vfield="innerHTML"></small>
+                    <h2 name="displayName" vfield="innerHTML"></h2>
+                    <small class="text-muted" name="pronouns" vfield="innerHTML"></small>
                 </div>
             </div>
-            <button id="update-profile">Update</button>
+            <button class="btn">Update</button>
         </div>
     </div>
 
     <div class="card">
         <h2>Account Details</h2>
-        <div class = "col" gap = "0.5rem">
+        <form-plus class = "col top-margin" name="details">
             <div class="row">
                 <input-plus>
-                    <input vname="firstName" vfield="value" />
+                    <input name="firstName" required/>
                     <label>First Name*</field>
                 </input-plus>
                 <input-plus>
-                    <input vname="lastName" vfield="value" />
+                    <input name="lastName" required/>
                     <label>Last Name*</field>
                 </input-plus>
             </div>
             <div class="row">
                 <input-plus>
                     <label class="text-muted">Display Name*</label>
-                    <input vname="name" vlabel="value" />
+                    <input name="displayName" required/>
                 </input-plus>
                 <input-plus>
                     <label class="text-muted">Pronouns</label>
-                    <input vname="pronouns" />
+                    <input name="pronouns" />
                 </input-plus>
             </div>
             <div class="row">
                 <input-plus class="col">
                     <label class="text-muted">Email</label>
-                    <input class="dummy-button" vname="email" vlabel="innerHTML"></input>
-                </input-plus>
-            </div>
-            <div class="row">
-                <input-plus>
-                    <label class="text-muted">Old Passcode</label>
-                    <input />
-                </input-plus>
-            </div>
-            <div class="row">
-                <input-plus>
-                    <input />
-                    <label class="text-muted">New Passcode</label>
-                </input-plus>
-                <input-plus>
-                    <input />
-                    <label class="text-muted">Confirm Passcode</label>
+                    <input name="email" disabled></input>
                 </input-plus>
             </div>
             <div class="row">
                 <div class="col">
-                    <button name="update">Update</button>
+                    <button class="btn" color="gray" name="update">Cancel</button>
+                </div>
+                <div class="col">
+                    <button class="btn" name="update">Update</button>
                 </div>
             </div>
-        </div>
+        </form-plus>
+    </div>
+    
+    <div class="card">
+        <h2>Update Password</h2>
+        <form-plus class="col top-margin" name="password-reset">
+            <div class="row">
+                <input-plus name="oldPasscode">
+                    <label class="text-muted">Old Passcode</label>
+                    <input type="password"/>
+                </input-plus>
+            </div>
+            <div class="row">
+                <input-plus name="newPasscode">
+                    <label class="text-muted">New Passcode</label>
+                    <input type="password"/>
+                </input-plus>
+                <input-plus name="confirmPasscode">
+                    <label class="text-muted">Confirm Passcode</label>
+                    <input type="password"/>
+                </input-plus>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button class="btn" color="gray" name="update">Cancel</button>
+                </div>
+                <div class="col">
+                    <button class="btn" name="updateDetails">Update</button>
+                </div>
+            </div>
+        </form-plus>
     </div>
 
-    <div class="card">
+    <div class="card bottom-margin">
         <h2>Subscription</h2>
-        <form>
-            <div class="row">
-                <div class="col">
-                    <div>Licence</div>
-                </div>
-                <div class="col-stack">
-                    <div vname="tier" vfield="innerHTML"></div>
-                    <h3>Total Hours</h3>
-                    <h3>Total Sessions</h3>
-                    <h3>Total Storage</h3>
-                </div>
-                <div class="col-stack">
-                    <div>50</div>
-                    <div>20</div>
-                    <div>300MB</div>
-                </div>
-            </div>
-        </form>
+        <table class="top-margin">
+            <colgroup>
+                <col style="width:25%">
+                <col style="width:20%">
+                <col style="width:50%">
+              </colgroup>  
+            <tbody class="top-margin">
+                <tr>
+                    <td scope="row">Licence</td>
+                    <td>Standard</td>
+                    <td><a>Upgrade to get more features</a></td>
+                </tr>
+                <tr>
+                    <td scope="row">Per month</td>
+                    <td><b>Total Hours</b></td>
+                    <td name = "maxhours" vfield = "innerHTML">50</td>
+                </tr>
+                <tr>
+                    <td scope="row"></td>
+                    <td><b>Total Sessions</b></td>
+                    <td name = "maxsessions" vfield = "innerHTML">20</td>
+                </tr>
+                <tr>
+                    <td scope="row"></td>
+                    <td><b>Total Storage</b></td>
+                    <td name = "maxstorage" vfield = "innerHTML">300MB</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

@@ -1,15 +1,45 @@
-
-
-
-
-
-
 app-view {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.88rem;
+    background: var(--color-background);
+    user-select: none;
+    overflow-x: hidden;
+    color: var(--color-dark);
     display: grid;
-    width: 96%;
     margin: 0 auto;
     gap: 1.8rem;
     grid-template-columns: 14rem auto 23rem;
+    font-size: 0.88rem;
+}
+
+app-view h1 {
+    font-weight: 800;
+    font-size: 1.8rem;
+}
+
+app-view h2 {
+    font-size: 1.4rem
+}
+
+app-view h3 {
+    font-size: 0.87rem;
+}
+
+app-view h4 {
+    font-size: 0.8rem;
+}
+
+app-view h5 {
+    font-size: 0.77rem;
+}
+
+app-view p {
+    color: var(--color-dark-variart);
 }
 
 /* ASIDE */
@@ -121,52 +151,6 @@ main > *.active {
     display: block;
 }
 
-
-
-.popup {
-    background-color: rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    transition: all 0.3s ease-in-out;
-    z-index: -1;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.popup.open {
-    opacity: 1;
-    z-index: 999;
-}
-
-
-.popup > * {
-    background: var(--color-white);
-    padding: var(--card-padding);
-    padding-top: 3.5rem;
-    padding-bottom: 3.5rem;
-    padding-left: 3.5rem;
-    padding-right: 3.5rem;
-    border-radius: var(--card-border-radius);
-    margin-top: 1rem;
-    box-shadow: var(--box-shadow);
-    transition: all 300ms ease;
-    
-    /* background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-    padding: 15px 25px; */
-    text-align: left;
-    justify-content: center;
-    width: 500px;
-}
-
-
 .right {
     margin-top: 1.4rem;
 }
@@ -257,4 +241,16 @@ main > *.active {
 
 .right .meeting .item.schedule .icon {
     background: var(--color-danger);
+}
+
+.profile-photo {
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.card .profile-photo {
+    width: 6rem;
+    height: 6rem; 
 }

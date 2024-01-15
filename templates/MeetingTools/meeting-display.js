@@ -63,22 +63,21 @@ function getStringLength(string) {
  * @extends HTMLElement
  */
 class MeetingDisplay extends CustomComponent {
-    constructor(el){
-        super(el);
+    
+    onconnect() {
+        this.innerHTML = getHTMLTemplate("meeting-display")
+        let els = this.getElementLibrary();
 
-        this._value = {
+        computeCharacterWidths(els.link);
+        this.els = els;
+
+        this.value = {
             description: "description",
             "start-time": "today",
             duration:  60,
             "meeting-id": "xxxxxxxxxxxxxxx",
             "link": "app.squidly.com/Session/?xxxxxxxxxxxxxxx"
         }
-    }
-    onconnect() {
-        this.innerHTML = getHTMLTemplate("meeting-display")
-        let els = this.getElementLibrary();
-        computeCharacterWidths(els.link);
-        this.els = els;
 
         // on frame updates
         let next = () => {

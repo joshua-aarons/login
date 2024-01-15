@@ -4,17 +4,20 @@ import {} from "./MainPages/data-and-privacy.js"
 import {} from "./MainPages/meetings-panel.js"
 import {} from "./MainPages/profile-panel.js"
 import {} from "./MainPages/support-panel.js"
+import {} from "./MainPages/admin-control.js"
 
 import {} from "./MeetingTools/meeting-display.js"
 import {} from "./MeetingTools/meeting-scheduler.js"
+import {} from "./members-plus.js"
 import { CustomComponent, SvgPlus } from "../CustomComponent.js"
 
 
 useCSSStyle("theme");
 useCSSStyle("app-view");
 
-class AppView extends CustomComponent {
-    onconnect(){
+export class AppView extends CustomComponent {
+    constructor(el = "app-view"){
+        super(el)
         this.innerHTML = getHTMLTemplate("app-view");
         let els = this.getElementLibrary();
         
@@ -44,4 +47,4 @@ class AppView extends CustomComponent {
     }
 }
 
-SvgPlus.defineHTMLElement(AppView);
+// SvgPlus.defineHTMLElement(AppView);
