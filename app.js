@@ -1,5 +1,6 @@
 import {AppView} from "./templates/app-view.js"
 import {LoginPage} from "./templates/login-page.js"
+import {addListener} from "./dummy-data.js"
 
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js'
 import {getAuth, sendEmailVerification, createUserWithEmailAndPassword,signInWithEmailAndPassword, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/9.2.0/firebase-auth.js'
@@ -23,31 +24,38 @@ const App = initializeApp(firebaseConfig);
 const Database = getDatabase(App);
 const Auth = getAuth(App);
 
+document.body.appendChild(appView)
+
+
 function ref(path) {return _ref(Database, path);}
 
 // Sometimes user may already be authenticated before siging in to the app
-let init = true;
-onAuthStateChanged(Auth, async (user) => {
-    console.log("auth state change: user data", user);
-    if (init) {
-        if (user == null) {
-            document.body.appendChild(loginPage)
-        }
+// let init = true;
+// onAuthStateChanged(Auth, async (user) => {
+//     console.log("auth state change: user data", user);
+//     if (init) {
+//         if (user == null) {
+//             document.body.appendChild(appView)
+//         }
         // User is already authenticated
-        else if (user.emailVerified) {
-            document.body.appendChild(appView)
-            // CASE 1
-            // User has had email verified 
-            // and is successfuly authenticated 
-        } else {
-            alert("Email Verification Required")
-            // CASE 2
-            // User has still not verified their email
-            // TODO: show some page to say user should check email
-        }
-        init = false;
-    }
-});
+        // else if (user.emailVerified) {
+        //     document.body.appendChild(appView)
+        //     // CASE 1
+        //     // User has had email verified 
+        //     // and is successfuly authenticated 
+        // } else {
+        //     alert("Email Verification Required")
+        //     // CASE 2
+        //     // User has still not verified their email
+        //     // TODO: show some page to say user should check email
+        // }
+        // init = false;
+//     }
+// });
+
+addListener( (userData) => {
+    appView.value = userData
+})
 
 function setUserInfo(info){
     let user = Auth.currentUser
@@ -163,8 +171,8 @@ function getForm(el) {
 /* TODO: Forgot password procedure
 */
 
-window.register = register
-window.login = login
+// window.register = register
+// window.login = login
 
 
 

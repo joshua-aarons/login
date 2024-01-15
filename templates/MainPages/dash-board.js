@@ -1,11 +1,11 @@
-import { CustomComponent, SvgPlus } from "../../CustomComponent.js";
+import { CustomComponent, SvgPlus, UserDataComponent } from "../../CustomComponent.js";
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 
 useCSSStyle("theme");
 
-class DashBoard extends CustomComponent {
+class DashBoard extends UserDataComponent {
     onconnect(){
-        this.innerHTML = getHTMLTemplate("dash-board");
+        this.template = getHTMLTemplate("dash-board");
     }
 }
 
