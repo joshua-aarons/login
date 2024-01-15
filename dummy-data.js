@@ -14,7 +14,7 @@ let userData = {
     displayName: "Josh Aarons",
     pronouns: "he/him",
     tier: "Standard",
-    optionalData: true,
+    optionalData: false,
     meetingCount: 6,
     hours: 30,
     'sessions-count': 10,
