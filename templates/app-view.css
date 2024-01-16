@@ -52,6 +52,7 @@ aside .top {
     align-items: center;
     justify-content: space-between;
     margin-top: 1.4rem;
+    margin-left: 1rem;
 }
 
 aside .logo {
@@ -66,10 +67,6 @@ aside .logo img {
 
 aside .close {
     display: none;
-}
-aside .logo img {
-    width: 2rem;
-    height: 2rem;
 }
 
 /* SideBar */
@@ -153,6 +150,7 @@ main > *.active {
 
 .right {
     margin-top: 1.4rem;
+    margin-right: 1.4rem;
 }
 
 .right .top {
@@ -244,13 +242,36 @@ main > *.active {
 }
 
 .profile-photo {
+    position: relative;
     width: 2.8rem;
     height: 2.8rem;
     border-radius: 50%;
     overflow: hidden;
+    background-color: black;
+}
+
+.profile-photo i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: 0.3s;
+    font-size: 1.5rem;
+}
+
+.profile-photo:hover i {
+    opacity: 1;
+    color: white;
+}
+
+.card .profile-photo:hover img {
+    opacity: 0.5;
+    transition: 0.3s;
 }
 
 .card .profile-photo {
     width: 6rem;
     height: 6rem; 
+    cursor: pointer;
 }

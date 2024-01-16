@@ -4,15 +4,16 @@
     <div class="card">
         <div class="row spi profilehead">
             <div class="row">
-                <div class="profile-photo">
+                <div name="uploadDP" class="profile-photo">
                     <img name="displayPhoto" vfield="src"/>
+                    <i class="fa-solid fa-pen-to-square"></i>
                 </div>
                 <div class="stack">
                     <h2 name="displayName" vfield="innerHTML"></h2>
                     <small class="text-muted" name="pronouns" vfield="innerHTML"></small>
                 </div>
             </div>
-            <button class="btn">Update</button>
+            <!-- <button class="btn">Update</button> -->
         </div>
     </div>
 
@@ -103,17 +104,17 @@
                 <tr>
                     <td scope="row">Per month</td>
                     <td><b>Total Hours</b></td>
-                    <td name = "maxhours" vfield = "innerHTML">50</td>
+                    <td name = "maxhours" vfield = "innerHTML"></td>
                 </tr>
                 <tr>
                     <td scope="row"></td>
                     <td><b>Total Sessions</b></td>
-                    <td name = "maxsessions" vfield = "innerHTML">20</td>
+                    <td name = "maxsessions-count" vfield = "innerHTML"></td>
                 </tr>
                 <tr>
                     <td scope="row"></td>
                     <td><b>Total Storage</b></td>
-                    <td name = "maxstorage" vfield = "innerHTML">300MB</td>
+                    <td><span name = "maxstorage" vfield = "innerHTML"></span>MB</td>
                 </tr>
             </tbody>
         </table>

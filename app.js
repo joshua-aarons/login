@@ -1,5 +1,6 @@
 import {AppView} from "./templates/app-view.js"
 import {LoginPage} from "./templates/login-page.js"
+import {addListener} from "./dummy-data.js"
 
 import * as F from './Firebase/firebase.js'
 

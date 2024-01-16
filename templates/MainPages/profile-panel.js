@@ -1,36 +1,40 @@
-import { CustomComponent, SvgPlus } from "../../CustomComponent.js";
+import { CustomComponent, SvgPlus, UserDataComponent } from "../../CustomComponent.js";
 import { getHTMLTemplate, useCSSStyle } from "../../template.js";
 import { } from "../input-plus.js"
 
 useCSSStyle("theme");
 
-class ProfilePanel extends CustomComponent {
+class ProfilePanel extends UserDataComponent {
     onconnect() {
-        this.innerHTML = getHTMLTemplate("profile-panel");
-        let els = this.getElementLibrary();
+        this.template = getHTMLTemplate("profile-panel");
+        let els = this.els;
         this.details = els.details;
         let elsdetail = this.details.getElementLibrary();
         elsdetail.update.onclick = () => {
+            updateUserData(this.details.value)
             this.dispatchEvent(new Event('updateDetails'));
         }
-        this.els = els
+        els.uploadDP.onclick = () => this.openimage()
     }
-    set value(value) {
-        this.details.value = value
-        for (let key in value) {
-            if (key in this.els) {
-                let el = this.els[key];
-                let fieldtype = el.getAttribute('vfield')
-                switch (fieldtype) {
-                    case "innerHTML": el.innerHTML = value[key];
-                        break;
-                    case "src": el.setAttribute('src', value[key]);
-                        break;
-                    case "value": el.setAttribute('value', value[key]);
-                        break;
+    onvalue(value) {
+        this.els.details.value = value
+    }
+    async openimage() {
+        let input = new SvgPlus("input")
+        input.props = {type:"file",accept:"image/*"}
+        let image = await new Promise((resolve, reject) => {
+            input.addEventListener("change", e => {
+                if (input.files.length > 0) {
+                    const reader = new FileReader();
+                    reader.onload = (evt) => {
+                        resolve(evt.target.result);
+                    };
+                    reader.readAsDataURL(input.files[0]);
                 }
-            }
-        }
+            })
+            input.click()
+        })
+        this.updateUserData({displayPhoto: image})
     }
 }
 

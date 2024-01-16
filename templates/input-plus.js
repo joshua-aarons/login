@@ -1,4 +1,4 @@
-import {SvgPlus, CustomForm} from "../CustomComponent.js"
+import {SvgPlus, CustomForm, CustomComponent} from "../CustomComponent.js"
 import { useCSSStyle } from "../template.js";
 
 useCSSStyle("input-plus");
@@ -120,4 +120,19 @@ class InputPlus extends SvgPlus {
     }
 }
 
+class ProgressChart extends SvgPlus{
+    onconnect(){
+        let svg = this.createChild("svg",{viewBox: "-43 -43 86 86"})
+        svg.createChild("circle",{r: 36})
+        this.number = this.createChild("div",{class: "number"})
+        this.progress = Math.random()
+    }
+    set progress(progress){
+        let percent = Math.round(progress*100)
+        this.number.innerHTML = percent + "%"
+        this.style.setProperty("--percent",progress)
+    }
+}
+
 SvgPlus.defineHTMLElement(InputPlus);
+SvgPlus.defineHTMLElement(ProgressChart);

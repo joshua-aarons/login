@@ -1,9 +1,10 @@
 import { SvgPlus, Vector } from "./SvgPlus/4.js";
+import { updateUserData } from "./dummy-data.js";
 
 class CustomComponent extends SvgPlus {
-    getElementLibrary(){
+    getElementLibrary() {
         let els = {}
-        for (let el of this.querySelectorAll("[name]")){
+        for (let el of this.querySelectorAll("[name]")) {
             let p = el.parentNode;
             let nested = false;
             while (!this.isSameNode(p)) {
@@ -45,23 +46,23 @@ class CustomForm extends CustomComponent {
         return input;
     }
 
-    get inputs(){
+    get inputs() {
         return this.querySelectorAll("input-plus");
     }
 
     set value(value) {
         if (typeof value !== "object" || value == null) value = {}
-        for(let input of this.inputs){
+        for (let input of this.inputs) {
             let name = input.name
             let input_value = "";
             if (name in value) input_value = value[name];
             input.value = input_value;
-        } 
+        }
     }
-    
+
     get value() {
         let value = {}
-        for(let input of this.inputs){
+        for (let input of this.inputs) {
             value[input.name] = input.value
             if (input.value.length == 0 && input.required)
                 return `the ${input.name} cannot be left blank`;
@@ -79,4 +80,42 @@ class CustomForm extends CustomComponent {
     }
 }
 
-export {CustomComponent, Vector, SvgPlus, CustomForm}
+class UserDataComponent extends CustomComponent {
+    constructor(el) {
+        super(el)
+        this._value = {}
+    }
+    set value(value) {
+        this._value = value
+        if (!this.els)
+            return
+        if (this.onvalue instanceof Function)
+            this.onvalue(value)
+        for (let key in value) {
+            if (key in this.els) {
+                let el = this.els[key];
+                let fieldtype = el.getAttribute('vfield')
+                switch (fieldtype) {
+                    case "innerHTML": el.innerHTML = value[key];
+                        break;
+                    case "src": el.setAttribute('src', value[key]);
+                        break;
+                    case "value": el.setAttribute('value', value[key]);
+                        break;
+                    default: el[fieldtype] = value[key];
+                        break;
+                }
+            }
+        }
+    }
+    set template(template) {
+        this.innerHTML = template
+        this.els = this.getElementLibrary()
+        this.value = this._value
+    }
+    updateUserData(userData) {
+        updateUserData(userData)
+    }
+}
+
+export { CustomComponent, Vector, SvgPlus, CustomForm, UserDataComponent }

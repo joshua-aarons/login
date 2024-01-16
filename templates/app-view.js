@@ -9,30 +9,25 @@ import {} from "./MainPages/admin-control.js"
 import {} from "./MeetingTools/meeting-display.js"
 import {} from "./MeetingTools/meeting-scheduler.js"
 import {} from "./members-plus.js"
-import { CustomComponent, SvgPlus } from "../CustomComponent.js"
+import { CustomComponent, SvgPlus, UserDataComponent } from "../CustomComponent.js"
 
 
 useCSSStyle("theme");
 useCSSStyle("app-view");
 
-export class AppView extends CustomComponent {
+export class AppView extends UserDataComponent {
     constructor(el = "app-view"){
         super(el)
-        this.innerHTML = getHTMLTemplate("app-view");
-        let els = this.getElementLibrary();
-        
-        
-        console.log(els);
-        this.els = els;
+        this.template = getHTMLTemplate("app-view");
+        let els = this.els;
         let sideBar = els.sideBar;
         for (let child of sideBar.children) {
             child.addEventListener("click", () => {
                 this.panel = child.getAttribute("type");
             })
         }
+        this.panel = "dash-board"
     }
-
-
     set panel(type) {
         if (type == "logout") {
 
@@ -41,9 +36,13 @@ export class AppView extends CustomComponent {
             child.classList.toggle("active", child.getAttribute("type") == type);
         }
         for (let child of this.els.main.children) {
-            console.log(child.tagName);
             child.classList.toggle("active", child.tagName.toLowerCase() == type);
         }
+    }
+    onvalue(value) {
+        this.els.profile.value = value
+        this.els.dashboard.value = value
+        this.els.privacy.value = value
     }
 }
 

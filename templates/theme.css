@@ -51,6 +51,10 @@
     --input-shadow: hsla(208, 92%, 58%, 0.2);
 }
 
+main {
+    margin-top: 1.4rem;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -60,6 +64,7 @@
     text-decoration: none;
     list-style: none;
     box-sizing: border-box;
+    margin-top: 1.4rem;
 }
 
 .data-preferences-heading {
@@ -82,6 +87,10 @@ small {
 
 b {
    color: var(--color-dark); 
+}
+
+h1 b {
+    font-weight: inherit;
 }
 
 .top-margin {
@@ -221,6 +230,10 @@ img {
     width: 600px;
 }
 
+.insights {
+    width: 60%;
+}
+
 .card, .insights, .popup > * {
     background: var(--color-white);
     padding: var(--card-padding);
@@ -232,10 +245,6 @@ img {
 
 .popup {
     padding: var(--popup-padding);
-}
-
-.insights {
-    width: 50%;
 }
 
 .card:hover, .insights:hover, .popup > *:hover{
@@ -250,6 +259,14 @@ img {
     font-size: 2rem;
 }
 
+.insights > div.sessions-count span {
+    background: var(--color-danger)
+}
+
+.insights > div.storage span {
+    background: var(--color-great)
+}
+
 .insights > div .center {
     display: flex;
     align-items: center;
@@ -259,44 +276,6 @@ img {
 .insights h3 {
     margin: 1rem 0 0.6rem;
     font-size: 1rem;
-}
-
-.insights .progress {
-    position: relative;
-    width: 92px;
-    height: 92px;
-    border-radius: 50%;
-}
-
-.insights svg {
-    width: 7rem;
-    height: 7rem;
-}
-
-.insights svg circle {
-    fill: none;
-    stroke: var(--color-primary);
-    stroke-width: 14;
-    stroke-linecap: round;
-    transform:  translate(43px, 43px);
-    --percent: 0.75;
-    stroke-dashoffset: calc(226.2/4);
-    stroke-dasharray: calc(var(--percent) * 226.2) calc((1 - var(--percent)) * 227);
-}
-
-.insights .total-users svg circle {
-    --percent: 0.75;
-}
-
-.insights .progress .number {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .switch {
