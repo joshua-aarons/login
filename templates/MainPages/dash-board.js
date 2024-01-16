@@ -6,7 +6,33 @@ useCSSStyle("theme");
 class DashBoard extends UserDataComponent {
     onconnect(){
         this.template = getHTMLTemplate("dash-board");
+        this.chart = new ApexCharts(this.els.chart, options)
+        this.chart.render()
     }
+    // onvalue(value){
+    //     let series = []
+    //     let xlabel = []
+    //     for (let i = startDate; i < endDate; i+=day){
+    //         var tti = 0
+    //         for (let session of value.sessions){
+    //             if (i < session.date){
+    //                 tti += session.time
+    //             }
+    //         }
+    //         series.push(tti)
+    //         xlabel.push(i)
+    //     }
+    //     let ss = {
+    //         series: [{
+    //             name: 'Cumulative Hours',
+    //             data: series,
+    //         }],
+    //         xaxis: [{
+    //             type: 
+    //         }]
+    //     }
+    //     this.chart.updateOptions(sessionsseries)
+    // }
 }
 
 var options = {
@@ -37,8 +63,5 @@ var options = {
         },
     },
 };
-
-var chartOne = new ApexCharts(document.querySelector("#chartOne"), options);
-chartOne.render();
 
 SvgPlus.defineHTMLElement(DashBoard);

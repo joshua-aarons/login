@@ -45,7 +45,7 @@ export class LoginPage extends CustomComponent {
         }
 
         signupBtn.onclick = () => {
-            const event = new Event("signin")
+            const event = new Event("signup")
             if (signupForm.validate()){
                 event.data = signupForm.value
                 this.dispatchEvent(event)
