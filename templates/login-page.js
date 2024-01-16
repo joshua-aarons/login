@@ -26,7 +26,8 @@ export class LoginPage extends CustomComponent {
     constructor(el = "login-page"){
         super(el)
         this.innerHTML = getHTMLTemplate("login")
-        let {signinToggle, signupToggle, signinForm, signinBtn, signupForm, signupBtn} = this.getElementLibrary()
+        this.els = this.getElementLibrary();
+        let {signinToggle, signupToggle, signinForm, signinBtn, signupForm, signupBtn} = this.els;
         signinToggle.onclick = () => this.classList.remove("active");
         signupToggle.onclick = () => this.classList.add("active");
 
@@ -49,6 +50,13 @@ export class LoginPage extends CustomComponent {
                 event.data = signupForm.value
                 this.dispatchEvent(event)
             }
+        }
+    }
+
+    set signinError(error){
+        console.log(error.inputName, error);
+        if (error.inputName != "") {
+            this.els.signinForm.getInput(error.inputName).error = error;
         }
     }
 }

@@ -30,13 +30,14 @@ export class AppView extends UserDataComponent {
     }
     set panel(type) {
         if (type == "logout") {
-
-        }
-        for (let child of this.els.sideBar.children) {
-            child.classList.toggle("active", child.getAttribute("type") == type);
-        }
-        for (let child of this.els.main.children) {
-            child.classList.toggle("active", child.tagName.toLowerCase() == type);
+            this.userLogout();
+        } else {
+            for (let child of this.els.sideBar.children) {
+                child.classList.toggle("active", child.getAttribute("type") == type);
+            }
+            for (let child of this.els.main.children) {
+                child.classList.toggle("active", child.tagName.toLowerCase() == type);
+            }
         }
     }
     onvalue(value) {

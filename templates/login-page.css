@@ -6,8 +6,9 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
-form-plus {
-    font-size: 0.6em;
+
+login-page .col {
+    gap: 1.3rem;
 }
 login-page{
     position: fixed;
@@ -91,9 +92,7 @@ login-page .container .form{
     height: 100%;
 }
 
-login-page input-plus {
-    margin: 8px 0;
-}
+
 /* login-page .container input{
     background-color: #eee;
     border: none;

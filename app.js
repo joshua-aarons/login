@@ -14,22 +14,22 @@ function showScreen(type) {
     document.body.appendChild(pages[type]);
 }
 
-loginPage.addEventListener("signin", (e) => {
+loginPage.addEventListener("signin", async (e) => {
     try {
-        F.signin("email", e.data);
+        await F.signin("email", e.data);
     } catch (e) {
         loginPage.signinError = e;
     }
 });
 
-loginPage.addEventListener("signup", (e) => {
+loginPage.addEventListener("signup", async (e) => {
     try {
-        F.signup("email", e.data);
+        await F.signup("email", e.data);
     } catch (err) {
         loginPage.signupError = err;
     }
 })
-showScreen("loginPage")
+
 
 // Sometimes user may already be authenticated before siging in to the app
 F.addAuthChangeListener(async (user) => {
