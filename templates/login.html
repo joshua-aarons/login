@@ -10,11 +10,13 @@
             </div>
             <span>or use your email for registeration</span>
        
-            <input type="text" placeholder="First Name" name="first_name">
-            <input type="text" placeholder="Last Name" name="last_name">                    
-            <input type="email" placeholder="Email" name="email">
-            <input type="password" placeholder="Password" name="password">
-            <button>Register</button>
+            <form-plus name = "signupForm">
+                <input-plus><input type="text" name="firstName"><label>First Name</label></input-plus>
+                <input-plus><input type="text" name="lastName"><label>Last Name</label></input-plus>
+                <input-plus><input type="email" name="email"><label>Email</label></input-plus>
+                <input-plus><input type="password" name="password"><label>Password</label></input-plus>                  
+            </form-plus>             
+            <button name = "signupBtn">Register</button>
         </div>
     </div>
     <div class="form-container sign-in">
@@ -27,7 +29,7 @@
                 <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
             </div>
             <span>or use your email and password</span>
-            <form-plus name="signinForm">
+            <form-plus class = "col" name="signinForm">
                 <input-plus><input type="email" name="email"><label>Email</label></input-plus>
                 <input-plus><input type="password" name="password"><label>Password</label></input-plus>
             </form-plus>
