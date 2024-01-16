@@ -61,7 +61,7 @@ let tiers = {
 
 function setMain(el) {
     let page = el.getAttribute('type')
-    for(let child of document.querySelectorAll("aside a")) {
+    for (let child of document.querySelectorAll("aside a")) {
         child.classList.remove("active");
     }
     el.classList.add("active");
@@ -74,24 +74,24 @@ setMain(document.querySelector("aside a[type='data & privacy']"))
 // meeting count
 function update(someData) {
     someData.name = someData.firstName + " " + someData.lastName
-    for(let key in someData){
+    for (let key in someData) {
         let els = document.querySelectorAll(`[vname="${key}"]`);
-        for(let el of els){
+        for (let el of els) {
             let fieldtype = el.getAttribute('vfield')
-            switch(fieldtype){
+            switch (fieldtype) {
                 case "innerHTML": el.innerHTML = someData[key];
-                break;
+                    break;
                 case "src": el.setAttribute('src', someData[key]);
-                break;
+                    break;
                 case "value": el.setAttribute('value', someData[key]);
-                break;
+                    break;
             }
         }
     }
 
 
     let tier = tiers[someData.tier];
-    for(let key in tier){
+    for (let key in tier) {
         let percent = someData[key] / tier[key];
         console.log(key);
         document.querySelector(`.insights .${key} circle`).style.setProperty("--percent", percent);
@@ -102,12 +102,12 @@ function update(someData) {
 
     someData.sessions.forEach(session => {
         const tr = document.createElement('tr');
-        const trContent= `
+        const trContent = `
                         <td>${session.sessionName}</td>
                         <td>${session.sessionDate}</td>
                         <td>${session.sessionLength}</td>
-                        <td class="${session.status === 'Complete' ? 'success' 
-                        : 'danger'}">${session.status}</td>
+                        <td class="${session.status === 'Complete' ? 'success'
+                : 'danger'}">${session.status}</td>
                         <td class="primary">Details</td>
                         `;
         tr.innerHTML = trContent;
@@ -140,10 +140,10 @@ themeToggler.addEventListener('click', () => {
 
 // create a new chart instance 
 new Chart(chart, {
-    type: 'line', 
+    type: 'line',
     data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 
         datasets: [
             {
@@ -168,7 +168,7 @@ new Chart(chart, {
             mode: 'index',
             intersect: false
         },
-        stacked: false, 
+        stacked: false,
         scales: {
             y: {
                 type: 'linear',
@@ -205,7 +205,7 @@ openBtn.addEventListener("click", () => {
 
 closebtn.addEventListener("click", () => {
     modal.classList.remove("open");
-    clearForm() 
+    clearForm()
 })
 
 
@@ -266,9 +266,9 @@ function detailsPage() {
 
     startT = dateFormat(startTime.value, timeZone.value);
 
-    $("#time").val(startT); 
+    $("#time").val(startT);
 
-    for(var i = 0; i < detailsMain.length; i++) 
+    for (var i = 0; i < detailsMain.length; i++)
         detailsMain[i].classList.add("not-empty");
 
 }
