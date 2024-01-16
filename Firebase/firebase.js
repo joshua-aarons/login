@@ -106,10 +106,11 @@ async function updateUserData() {
     }
 }
 async function getUserData(path) {
+    let userData = null;
     if (User) {
         path = typeof path === "string" ? "/" + path : "";
         let infoRef = ref('users/' + User.uid + path);
-        let sc = await get(infoRef, info);
+        let sc = await get(infoRef);
         userData = sc.val();
     }
     return userData;
@@ -123,7 +124,8 @@ async function setUserInfo(info) {
 
 class LoginError extends Error {
     constructor(error) {
-        let erroCode = error;
+        let inputName = "";
+        let errorCode = error;
         if (error.code) errorCode = error.code;
         // Display the error message
         let message = "";
@@ -134,10 +136,12 @@ class LoginError extends Error {
 
             case "auth/invalid-email":
                 message = "wrong email";
+                inputName = "email";
                 break;
 
             case "auth/wrong-password":
                 message = "wrong password";
+                inputName = "password";
                 break;
 
             // TODO: Check other errors
@@ -147,6 +151,7 @@ class LoginError extends Error {
 
         }
         super(message);
+        this.inputName = inputName;
     }
 }
 

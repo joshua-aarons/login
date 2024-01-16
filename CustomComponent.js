@@ -1,5 +1,6 @@
 import { SvgPlus, Vector } from "./SvgPlus/4.js";
 import { updateUserData } from "./dummy-data.js";
+import { signout } from "./Firebase/firebase.js";
 
 class CustomComponent extends SvgPlus {
     getElementLibrary() {
@@ -85,6 +86,7 @@ class UserDataComponent extends CustomComponent {
         super(el)
         this._value = {}
     }
+
     set value(value) {
         this._value = value
         if (!this.els)
@@ -113,9 +115,12 @@ class UserDataComponent extends CustomComponent {
         this.els = this.getElementLibrary()
         this.value = this._value
     }
+
     updateUserData(userData) {
         updateUserData(userData)
     }
+
+    userLogout(){signout()}
 }
 
 export { CustomComponent, Vector, SvgPlus, CustomForm, UserDataComponent }
