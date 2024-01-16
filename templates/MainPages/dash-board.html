@@ -21,7 +21,7 @@
                     <h3>Total Sessions</h3>
                     <h1 vfield="innerHTML" name="sessions-count"></h1>
                 </div>
-                <progress-chart vfield="progress" name="session-count%"></progress-chart>
+                <progress-chart vfield="progress" name="sessions-count%"></progress-chart>
             </div>
             <small class="text-muted">Last 1 Month</small>
         </div>
@@ -41,24 +41,27 @@
     </div>
 </div>
 
-<!-- <div class="recent-sessions">
-    <h2>Recent Sessions</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Session Name</th>
-                <th>Session Date</th>
-                <th>Session Length</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-
-        </tbody>
-    </table>
-    <a href="#">Show All</a>
+<div class="card" id="customers_table">
+    <section class="table__header">
+        <h1>Recent Sessions</h1>
+        <div class="input-group">
+            <input type="search" name="searchbar" placeholder="Search Data...">
+            <img src="images/search.png" alt="">
+        </div>
+        <div class="export__file">
+            <label for="export-file" class="export__file-btn" title="Export File"></label>
+            <input type="checkbox" id="export-file">
+            <div class="export__file-options">
+                <label>Export As &nbsp; &#10140;</label>
+                <label for="export-file" id="toPDF" name="toPDF">PDF <img src="images/pdf.png" alt=""></label>
+                <label for="export-file" id="toCSV" name="toCSV">CSV <img src="images/csv.png" alt=""></label>
+            </div>
+        </div>
+    </section>
+    <members-plus class="table__body" name="members"></members-plus>
 </div>
-<------------------ END OF TABLE -------------------->
-
-<!-- <canvas id="chart">hart</canvas>  -->
+<div class="card bottom-margin">
+    <div class="chartOne">
+        <div id="chartOne"></div>
+    </div>
+</div>
