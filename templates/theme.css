@@ -176,7 +176,7 @@ img {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 1.7em;
+    gap: 1.7rem;
 }
 
 .row {

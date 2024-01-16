@@ -72,8 +72,7 @@ class CustomForm extends CustomComponent {
 
     validate() {
         let valid = true;
-        for (let input of this.inputs) {
-            console.log(input.required)
+        for(let input of this.inputs){
             let isvalid = input.validate()
             valid = valid && isvalid
         }

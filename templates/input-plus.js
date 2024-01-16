@@ -100,9 +100,19 @@ class InputPlus extends SvgPlus {
     }
 
     validate(){
+        let message = this.querySelector('label').innerHTML.replace('*', '') + ' required';
         let valid = this.required? (this.value != '' || this.value instanceof File):true;
+        if (valid && this.validater instanceof Function) {
+            try {
+                valid = valid && this.validater(this.value);
+            } catch (e) {
+                valid = false;
+                message = e;
+                console.log(e);
+            }
+        }
         if (!valid) {
-            this.error = this.querySelector('label').innerHTML.replace('*', '') + ' required';
+            this.error = message
         } else {
             this.error = null;
         }
