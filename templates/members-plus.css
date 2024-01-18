@@ -165,12 +165,12 @@ tbody tr.hide td img {
     background-color: #ebc474;
 }
 
-.status.admin {
+.status.admin, .status.complete {
     background-color: #86e49d;
     color: #006b21;
 }
 
-.status.staff {
+.status.staff, .status.scheduled {
     background-color: #d893a3;
     color: #b30021;
 }

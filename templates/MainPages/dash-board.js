@@ -37,15 +37,29 @@ class DashBoard extends UserDataComponent {
 
 var options = {
     series: [{
-        name: 'series1',
-        data: [31, 40, 28, 51, 42, 109, 100]
+        name: 'Sessions',
+        data: [3, 5, 4, 5, 7, 5, 4]
     }, {
-        name: 'series2',
-        data: [11, 32, 45, 32, 34, 52, 41]
+        name: 'Minutes',
+        data: [75, 120, 100, 150, 100, 135, 100]
     }],
+      yaxis: [
+    {
+      title: {
+        text: "Sessions"
+      },
+    },
+    {
+      opposite: true,
+      title: {
+        text: "Minutes"
+      }
+    }
+  ],
     chart: {
         height: 350,
-        type: 'area'
+        type: 'area',
+        fontFamily: 'Poppins'
     },
     dataLabels: {
         enabled: false
@@ -55,13 +69,23 @@ var options = {
     },
     xaxis: {
         type: 'datetime',
-        categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-    },
-    tooltip: {
-        x: {
-            format: 'dd/MM/yy HH:mm'
-        },
-    },
+        // min: new Date('01 Jan 2024').getTime(),
+        // tickAmount: 6
+        categories: ["2024-01-05", "2024-01-12", "2024-01-19", "2024-01-26", "2024-02-02", "2024-02-09", "2024-02-16"],
+        labels: {
+            datetimeFormatter: {
+              year: 'yyyy',
+              month: 'MMM \'yy',
+              day: 'dd MMM',
+              hour: 'HH:mm'
+            }
+          }
+    }
+    // tooltip: {
+    //     x: {
+    //         format: 'dd mm yyyy'
+    //     },
+    // },
 };
 
 SvgPlus.defineHTMLElement(DashBoard);
