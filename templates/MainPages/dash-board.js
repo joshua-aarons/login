@@ -59,7 +59,8 @@ var options = {
     chart: {
         height: 350,
         type: 'area',
-        fontFamily: 'Poppins'
+        fontFamily: 'Poppins',
+        foreColor: 'var(--color-dark)',
     },
     dataLabels: {
         enabled: false
