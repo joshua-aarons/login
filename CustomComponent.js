@@ -36,9 +36,7 @@ class CustomComponent extends SvgPlus {
                     if (match) {
                         let fname = match[1];
                         let params = match[3];
-                        console.log(fname, {a:this}, this[fname]);
                         if (this[fname] instanceof Function) {
-                            console.log("somewhats");
                             el.removeAttribute(event);
                             el.onclick = () => this[fname]();
                         }
