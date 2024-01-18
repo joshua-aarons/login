@@ -40,7 +40,7 @@ class DashBoard extends UserDataComponent {
         //       series.push(tti)
         //       xlabel.push(time(session.sessionDate))
         // }
-        console.log(series, xlabel);
+        // console.log(series, xlabel);
         options = {
             series: [{
                 name: 'Cumulative Hours',
