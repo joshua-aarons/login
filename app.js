@@ -50,9 +50,9 @@ addListener( (userData) => {
     appView.value = userData
 })
 
-// console.log("here");
-// await F.initialise();
-// console.log("here2");
+console.log("here");
+await F.initialise();
+console.log("here2");
 
 
 
