@@ -58,7 +58,7 @@ export class AppView extends UserDataComponent {
 
     async hostMeeting(){
         let key = await makeSessionKey();
-        window.location = window.location.origin + `/Session/?${key}`;
+        window.open(window.location.origin + `/Session/?${key}`);
     }
 
 
