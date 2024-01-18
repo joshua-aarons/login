@@ -10,6 +10,7 @@ let Database = null;
 let Auth = null;
 let User = null;
 let StateListeners = [];
+const SESSION_ROOT_KEY = "meetings";
 
 // Generates a random key to use as the device's unique identifier DUID.
 function makeRandomKey() {
@@ -214,5 +215,35 @@ export async function signup(type, info) {
 }
 
 export function signout(){signOut(Auth)}
+
+function getSessionRef(sessionID, path) {
+    let sref = null;
+    if (Database != null) {
+      if (typeof sessionID === "string") {
+        sref = ref(SESSION_ROOT_KEY + "/" + sessionID);
+        if (typeof path === "string") sref = child(sref, path);
+      } else {
+        sref = push(ref(SESSION_ROOT_KEY));
+      }
+    }
+    return sref;
+  }
+  
+  /* Make session creates a new session signaling channel in the database
+     returns the new session key */
+  export async function makeSessionKey(){
+    let key = null;
+    let sessionRef = getSessionRef();
+    try {
+      key = sessionRef.key;
+      await set(child(sessionRef, "hostUID"), getUID());
+    } catch (e) {
+      console.log(e);
+      key = null;
+    }
+  
+    return key;
+  }
+  
 
 export {child, get, push, set, onChildAdded, onValue }

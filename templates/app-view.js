@@ -9,6 +9,7 @@ import {} from "./MainPages/admin-control.js"
 import {} from "./MeetingTools/meeting-display.js"
 import {} from "./MeetingTools/meeting-scheduler.js"
 import {} from "./members-plus.js"
+import { makeSessionKey } from "../Firebase/firebase.js"
 import { CustomComponent, SvgPlus, UserDataComponent } from "../CustomComponent.js"
 
 
@@ -44,6 +45,15 @@ export class AppView extends UserDataComponent {
         this.els.profile.value = value
         this.els.dashboard.value = value
         this.els.privacy.value = value
+    }
+
+    themeToggle(){
+        this.classList.toggle('dark-theme-variables');
+    }
+
+    async hostMeeting(){
+        let key = await makeSessionKey();
+        window.location = window.location.origin + `/Session/?${key}`;
     }
 }
 

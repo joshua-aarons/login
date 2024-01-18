@@ -183,7 +183,7 @@ main > *.active {
     justify-content: center;
 }
 
-.right .theme-toggler span.active {
+.dark-theme-variables .right .theme-toggler span {
     background: var(--color-primary);
     color: white;
     border-radius: var(--border-radius-1);

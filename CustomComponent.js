@@ -2,25 +2,50 @@ import { SvgPlus, Vector } from "./SvgPlus/4.js";
 import { updateUserData } from "./dummy-data.js";
 import { signout } from "./Firebase/firebase.js";
 
+function isNested(el, root){
+    let p = el.parentNode;
+    let nested = false;
+    while (!root.isSameNode(p)) {
+        if (SvgPlus.is(p, CustomComponent)) {
+            nested = true;
+            break;
+        } else {
+            p = p.parentNode;
+        }
+    }
+    return nested;
+}
 class CustomComponent extends SvgPlus {
     getElementLibrary() {
         let els = {}
         for (let el of this.querySelectorAll("[name]")) {
-            let p = el.parentNode;
-            let nested = false;
-            while (!this.isSameNode(p)) {
-                if (SvgPlus.is(p, CustomComponent)) {
-                    nested = true;
-                    break;
-                } else {
-                    p = p.parentNode;
-                }
-            }
-            if (!nested) {
+            if (!isNested(el, this)) {
                 els[el.getAttribute("name")] = el;
             }
         }
         return els;
+    }
+
+    attachEvents(events = ["onclick"]){
+        for (let event of events) {
+            let els = this.querySelectorAll(`[${event}]`);
+            for (let el of els) {
+                if (!isNested(el, this)) {
+                    let value = el.getAttribute(event);
+                    let match= value.match(/(\w+)(\(([^)]*)\))?/);
+                    if (match) {
+                        let fname = match[1];
+                        let params = match[3];
+                        console.log(fname, {a:this}, this[fname]);
+                        if (this[fname] instanceof Function) {
+                            console.log("somewhats");
+                            el.removeAttribute(event);
+                            el.onclick = () => this[fname]();
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -113,6 +138,7 @@ class UserDataComponent extends CustomComponent {
     set template(template) {
         this.innerHTML = template
         this.els = this.getElementLibrary()
+        this.attachEvents();
         this.value = this._value
     }
 

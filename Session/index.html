@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1" />
+    <link href="https://app.squidly.com.au/src/WebRTC/video-call-widget.css" rel = "stylesheet"/>
+    <title>Squidly Session</title>
+  </head>
+  <body>
+    <session-frame>
+    </session-frame>
+  </body>
+
+  <script type = "module">
+    import {} from "https://app.squidly.com.au/src/session-frame.js"
+   
+
+    // SvgPlus.defineHTMLElement(ToolBar);
+  </script>
+  <style>
+   
+
+ copy-icon {
+  display: flex;
+  align-items: center;
+  position: relative;
+ }
+.icon {
+cursor: pointer;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: space-evenly;
+text-align: center;
+color: var(--ic1);
+}
+
+.icon:hover {
+  color: var(--ic2);
+}
+
+.icon svg {
+  width: 1em;
+}
+
+.cali-fill,
+.i-fill {
+fill: var(--ic1);
+}
+
+.i-end {
+fill: var(--ic3);
+}
+
+*:hover > svg .i-fill {
+fill: var(--ic2);
+}
+
+*:hover>svg .i-end {
+fill: var(--ic4);
+}
+
+*[remote-calibrating] #cali-fill * {
+fill: red;
+}
+
+
+
+    .btn {
+      background: #5e3770;
+      color: white;
+      padding: 0.25em;
+      cursor: pointer;
+      border-radius: 0.25em;
+      font-size: 2em;
+      display: inline-block;
+    }
+  </style>
+</html>
