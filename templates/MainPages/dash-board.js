@@ -2,37 +2,62 @@ import { CustomComponent, SvgPlus, UserDataComponent } from "../../CustomCompone
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 
 useCSSStyle("theme");
-
+function time(date) {
+  if(date.indexOf("/") != -1) {
+    let [day,month, year] = date.split("/");
+    return (new Date(`${year}/${month}/${day}`)).getTime();
+  }
+  return (new Date(date)).getTime()
+}
 class DashBoard extends UserDataComponent {
     onconnect(){
         this.template = getHTMLTemplate("dash-board");
         this.chart = new ApexCharts(this.els.chart, options)
         this.chart.render()
     }
-    // onvalue(value){
-    //     let series = []
-    //     let xlabel = []
-    //     for (let i = startDate; i < endDate; i+=day){
-    //         var tti = 0
-    //         for (let session of value.sessions){
-    //             if (i < session.date){
-    //                 tti += session.time
-    //             }
-    //         }
-    //         series.push(tti)
-    //         xlabel.push(i)
-    //     }
-    //     let ss = {
-    //         series: [{
-    //             name: 'Cumulative Hours',
-    //             data: series,
-    //         }],
-    //         xaxis: [{
-    //             type: 
-    //         }]
-    //     }
-    //     this.chart.updateOptions(sessionsseries)
-    // }
+    onvalue(value){
+      if (value.sessions) {
+
+        let series = []
+        let xlabel = []
+        // Quantised
+        for (let i = time("1 Nov 2023"); i < time("1 Feb 2024"); i+=1000*60*60*24){
+          let tti = 0
+          value.sessions.sort((a,b) => time(a.sessionDate) > time(b.sessionDate) ? 1 : -1)
+          for (let session of value.sessions){
+              if (time(session.sessionDate) < i){
+                tti += parseFloat(session.sessionLength)
+              }
+            }
+            series.push(tti)
+            xlabel.push(i)
+      }
+        // Points
+        // let tti = 0
+        // value.sessions.sort((a,b) => time(a.sessionDate) > time(b.sessionDate) ? 1 : -1)
+        // for (let session of value.sessions){
+        //       tti += parseFloat(session.sessionLength)
+        //       series.push(tti)
+        //       xlabel.push(time(session.sessionDate))
+        // }
+        console.log(series, xlabel);
+        options = {
+            series: [{
+                name: 'Cumulative Hours',
+                data: series,
+            }],
+            xaxis: {
+                type: 'datetime',
+                categories: xlabel
+            },
+            stroke: {
+              curve: 'smooth'
+            }
+        }
+        if (this.chart)
+          this.chart.updateOptions(options)
+      }
+    }
 }
 
 var options = {
