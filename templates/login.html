@@ -8,15 +8,17 @@
                 <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
                 <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
             </div>
-            <span>or use your email for registeration</span>
-       
-            <form-plus name = "signupForm">
-                <input-plus><input type="text" name="firstName"><label>First Name</label></input-plus>
-                <input-plus><input type="text" name="lastName"><label>Last Name</label></input-plus>
+            
+            <form-plus class = "col" name = "signupForm">
+                <span>or use your email for registeration</span>
+                <div class="row">
+                    <input-plus><input type="text" name="firstName"><label>First Name</label></input-plus>
+                    <input-plus><input type="text" name="lastName"><label>Last Name</label></input-plus>
+                </div>
                 <input-plus><input type="email" name="email"><label>Email</label></input-plus>
                 <input-plus><input type="password" name="password"><label>Password</label></input-plus>                  
             </form-plus>             
-            <button name = "signupBtn">Register</button>
+            <button class = "top-margin" name = "signupBtn">Register</button>
         </div>
     </div>
     <div class="form-container sign-in">
@@ -28,8 +30,8 @@
                 <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
                 <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
             </div>
-            <span>or use your email and password</span>
             <form-plus class = "col" name="signinForm">
+                <span>or use your email and password</span>
                 <input-plus><input type="email" name="email" required><label>Email</label></input-plus>
                 <input-plus><input type="password" name="password" required><label>Password</label></input-plus>
             </form-plus>

@@ -9,8 +9,16 @@
 
 login-page .col {
     gap: 1.3rem;
+    align-items: center;
 }
 login-page{
+    --fw: max(40rem, 60vw);
+    --fh: max(40rem, 70vh);
+    --ratio: 0.4;
+
+    --tw: calc(var(--ratio) * var(--fw));
+    --fcw: calc(var(--fw) - var(--tw));
+
     position: fixed;
     top: 0;
     bottom: 0;
@@ -40,9 +48,8 @@ login-page .container{
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
     position: relative;
     overflow: hidden;
-    width: 768px;
-    max-width: 100%;
-    min-height: 480px;
+    width: var(--fw);
+    height: var(--fh);
 }
 
 login-page .container p{
@@ -63,7 +70,7 @@ login-page .container a{
     margin: 15px 0 10px;
 }
 
-login-page .container button{
+login-page button{
     background-color: #512da8;
     color: #fff;
     font-size: 12px;
@@ -111,25 +118,27 @@ login-page .container .form{
     transition: all 0.6s ease-in-out;
 }
 
+
+
 .sign-in{
     left: 0;
-    width: 50%;
+    width: var(--fcw);
     z-index: 2;
 }
 
 login-page.active .sign-in{
-    transform: translateX(100%);
+    transform: translateX(var(--tw));
 }
 
 .sign-up{
     left: 0;
-    width: 50%;
+    width: var(--fcw);
     opacity: 0;
-    z-index: 1;
+    z-index: -1;
 }
 
 login-page.active .sign-up{
-    transform: translateX(100%);
+    transform: translateX(var(--tw));
     opacity: 1;
     z-index: 5;
     animation: move 0.6s;
@@ -164,8 +173,8 @@ login-page .social-icons a{
 .toggle-container{
     position: absolute;
     top: 0;
-    left: 50%;
-    width: 50%;
+    left: var(--fcw);
+    width: var(--tw);
     height: 100%;
     overflow: hidden;
     transition: all 0.6s ease-in-out;
@@ -174,7 +183,7 @@ login-page .social-icons a{
 }
 
 login-page.active .toggle-container{
-    transform: translateX(-100%);
+    transform: translateX(calc(-1 * var(--fcw)));
     border-radius: 0 150px 100px 0;
 }
 

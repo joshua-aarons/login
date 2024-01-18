@@ -48,6 +48,7 @@ for(let path of css_styles) {
     let style = document.createElement("style");
     style.innerHTML = css;
     let patha = path.replace("./templates/", "").replace(".css", "").split("/");
+    style.setAttribute("name", patha[patha.length-1]);
     CSSStyles[patha[patha.length-1]] = style;
 }
 export function getHTMLTemplate(name) {
