@@ -11,7 +11,7 @@ class ProfilePanel extends UserDataComponent {
         this.details = els.details;
         let elsdetail = this.details.getElementLibrary();
         elsdetail.update.onclick = () => {
-            updateUserData(this.details.value)
+            this.updateUserData(this.details.value)
             this.dispatchEvent(new Event('updateDetails'));
         }
         els.uploadDP.onclick = () => this.openimage()

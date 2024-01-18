@@ -51,10 +51,17 @@ export class AppView extends UserDataComponent {
         this.classList.toggle('dark-theme-variables');
     }
 
+    scheduleMeeting(){
+        console.log("xxx");
+        this.els.meetingSchedulerPopup.classList.add("open")
+    }
+
     async hostMeeting(){
         let key = await makeSessionKey();
         window.location = window.location.origin + `/Session/?${key}`;
     }
+
+
 }
 
 // SvgPlus.defineHTMLElement(AppView);

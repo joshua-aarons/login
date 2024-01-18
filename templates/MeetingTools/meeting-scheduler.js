@@ -15,17 +15,18 @@ class MeetingScheduler extends CustomForm {
             const event = new Event("close");
             this.dispatchEvent(event);
             this.value = "";
+            this.parentNode.classList.remove("open");
+
         });
 
         save.addEventListener("click", () => {
-            let meeting = this.value;
-            if (meeting == null) {
-                alert('please finish meeting')
-            } else {
+            if (this.validate()) {
+                let meeting = this.value;
                 const event = new Event("save");
                 event.data = meeting;
                 this.dispatchEvent(event);
-                this.classList.remove("open");
+                this.parentNode.classList.remove("open");
+                this.value = "";
             }
         });
 

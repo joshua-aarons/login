@@ -33,14 +33,14 @@ loginPage.addEventListener("signup", async (e) => {
 
 // Sometimes user may already be authenticated before siging in to the app
 F.addAuthChangeListener(async (user) => {
-    console.log(user);
-    if (user == null) {
-        showScreen("loginPage")
-    } else if (user.emailVerified) {
-        showScreen("appView")
-    } else {
+    // console.log(user);
+    // if (user == null) {
+    //     showScreen("loginPage")
+    // } else if (user.emailVerified) {
+    //     showScreen("appView")
+    // } else {
 
-    }
+    // }
 });
 window.F = F;
 
@@ -50,9 +50,9 @@ addListener( (userData) => {
     appView.value = userData
 })
 
-console.log("here");
+// console.log("here");
 await F.initialise();
-console.log("here2");
+// console.log("here2");
 
 
 
