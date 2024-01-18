@@ -35,10 +35,10 @@ members-plus {
 .table__header .input-group {
     width: 35%;
     height: 3rem;
-    background-color: #fff5;
+    background-color: var(--color-background);
     padding: 0 .8rem;
     border-radius: 2rem;
-
+    color: var(--color-dark);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -48,7 +48,7 @@ members-plus {
 
 .table__header .input-group:hover {
     width: 45%;
-    background-color: #fff8;
+    background-color: var(--color-background);
     box-shadow: 0 .1rem .4rem #0002;
 }
 
@@ -63,12 +63,13 @@ members-plus {
     background-color: transparent;
     border: none;
     outline: none;
+    color: var(--color-dark);
 }
 
 .table__body {
     width: 95%;
     max-height: calc(89% - 1.6rem);
-    background-color: #fffb;
+    background-color: var(--color-background);
 
     margin: .8rem auto;
     border-radius: .6rem;
@@ -115,7 +116,7 @@ thead th {
     position: sticky;
     top: 0;
     left: 0;
-    background-color: #d5d1defe;
+    background-color: var(--input-bg);
     cursor: pointer;
     text-transform: capitalize;
 }
@@ -229,7 +230,7 @@ thead th.active,tbody td.active {
     display: inline-block;
     width: 2rem;
     height: 2rem;
-    background: #fff6 url(images/export.png) center / 80% no-repeat;
+    background: var(--color-background) url(images/export.png) center / 80% no-repeat;
     border-radius: 50%;
     transition: .2s ease-in-out;
 }
@@ -272,7 +273,7 @@ thead th.active,tbody td.active {
     display: block;
     width: 100%;
     padding: .6rem 0;
-    background-color: #f2f2f2;
+    background-color: var(--color-background);
     
     display: flex;
     justify-content: space-around;
@@ -288,7 +289,7 @@ thead th.active,tbody td.active {
 
 .export__file .export__file-options label:hover{
     transform: scale(1.05);
-    background-color: #fff;
+    background-color: var(--color-white);
     cursor: pointer;
 }
 
