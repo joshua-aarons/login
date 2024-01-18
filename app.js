@@ -44,9 +44,15 @@ F.addAuthChangeListener(async (user) => {
 });
 window.F = F;
 
-console.log("here");
-await F.initialise();
-console.log("here2");
+showScreen("appView")
+
+addListener( (userData) => {
+    appView.value = userData
+})
+
+// console.log("here");
+// await F.initialise();
+// console.log("here2");
 
 
 

@@ -45,7 +45,6 @@ class MembersPlus extends SvgPlus {
         let csv = await loadCSV()
         console.log(csv)
         this.value = csv
-        this.headers = Object.keys(csv[0])
         localStorage.setItem("csv", JSON.stringify(csv))
     }
     onconnect() {
@@ -59,12 +58,12 @@ class MembersPlus extends SvgPlus {
         try {
             csv = JSON.parse(csv)
             this.value = csv
-            this.headers = Object.keys(csv[0])
         } catch (e) { }
     }
     set value(value) {
         this.tbody.innerHTML = ""
         let j = 1
+        this.headers = Object.keys(value[0])
         for (let row of value) {
             let tr = this.tbody.createChild("tr")
             tr.createChild('td', { content: j })

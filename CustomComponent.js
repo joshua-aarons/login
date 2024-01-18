@@ -127,7 +127,7 @@ class UserDataComponent extends CustomComponent {
                         break;
                     case "src": el.setAttribute('src', value[key]);
                         break;
-                    case "value": el.setAttribute('value', value[key]);
+                    case "value": el.value = value[key];
                         break;
                     default: el[fieldtype] = value[key];
                         break;
