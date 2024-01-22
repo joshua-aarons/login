@@ -42,23 +42,7 @@
 </div>
 
 <div class="card" id="customers_table">
-    <section class="table__header">
-        <h1>Recent Sessions</h1>
-        <div class="input-group">
-            <input type="search" name="searchbar" placeholder="Search Data...">
-            <img src="images/search.png" alt="">
-        </div>
-        <div class="export__file">
-            <label for="export-file" class="export__file-btn" title="Export File"></label>
-            <input type="checkbox" id="export-file">
-            <div class="export__file-options">
-                <label>Export As &nbsp; &#10140;</label>
-                <label for="export-file" id="toPDF" name="toPDF">PDF <img src="images/pdf.png" alt=""></label>
-                <label for="export-file" id="toCSV" name="toCSV">CSV <img src="images/csv.png" alt=""></label>
-            </div>
-        </div>
-    </section>
-    <members-plus class="table__body" name="sessions" vfield="value"></members-plus>
+    <table-plus name="sessions" vfield="value"></table-plus>
 </div>
 <div class="card bottom-margin">
     <h1>Progress Tracker</h1>

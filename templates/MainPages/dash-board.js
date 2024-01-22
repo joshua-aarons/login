@@ -1,5 +1,8 @@
 import { CustomComponent, SvgPlus, UserDataComponent } from "../../CustomComponent.js";
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
+import { } from "../table-plus.js"
+
+// let options = {}
 
 useCSSStyle("theme");
 function time(date) {
@@ -12,8 +15,10 @@ function time(date) {
 class DashBoard extends UserDataComponent {
     onconnect(){
         this.template = getHTMLTemplate("dash-board");
+        console.log(this.els.chart, options)
         this.chart = new ApexCharts(this.els.chart, options)
         this.chart.render()
+        this.els.sessions.titlename = "Recent Sessions"
     }
     onvalue(value){
       if (value.sessions) {
@@ -54,11 +59,13 @@ class DashBoard extends UserDataComponent {
               curve: 'smooth'
             }
         }
+        console.log(options)
         if (this.chart)
-          this.chart.updateOptions(options)
-      }
+            this.chart.updateOptions(options)
+       }
     }
 }
+
 
 var options = {
     series: [{

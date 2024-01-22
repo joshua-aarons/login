@@ -35,9 +35,9 @@ loginPage.addEventListener("signup", async (e) => {
 F.addAuthChangeListener(async (user) => {
     // console.log(user);
     // if (user == null) {
-    //     showScreen("loginPage")
+    //         showScreen("loginPage")
     // } else if (user.emailVerified) {
-    //     showScreen("appView")
+    //         showScreen("appView")
     // } else {
 
     // }

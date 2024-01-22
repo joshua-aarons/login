@@ -10,7 +10,7 @@ members-plus {
     display: block;
 }
 
-members-plus {
+.table__body {
     width: 82vw;
     max-height: 90vh;
     background-color: #fff5;
@@ -263,7 +263,7 @@ thead th.active,tbody td.active {
     transition: .2s;
 }
 
-.export__file input:checked + .export__file-options {
+[show-options] .export__file-options {
     opacity: 1;
     transform: scale(1);
     z-index: 100;
