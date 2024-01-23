@@ -6,8 +6,12 @@
  }
 }
 
-members-plus {
+table-plus {
     display: block;
+}
+
+app-view table-plus p {
+    color: inherit;
 }
 
 .table__body {
@@ -166,6 +170,18 @@ td[key = status] p {
     background-color: #ebc474;
 }
 
+td[key = tool] {
+    width: 2%;
+    cursor: pointer;
+    color: var(--color-primary);
+    transition: 0.3s;
+}
+
+td[key = tool]:hover {
+    color: var(--color-primary-variant);
+    transition: 0.3s;
+}
+
 td[key = "status"][value = "admin"] p, td[key = "status"][value = "complete"] p {
     background-color: #86e49d;
     color: #006b21;
@@ -218,7 +234,7 @@ thead th.asc span {
     transform: rotate(180deg);
 }
 
-thead th.active,tbody td.active {
+thead th.active, tbody td.active {
     color: var(--color-danger);
 }
 

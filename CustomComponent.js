@@ -104,7 +104,7 @@ class CustomForm extends CustomComponent {
     }
 }
 
-class UserDataComponent extends CustomComponent {
+class DataComponent extends CustomComponent {
     constructor(el) {
         super(el)
         this._value = {};
@@ -123,6 +123,8 @@ class UserDataComponent extends CustomComponent {
                 switch (fieldtype) {
                     case "innerHTML": el.innerHTML = value[key];
                         break;
+                    case "html": el.innerHTML = value[key];
+                        break;
                     case "src": el.setAttribute('src', value[key]);
                         break;
                     case "value": el.value = value[key];
@@ -139,7 +141,9 @@ class UserDataComponent extends CustomComponent {
         this.attachEvents();
         this.value = this._value
     }
+}
 
+class UserDataComponent extends DataComponent {
     afterconnect(){
         addListener(v => this.value = v);
     }
@@ -151,4 +155,4 @@ class UserDataComponent extends CustomComponent {
     userLogout(){signout()}
 }
 
-export { CustomComponent, Vector, SvgPlus, CustomForm, UserDataComponent }
+export { CustomComponent, Vector, SvgPlus, CustomForm, UserDataComponent, DataComponent }

@@ -1,4 +1,4 @@
-import { CustomComponent, SvgPlus } from "../../CustomComponent.js"
+import { DataComponent, SvgPlus } from "../../CustomComponent.js"
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 
 useCSSStyle("meeting-display")
@@ -62,22 +62,22 @@ function getStringLength(string) {
 /**
  * @extends HTMLElement
  */
-class MeetingDisplay extends CustomComponent {
+class MeetingDisplay extends DataComponent {
     
     onconnect() {
-        this.innerHTML = getHTMLTemplate("meeting-display")
-        let els = this.getElementLibrary();
+        this.template = getHTMLTemplate("meeting-display")
+        let els = this.els;
 
         computeCharacterWidths(els.link);
         this.els = els;
 
-        this.value = {
-            description: "description",
-            "start-time": "today",
-            duration:  60,
-            "meeting-id": "xxxxxxxxxxxxxxx",
-            "link": "app.squidly.com/Session/?xxxxxxxxxxxxxxx"
-        }
+        // this.value = {
+        //     description: "description",
+        //     "start-time": "today",
+        //     duration:  60,
+        //     "meeting-id": "xxxxxxxxxxxxxxx",
+        //     "link": "app.squidly.com/Session/?xxxxxxxxxxxxxxx"
+        // }
 
         // on frame updates
         let next = () => {
@@ -86,22 +86,6 @@ class MeetingDisplay extends CustomComponent {
         }
         window.requestAnimationFrame(next);
     }
-
-    /**
-     * @param {Object} value
-     */
-    set value(value) {
-        let _value = {}
-        for (let key in value){
-            if (key in this.els){
-                this.els[key].innerHTML = value[key];
-                _value[key] = value[key];
-            }
-        }
-        this._value = _value;
-    }
-    get value() {return this._value}
-
     resizeLink() {
         if (this.value) {
             let link = this.value.link;
@@ -113,6 +97,9 @@ class MeetingDisplay extends CustomComponent {
             
             this.els.link.innerHTML = linkText;
         }
+    }
+    close() {
+        this.parentNode.classList.remove('open')
     }
 }
 

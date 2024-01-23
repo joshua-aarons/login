@@ -74,13 +74,20 @@ class DashBoard extends UserDataComponent {
     this.template = getHTMLTemplate("dash-board");
     let {sessions} = this.els;
     sessions.titleName = "Recent Sessions";
-    sessions.headers = ["name", "date", "duration", "status"];
     sessions.getSortValue = cell => {
-      let sv = cell.textContent.toLowerCase();
-      if (cell.key == "date") sv = time(cell.value);
-      return sv;
+        let sv = cell.textContent.toLowerCase();
+        if (cell.key == "date") sv = time(cell.value);
+        return sv;
     }
-
+    
+    sessions.tools = [{
+        icon: 'Details',
+        name: 'details',
+        method: (cell) => {
+            document.querySelector('app-view').displayMeeting(cell.parentNode.value)
+        } 
+    }]
+    sessions.headers = ["description", "date", "duration", "status"];
     this.chart = new ApexCharts(this.els.chart, options)
     this.chart.render()
   }

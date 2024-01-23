@@ -21,6 +21,11 @@ class AdminControl extends UserDataComponent {
                 icon: `<i class="fa-solid fa-trash"></i>`, 
                 name: "delete", 
                 method: "deleteRow"
+            },
+            {
+                icon: `<i class="fa-solid fa-pencil"></i>`, 
+                name: "delete", 
+                method: "deleteRow"
             }
         ]
         members.headers = ["id", "name", "email", "status"]

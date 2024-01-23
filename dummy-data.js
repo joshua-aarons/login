@@ -23,34 +23,40 @@ let userData = {
     tier: 'Standard',
     sessions: [
         {
-            name: 'Meeting with Tom',
+            description: 'Meeting with Tom',
+            date: '31/01/2024',
+            time: '31 01 2024 5:10 PM (GMT+9:30) Darwin',
+            duration: '45',
+            status: 'Scheduled',
+            id: 'xxxxxxxxxxxx',
+            link: 'https://app.squidly.com.au/Session/?-xxxxxxxxxxxx'
+        },
+        {
+            description: 'Quick catch up',
             date: '25/01/2024',
+            time: '25 01 2024 5:10 PM (GMT+9:30) Darwin',
             duration: '45',
-            status: 'Scheduled'
+            status: 'Scheduled',
+            id: 'xxxxxxxxxxxx',
+            link: 'https://app.squidly.com.au/Session/?-xxxxxxxxxxxx'
         },
         {
-            name: 'Session with James',
+            description: 'Session with James',
             date: '20/01/2024',
+            time: '20 01 2024 5:10 PM (GMT+9:30) Darwin',
             duration: '60',
-            status: 'Scheduled'
+            status: 'Scheduled',
+            id: 'xxxxxxxxxxxx',
+            link: 'https://app.squidly.com.au/Session/?-xxxxxxxxxxxx'
         },
         {
-            name: 'Catchup with RV',
-            date: '23/12/2023',
-            duration: '45',
-            status: 'Complete'
-        },
-        {
-            name: 'Meeting with CK',
-            date: '26/11/2023',
-            duration: '25',
-            status: 'Complete'
-        },
-        {
-            name: 'Quick session with CK',
-            date: '22/11/2023',
-            duration: '20',
-            status: 'Complete'
+            description: 'Meeting with CK',
+            date: '12/01/2024',
+            time: '12 01 2024 5:10 PM (GMT+9:30) Darwin',
+            duration: '60',
+            status: 'Complete',
+            id: 'xxxxxxxxxxxx',
+            link: 'https://app.squidly.com.au/Session/?-xxxxxxxxxxxx'
         }
     ],
     members: [

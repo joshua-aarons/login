@@ -5,10 +5,10 @@ import {} from "./MainPages/meetings-panel.js"
 import {} from "./MainPages/profile-panel.js"
 import {} from "./MainPages/support-panel.js"
 import {} from "./MainPages/admin-control.js"
+import {} from "./hover.js"
 
 import {} from "./MeetingTools/meeting-display.js"
 import {} from "./MeetingTools/meeting-scheduler.js"
-import {} from "./members-plus.js"
 import { makeSessionKey } from "../Firebase/firebase.js"
 import { CustomComponent, SvgPlus, UserDataComponent } from "../CustomComponent.js"
 
@@ -27,6 +27,7 @@ export class AppView extends UserDataComponent {
             })
         }
         this.panel = "dash-board"
+        this.afterconnect()
     }
     set panel(type) {
         if (type == "logout") {
@@ -53,6 +54,11 @@ export class AppView extends UserDataComponent {
     async hostMeeting(){
         let key = await makeSessionKey();
         window.open(window.location.origin + `/Session/?${key}`);
+    }
+
+    displayMeeting(meeting){
+        this.els.meetingDisplayPopup.classList.add('open')
+        this.els.meetingDisplay.value = meeting 
     }
 
 

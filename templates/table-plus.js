@@ -1,7 +1,7 @@
 import { SvgPlus, CustomForm } from "../CustomComponent.js"
 import { useCSSStyle } from "../template.js";
 
-useCSSStyle("members-plus");
+useCSSStyle("table-plus");
 useCSSStyle("theme")
 
 export async function loadCSV() {
@@ -58,16 +58,21 @@ class TablePlus extends SvgPlus {
         // create export file
         let ef = s.createChild('div', {class:'export__file'})
         let eb = ef.createChild('label', {class:'export__file-btn',title:'Export File'})
-        eb.onclick = () => this.toggleAttribute('show-options')
+        eb.onclick = (e) => {
+            this.toggleAttribute('show-options')
+            e.stopPropagation()
+        }
         let efo = ef.createChild('div', {class:'export__file-options'})
         efo.createChild('label', {content:'Export As &nbsp; &#10140;'})
         for (let option of ['PDF','CSV']){
             let op = efo.createChild('label',{content:`${option} <img src="images/${option.toLowerCase()}.png" alt="">`})
-            op.onclick = () => {
+            op.onclick = (e) => {
                 this['convert' + option]()
                 this.toggleAttribute('show-options', false)
+                e.stopPropagation()
             }
         }
+        window.addEventListener('click', () => {this.toggleAttribute('show-options', false)})
 
         // create table
         let s2 = this.createChild("section", {class:'table__body'})
@@ -96,7 +101,6 @@ class TablePlus extends SvgPlus {
                 }
             }
         }
-        console.log(ptools);
         this._tools = ptools
     }
 
@@ -118,11 +122,9 @@ class TablePlus extends SvgPlus {
         if(getSortValue instanceof Function) this._getSortValue = getSortValue;
     }
     get getSortValue(){
-        console.log(this._getSortValue);
         if (this._getSortValue instanceof Function) return this._getSortValue;
         else return (cell) => {
             let sv = cell.textContent.toLowerCase();
-            console.log(sv);
             return sv;
         }
     }
@@ -146,12 +148,12 @@ class TablePlus extends SvgPlus {
             this.headers = Object.keys(value[0]);
         }
         let headers = this.headers;
-        console.log(headers);
 
         // Construct Table
         this.tbody.innerHTML = ""
         for (let row of value) {
             let tr = this.tbody.createChild("tr")
+            tr.value = row
             let i = 0;
             for (let key of headers) {
                 let content = row[key];
@@ -190,6 +192,7 @@ class TablePlus extends SvgPlus {
             th.onclick = () => {
                 this.sort(j)
             }
+            th.value = head
             i++
         }
         for (let tool of this.tools) tr.createChild("th")
@@ -208,13 +211,11 @@ class TablePlus extends SvgPlus {
         headers.forEach(head => head.classList.remove('active'));
         headers[i].classList.add('active');
 
-        this.querySelectorAll('td').forEach(td => td.classList.remove('active'));
-        rows.forEach(row => {
-            row.querySelectorAll('td')[i].classList.add('active');
-        })
+        this.table.setAttribute('sort', headers[i].value)
         let sort_asc = headers[i].classList.contains('asc') ? false : true;
-        console.log(sort_asc);
         headers[i].classList.toggle('asc', sort_asc);
+        this.table.querySelectorAll('td').forEach((e) => {e.classList.remove('active')})
+        rows.forEach((e) => {e.children[i].classList.add('active')})
 
         let getSortValue = this.getSortValue;
         [...this.tbody.children].sort((a, b) => {
