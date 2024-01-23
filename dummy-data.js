@@ -23,35 +23,39 @@ let userData = {
     tier: 'Standard',
     sessions: [
         {
-            sessionName: 'Meeting with Tom',
-            sessionDate: '25/01/2024',
-            sessionLength: '45',
+            name: 'Meeting with Tom',
+            date: '25/01/2024',
+            duration: '45',
             status: 'Scheduled'
         },
         {
-            sessionName: 'Session with James',
-            sessionDate: '20/01/2024',
-            sessionLength: '60',
+            name: 'Session with James',
+            date: '20/01/2024',
+            duration: '60',
             status: 'Scheduled'
         },
         {
-            sessionName: 'Catchup with RV',
-            sessionDate: '23/12/2023',
-            sessionLength: '45',
+            name: 'Catchup with RV',
+            date: '23/12/2023',
+            duration: '45',
             status: 'Complete'
         },
         {
-            sessionName: 'Meeting with CK',
-            sessionDate: '26/11/2023',
-            sessionLength: '25',
+            name: 'Meeting with CK',
+            date: '26/11/2023',
+            duration: '25',
             status: 'Complete'
         },
         {
-            sessionName: 'Quick session with CK',
-            sessionDate: '22/11/2023',
-            sessionLength: '20',
+            name: 'Quick session with CK',
+            date: '22/11/2023',
+            duration: '20',
             status: 'Complete'
         }
+    ],
+    members: [
+        {name: "John Smith", email: "john.smith@gmail.com", status: "admin"},
+        {name: "Ann Smith", email: "Ann.smith@gmail.com", status: "staff"}
     ]
 }
 
@@ -66,16 +70,30 @@ export function updateUserData(value) {
     for (let key in value){
         userData[key] = value[key]
     }
-    for (let listener of listeners){
-        listener(userData)  
+
+    try {
+        throw new Error()
+    } catch(e){
+        console.log(e, userData);
     }
-    console.log(userData)
+    updateListeners();
+}
+
+
+function updateListeners(l = null){
+    let ls = listeners;
+    if (l !== null) ls = [l]
+    for (let listener of ls){
+        let clone = JSON.parse(JSON.stringify(userData));
+        listener(clone)  
+    }
 }
 
 var listeners = []
 
 export function addListener(listener) {
-    if (listener instanceof Function)
+    if (listener instanceof Function){
         listeners.push(listener)
-    updateUserData(userData)
+        updateListeners(listener);
+    }
 }

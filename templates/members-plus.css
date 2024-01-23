@@ -159,19 +159,19 @@ tbody tr.hide td img {
     transition: .2s ease-in-out .5s;
 }
 
-.status {
+td[key = status] p {
     padding: .4rem 0;
     border-radius: 2rem;
     text-align: center;
     background-color: #ebc474;
 }
 
-.status.admin, .status.complete {
+td[key = "status"][value = "admin"] p, td[key = "status"][value = "complete"] p {
     background-color: #86e49d;
     color: #006b21;
 }
 
-.status.staff, .status.scheduled {
+td[key = "status"][value = "staff"] p, td[key = "status"][value = "scheduled"] p {
     background-color: #d893a3;
     color: #b30021;
 }

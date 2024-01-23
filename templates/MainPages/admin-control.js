@@ -1,32 +1,45 @@
-import { CustomComponent, SvgPlus } from "../../CustomComponent.js";
+import { CustomComponent, SvgPlus, UserDataComponent } from "../../CustomComponent.js";
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
+import { loadCSV } from "../table-plus.js"
+
 
 useCSSStyle("theme");
 
-class AdminControl extends CustomComponent {
-    onconnect(){
-        this.innerHTML = getHTMLTemplate("admin-control");
-        let els = this.getElementLibrary()
-        els.update.addEventListener("click", () => {
-            els.members.loadcsv()
+class AdminControl extends UserDataComponent {
+    onconnect() {
+        this.template = getHTMLTemplate("admin-control");
+        let { members, update, download } = this.els;
+
+        members.titleName = "Members";
+        members.parseValue = (value) => {
+            let i = 1;
+            for (let v of value) v.id = i++;
+            return value;
+        }
+        members.tools = [
+            {
+                icon: `<i class="fa-solid fa-trash"></i>`, 
+                name: "delete", 
+                method: "deleteRow"
+            }
+        ]
+        members.headers = ["id", "name", "email", "status"]
+       
+
+        update.addEventListener("click", async () => {
+            let csv = await loadCSV()
+            // check format 
+            // update database
+            members.value = csv;
         })
-        els.searchbar.addEventListener("input", () => {
-            els.members.search(els.searchbar.value)
-        })
-        els.toPDF.addEventListener("click", () => {
-            els.members.convertPDF()
-        })
-        els.download.addEventListener("click", () => {
-            let link = new SvgPlus("a") 
-            link.props = {href:"./templates/template-members-page.csv"};
+
+        download.addEventListener("click", () => {
+            let link = new SvgPlus("a")
+            link.props = { href: "./templates/template-members-page.csv" };
             link.toggleAttribute("download", true)
             link.click()
         })
-        els.toCSV.addEventListener("click", () => {
-            els.members.convertCSV()
-        })
     }
-
 }
 
 SvgPlus.defineHTMLElement(AdminControl);

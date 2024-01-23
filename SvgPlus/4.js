@@ -520,6 +520,9 @@ class SvgPlus{
           if (this.onconnect instanceof Function) {
             this.onconnect();
           }
+          if (this.afterconnect instanceof Function) {
+            this.afterconnect();
+          }
         }
       }
 

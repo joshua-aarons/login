@@ -1,5 +1,5 @@
 import { SvgPlus, Vector } from "./SvgPlus/4.js";
-import { updateUserData } from "./dummy-data.js";
+import { updateUserData, addListener } from "./dummy-data.js";
 import { signout } from "./Firebase/firebase.js";
 
 function isNested(el, root){
@@ -107,7 +107,7 @@ class CustomForm extends CustomComponent {
 class UserDataComponent extends CustomComponent {
     constructor(el) {
         super(el)
-        this._value = {}
+        this._value = {};
     }
 
     set value(value) {
@@ -138,6 +138,10 @@ class UserDataComponent extends CustomComponent {
         this.els = this.getElementLibrary()
         this.attachEvents();
         this.value = this._value
+    }
+
+    afterconnect(){
+        addListener(v => this.value = v);
     }
 
     updateUserData(userData) {

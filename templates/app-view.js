@@ -12,7 +12,6 @@ import {} from "./members-plus.js"
 import { makeSessionKey } from "../Firebase/firebase.js"
 import { CustomComponent, SvgPlus, UserDataComponent } from "../CustomComponent.js"
 
-
 useCSSStyle("theme");
 useCSSStyle("app-view");
 
@@ -40,11 +39,6 @@ export class AppView extends UserDataComponent {
                 child.classList.toggle("active", child.tagName.toLowerCase() == type);
             }
         }
-    }
-    onvalue(value) {
-        this.els.profile.value = value
-        this.els.dashboard.value = value
-        this.els.privacy.value = value
     }
 
     themeToggle(){

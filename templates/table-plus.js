@@ -4,9 +4,7 @@ import { useCSSStyle } from "../template.js";
 useCSSStyle("members-plus");
 useCSSStyle("theme")
 
-
-
-async function loadCSV() {
+export async function loadCSV() {
     let input = new SvgPlus("input")
     input.setAttribute("type", "file")
     return new Promise((resolve, reject) => {
@@ -45,15 +43,7 @@ function parseCSV(csv) {
 }
 
 class TablePlus extends SvgPlus {
-    async loadcsv() {
-        let csv = await loadCSV()
-        console.log(csv)
-        this.value = csv
-        localStorage.setItem("csv", JSON.stringify(csv))
-    }
-    set titlename(value) {
-        this.titleel.innerHTML = value
-    }
+
     onconnect() {
         // create search bar
         let s = this.createChild('section', {class:'table__header'})
@@ -86,38 +76,135 @@ class TablePlus extends SvgPlus {
         this.headrow = this.thead.createChild("tr")
         this.tbody = this.table.createChild("tbody")
     }
+
+    set tools(tools) {
+        let ptools = [];
+        if (Array.isArray(tools)) {
+            for (let tool of tools) {
+                let t = {};
+                if (tool !== null && typeof tool === "object") {
+                    for (let key of ["name", "icon"]) {
+                        if (key in tool) t[key] = tool[key]
+                        else t[key] = key
+                    }
+                    if ("method" in tool) {
+                        if (tool.method instanceof Function) t.method = tool.method;
+                        else if (this[tool.method] instanceof Function) t.method = (e) => this[tool.method](e);
+                        
+                    } else t.method = ()=>{};
+                    ptools.push(t)
+                }
+            }
+        }
+        console.log(ptools);
+        this._tools = ptools
+    }
+
+    get tools(){
+        let tools = this._tools;
+        if (!Array.isArray(tools)) tools = []
+        return tools;
+    }
+
+    set parseValue(parser){
+        if(parser instanceof Function) this._parseValue = parser;
+    }
+    get parseValue(){
+        if (this._parseValue instanceof Function) return this._parseValue;
+        else return v => v;
+    }
+
+    set getSortValue(getSortValue){
+        if(getSortValue instanceof Function) this._getSortValue = getSortValue;
+    }
+    get getSortValue(){
+        console.log(this._getSortValue);
+        if (this._getSortValue instanceof Function) return this._getSortValue;
+        else return (cell) => {
+            let sv = cell.textContent.toLowerCase();
+            console.log(sv);
+            return sv;
+        }
+    }
+
+    /**
+     * @param {String} value
+     */
+    set titleName(value) {
+        this.titleel.innerHTML = value
+    }
+
+    /**
+     * @param {[{}]} value
+     */
     set value(value) {
-        if (this.parseValue instanceof Function)
-            value = this.parseValue(value)
+        // parse value extra function
+        value = this.parseValue(value)
+
+        // Set headers if none have been set
+        if (!Array.isArray(this.headers)) {
+            this.headers = Object.keys(value[0]);
+        }
+        let headers = this.headers;
+        console.log(headers);
+
+        // Construct Table
         this.tbody.innerHTML = ""
-        this.headers = Object.keys(value[0])
         for (let row of value) {
             let tr = this.tbody.createChild("tr")
-            for (let key in row) {
-                let content = row[key]
-                if (key.toLowerCase() == "status")
-                    content = `<p class="status ${content.toLowerCase()}">${content}</p>`
-                tr.createChild('td', { content })
+            let i = 0;
+            for (let key of headers) {
+                let content = row[key];
+                let contentValue = typeof content === "string" ? content.toLowerCase() : content;
+                let cell = tr.createChild('td', { key: key, value: contentValue,  content: `<p>${content}</p>`});
+                cell.key = key;
+                cell.value = content;
+                cell.index = i; 
+                i++;
+            }
+            
+
+            for (let {method, icon, name} of this.tools) {
+                let cell = tr.createChild('td', {key: "tool", value: name, content: `<p>${icon}</p>`});
+                cell.onclick = () => method(cell);
             }
         }
     }
+
+    deleteRow(e){
+        e.parentNode.remove();
+    }
+
+    
+    /**
+     * @param {[""]} headers
+     */
     set headers(headers) {
+        this._headers = [...headers];
         let tr = this.headrow
         tr.innerHTML = ""
         let i = 0
         for (let head of headers) {
             let j = i
-            let th = tr.createChild('th', { content: head + `<span><i class="fa-solid fa-caret-down"></i></span>` })
+            let th = tr.createChild('th', { content: head + `<span><i class="fa-solid fa-caret-down"></i></span>` });
             th.onclick = () => {
                 this.sort(j)
             }
             i++
         }
+        for (let tool of this.tools) tr.createChild("th")
     }
+    get headers(){return this._headers;}
+
+
+    getSortingValue(cell){
+        return 
+    }
+
+
     sort(i) {
         let headers = [...this.headrow.children]
         let rows = [...this.tbody.children]
-        console.log(i, headers, rows)
         headers.forEach(head => head.classList.remove('active'));
         headers[i].classList.add('active');
 
@@ -126,16 +213,19 @@ class TablePlus extends SvgPlus {
             row.querySelectorAll('td')[i].classList.add('active');
         })
         let sort_asc = headers[i].classList.contains('asc') ? false : true;
+        console.log(sort_asc);
         headers[i].classList.toggle('asc', sort_asc);
 
+        let getSortValue = this.getSortValue;
         [...this.tbody.children].sort((a, b) => {
-            let first_row = a.querySelectorAll('td')[i].textContent.toLowerCase(),
-                second_row = b.querySelectorAll('td')[i].textContent.toLowerCase();
+            let first_row = getSortValue(a.querySelectorAll('td')[i]),
+                second_row = getSortValue(b.querySelectorAll('td')[i]);
 
             return sort_asc ? (first_row < second_row ? 1 : -1) : (first_row < second_row ? -1 : 1);
         })
             .map(sorted_row => this.tbody.appendChild(sorted_row));
     }
+
     search(search) {
         let rows = [...this.tbody.children]
         let j = 0
@@ -156,6 +246,7 @@ class TablePlus extends SvgPlus {
         // this.querySelectorAll('tbody tr:not(.hide)').forEach((row, i) => {
         // });
     }
+
     convertPDF() {
         const html_code = `
     <!DOCTYPE html>
@@ -176,6 +267,7 @@ class TablePlus extends SvgPlus {
             new_window.close();
         }, 400);
     }
+
     convertCSV(){
         let heads = [...this.headrow.children]
         let rows = [...this.tbody.children]

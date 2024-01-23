@@ -46,9 +46,7 @@ window.F = F;
 
 showScreen("appView")
 
-addListener( (userData) => {
-    appView.value = userData
-})
+
 
 // console.log("here");
 await F.initialise();
