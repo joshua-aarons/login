@@ -51,6 +51,36 @@
     --input-shadow: hsla(208, 92%, 58%, 0.2);
 }
 
+hover-panel {
+    --down-icon-size: 6px;
+    transform: translateY(-100%);
+    transition: opacity 0.3s;
+    opacity: 0;
+    font-size: 0.9rem;
+}
+hover-panel[open] {
+    opacity: 1;
+}
+hover-panel > div {
+    background-color: var(--color-background);
+    color: var(--color-dark);
+    border: 2px solid var(--color-dark);
+    padding: 0.3rem;
+    border-radius: 0.5rem;
+}
+hover-panel .down-icon {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0px;
+    height: 0px;
+    transform: translate(-50%, 100%);
+    border-left: var(--down-icon-size) solid transparent;
+    border-right: var(--down-icon-size) solid transparent;
+    border-top: var(--down-icon-size) solid var(--color-dark);
+    
+}
+
 main {
     margin-top: 1.4rem;
 }

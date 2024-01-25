@@ -2,21 +2,46 @@ import { SvgPlus } from "../CustomComponent.js"
 
 class HoverPanel extends SvgPlus{
     constructor(icon){
-        super('hover-panel')
-        this.innerHTML = icon.getAttribute('hover')
-        let bbox = icon.getBoundingClientRect()
-        this.styles = {
-            top: bbox.y + 'px',
-            left: bbox.x + 'px',
-            position: 'fixed'
-        }
-        let id = setInterval(() => {
-            let e = document.elementFromPoint(x,y)
-            if (!e.isSameNode(icon) && !icon.contains(e)){
-                this.remove()
-                clearInterval(id)
+        super('hover-panel');
+        let removed = false;
+        let fading = false;
+        icon.hovering = true;
+        let rel = this.createChild("div", {styles: {position: "relative"}});
+        rel.innerHTML = icon.getAttribute('hover');
+        rel.createChild("div", {class: "down-icon"});
+        
+        let next = () => {
+            this.toggleAttribute("open", !fading)
+            let bbox = icon.getBoundingClientRect()
+            this.styles = {
+                top: bbox.y + 'px',
+                left: (bbox.x) + 'px',
+                position: 'fixed'
             }
-        }, 300)
+            if (!removed) window.requestAnimationFrame(next);
+        }
+
+        
+        setTimeout(() => {
+            let hoverDuration = parseFloat(window.getComputedStyle(this).transitionDuration);
+            hoverDuration = Number.isNaN(hoverDuration) ? 300 : hoverDuration * 1000
+            let id = setInterval(() => {
+                let e = document.elementFromPoint(x,y)
+                if (!e.isSameNode(icon) && !icon.contains(e)){
+                    setTimeout(() => {
+                        this.remove()
+                        removed= true;
+                    }, hoverDuration)
+                    fading = true;
+                    icon.hovering = false;
+                    clearInterval(id)
+                }
+            }, hoverDuration);
+            window.requestAnimationFrame(next);
+        }, 60)
+
+        
+
     }
 
 }
@@ -43,8 +68,10 @@ window.addEventListener('mousemove', (e) => {
 
 function addHoverListener(icon){
     icon.addEventListener('mouseover', () => {
-        let hp = new HoverPanel(icon)
-        document.body.appendChild(hp)
+        if (!icon.hovering) {
+            let hp = new HoverPanel(icon)
+            document.body.appendChild(hp)
+        }
     })
 } 
 
