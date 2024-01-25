@@ -13,6 +13,9 @@
     --color-info-light: #dce1eb;
     --color-dark: #363949;
     --color-light: rgba(132, 139, 200, 0.18);
+
+    --color-light-op: rgba(132, 139, 200, 0.4);
+
     --color-primary-variant: #111e88;
     --color-dark-variart: #677483;
     --color-background: #f6f6f9;
@@ -21,6 +24,8 @@
     --input-bg-hover: hsla(208, 50%, 50%, 14%);
     --input-text: #8c9aaf;
     --input-shadow: hsla(208, 92%, 54%, 0.169);
+
+    --hover-shadow: 0 0 0.7rem var(--color-light-op);
 
     --card-border-radius: 2rem;
     --border-radius-1: 0.4rem;
@@ -53,19 +58,33 @@
 
 hover-panel {
     --down-icon-size: 6px;
-    transform: translateY(-100%);
+    transform: translate(-50%,-120%);
     transition: opacity 0.3s;
     opacity: 0;
     font-size: 0.9rem;
+    max-width: 11.5rem;
 }
+
+i[hover] {
+    font-size: 1rem;
+    color: var(--color-info-dark);
+}
+
+h1 span{
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
 hover-panel[open] {
     opacity: 1;
 }
 hover-panel > div {
-    background-color: var(--color-background);
+    background-color: var(--color-white);
     color: var(--color-dark);
-    border: 2px solid var(--color-dark);
-    padding: 0.3rem;
+    /* border: 2px solid var(--color-dark); */
+    padding: 0.5rem;
+    box-shadow: var(--hover-shadow);
     border-radius: 0.5rem;
 }
 hover-panel .down-icon {
@@ -77,8 +96,7 @@ hover-panel .down-icon {
     transform: translate(-50%, 100%);
     border-left: var(--down-icon-size) solid transparent;
     border-right: var(--down-icon-size) solid transparent;
-    border-top: var(--down-icon-size) solid var(--color-dark);
-    
+    border-top: var(--down-icon-size) solid var(--color-white);    
 }
 
 main {

@@ -15,7 +15,7 @@ class HoverPanel extends SvgPlus{
             let bbox = icon.getBoundingClientRect()
             this.styles = {
                 top: bbox.y + 'px',
-                left: (bbox.x) + 'px',
+                left: (bbox.x + bbox.width/2) + 'px',
                 position: 'fixed'
             }
             if (!removed) window.requestAnimationFrame(next);

@@ -6,6 +6,8 @@ let tiers = {
     }
 }
 
+var listeners = []
+
 let userData = {
     displayPhoto: "./images/profile-1.jpg",
     firstName: "Josh",
@@ -16,17 +18,14 @@ let userData = {
     tier: "Standard",
     optionalData: false,
     meetingCount: 6,
-    hours: 30,
-    'sessions-count': 10,
     email: 'gltralph@gmail.com',
     storage: 250,
-    tier: 'Standard',
     sessions: [
         {
             description: 'Meeting with Tom',
             date: '31/01/2024',
             time: '31 01 2024 5:10 PM (GMT+9:30) Darwin',
-            duration: '45',
+            duration: 45,
             status: 'Scheduled',
             id: 'xxxxxxxxxxxx',
             link: 'https://app.squidly.com.au/Session/?-xxxxxxxxxxxx'
@@ -35,7 +34,7 @@ let userData = {
             description: 'Quick catch up',
             date: '25/01/2024',
             time: '25 01 2024 5:10 PM (GMT+9:30) Darwin',
-            duration: '45',
+            duration: 55,
             status: 'Scheduled',
             id: 'xxxxxxxxxxxx',
             link: 'https://app.squidly.com.au/Session/?-xxxxxxxxxxxx'
@@ -44,7 +43,7 @@ let userData = {
             description: 'Session with James',
             date: '20/01/2024',
             time: '20 01 2024 5:10 PM (GMT+9:30) Darwin',
-            duration: '60',
+            duration: 70,
             status: 'Scheduled',
             id: 'xxxxxxxxxxxx',
             link: 'https://app.squidly.com.au/Session/?-xxxxxxxxxxxx'
@@ -53,7 +52,16 @@ let userData = {
             description: 'Meeting with CK',
             date: '12/01/2024',
             time: '12 01 2024 5:10 PM (GMT+9:30) Darwin',
-            duration: '60',
+            duration: 60,
+            status: 'Complete',
+            id: 'xxxxxxxxxxxx',
+            link: 'https://app.squidly.com.au/Session/?-xxxxxxxxxxxx'
+        },
+        {
+            description: 'First meeting',
+            date: '01/01/2024',
+            time: '01 01 2024 5:10 PM (GMT+9:30) Darwin',
+            duration: 25,
             status: 'Complete',
             id: 'xxxxxxxxxxxx',
             link: 'https://app.squidly.com.au/Session/?-xxxxxxxxxxxx'
@@ -66,6 +74,13 @@ let userData = {
 }
 
 export function updateUserData(value) {
+    userData["sessions-count"] = userData.sessions.length
+    let mins = 0
+    for (let d of userData.sessions.map(s => s.duration))
+        mins += d
+
+    userData.hours = Math.round(mins/6)/10
+
     if ("tier" in value && value.tier in tiers) {
         for (let key in tiers[value.tier]) {
             userData['max' + key] = tiers[value.tier][key];
@@ -85,6 +100,7 @@ export function updateUserData(value) {
     updateListeners();
 }
 
+updateUserData(userData)
 
 function updateListeners(l = null){
     let ls = listeners;
@@ -95,7 +111,6 @@ function updateListeners(l = null){
     }
 }
 
-var listeners = []
 
 export function addListener(listener) {
     if (listener instanceof Function){
