@@ -20,6 +20,8 @@ let userData = {
     meetingCount: 6,
     email: 'gltralph@gmail.com',
     storage: 250,
+    maxmembers: 25,
+    admin: true,
     sessions: [
         {
             description: 'Meeting with Tom',
@@ -69,7 +71,8 @@ let userData = {
     ],
     members: [
         {name: "John Smith", email: "john.smith@gmail.com", status: "admin"},
-        {name: "Ann Smith", email: "Ann.smith@gmail.com", status: "staff"}
+        {name: "Ann Smith", email: "Ann.smith@gmail.com", status: "staff"},
+        {name: "Josh Aarons", email: "joshua.aarons@ymail.com", status: "admin"}
     ]
 }
 

@@ -26,6 +26,22 @@ class CustomComponent extends SvgPlus {
         return els;
     }
 
+    set active(active){
+        this.classList.toggle("active", active);
+        if (active && !this.active){
+            if (this.onshow instanceof Function)
+                this.onshow()
+        } else if (!active && this.active) {
+            if (this.onhide instanceof Function)
+                this.onhide()
+        }
+        this._active = active
+    }
+
+    get active(){
+        return this._active
+    }
+
     attachEvents(events = ["onclick"]){
         for (let event of events) {
             let els = this.querySelectorAll(`[${event}]`);
@@ -82,6 +98,7 @@ class CustomForm extends CustomComponent {
             if (name in value) input_value = value[name];
             input.value = input_value;
         }
+        this.setvalue = value 
     }
 
     get value() {
@@ -92,6 +109,10 @@ class CustomForm extends CustomComponent {
                 return `the ${input.name} cannot be left blank`;
         }
         return value;
+    }
+
+    reset() {
+        this.value = this.setvalue
     }
 
     validate() {

@@ -75,7 +75,7 @@ class DashBoard extends UserDataComponent {
     onconnect() {
         this.template = getHTMLTemplate("dash-board");
         let { sessions } = this.els;
-        sessions.titleName = "<span>Recent Sessions <i class='fa-solid fa-circle-info' hover = 'recent sessions from the last 3 months'></i> </span>";
+        sessions.titleName = "<span class='row'>Recent Sessions <i class='fa-solid fa-circle-info' hover = 'recent sessions from the last 3 months'></i> </span>";
         sessions.getSortValue = cell => {
             let sv = cell.textContent.toLowerCase();
             if (cell.key == "date") sv = time(cell.value);
@@ -87,6 +87,21 @@ class DashBoard extends UserDataComponent {
             name: 'details',
             method: (cell) => {
                 document.querySelector('app-view').displayMeeting(cell.parentNode.value)
+            }
+        },
+        {
+            icon: `<span class="material-symbols-outlined">content_copy</span>`, 
+            name: "delete", 
+            method: async (cell) => {
+                let link = cell.parentNode.value.link
+                await navigator.clipboard.writeText(link)
+                let o = 0
+                let id = setInterval( () => {
+                    cell.style.setProperty('opacity', Math.cos(o)*0.5+0.5)
+                    if (o > 2*Math.PI)
+                        clearInterval(id)
+                    o += 0.3
+                }, 30)
             }
         }]
         sessions.headers = ["description", "date", "duration", "status"];

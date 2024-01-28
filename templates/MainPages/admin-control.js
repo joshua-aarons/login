@@ -8,6 +8,9 @@ useCSSStyle("theme");
 class AdminControl extends UserDataComponent {
     onconnect() {
         this.template = getHTMLTemplate("admin-control");
+        let style = this.createChild('style')
+        let email = 'joshua.aarons@ymail.com'
+        style.innerHTML = `tr[email='${email}'] td[key='tool'] {opacity: 0.5; pointer-events: none;}`
         let { members, update, download } = this.els;
 
         members.titleName = "Members";
@@ -21,12 +24,12 @@ class AdminControl extends UserDataComponent {
                 icon: `<i class="fa-solid fa-trash"></i>`, 
                 name: "delete", 
                 method: "deleteRow"
-            },
-            {
-                icon: `<i class="fa-solid fa-pencil"></i>`, 
-                name: "delete", 
-                method: "deleteRow"
             }
+            // {
+            //     icon: `<i class="fa-solid fa-pencil"></i>`, 
+            //     name: "delete", 
+            //     method: "deleteRow"
+            // }
         ]
         members.headers = ["id", "name", "email", "status"]
        
@@ -35,7 +38,12 @@ class AdminControl extends UserDataComponent {
             let csv = await loadCSV()
             // check format 
             // update database
-            members.value = csv;
+            let parsedCSV = []
+            for (let i = 0; i < csv.length && i <= 25; i++){
+                parsedCSV.push(csv[i])
+            }
+            members.value = parsedCSV;
+
         })
 
         download.addEventListener("click", () => {
@@ -44,6 +52,13 @@ class AdminControl extends UserDataComponent {
             link.toggleAttribute("download", true)
             link.click()
         })
+    }
+    onvalue(value){
+        if (value.members) {
+            console.log(value)
+            value.memberscount = value.members.length
+            value.memberspercent = value.members.length / 25
+        }
     }
 }
 

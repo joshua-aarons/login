@@ -37,7 +37,7 @@ export class AppView extends UserDataComponent {
                 child.classList.toggle("active", child.getAttribute("type") == type);
             }
             for (let child of this.els.main.children) {
-                child.classList.toggle("active", child.tagName.toLowerCase() == type);
+                child.active = child.tagName.toLowerCase() == type
             }
         }
     }

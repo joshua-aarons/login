@@ -70,7 +70,7 @@ i[hover] {
     color: var(--color-info-dark);
 }
 
-h1 span{
+h1 span.row{
     display: flex;
     align-items: center;
     gap: 1.5rem;

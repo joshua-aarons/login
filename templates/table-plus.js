@@ -158,13 +158,13 @@ class TablePlus extends SvgPlus {
             for (let key of headers) {
                 let content = row[key];
                 let contentValue = typeof content === "string" ? content.toLowerCase() : content;
+                tr.setAttribute(key,content)
                 let cell = tr.createChild('td', { key: key, value: contentValue,  content: `<p>${content}</p>`});
                 cell.key = key;
                 cell.value = content;
                 cell.index = i; 
                 i++;
             }
-            
 
             for (let {method, icon, name} of this.tools) {
                 let cell = tr.createChild('td', {key: "tool", value: name, content: `<p>${icon}</p>`});

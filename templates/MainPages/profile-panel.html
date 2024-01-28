@@ -48,7 +48,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <button class="btn" color="gray" name="update">Cancel</button>
+                    <button class="btn" color="gray" onclick="reset()">Cancel</button>
                 </div>
                 <div class="col">
                     <button class="btn" name="update">Update</button>
@@ -59,29 +59,29 @@
     
     <div class="card">
         <h2>Update Password</h2>
-        <form-plus class="col top-margin" name="password-reset">
+        <form-plus class="col top-margin" name="passwordReset">
             <div class="row">
-                <input-plus name="oldPasscode">
+                <input-plus name="oldpasscode">
                     <label class="text-muted">Old Passcode</label>
                     <input type="password"/>
                 </input-plus>
             </div>
             <div class="row">
-                <input-plus name="newPasscode">
+                <input-plus name="newpasscode">
                     <label class="text-muted">New Passcode</label>
                     <input type="password"/>
                 </input-plus>
-                <input-plus name="confirmPasscode">
+                <input-plus name="confirmpasscode">
                     <label class="text-muted">Confirm Passcode</label>
                     <input type="password"/>
                 </input-plus>
             </div>
             <div class="row">
                 <div class="col">
-                    <button class="btn" color="gray" name="update">Cancel</button>
+                    <button class="btn" color="gray" onclick="reset()">Cancel</button>
                 </div>
                 <div class="col">
-                    <button class="btn" name="updateDetails">Update</button>
+                    <button class="btn" name="update">Update</button>
                 </div>
             </div>
         </form-plus>

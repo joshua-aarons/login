@@ -37,6 +37,17 @@ class InputPlus extends SvgPlus {
         this.fileBox.createChild('i', {class: 'fa-solid fa-file'})
         this.filename = this.fileBox.createChild('span')
 
+        if (this.type == "password"){
+            this.setAttribute("type", "password")
+            let icon = this.createChild('i', {class: "icon fa-solid fa-eye-slash", styles: {"pointer-events": "all"}})
+            let hidden = true
+            icon.onclick = () => {
+                hidden = !hidden
+                input.setAttribute("type",hidden? "password":"text")
+                icon.class = "icon fa-solid fa-eye" + (!hidden? "":"-slash")
+            }
+        }
+
     }
 
     showFile(){
@@ -61,6 +72,10 @@ class InputPlus extends SvgPlus {
     }
 
     get type(){
+        let t = this.getAttribute("type");
+        if (t == 'password'){
+            return t 
+        } 
         let type = this.input.getAttribute("type");
         if (!type) type = this.getAttribute("type");
         return type
@@ -86,6 +101,7 @@ class InputPlus extends SvgPlus {
     set value(value){
         this.input.value = value;
         if (value == "") {
+            this.error = null
             this.classList.remove("not-empty"); 
         } else {
             this.classList.add("not-empty"); 

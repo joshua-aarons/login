@@ -1,6 +1,6 @@
 import { firebaseConfig } from "./firebase-config.js"
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
-import { signOut, getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, sendEmailVerification, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'
+import { signOut, getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, sendEmailVerification, EmailAuthProvider, reauthenticateWithCredential, updatePassword, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'
 import { getDatabase, child, push, ref as _ref, get, onValue, onChildAdded, onChildChanged, onChildRemoved, set, off } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js'
 
 let initialised = false;
@@ -123,6 +123,7 @@ async function setUserInfo(info) {
     }
 }
 
+
 class LoginError extends Error {
     constructor(error) {
         let inputName = "";
@@ -244,6 +245,11 @@ function getSessionRef(sessionID, path) {
   
     return key;
   }
-  
 
-export {child, get, push, set, onChildAdded, onValue }
+  async function resetPassword(data) {
+    let credentials = EmailAuthProvider.credential(User.email,data.oldpasscode)
+    await reauthenticateWithCredential(User,credentials)
+    await updatePassword(User,data.newpasscode)
+  }
+
+export { child, get, push, set, onChildAdded, onValue, resetPassword }
