@@ -2,6 +2,8 @@ import { SvgPlus, Vector } from "./SvgPlus/4.js";
 import { updateUserData, addListener } from "./dummy-data.js";
 import { signout } from "./Firebase/firebase.js";
 
+let DATA_COMPONENTS = [];
+
 function isNested(el, root){
     let p = el.parentNode;
     let nested = false;
@@ -172,40 +174,46 @@ class DataComponent extends CustomComponent {
 
     set value(value) {
         this._value = value
+
         if (!this.els)
             return
+
         if (this.onvalue instanceof Function)
             this.onvalue(value)
+
         for (let key in value) {
             if (key in this.els) {
                 let el = this.els[key];
+                let path = key.split(/\.|\//g);
+                let sub = value;
+                for (let p of path) sub = sub[p];
                 let fieldtype = el.getAttribute('vfield')
                 switch (fieldtype) {
-                    case "innerHTML": el.innerHTML = value[key];
+                    case "innerHTML": el.innerHTML = sub;
                         break;
-                    case "html": el.innerHTML = value[key];
+                    case "html": el.innerHTML = sub;
                         break;
-                    case "src": el.setAttribute('src', value[key]);
+                    case "src": el.setAttribute('src', sub);
                         break;
-                    case "value": el.value = value[key];
+                    case "value": el.value = sub;
                         break;
-                    default: el[fieldtype] = value[key];
+                    default: el[fieldtype] = sub;
                         break;
                 }
             }
         }
     }
+
     set template(template) {
         this.innerHTML = template
         this.els = this.getElementLibrary()
         this.attachEvents();
-        this.value = this._value
     }
 }
 
 class UserDataComponent extends DataComponent {
     afterconnect(){
-        addListener(v => this.value = v);
+        this.value = this._value
     }
 
     updateUserData(userData) {
