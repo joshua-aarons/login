@@ -326,6 +326,9 @@ const DATA_PARSERS = [
             if (!info.displayPhoto) info.displayPhoto = User.photoURL
 
             if (!info.optionalData) info.optionalData = false;
+
+            if (typeof info.displayPhoto != 'string')
+                info.displayPhoto = "./images/defaultdp.svg"
             return info;
         },
     },
