@@ -31,11 +31,11 @@
       "sessions": {
         "$sid": {
           // Only to remove the entire session
-          ".write": "auth != null && auth.uid == data.child('hostUID') && !newData.exists()",
+          ".write": "auth != null && auth.uid == data.child('hostUID').val() && !newData.exists()",
           "hostUID": {
             ".read": true,
               // The host UID for a session can only be writen to if there is not already a session with the same id 
-            ".write": "auth != null && !root.child('meetings/' + $sid).exists() && newData.val() == auth.uid && root.child('users/' + auth.uid + '/licence/active').val() == true" 
+            ".write": "auth != null && !root.child('sessions/' + $sid).exists() && newData.val() == auth.uid && root.child('users/' + auth.uid + '/licence/active').val() == true" 
           },
           "host": {
             "$type": {
@@ -71,4 +71,3 @@
      }   
     }
   }
-
