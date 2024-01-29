@@ -1,7 +1,8 @@
-import { firebaseConfig } from "./firebase-config.js"
+import { firebaseConfig} from "./firebase-config.js"
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
 import { signOut, getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, sendEmailVerification, EmailAuthProvider, reauthenticateWithCredential, updatePassword, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'
 import { getDatabase, child, push, ref as _ref, get, onValue, onChildAdded, onChildChanged, onChildRemoved, set, update, off } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js'
+import {getStorage, ref as sref, uploadBytes, uploadBytesResumable, getDownloadURL} from 'https://www.gstatic.com/firebasejs/9.2.0/firebase-storage.js'
 
 let initialised = false;
 let userInitialised = false;
@@ -399,6 +400,31 @@ export async function sendSupportMessage(message, progress) {
         }, 50)
     })
 }
+
+// Upload file to firebase storage bucket
+async function uploadFileToCloud(file, path, statusCallback){
+    console.log("HERE");
+    let Storage = getStorage(App, "gs://eyesee-d0a42.appspot.com");
+
+    // path = `${path}`
+    console.log("uploading file of size", (file.size/1e6) + "MB");
+  
+    if ( !(file instanceof File) || typeof path !== 'string' ){
+      console.log('invalid file');
+      return null;
+    }
+  
+    let sr = sref(Storage, path);
+  
+    let uploadTask = uploadBytesResumable(sr, file);
+    console.log(uploadTask);
+    uploadTask.on('next', statusCallback)
+    await uploadTask;
+  
+    let url = await getDownloadURL(sr);
+    return url;
+  }
+  
 
 export { child, get, push, set, onChildAdded, onValue, resetPassword }
 
