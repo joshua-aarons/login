@@ -41,10 +41,6 @@ export class AppView extends UserDataComponent {
             }
         }
     }
-    set info(info) {
-        this.value = info
-        this.els.profile.value = info
-    }
 
     themeToggle(){
         this.classList.toggle('dark-theme-variables');

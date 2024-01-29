@@ -1,7 +1,7 @@
 import { firebaseConfig } from "./firebase-config.js"
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
 import { signOut, getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, sendEmailVerification, EmailAuthProvider, reauthenticateWithCredential, updatePassword, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'
-import { getDatabase, child, push, ref as _ref, get, onValue, onChildAdded, onChildChanged, onChildRemoved, set, off } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js'
+import { getDatabase, child, push, ref as _ref, get, onValue, onChildAdded, onChildChanged, onChildRemoved, set, update, off } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js'
 
 let initialised = false;
 let userInitialised = false;
@@ -98,14 +98,7 @@ export function getDB() { return Database; }
 export function ref(path) { return _ref(Database, path); }
 
 
-async function updateUserData() {
-    if (await getUserData("info") == null) {
-        console.log(User);
-        // await setUserInfo({
-        //     displayName: User.displayName,
-        // })
-    }
-}
+
 
 function getUserRef(path) {
     let r = null
@@ -127,7 +120,7 @@ async function getUserData(path) {
 export async function setUserInfo(info) {
     if (User) {
         let infoRef = ref('users/' + User.uid + '/info');
-        await set(infoRef, info);
+        await update(infoRef, info);
     }
 }
 
@@ -261,20 +254,20 @@ async function resetPassword(data) {
 }
 
 let DataListeners = []
-let OldData = {}
+let OldData = null
 export function addDataListener(obj) {
     if (obj instanceof Function){
         DataListeners.push(obj);
-        for (let key in OldData){
-            obj(key, parseData(key, OldData[key]))
+        if (OldData) {
+            obj(parseData(OldData));
         }
     }
 }
 
-function updateDataListeners(key,sc) {
-    OldData[key] = sc
+function updateDataListeners(sc) {
+    OldData = sc
     for (let listener of DataListeners){
-        listener(key, parseData(key, sc))
+        listener(parseData(sc))
     }
 }
 
@@ -282,22 +275,105 @@ let FirebaseDataListeners = []
 function watchData() {
     stopWatch()
     if (Database && User != null){
-        let userInfoRef = getUserRef('info')
+        let userInfoRef = getUserRef()
         onValue(userInfoRef, (value) => {
-            updateDataListeners('info',value)
+            updateDataListeners(value)
         })
     }
 }
 
-function parseData(key, sc) {
-    let data = sc.val()
-    switch(key){
-        case "info":
-            data.email = User.email
-            if (!data.displayName || data.displayName == '')
-                data.displayName = data.firstName + ' ' + data.lastName
-            break
+
+const TIERS = {
+    Standard: {
+        hours: 50,
+        'sessions-count': 20,
+        storage: 300
+    },
+    None: {
+        hours: 0,
+        'sessions-count': 0,
+        storage: 0,
     }
+}
+//  userData["sessions-count"] = userData.sessions.length
+//     let mins = 0
+//     for (let d of userData.sessions.map(s => s.duration))
+//         mins += d
+
+//     userData.hours = Math.round(mins/6)/10
+
+   
+const DATA_PARSERS = [
+    {
+        name: "info",
+        parse: (info) => {
+            if (info == null) {
+                info = {
+                    firstName: "",
+                    lastName: "",
+                    displayName: User.displayName,
+                }
+                setUserInfo(info);
+            } else {
+                info.email = User.email
+                if (!info.displayName || info.displayName == '')
+                    info.displayName = info.firstName + ' ' + info.lastName
+
+                if (!info.displayPhto) info.displayPhto = User.photoURL
+
+                if (!info.optionalData) info.optionalData = false;
+            }
+            return info;
+        },
+    },
+    {
+        name: "licence",
+        parse: (licence, data) => {
+            if (licence == null) {
+                licence = {
+                    tier: "None"
+                };
+            }
+
+
+            //calculate total usage
+            let total = {
+                hours: 0,
+                'sessions-count': 0,
+                storage: 0
+            };
+            if (data.sessios) {
+                for (let s of data.sessions) {
+                    total.hours += s.duration / 60;
+                    total['sessions-count'] += 1;
+                }
+            }
+
+            let max = TIERS[licence.tier];
+            let percent = {}
+            for (let key in max) {
+                percent[key] = max[key] == 0 ? 1 : total[key] / max[key];
+            }
+
+            licence.max = max;
+            licence.total = total;
+            licence["%"] = percent;
+            return licence;
+        }
+    },
+
+]
+function parseData(sc) {
+    let data = sc.val()
+    if (data == null) {
+       data = {};
+    }
+
+    for (let dp of DATA_PARSERS) {
+        let value = dp.name in data ? data[dp.name] : null;
+        data[dp.name] = dp.parse(value, data);
+    }
+    
     return data
 }
 

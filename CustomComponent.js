@@ -168,6 +168,22 @@ class FormPlus extends CustomForm {
     }
 }
 
+function flattern(obj) {
+    let flat = {};
+    let r = (n, s1, s2) => {
+        if (n !== null && typeof n === "object") {
+            for (let key in n) {
+                r(n[key], s1 ? s1 + "/" + key : key, s2 ? s2 + "." + key : key);
+            }
+        }
+        if (s1) {
+            flat[s1] = n;
+            flat[s2] = n;
+        }
+    }
+    r(obj);
+    return flat;
+}
 class DataComponent extends CustomComponent {
     constructor(el) {
         super(el)
@@ -183,13 +199,13 @@ class DataComponent extends CustomComponent {
         if (this.onvalue instanceof Function)
             this.onvalue(value)
 
-        for (let key in value) {
+        let flat = flattern(value);
+        console.log(flat);
+        for (let key in flat) {
             if (key in this.els) {
                 let el = this.els[key];
-                let path = key.split(/\.|\//g);
-                let sub = value;
-                for (let p of path) sub = sub[p];
                 let fieldtype = el.getAttribute('vfield')
+                let sub = flat[key];
                 switch (fieldtype) {
                     case "innerHTML": el.innerHTML = sub;
                         break;
@@ -214,21 +230,29 @@ class DataComponent extends CustomComponent {
 }
 
 class UserDataComponent extends DataComponent {
+    constructor(el){
+        super(el);
+        DATA_COMPONENTS.push(this)
+    }
     afterconnect(){
         this.value = this._value
     }
 
     updateUserData(userData) {
         setUserInfo(userData)
-        updateUserData(userData)
     }
 
     userLogout(){signout()}
 }
 
+function updateUserDataComponents(value) {
+    for (let el of DATA_COMPONENTS) {
+        el.value = value;
+    }
+}
 
 
 SvgPlus.defineHTMLElement(FormPlus);
 
 
-export { CustomComponent, Vector, SvgPlus, CustomForm, UserDataComponent, DataComponent }
+export { updateUserDataComponents, CustomComponent, Vector, SvgPlus, CustomForm, UserDataComponent, DataComponent }

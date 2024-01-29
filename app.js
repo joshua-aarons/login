@@ -3,15 +3,20 @@ import {LoginPage} from "./templates/login-page.js"
 import {addListener} from "./dummy-data.js"
 
 import * as F from './Firebase/firebase.js'
+import { updateUserDataComponents } from "./CustomComponent.js"
 
 
 
 let loginPage = new LoginPage()
 let appView = new AppView()
+let Type = null;
 function showScreen(type) {
-    let pages = {loginPage, appView};
-    for (let key in pages) pages[key].remove();
-    document.body.appendChild(pages[type]);
+    if (type !== Type) {
+        Type = type;
+        let pages = {loginPage, appView};
+        for (let key in pages) pages[key].remove();
+        document.body.appendChild(pages[type]);
+    }
 }
 
 loginPage.addEventListener("signin", async (e) => {
@@ -43,11 +48,9 @@ F.addAuthChangeListener(async (user) => {
     }
 });
 
-F.addDataListener( (key, value) => {
-    console.log(key, value)
-    appView[key] = value
-    if (key == 'info')
-        showScreen("appView")
+F.addDataListener( (value) => {
+    updateUserDataComponents(value);
+    showScreen("appView")
 })
 
 window.F = F;

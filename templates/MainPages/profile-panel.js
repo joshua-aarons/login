@@ -18,12 +18,11 @@ class ProfilePanel extends UserDataComponent {
     onconnect() {
         this.template = getHTMLTemplate("profile-panel");
         let els = this.els;
-        let {details, passwordReset} = els;
+        let {info, passwordReset} = els;
 
-        details.addEventListener("submit", () => {
-            if (details.validate()){
-                this.updateUserData(details.value)
-                this.dispatchEvent(new Event('updateDetails'))
+        info.addEventListener("submit", () => {
+            if (info.validate()){
+                this.updateUserData(info.value)
             }
         })
 
@@ -44,9 +43,7 @@ class ProfilePanel extends UserDataComponent {
             this.updatePasscode()
         });
     }
-    onvalue(value) {
-        this.els.details.value = value
-    }
+  
     async openimage() {
         let input = new SvgPlus("input")
         input.props = {type:"file",accept:"image/*"}
@@ -65,7 +62,7 @@ class ProfilePanel extends UserDataComponent {
         this.updateUserData({displayPhoto: image})
     }
     onhide() {
-        this.els.details.reset()
+        this.els.info.reset()
         this.els.passwordReset.reset()
 
     }

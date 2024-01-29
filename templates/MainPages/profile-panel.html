@@ -5,19 +5,19 @@
         <div class="row spi profilehead">
             <div class="row">
                 <div name="uploadDP" class="profile-photo">
-                    <img name="displayPhoto" vfield="src"/>
+                    <img name="info/displayPhoto" vfield="src"/>
                     <i class="fa-solid fa-pen-to-square"></i>
                 </div>
                 <div class="stack">
-                    <h2 name="displayName" vfield="innerHTML"></h2>
-                    <small class="text-muted" name="pronouns" vfield="innerHTML"></small>
+                    <h2 name="info/displayName" vfield="innerHTML"></h2>
+                    <small class="text-muted" name="info/pronouns" vfield="innerHTML"></small>
                 </div>
             </div>
             <!-- <button class="btn">Update</button> -->
         </div>
     </div>
 
-    <form-plus class="card" name="details">
+    <form-plus class="card" name="info" vfield = "value">
         <h2>Account Details</h2>
         <div class = "col top-margin" >
             <div class="row">
@@ -57,7 +57,7 @@
         </div>
     </form-plus>
     
-    <form-plus  name="passwordReset" class="card">
+    <form-plus name="passwordReset" class="card">
         <h2>Update Password</h2>
         <div class="col top-margin">
             <div class="row">
@@ -104,17 +104,17 @@
                 <tr>
                     <td scope="row">Per month</td>
                     <td><b>Total Hours</b></td>
-                    <td name = "maxhours" vfield = "innerHTML"></td>
+                    <td name = "licence/max/hours" vfield = "innerHTML"></td>
                 </tr>
                 <tr>
                     <td scope="row"></td>
                     <td><b>Total Sessions</b></td>
-                    <td name = "maxsessions-count" vfield = "innerHTML"></td>
+                    <td name = "licence/max/sessions-count" vfield = "innerHTML"></td>
                 </tr>
                 <tr>
                     <td scope="row"></td>
                     <td><b>Total Storage</b></td>
-                    <td><span name = "maxstorage" vfield = "innerHTML"></span>MB</td>
+                    <td><span name = "licence/max/storage" vfield = "innerHTML"></span>MB</td>
                 </tr>
             </tbody>
         </table>
