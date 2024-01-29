@@ -4,6 +4,17 @@ import { useCSSStyle } from "../template.js";
 useCSSStyle("input-plus");
 useCSSStyle("theme")
 
+const DEFAULT_VALIDATERS = {
+    email: (email) => {
+        let expression = /^[^@]+@\w+(\.\w+)+\w$/
+        if (expression.test(email) == true) {
+          return true
+        } else {
+          throw "Invalid email"
+        }
+    }
+}
+
 class InputPlus extends SvgPlus {
     onconnect(){
         let {input} = this;
@@ -129,9 +140,10 @@ class InputPlus extends SvgPlus {
         }
         if (this.type == "file") console.log(message, this.required);
         let valid = this.required ? (this.value != '' && this.value != null) : true;
-        if (valid && this.validater instanceof Function) {
+        if (valid && (this.validater instanceof Function || this.type in DEFAULT_VALIDATERS)) {
+            let validater = this.validater instanceof Function? this.validater: DEFAULT_VALIDATERS[this.type]
             try {
-                valid = valid && this.validater(this.value);
+                valid = valid && validater(this.value);
             } catch (e) {
                 valid = false;
                 message = e;

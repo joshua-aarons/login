@@ -27,7 +27,7 @@ export class AppView extends UserDataComponent {
             })
         }
         this.panel = "dash-board"
-        this.afterconnect()
+        // this.afterconnect()
     }
     set panel(type) {
         if (type == "logout") {
@@ -40,6 +40,10 @@ export class AppView extends UserDataComponent {
                 child.active = child.tagName.toLowerCase() == type
             }
         }
+    }
+    set info(info) {
+        this.value = info
+        this.els.profile.value = info
     }
 
     themeToggle(){
