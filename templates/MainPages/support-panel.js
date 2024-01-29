@@ -8,7 +8,6 @@ class SupportPanel extends CustomComponent {
     onconnect(){
         this.innerHTML = getHTMLTemplate("support-panel");
         let form = this.querySelector("form-plus");
-        form.loading = false;
         form.addEventListener("submit", async () => {
             if (form.validate()) {
                 form.loading = true;

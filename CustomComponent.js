@@ -1,6 +1,6 @@
 import { SvgPlus, Vector } from "./SvgPlus/4.js";
 import { updateUserData, addListener } from "./dummy-data.js";
-import { signout } from "./Firebase/firebase.js";
+import { setUserInfo, signout } from "./Firebase/firebase.js";
 
 let DATA_COMPONENTS = [];
 
@@ -140,6 +140,8 @@ class CustomForm extends CustomComponent {
 
     reset() {
         this.value = this.setvalue
+        for (let input of this.inputs)
+            input.error = null
     }
 
     validate() {
@@ -217,6 +219,7 @@ class UserDataComponent extends DataComponent {
     }
 
     updateUserData(userData) {
+        setUserInfo(userData)
         updateUserData(userData)
     }
 

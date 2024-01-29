@@ -32,7 +32,7 @@ async function authChangeHandler(user) {
     if (((user == null) != (User == null)) || (user != null && User != null && user.uid != user.uid) || !userInitialised) {
         // Update the user object
         User = user;
-        if (User != null) updateUserData();
+        if (User != null) watchData();
         let newListeners = [];
         // Call listeners with the new user
         for (let obj of StateListeners) {
@@ -106,17 +106,25 @@ async function updateUserData() {
         // })
     }
 }
+
+function getUserRef(path) {
+    let r = null
+    if (User && Database){
+        path = typeof path === "string" ? "/" + path : "";
+        r = ref('users/' + User.uid + path);
+    }
+    return r
+}
+
 async function getUserData(path) {
     let userData = null;
     if (User) {
-        path = typeof path === "string" ? "/" + path : "";
-        let infoRef = ref('users/' + User.uid + path);
         let sc = await get(infoRef);
         userData = sc.val();
     }
     return userData;
 }
-async function setUserInfo(info) {
+export async function setUserInfo(info) {
     if (User) {
         let infoRef = ref('users/' + User.uid + '/info');
         await set(infoRef, info);
@@ -215,51 +223,97 @@ export async function signup(type, info) {
     }
 }
 
-export function signout(){signOut(Auth)}
+export function signout() { signOut(Auth) }
 
 function getSessionRef(sessionID, path) {
     let sref = null;
     if (Database != null) {
-      if (typeof sessionID === "string") {
-        sref = ref(SESSION_ROOT_KEY + "/" + sessionID);
-        if (typeof path === "string") sref = child(sref, path);
-      } else {
-        sref = push(ref(SESSION_ROOT_KEY));
-      }
+        if (typeof sessionID === "string") {
+            sref = ref(SESSION_ROOT_KEY + "/" + sessionID);
+            if (typeof path === "string") sref = child(sref, path);
+        } else {
+            sref = push(ref(SESSION_ROOT_KEY));
+        }
     }
     return sref;
-  }
-  
-  /* Make session creates a new session signaling channel in the database
-     returns the new session key */
-  export async function makeSessionKey(){
+}
+
+/* Make session creates a new session signaling channel in the database
+   returns the new session key */
+export async function makeSessionKey() {
     let key = null;
     let sessionRef = getSessionRef();
     try {
-      key = sessionRef.key;
-      await set(child(sessionRef, "hostUID"), getUID());
+        key = sessionRef.key;
+        await set(child(sessionRef, "hostUID"), getUID());
     } catch (e) {
-      console.log(e);
-      key = null;
+        console.log(e);
+        key = null;
     }
-  
+
     return key;
-  }
+}
 
-  async function resetPassword(data) {
-    let credentials = EmailAuthProvider.credential(User.email,data.oldpasscode)
-    await reauthenticateWithCredential(User,credentials)
-    await updatePassword(User,data.newpasscode)
-  }
+async function resetPassword(data) {
+    let credentials = EmailAuthProvider.credential(User.email, data.oldpasscode)
+    await reauthenticateWithCredential(User, credentials)
+    await updatePassword(User, data.newpasscode)
+}
 
+let DataListeners = []
+let OldData = {}
+export function addDataListener(obj) {
+    if (obj instanceof Function){
+        DataListeners.push(obj);
+        for (let key in OldData){
+            obj(key, parseData(key, OldData[key]))
+        }
+    }
+}
 
- export async function sendSupportMessage(message, progress){
+function updateDataListeners(key,sc) {
+    OldData[key] = sc
+    for (let listener of DataListeners){
+        listener(key, parseData(key, sc))
+    }
+}
+
+let FirebaseDataListeners = []
+function watchData() {
+    stopWatch()
+    if (Database && User != null){
+        let userInfoRef = getUserRef('info')
+        onValue(userInfoRef, (value) => {
+            updateDataListeners('info',value)
+        })
+    }
+}
+
+function parseData(key, sc) {
+    let data = sc.val()
+    switch(key){
+        case "info":
+            data.email = User.email
+            if (!data.displayName || data.displayName == '')
+                data.displayName = data.firstName + ' ' + data.lastName
+            break
+    }
+    return data
+}
+
+function stopWatch() {
+    for (let listener of FirebaseDataListeners){
+        listener()
+    }
+}
+
+export async function sendSupportMessage(message, progress) {
     return new Promise((resolve, reject) => {
         let i = 0;
         let id = setInterval(() => {
             i++;
             if (progress instanceof Function) {
-                progress(i/100);
+                progress(i / 100);
             }
 
             if (i == 100) {
@@ -268,6 +322,8 @@ function getSessionRef(sessionID, path) {
             }
         }, 50)
     })
+}
 
-  }
 export { child, get, push, set, onChildAdded, onValue, resetPassword }
+
+

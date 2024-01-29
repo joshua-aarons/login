@@ -37,11 +37,19 @@ F.addAuthChangeListener(async (user) => {
     if (user == null) {
             showScreen("loginPage")
     } else if (user.emailVerified) {
-            showScreen("appView")
+            // showScreen("appView")
     } else {
 
     }
 });
+
+F.addDataListener( (key, value) => {
+    console.log(key, value)
+    appView[key] = value
+    if (key == 'info')
+        showScreen("appView")
+})
+
 window.F = F;
 
 // showScreen("appView")
