@@ -19,16 +19,17 @@ class ProfilePanel extends UserDataComponent {
         this.template = getHTMLTemplate("profile-panel");
         let els = this.els;
         let {details, passwordReset} = els;
-        let elsdetail = details.getElementLibrary();
-        let elspr = passwordReset.getElementLibrary();
-        elsdetail.update.onclick = () => {
+
+        details.addEventListener("submit", () => {
             if (details.validate()){
                 this.updateUserData(details.value)
                 this.dispatchEvent(new Event('updateDetails'))
             }
-        }
+        })
+
         els.uploadDP.onclick = () => this.openimage()
-        details.attachEvents()
+
+
         passwordReset.attachEvents()
         passwordReset.getInput("oldpasscode").validater = validate_password;
         passwordReset.getInput("newpasscode").validater = validate_password;
@@ -39,11 +40,9 @@ class ProfilePanel extends UserDataComponent {
                 return true;
             }
         }
-
-        elspr.update.onclick = () => {
+        passwordReset.addEventListener("submit", () => {
             this.updatePasscode()
-        }
-
+        });
     }
     onvalue(value) {
         this.els.details.value = value
@@ -73,14 +72,18 @@ class ProfilePanel extends UserDataComponent {
     async updatePasscode() {
         let {passwordReset} = this.els;
         if (passwordReset.validate()) {
+            passwordReset.loading = true;
             try {
                 let data = passwordReset.value;
                 await resetPassword(data);
                 passwordReset.reset();
-                alert('Password has been updated') 
+                passwordReset.loading = "Password has successfuly </br> been updated!";
+                setTimeout(() => passwordReset.loading = false, 2000)
             } catch(e) {
                 if (e.errorCode = "auth/wrong-password")
                     passwordReset.getInput("oldpasscode").error = "Password incorrect"
+
+                passwordReset.loading = false;
             }
         }
     }

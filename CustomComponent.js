@@ -64,6 +64,33 @@ class CustomComponent extends SvgPlus {
 }
 
 class CustomForm extends CustomComponent {
+    set loading(value){
+        if (!(this.loader instanceof HTMLElement)) {
+            this.loader = this.createChild("div", {class: "loading-popup", content: `<progress-chart></progess-chart>`})
+            this.lprog = this.loader.querySelector("progress-chart");
+            this.lmessage = this.loader.createChild("div", {class: "message"})
+        }
+
+        if (value !== false && value !== null) {
+            switch(typeof value) {
+                case "number": 
+                    this.lprog.progress = value; 
+                    this.setAttribute("loading", "progress");
+                    break;
+                case "string": 
+                    this.lmessage.innerHTML = value; 
+                    this.setAttribute("loading", "message");
+                    break;
+                default:
+                    this.lprog.start();
+                    this.setAttribute("loading", "progress");
+            }
+        } else {
+            this.removeAttribute("loading")
+            this.lprog.stop();
+        }
+    }
+
     setInputValue(name, value) {
         let input = this.getInput(name);
         if (input) input.value = value;
@@ -105,8 +132,6 @@ class CustomForm extends CustomComponent {
         let value = {}
         for (let input of this.inputs) {
             value[input.name] = input.value
-            if (input.value.length == 0 && input.required)
-                return `the ${input.name} cannot be left blank`;
         }
         return value;
     }
@@ -122,6 +147,20 @@ class CustomForm extends CustomComponent {
             valid = valid && isvalid
         }
         return valid
+    }
+}
+
+class FormPlus extends CustomForm {
+    onconnect(){
+        let btns = this.querySelectorAll("button[name]");
+        let buttons = {};
+        for (let btn of btns) {
+            let name = btn.getAttribute("name");
+            buttons[name] = btn;
+            btn.onclick = () => this.dispatchEvent(new Event(name));
+        }
+        this.buttons = buttons;
+        this.attachEvents();
     }
 }
 
@@ -175,5 +214,10 @@ class UserDataComponent extends DataComponent {
 
     userLogout(){signout()}
 }
+
+
+
+SvgPlus.defineHTMLElement(FormPlus);
+
 
 export { CustomComponent, Vector, SvgPlus, CustomForm, UserDataComponent, DataComponent }

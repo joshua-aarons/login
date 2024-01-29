@@ -17,9 +17,9 @@
         </div>
     </div>
 
-    <div class="card">
+    <form-plus class="card" name="details">
         <h2>Account Details</h2>
-        <form-plus class = "col top-margin" name="details">
+        <div class = "col top-margin" >
             <div class="row">
                 <input-plus>
                     <input name="firstName" required/>
@@ -51,15 +51,15 @@
                     <button class="btn" color="gray" onclick="reset()">Cancel</button>
                 </div>
                 <div class="col">
-                    <button class="btn" name="update">Update</button>
+                    <button class="btn" name="submit">Update</button>
                 </div>
             </div>
-        </form-plus>
-    </div>
+        </div>
+    </form-plus>
     
-    <div class="card">
+    <form-plus  name="passwordReset" class="card">
         <h2>Update Password</h2>
-        <form-plus class="col top-margin" name="passwordReset">
+        <div class="col top-margin">
             <div class="row">
                 <input-plus name="oldpasscode">
                     <label class="text-muted">Old Passcode</label>
@@ -81,11 +81,11 @@
                     <button class="btn" color="gray" onclick="reset()">Cancel</button>
                 </div>
                 <div class="col">
-                    <button class="btn" name="update">Update</button>
+                    <button class="btn" name="submit">Update</button>
                 </div>
             </div>
-        </form-plus>
-    </div>
+        </div>
+    </form-plus>
 
     <div class="card bottom-margin">
         <h2>Subscription</h2>

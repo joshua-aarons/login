@@ -252,4 +252,22 @@ function getSessionRef(sessionID, path) {
     await updatePassword(User,data.newpasscode)
   }
 
+
+ export async function sendSupportMessage(message, progress){
+    return new Promise((resolve, reject) => {
+        let i = 0;
+        let id = setInterval(() => {
+            i++;
+            if (progress instanceof Function) {
+                progress(i/100);
+            }
+
+            if (i == 100) {
+                clearInterval(id);
+                resolve(true);
+            }
+        }, 50)
+    })
+
+  }
 export { child, get, push, set, onChildAdded, onValue, resetPassword }
