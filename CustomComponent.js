@@ -1,6 +1,6 @@
 import { SvgPlus, Vector } from "./SvgPlus/4.js";
 import { updateUserData, addListener } from "./dummy-data.js";
-import { setUserInfo, signout } from "./Firebase/firebase.js";
+import { setUserInfo, signout, updateDisplayPhoto } from "./Firebase/firebase.js";
 
 let DATA_COMPONENTS = [];
 
@@ -243,6 +243,10 @@ class UserDataComponent extends DataComponent {
     }
 
     userLogout(){signout()}
+
+    updateDisplayPhoto(file, callback){
+        updateDisplayPhoto(file, callback)
+    }
 }
 
 function updateUserDataComponents(value) {

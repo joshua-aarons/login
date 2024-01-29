@@ -13,8 +13,32 @@
             "$other": {".validate": false},
             ".write": "auth != null && $uid == auth.uid && (!data.exists() || auth.token.email_verified == true)"
           },
-          ".read": "auth != null && $uid == auth.uid && auth.token.email_verified == true"
+          ".read": "auth != null && $uid == auth.uid && auth.token.email_verified == true",
+          "sessions": {
+            "$sid": {
+              "description": {".validate": "newData.isString()"},
+              "date": {".validate": "newData.isNumber()"},
+              "timezone": {".validate": "newData.isString()"},
+              "duration": {".validate": "newData.isNumber()"},
+              "status": {".validate": "newData.isString()"},
+              "id": {".validate": "newData.val() == $sid"},
+              "$other": {".validate": false},
+              ".write": "auth != null && $uid == auth.uid && (!data.exists() && newData.exists() && root.child('sessions/'+$sid).exists() && auth.token.email_verified == true)"
+            }
+          }
         }
-      }
+      },
+     "messages": {
+       "$uid": {
+          "firstName": {".validate": "newData.isString()"},
+          "lastName": {".validate": "newData.isString()"},
+          "email": {".validate": "newData.isString()"},
+          "message": {".validate": "newData.isString()"},
+          "attachment": {".validate": "newData.isString()"},
+          "$other": {".validate": false},
+          ".write": "auth != null && (!data.exists() && auth.token.email_verified == true)"
+       }
+     }   
     }
   }
+

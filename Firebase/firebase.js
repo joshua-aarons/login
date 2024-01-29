@@ -1,8 +1,8 @@
-import { firebaseConfig} from "./firebase-config.js"
+import { firebaseConfig, storageURL } from "./firebase-config.js"
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
 import { signOut, getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, sendEmailVerification, EmailAuthProvider, reauthenticateWithCredential, updatePassword, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'
 import { getDatabase, child, push, ref as _ref, get, onValue, onChildAdded, onChildChanged, onChildRemoved, set, update, off } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js'
-import {getStorage, ref as sref, uploadBytes, uploadBytesResumable, getDownloadURL} from 'https://www.gstatic.com/firebasejs/9.2.0/firebase-storage.js'
+import { getStorage, ref as sref, uploadBytes, uploadBytesResumable, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js'
 
 let initialised = false;
 let userInitialised = false;
@@ -103,7 +103,7 @@ export function ref(path) { return _ref(Database, path); }
 
 function getUserRef(path) {
     let r = null
-    if (User && Database){
+    if (User && Database) {
         path = typeof path === "string" ? "/" + path : "";
         r = ref('users/' + User.uid + path);
     }
@@ -257,7 +257,7 @@ async function resetPassword(data) {
 let DataListeners = []
 let OldData = null
 export function addDataListener(obj) {
-    if (obj instanceof Function){
+    if (obj instanceof Function) {
         DataListeners.push(obj);
         if (OldData) {
             obj(parseData(OldData));
@@ -267,7 +267,7 @@ export function addDataListener(obj) {
 
 function updateDataListeners(sc) {
     OldData = sc
-    for (let listener of DataListeners){
+    for (let listener of DataListeners) {
         listener(parseData(sc))
     }
 }
@@ -275,7 +275,7 @@ function updateDataListeners(sc) {
 let FirebaseDataListeners = []
 function watchData() {
     stopWatch()
-    if (Database && User != null){
+    if (Database && User != null) {
         let userInfoRef = getUserRef()
         onValue(userInfoRef, (value) => {
             updateDataListeners(value)
@@ -303,7 +303,7 @@ const TIERS = {
 
 //     userData.hours = Math.round(mins/6)/10
 
-   
+
 const DATA_PARSERS = [
     {
         name: "info",
@@ -313,17 +313,19 @@ const DATA_PARSERS = [
                     firstName: "",
                     lastName: "",
                     displayName: User.displayName,
+                    email: User.email,
                 }
                 setUserInfo(info);
-            } else {
-                info.email = User.email
-                if (!info.displayName || info.displayName == '')
-                    info.displayName = info.firstName + ' ' + info.lastName
-
-                if (!info.displayPhto) info.displayPhto = User.photoURL
-
-                if (!info.optionalData) info.optionalData = false;
             }
+            if (!info.email)
+                info.email = User.email
+
+            if (!info.displayName || info.displayName == '')
+                info.displayName = info.firstName + ' ' + info.lastName
+
+            if (!info.displayPhoto) info.displayPhoto = User.photoURL
+
+            if (!info.optionalData) info.optionalData = false;
             return info;
         },
     },
@@ -343,7 +345,7 @@ const DATA_PARSERS = [
                 'sessions-count': 0,
                 storage: 0
             };
-            if (data.sessios) {
+            if (data.sessions) {
                 for (let s of data.sessions) {
                     total.hours += s.duration / 60;
                     total['sessions-count'] += 1;
@@ -367,65 +369,70 @@ const DATA_PARSERS = [
 function parseData(sc) {
     let data = sc.val()
     if (data == null) {
-       data = {};
+        data = {};
     }
 
     for (let dp of DATA_PARSERS) {
         let value = dp.name in data ? data[dp.name] : null;
         data[dp.name] = dp.parse(value, data);
     }
-    
+
     return data
 }
 
 function stopWatch() {
-    for (let listener of FirebaseDataListeners){
+    for (let listener of FirebaseDataListeners) {
         listener()
     }
 }
 
 export async function sendSupportMessage(message, progress) {
-    return new Promise((resolve, reject) => {
-        let i = 0;
-        let id = setInterval(() => {
-            i++;
-            if (progress instanceof Function) {
-                progress(i / 100);
-            }
+    let r = push(ref("messages"))
+    let key = r.key
+    if (message.attachment instanceof File) {
+        message.attachment = await uploadFileToCloud(message.attachment, `messages/${key}`, (uts) => {
+            console.log(uts)
+            if (progress instanceof Function)
+                progress(uts.bytesTransferred / uts.totalBytes)
+        })
+    } else if ('attachment' in message) {
+        delete message.attachment
+    }
+    console.log(message)
+    await set(r, message)
+}
 
-            if (i == 100) {
-                clearInterval(id);
-                resolve(true);
-            }
-        }, 50)
-    })
+async function updateDisplayPhoto(file, callback) {
+    let url = await uploadFileToCloud(file, `users/${User.uid}/displayPhoto`)
+    setUserInfo({ displayPhoto: url })
 }
 
 // Upload file to firebase storage bucket
-async function uploadFileToCloud(file, path, statusCallback){
-    console.log("HERE");
-    let Storage = getStorage(App, "gs://eyesee-d0a42.appspot.com");
+async function uploadFileToCloud(file, path, statusCallback) {
+    let Storage = getStorage(App, storageURL);
 
     // path = `${path}`
-    console.log("uploading file of size", (file.size/1e6) + "MB");
-  
-    if ( !(file instanceof File) || typeof path !== 'string' ){
-      console.log('invalid file');
-      return null;
+    console.log("uploading file of size", (file.size / 1e6) + "MB");
+
+    if (!(file instanceof File) || typeof path !== 'string') {
+        console.log('invalid file');
+        return null;
     }
-  
+
+    if (!(statusCallback instanceof Function))
+        statusCallback = () => { }
+
     let sr = sref(Storage, path);
-  
+
     let uploadTask = uploadBytesResumable(sr, file);
     console.log(uploadTask);
     uploadTask.on('next', statusCallback)
     await uploadTask;
-  
+
     let url = await getDownloadURL(sr);
     return url;
-  }
-  
+}
 
-export { child, get, push, set, onChildAdded, onValue, resetPassword }
+export { child, get, push, set, onChildAdded, onValue, resetPassword, updateDisplayPhoto }
 
 

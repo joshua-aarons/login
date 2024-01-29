@@ -6,6 +6,10 @@ export const firebaseConfig = {
     messagingSenderId: "356416145411",
     appId: "1:356416145411:web:b0903c1e4ce0c40bc06636"
 };
+
+export const storageURL = "gs://login-with-firebase-data-5e14d.appspot.com"
+
+// Gabes Firebase
 export const firebaseConfigj = {
     apiKey: "AIzaSyChiEAP1Rp1BDNFn7BQ8d0oGR65N3rXQkE",
     authDomain: "eyesee-d0a42.firebaseapp.com",

@@ -50,16 +50,23 @@ class ProfilePanel extends UserDataComponent {
         let image = await new Promise((resolve, reject) => {
             input.addEventListener("change", e => {
                 if (input.files.length > 0) {
-                    const reader = new FileReader();
-                    reader.onload = (evt) => {
-                        resolve(evt.target.result);
-                    };
-                    reader.readAsDataURL(input.files[0]);
+                    // const reader = new FileReader();
+                    // reader.onload = (evt) => {
+                    //     resolve(evt.target.result);
+                    // };
+                    // reader.readAsDataURL(input.files[0]);
+                    resolve(input.files[0])
                 }
             })
             input.click()
         })
-        this.updateUserData({displayPhoto: image})
+        if (image.size > 5*1024*1024){
+            alert('display photo to large')
+        }else {
+            this.updateDisplayPhoto(image)
+        }
+
+
     }
     onhide() {
         this.els.info.reset()
