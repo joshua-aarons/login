@@ -110,13 +110,18 @@ class InputPlus extends SvgPlus {
     }
 
     set value(value){
-        this.input.value = value;
         if (value == "") {
             this.error = null
             this.classList.remove("not-empty"); 
         } else {
             this.classList.add("not-empty"); 
         }
+        
+        if (this.type === "datetime-local") {
+            if (typeof value === "number") value = new Date(value);
+            if (value instanceof Date) value = value.toISOString().slice(0,16);
+        }
+        this.input.value = value;
         this.showFile();
     }
 
@@ -138,7 +143,6 @@ class InputPlus extends SvgPlus {
         } else {
             message = label + " required";
         }
-        if (this.type == "file") console.log(message, this.required);
         let valid = this.required ? (this.value != '' && this.value != null) : true;
         if (valid && (this.validater instanceof Function || this.type in DEFAULT_VALIDATERS)) {
             let validater = this.validater instanceof Function? this.validater: DEFAULT_VALIDATERS[this.type]
