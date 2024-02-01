@@ -279,7 +279,7 @@ class TablePlus extends SvgPlus {
         var a = document.createElement("a"),
                 url = URL.createObjectURL(file);
         a.href = url;
-        a.download = "members.csv";
+        a.download = `${this.titleel.textContent.replace(/\s*$/g, "")}.csv`;
         a.click();
         window.URL.revokeObjectURL(url);  
         // setTimeout(function() {

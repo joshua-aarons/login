@@ -3,6 +3,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { signOut, getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, sendEmailVerification, EmailAuthProvider, reauthenticateWithCredential, updatePassword, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'
 import { getDatabase, child, push, ref as _ref, get, onValue, onChildAdded, onChildChanged, onChildRemoved, set, update, off } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js'
 import { getStorage, ref as sref, uploadBytes, uploadBytesResumable, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js'
+import { getFunctions, httpsCallable  } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js'
 
 let initialised = false;
 let userInitialised = false;
@@ -12,6 +13,9 @@ let Auth = null;
 let User = null;
 let StateListeners = [];
 const SESSION_ROOT_KEY = "meetings";
+let Functions = null;
+
+
 
 // Generates a random key to use as the device's unique identifier DUID.
 function makeRandomKey() {
@@ -59,6 +63,7 @@ export async function initialise(config = firebaseConfig) {
     App = initializeApp(config);
     Database = getDatabase(App);
     Auth = getAuth();
+    Functions = getFunctions(App);
     return new Promise((resolve, reject) => {
         onAuthStateChanged(Auth, async (userData) => {
             console.log("auth state change: user data", userData);
@@ -69,6 +74,7 @@ export async function initialise(config = firebaseConfig) {
             userInitialised = true;
         });
     });
+
 }
 
 //  Add an auth state change listener
@@ -234,18 +240,25 @@ function getSessionRef(sessionID, path) {
 
 /* Make session creates a new session signaling channel in the database
    returns the new session key */
-export async function makeSessionKey() {
-    let key = null;
-    let sessionRef = getSessionRef();
-    try {
-        key = sessionRef.key;
-        await set(child(sessionRef, "hostUID"), getUID());
-    } catch (e) {
-        console.log(e);
-        key = null;
-    }
+export async function createSession(info) {
+    
+    const make = httpsCallable(Functions, 'createSession');
+    let {data} = await make(info);
 
-    return key;
+    return parseSession(data);
+}
+
+export async function deleteSession(sid) {
+    const del = httpsCallable(Functions, 'deleteSession');
+    await del({sid});
+}
+
+export async function editSession(info){
+    const edit = httpsCallable(Functions, 'editSession');
+    let {data} = await edit(info);
+    console.log("edit", data);
+
+    return parseSession(data);
 }
 
 async function resetPassword(data) {
@@ -302,8 +315,17 @@ const TIERS = {
 //         mins += d
 
 //     userData.hours = Math.round(mins/6)/10
-
-
+function parseSession(session) {
+    let ds = new Date(session.time);
+    ds.setMinutes(ds.getMinutes() + ds.getTimezoneOffset());
+    if ((new Date()).getTime() > ds.getTime() + session.duration * 60 * 1000) {
+        session.status = "complete"
+    }
+    session.date = `${ds.getDate()}/${ds.getMonth()}/${ds.getFullYear()} ${ds.toLocaleTimeString("en", {timeStyle: "short"})}`
+    session.link = `${window.location.origin}/Session/?${session.sid}`
+    return session;
+}
+function round(x, y) {return Math.round(Math.pow(10, y) * x) / Math.pow(10, y)}
 const DATA_PARSERS = [
     {
         name: "info",
@@ -333,6 +355,19 @@ const DATA_PARSERS = [
         },
     },
     {
+        name: "sessions",
+        parse: (sessions) => {
+            let nSessions = [];
+            if (typeof sessions == "object" && sessions != null) {
+                for (let key in sessions) {
+                    let session = sessions[key];
+                    nSessions.push(parseSession(session));
+                }
+            }
+            return nSessions;
+        }
+    },
+    {
         name: "licence",
         parse: (licence, data) => {
             if (licence == null) {
@@ -353,12 +388,13 @@ const DATA_PARSERS = [
                     total.hours += s.duration / 60;
                     total['sessions-count'] += 1;
                 }
+                total.hours = round(total.hours, 2);
             }
 
             let max = TIERS[licence.tier];
             let percent = {}
             for (let key in max) {
-                percent[key] = max[key] == 0 ? 1 : total[key] / max[key];
+                percent[key] = max[key] == 0 ? 1 : round(total[key] / max[key], 2);
             }
 
             licence.max = max;
@@ -366,8 +402,7 @@ const DATA_PARSERS = [
             licence["%"] = percent;
             return licence;
         }
-    },
-
+    }
 ]
 function parseData(sc) {
     let data = sc.val()

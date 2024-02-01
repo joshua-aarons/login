@@ -1,4 +1,4 @@
-export const firebaseConfig = {
+export const firebaseConfigs = {
     apiKey: "AIzaSyDOhP-lTY1EC8XuHJUnxkWO5Tw8lolaV3s",
     authDomain: "login-with-firebase-data-5e14d.firebaseapp.com",
     projectId: "login-with-firebase-data-5e14d",
@@ -10,7 +10,7 @@ export const firebaseConfig = {
 export const storageURL = "gs://login-with-firebase-data-5e14d.appspot.com"
 
 // Gabes Firebase
-export const firebaseConfigj = {
+export const firebaseConfig = {
     apiKey: "AIzaSyChiEAP1Rp1BDNFn7BQ8d0oGR65N3rXQkE",
     authDomain: "eyesee-d0a42.firebaseapp.com",
     databaseURL: "https://eyesee-d0a42-default-rtdb.asia-southeast1.firebasedatabase.app",

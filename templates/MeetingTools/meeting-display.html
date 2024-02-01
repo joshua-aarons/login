@@ -14,7 +14,7 @@
         <p class="schedule-heading">Time</p>
     </div>
     <div>
-        <p class="schedule-content" name="time" vfield="html"></p>
+        <p class="schedule-content"><span name="date" vfield="html"></span> <span name="timezone" vfield="html"></span></p>
     </div>
 </div>
 
@@ -32,7 +32,7 @@
         <p class="schedule-heading">Meeting ID</p>
     </div>
     <div>
-        <p class="schedule-content" name="id" vfield="html">Nni4dRctlklU8FUhkdQ</p>
+        <p class="schedule-content" name="sid" vfield="html">Nni4dRctlklU8FUhkdQ</p>
     </div>
 </div>
 
@@ -60,6 +60,6 @@
 <div class="contact-buttons-finish">
     <button class="btn" name="close" color="red" onclick="close()">Close</button>
     <button class="btn" name="copy" color="gray">Copy</button>
-    <button class="btn" name="delete" color="gray">Delete</button>
-    <button class="btn" name="edit">Edit</button>
+    <button class="btn" onclick="delete" color="gray">Delete</button>
+    <button class="btn" onclick="edit">Edit</button>
 </div>

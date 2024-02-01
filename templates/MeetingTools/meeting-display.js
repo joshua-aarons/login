@@ -1,4 +1,5 @@
 import { DataComponent, SvgPlus } from "../../CustomComponent.js"
+import { deleteSession } from "../../Firebase/firebase.js"
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 
 useCSSStyle("meeting-display")
@@ -68,6 +69,8 @@ class MeetingDisplay extends DataComponent {
         this.template = getHTMLTemplate("meeting-display")
         let els = this.els;
 
+        this.attachEvents();
+
         computeCharacterWidths(els.link);
         this.els = els;
 
@@ -87,7 +90,7 @@ class MeetingDisplay extends DataComponent {
         window.requestAnimationFrame(next);
     }
     resizeLink() {
-        if (this.value) {
+        if (this.value && this.value.link) {
             let link = this.value.link;
             let linkShape = this.els["ss-link"];
             let widthShown = linkShape.children[1].clientWidth;
@@ -100,6 +103,18 @@ class MeetingDisplay extends DataComponent {
     }
     close() {
         this.parentNode.classList.remove('open')
+    }
+
+    async delete(){
+        if (this.value && this.value.sid) {
+            await deleteSession(this.value.sid);
+        }
+        this.close();
+    }
+
+    edit(){
+        this.close()
+        document.querySelector("app-view").scheduleMeeting(this.value)
     }
 }
 

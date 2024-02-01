@@ -9,7 +9,7 @@ import {} from "./hover.js"
 
 import {} from "./MeetingTools/meeting-display.js"
 import {} from "./MeetingTools/meeting-scheduler.js"
-import { makeSessionKey } from "../Firebase/firebase.js"
+import { createSession } from "../Firebase/firebase.js"
 import { CustomComponent, SvgPlus, UserDataComponent } from "../CustomComponent.js"
 
 useCSSStyle("theme");
@@ -46,13 +46,16 @@ export class AppView extends UserDataComponent {
         this.classList.toggle('dark-theme-variables');
     }
 
-    scheduleMeeting(){
-        console.log("xxx");
+    scheduleMeeting(meeting){
+        if (meeting) {
+            this.els.meetingScheduler.value = meeting;
+        }
+        console.log(meeting);
         this.els.meetingSchedulerPopup.classList.add("open")
     }
 
     async hostMeeting(){
-        let key = await makeSessionKey();
+        let {sid} = await createSession({name: "Session Now"});
         window.open(window.location.origin + `/Session/?${key}`);
     }
 

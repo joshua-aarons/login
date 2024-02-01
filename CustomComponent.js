@@ -120,6 +120,7 @@ class CustomForm extends CustomComponent {
     }
 
     set value(value) {
+        if (this.onValue instanceof Function) value = this.onValue(value);
         if (typeof value !== "object" || value == null) value = {}
         for (let input of this.inputs) {
             let name = input.name
@@ -200,7 +201,6 @@ class DataComponent extends CustomComponent {
             this.onvalue(value)
 
         let flat = flattern(value);
-        console.log(flat);
         for (let key in flat) {
             if (key in this.els) {
                 let el = this.els[key];
@@ -221,6 +221,8 @@ class DataComponent extends CustomComponent {
             }
         }
     }
+
+    get value(){return this._value;}
 
     set template(template) {
         this.innerHTML = template

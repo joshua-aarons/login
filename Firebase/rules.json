@@ -1,74 +1,115 @@
 {
-    "rules": {
-      "users": {
-        "$uid": {
-          "info": {
-            "displayName": {".validate": "newData.isString()"},
-            "firstName": {".validate": "newData.isString()"},
-            "lastName": {".validate": "newData.isString()"},
-            "email": {".validate": "newData.isString()"},
-            "pronouns": {".validate": "newData.isString()"},
-            "displayPhoto": {".validate": "newData.isString()"},
-            "optionalData": {".validate": "newData.isBoolean()"},
-            "$other": {".validate": false},
-            ".write": "auth != null && $uid == auth.uid && (!data.exists() || auth.token.email_verified == true)"
+  "rules": {
+    "users": {
+      "$uid": {
+        "info": {
+          "displayName": {
+            ".validate": "newData.isString()"
           },
-          ".read": "auth != null && $uid == auth.uid && auth.token.email_verified == true",
-          "sessions": {
-            "$sid": {
-              "description": {".validate": "newData.isString()"},
-              "date": {".validate": "newData.isNumber()"},
-              "timezone": {".validate": "newData.isString()"},
-              "duration": {".validate": "newData.isNumber()"},
-              "status": {".validate": "newData.isString()"},
-              "id": {".validate": "newData.val() == $sid"},
-              "$other": {".validate": false},
-              ".write": "auth != null && $uid == auth.uid && (!data.exists() && newData.exists() && root.child('sessions/'+$sid).exists() && auth.token.email_verified == true)"
-            }
+          "firstName": {
+            ".validate": "newData.isString()"
+          },
+          "lastName": {
+            ".validate": "newData.isString()"
+          },
+          "email": {
+            ".validate": "newData.isString()"
+          },
+          "pronouns": {
+            ".validate": "newData.isString()"
+          },
+          "displayPhoto": {
+            ".validate": "newData.isString()"
+          },
+          "optionalData": {
+            ".validate": "newData.isBoolean()"
+          },
+          "$other": {
+            ".validate": false
+          },
+          ".write": "auth != null && $uid == auth.uid && (!data.exists() || auth.token.email_verified == true)"
+        },
+        ".read": "auth != null && $uid == auth.uid && auth.token.email_verified == true",
+        "sessions": {
+          "$sid": {
+            "description": {
+              ".validate": "newData.isString()"
+            },
+            "date": {
+              ".validate": "newData.isNumber()"
+            },
+            "timezone": {
+              ".validate": "newData.isString()"
+            },
+            "duration": {
+              ".validate": "newData.isNumber()"
+            },
+            "status": {
+              ".validate": "newData.isString()"
+            },
+            "id": {
+              ".validate": "newData.val() == $sid"
+            },
+            "$other": {
+              ".validate": false
+            },
+            ".write": "auth != null && $uid == auth.uid && (!data.exists() && newData.exists() && root.child('sessions/'+$sid).exists() && auth.token.email_verified == true)"
           }
         }
-      },
-      "sessions": {
-        "$sid": {
-          // Only to remove the entire session
-          ".write": "auth != null && auth.uid == data.child('hostUID') && !newData.exists()",
-          "hostUID": {
-            ".read": true,
-              // The host UID for a session can only be writen to if there is not already a session with the same id 
-            ".write": "auth != null && !root.child('meetings/' + $sid).exists() && newData.val() == auth.uid && root.child('users/' + auth.uid + '/licence/active').val() == true" 
-          },
-          "host": {
-            "$type": {
-              "$cid": {
-                 // Only if the session has a host
-                 //TODO: only the user with the host UID, unless for deleting
-                ".write": "auth != null && auth.uid == root.child('sessions/' + $sid + '/hostUID').val()",
-              },
-              ".read": true
-            }
-          },
-          "participant": {
-            "$type": {
-              "$cid": {
-                // Only if the session has a host
-                ".write": "root.child('sessions/' + $sid + '/hostUID').exists() && (newData.exists() || (auth != null && auth.uid == root.child('sessions/' + $sid + '/hostUID').val()))",
-              },
-              ".read": true
-            }
+      }
+    },
+    "sessions": {
+      "$sid": {
+        // Only to remove the entire session
+        ".write": "auth != null && auth.uid == data.child('hostUID') && !newData.exists()",
+        "hostUID": {
+          ".read": true,
+          // The host UID for a session can only be writen to if there is not already a session with the same id 
+          ".write": "auth != null && !root.child('meetings/' + $sid).exists() && newData.val() == auth.uid && root.child('users/' + auth.uid + '/licence/active').val() == true"
+        },
+        "host": {
+          "$type": {
+            "$cid": {
+              // Only if the session has a host
+              //TODO: only the user with the host UID, unless for deleting
+              ".write": "auth != null && auth.uid == root.child('sessions/' + $sid + '/hostUID').val()",
+            },
+            ".read": true
+          }
+        },
+        "participant": {
+          "$type": {
+            "$cid": {
+              // Only if the session has a host
+              ".write": "root.child('sessions/' + $sid + '/hostUID').exists() && (newData.exists() || (auth != null && auth.uid == root.child('sessions/' + $sid + '/hostUID').val()))",
+            },
+            ".read": true
           }
         }
-      },
-     "messages": {
-       "$uid": {
-          "firstName": {".validate": "newData.isString()"},
-          "lastName": {".validate": "newData.isString()"},
-          "email": {".validate": "newData.isString()"},
-          "message": {".validate": "newData.isString()"},
-          "attachment": {".validate": "newData.isString()"},
-          "$other": {".validate": false},
-          ".write": "auth != null && (!data.exists() && auth.token.email_verified == true)"
-       }
-     }   
+      }
+    },
+    "messages": {
+      "$uid": {
+        "firstName": {
+          ".validate": "newData.isString()"
+        },
+        "lastName": {
+          ".validate": "newData.isString()"
+        },
+        "email": {
+          ".validate": "newData.isString()"
+        },
+        "message": {
+          ".validate": "newData.isString()"
+        },
+        "attachment": {
+          ".validate": "newData.isString()"
+        },
+        "$other": {
+          ".validate": false
+        },
+        ".write": "auth != null && (!data.exists() && auth.token.email_verified == true)"
+      }
     }
   }
-
+}

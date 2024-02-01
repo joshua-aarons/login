@@ -1,4 +1,5 @@
 import { CustomForm, SvgPlus } from "../../CustomComponent.js";
+import { createSession, editSession } from "../../Firebase/firebase.js";
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 import {} from "../input-plus.js"
 
@@ -6,32 +7,57 @@ useCSSStyle("theme")
 
 class MeetingScheduler extends CustomForm {
     onconnect(){
+        this.sid = null;
+
         this.innerHTML = getHTMLTemplate("meeting-scheduler");
+        // this.getInput("end-time").addEventListener("change", () => this.computeTime())
+        this.attachEvents();
+        
+        this.appView = document.querySelector("app-view")
+    }
 
-        const save = this.querySelector("button[name = 'save'");
-        const cancel = this.querySelector("button[name = 'cancel']");
+    async save(){
+        if (this.validate()) {
+            let value = this.value;
 
-        cancel.addEventListener("click", () => {
-            const event = new Event("close");
-            this.dispatchEvent(event);
-            this.value = "";
-            this.parentNode.classList.remove("open");
+            let time = new Date(value["start-time"]);
+            time.setMinutes(time.getMinutes() - time.getTimezoneOffset());
+            value.time = time.getTime();
 
-        });
-
-        save.addEventListener("click", () => {
-            if (this.validate()) {
-                let meeting = this.value;
-                const event = new Event("save");
-                event.data = meeting;
-                this.dispatchEvent(event);
-                this.parentNode.classList.remove("open");
-                this.value = "";
+            this.loading = true;
+            let data = {};
+            if (this.sid == null) {
+                data = await createSession(value);
+            } else {
+                value.sid = this.sid;
+                data = await editSession(value);
             }
-        });
+            this.appView.displayMeeting(data);
+            this.parentNode.classList.remove("open");
+            this.loading = false;
+            this.value = "";
+        }
+    }
 
-        this.getInput("end-time").addEventListener("change", () => this.computeTime())
+    onValue(value){
+        if (value && typeof value === "object") {
+            if (value.sid) {
+                this.sid = value.sid;
+            } else {
+                this.sid = null;
+            }
+            if (value.time) {
+                value["start-time"] = value.time;
+            }
+        }
+        return value;
+    }
 
+
+
+    close(){
+        this.value = "";
+        this.parentNode.classList.remove("open");
     }
 
     validate(){
@@ -52,7 +78,7 @@ class MeetingScheduler extends CustomForm {
         if (start < end) {
             totalHours = Math.floor((end - start) / 1000 / 60); //milliseconds: /1000 / 60 / 60
         }
-        this.setInputValue("time-stamp", totalHours);
+        this.setInputValue("duration", totalHours);
     }
 }
 

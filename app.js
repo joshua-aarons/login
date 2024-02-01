@@ -42,9 +42,16 @@ F.addAuthChangeListener(async (user) => {
     if (user == null) {
             showScreen("loginPage")
     } else if (user.emailVerified) {
+        console.log("HERE");
+        try {
+
+            // let sdata = await F.createSession({description: "My Meeting"});
+            // console.log(sdata);
+        } catch(e) {
+            console.log(e);
+        }
             // showScreen("appView")
     } else {
-
     }
 });
 
