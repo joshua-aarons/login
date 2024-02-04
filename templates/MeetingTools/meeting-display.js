@@ -116,6 +116,14 @@ class MeetingDisplay extends DataComponent {
         this.close()
         document.querySelector("app-view").scheduleMeeting(this.value)
     }
+
+    async copy(){
+        let html = new Blob([this.innerHTML], {type:'text/html'})
+        let copyItems = new ClipboardItem({
+            "text/html": html
+        }) 
+        await navigator.clipboard.write([copyItems])
+    }
 }
 
 SvgPlus.defineHTMLElement(MeetingDisplay)
