@@ -113,7 +113,6 @@ main {
     text-decoration: none;
     list-style: none;
     box-sizing: border-box;
-    margin-top: 1.4rem;
 }
 
 .data-preferences-heading {
@@ -150,9 +149,10 @@ h1 b {
     margin-bottom: 1rem;
 }
 
-a {
+a, .btn-text {
     color: var(--color-primary);
     transition: 0.3s;
+    cursor: pointer;
 }
 
 .spi {
@@ -168,7 +168,7 @@ a {
     width: 65%;
 }
 
-a:hover {
+a:hover, .btn-text:hover {
     color: var(--color-primary-variant);
     transition: 0.3s;
 }
@@ -204,7 +204,6 @@ a:hover {
 
 img {
     width: 100%;
-    background-color: #eaeaf1;
 }
 
 .btn:hover {
@@ -229,17 +228,21 @@ img {
     gap: 1.7rem;
 }
 
-.row {
-    display: flex;
+.row, .row-center, .row-stretch {
     gap: 1.3em;
-    gap: attr(gap);
+    display: flex;
+}
+
+.row {
+    align-items: center;
+}
+
+.row-center {
+    justify-content: center;
     align-items: center;
 }
 
 .row-stretch {
-    display: flex;
-    gap: 1.3em;
-    gap: attr(gap);
     align-items: stretch;
 }
 
@@ -262,7 +265,7 @@ img {
     bottom: 0;
     transition: all 0.3s ease-in-out;
     z-index: -1;
-
+    margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -42,6 +42,12 @@ export class AppView extends UserDataComponent {
         }
     }
 
+    onvalue(e) {
+        if (e && e.licence) {
+            this.els.noLicencePopup.classList.toggle("open", e.licence.tier == "None")
+        }
+    }
+
     themeToggle(){
         this.classList.toggle('dark-theme-variables');
     }

@@ -109,7 +109,7 @@ class DashBoard extends UserDataComponent {
 
     onvalue(value) {
         if (value.sessions) {
-            console.log(value)
+            // console.log(value)
             let series = []
             let series2 = []
             let xlabel = []

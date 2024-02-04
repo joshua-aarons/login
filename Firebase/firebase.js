@@ -1,6 +1,6 @@
 import { firebaseConfig, storageURL } from "./firebase-config.js"
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
-import { signOut, getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, sendEmailVerification, EmailAuthProvider, reauthenticateWithCredential, updatePassword, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'
+import { signOut, getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, sendEmailVerification as _sendEmailVerification, EmailAuthProvider, reauthenticateWithCredential, updatePassword, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'
 import { getDatabase, child, push, ref as _ref, get, onValue, onChildAdded, onChildChanged, onChildRemoved, set, update, off } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js'
 import { getStorage, ref as sref, uploadBytes, uploadBytesResumable, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js'
 import { getFunctions, httpsCallable  } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js'
@@ -141,7 +141,13 @@ class LoginError extends Error {
         let message = "";
         switch (errorCode) {
             case "auth/invalid-login-credentials":
+                inputName = "email"
                 message = "wrong email and/or password";
+                break;
+
+            case "auth/user-not-found":
+                inputName = "email"
+                message = "email not found";
                 break;
 
             case "auth/invalid-email":
@@ -153,6 +159,10 @@ class LoginError extends Error {
                 message = "wrong password";
                 inputName = "password";
                 break;
+
+            case "auth/too-many-requests": 
+                message = "To many attempts";
+                inputName = "password"
 
             // TODO: Check other errors
             default:
@@ -188,26 +198,30 @@ export async function signin(type, info) {
     }
 }
 
+export async function sendEmailVerification(){
+    // Send email verification
+    if (User) {
+        const actionCodeSettings = {
+            url: window.location.origin,
+            handleCodeInApp: true
+        };
+        await _sendEmailVerification(User, actionCodeSettings);
+    }
+}
+
 export async function signup(type, info) {
     switch (type) {
         case "email":
             let { email, password } = info;
-            delete info.email;
             delete info.password;
             try {
                 // Register user
                 await createUserWithEmailAndPassword(Auth, email, password);
-                let user = Auth.currentUser;
 
                 // Set user info
                 setUserInfo(info);
 
-                // Send email verification
-                const actionCodeSettings = {
-                    url: window.location.origin,
-                    handleCodeInApp: true
-                };
-                await sendEmailVerification(user, actionCodeSettings);
+                await sendEmailVerification();
             } catch (error) {
                 throw new LoginError(error);
             }
@@ -286,7 +300,7 @@ function updateDataListeners(sc) {
 }
 
 let FirebaseDataListeners = []
-function watchData() {
+async function watchData() {
     stopWatch()
     if (Database && User != null) {
         let userInfoRef = getUserRef()

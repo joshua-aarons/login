@@ -1,62 +1,62 @@
-import { CustomComponent, SvgPlus } from "../../CustomComponent.js";
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
+import { CustomComponent } from "../CustomComponent.js";
+import { signin, signup, signout, sendEmailVerification } from "../Firebase/firebase.js";
 
 useCSSStyle("login-page");
 
-  // Validate Functions
-  function validate_email(email) {
-    let expression = /^[^@]+@\w+(\.\w+)+\w$/
-    if (expression.test(email) == true) {
-      return true
-    } else {
-      throw "Invalid email"
-    }
-}
-  
-function validate_password(password) {
-    // Firebase only accepts lengths greater than 6
-    if (password.length < 6) {
-        throw "Password to short"
-    } else {
-        return true
-    }
-}
 
 export class LoginPage extends CustomComponent {
     constructor(el = "login-page"){
         super(el)
         this.innerHTML = getHTMLTemplate("login")
         this.els = this.getElementLibrary();
-        let {signinToggle, signupToggle, signinForm, signinBtn, signupForm, signupBtn} = this.els;
+        console.log(this.els);
+        let {signinToggle, signupToggle, signinForm, signupForm} = this.els;
         signinToggle.onclick = () => this.classList.remove("active");
         signupToggle.onclick = () => this.classList.add("active");
 
-        for (let form of [signinForm, signupForm]) {
-            form.getInput("email").validater = validate_email;
-            form.getInput("password").validater = validate_password;
-        }
+        signinForm.addEventListener("submit", () => this.signin());
+        signupForm.addEventListener("submit", () => this.signup());
 
-        signinBtn.onclick = () => {
-            const event = new Event("signin")
-            if (signinForm.validate()){
-                event.data = signinForm.value
-                this.dispatchEvent(event)
+        this.attachEvents();
+    }
+
+    async signin(){
+        let {signinForm} = this.els;
+        if (signinForm.validate()){
+            try {
+                console.log("HERE");
+                await signin("email", signinForm.value);
+                console.log("after");
+            } catch (e) {
+                this.signinError = e
             }
-        }
 
-        signupBtn.onclick = () => {
-            const event = new Event("signup")
-            if (signupForm.validate()){
-                event.data = signupForm.value
-                this.dispatchEvent(event)
+        }
+    }
+
+    async signup(){
+        let {signupForm} = this.els;
+        if (signupForm.validate()){
+            try {
+                await signup("email", signupForm.value);
+            } catch(e) {
+                console.log(e);
             }
         }
     }
 
+    logout(){signout()}
+    sendEmailVericiation(){sendEmailVerification()}
+
+    set emailVerify(bool){
+        this.els.emailVerify.classList.toggle("open", bool);
+    }
+
     set signinError(error){
-        console.log(error.inputName, error);
+        console.log(error);
         if (error.inputName != "") {
-            this.els.signinForm.getInput(error.inputName).error = error;
+            this.els.signinForm.getInput(error.inputName).error = error.message;
         }
     }
 }

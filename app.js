@@ -7,8 +7,10 @@ import { updateUserDataComponents } from "./CustomComponent.js"
 
 
 
-let loginPage = new LoginPage()
-let appView = new AppView()
+let loginPage = new LoginPage();
+let appView = new AppView();
+
+
 let Type = null;
 function showScreen(type) {
     if (type !== Type) {
@@ -19,38 +21,32 @@ function showScreen(type) {
     }
 }
 
-loginPage.addEventListener("signin", async (e) => {
-    try {
-        await F.signin("email", e.data);
-    } catch (e) {
-        loginPage.signinError = e;
-    }
-});
+// loginPage.addEventListener("signin", async (e) => {
+//     try {
+//         await F.signin("email", e.data);
+//     } catch (e) {
+//         loginPage.signinError = e;
+//     }
+// });
 
-loginPage.addEventListener("signup", async (e) => {
-    try {
-        await F.signup("email", e.data);
-    } catch (err) {
-        loginPage.signupError = err;
-    }
-})
+// loginPage.addEventListener("signup", async (e) => {
+//     try {
+//         await F.signup("email", e.data);
+//     } catch (err) {
+//         loginPage.signupError = err;
+//     }
+// })
 
 
 // Sometimes user may already be authenticated before siging in to the app
 F.addAuthChangeListener(async (user) => {
-    console.log(user);
     if (user == null) {
-            showScreen("loginPage")
-    } else if (user.emailVerified) {
+        showScreen("loginPage")
+        loginPage.emailVerify = false;
+    } else if (!user.emailVerified) {
         console.log("HERE");
-        try {
-
-            // let sdata = await F.createSession({description: "My Meeting"});
-            // console.log(sdata);
-        } catch(e) {
-            console.log(e);
-        }
-            // showScreen("appView")
+        showScreen("loginPage")
+        loginPage.emailVerify = true;
     } else {
     }
 });

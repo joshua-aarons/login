@@ -12,6 +12,13 @@ const DEFAULT_VALIDATERS = {
         } else {
           throw "Invalid email"
         }
+    },
+    password: (password) => {
+        if (password.length < 6) {
+            throw "Password to short"
+        } else {
+            return true
+        }
     }
 }
 
