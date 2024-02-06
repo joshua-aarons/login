@@ -1,4 +1,5 @@
 import { CustomComponent, SvgPlus, UserDataComponent } from "../../CustomComponent.js";
+import { addAdminListener, updateAdminUsers } from "../../Firebase/firebase.js";
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 import { loadCSV } from "../table-plus.js"
 
@@ -7,10 +8,10 @@ useCSSStyle("theme");
 
 class AdminControl extends UserDataComponent {
     onconnect() {
+        addAdminListener((v) => this.onAdminData(v));
         this.template = getHTMLTemplate("admin-control");
-        let style = this.createChild('style')
-        let email = 'joshua.aarons@ymail.com'
-        style.innerHTML = `tr[email='${email}'] td[key='tool'] {opacity: 0.5; pointer-events: none;}`
+        this.style_el = this.createChild('style')
+        
         let { members, update, download } = this.els;
 
         members.titleName = "Members";
@@ -25,26 +26,11 @@ class AdminControl extends UserDataComponent {
                 name: "delete", 
                 method: "deleteRow"
             }
-            // {
-            //     icon: `<i class="fa-solid fa-pencil"></i>`, 
-            //     name: "delete", 
-            //     method: "deleteRow"
-            // }
         ]
         members.headers = ["id", "name", "email", "status"]
        
 
-        update.addEventListener("click", async () => {
-            let csv = await loadCSV()
-            // check format 
-            // update database
-            let parsedCSV = []
-            for (let i = 0; i < csv.length && i <= 25; i++){
-                parsedCSV.push(csv[i])
-            }
-            members.value = parsedCSV;
-
-        })
+       
 
         download.addEventListener("click", () => {
             let link = new SvgPlus("a")
@@ -52,13 +38,87 @@ class AdminControl extends UserDataComponent {
             link.toggleAttribute("download", true)
             link.click()
         })
+
+        this.attachEvents();
     }
     onvalue(value){
-        if (value.members) {
-            console.log(value)
-            value.memberscount = value.members.length
-            value.memberspercent = value.members.length / 25
+        // if (value.members) {
+        //     console.log(value)
+        //     value.memberscount = value.members.length
+        //     value.memberspercent = value.members.length / 25
+        // }
+        console.log(value);
+        if (value && value.info && value.info.email) {
+            let {email} = value.info;
+            this.email = email;
+            this.style_el.innerHTML = `tr[email='${email}'] td[key='tool'] {opacity: 0.5; pointer-events: none;}`
         }
+    }
+    
+
+    onAdminData(v) {
+        if (v.users) {
+            this.els.members.value = v.users;
+        }
+    }
+
+
+    hideInvalidCSVPopup(){
+        this.els.invalidCSVPopup.classList.remove("open")
+    }
+
+    async loadCSVAdmins(){
+        const maxUsers = 25;
+        const validStatus = {"admin": true, "staff": true};
+        let {members, invalidCSVPopup, errorCSV} = this.els;
+        const exp = /^[^@]+@\w+(\.\w+)+\w$/
+
+        invalidCSVPopup.classList.remove("open")
+
+        let csv = await loadCSV()
+        // check format 
+        // update database
+        let parsedCSV = [{
+            email: this.email,
+            name: this.value.info.displayName,
+            status: "admin",
+        }]
+        let error = false;
+        if (csv.length <= maxUsers) {
+            for (let i = 0; i < csv.length; i++){
+                let {name, email, status} = csv[i];
+                console.log(status);
+                if (!name || !email || !status) {
+                    error = "The table is missing the required fields."
+                } else {
+                    if (!exp.test(email)) {
+                        error = `The email <i>'${email}'</i> on row ${i+2} is invalid.`
+                    }
+                    
+                    status = status.toLowerCase();
+                    if (!(status in validStatus)) {
+                        error = `The status <i>'${status}'</i> on row ${i+2} is not a valid status (admin/staff).`
+                    }
+                }
+    
+                if (error) {
+                    break;
+                } else {
+                    if (email != this.email) {
+                        parsedCSV.push({name, email, status})
+                    }
+                }
+            }
+        } else {
+            error = `This table has ${csv.length} rows but only ${maxUsers} are allowed.`
+        }
+        if (error) {
+            errorCSV.innerHTML = error;
+            invalidCSVPopup.classList.add("open");
+        }
+
+        updateAdminUsers(parsedCSV);
+        members.value = parsedCSV;
     }
 }
 

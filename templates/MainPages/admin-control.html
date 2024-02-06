@@ -23,7 +23,7 @@
             </div>
             <div class="col">
                 <button class="btn" name="download" color="gray">Download Template</button>
-                <button class="btn" name="update">Upload Site Members</button>
+                <button class="btn" onclick = "loadCSVAdmins" name="update">Upload Site Members</button>
             </div>
         </div>
     </div>
@@ -31,4 +31,19 @@
 
 <div class="card bottom-margin" id="customers_table">
     <table-plus name="members" vfield="value"></table-plus>
+</div>
+
+
+<div class = "popup" name = "invalidCSVPopup">
+    <div class = "card col">
+        <div >
+            <h1 class = "row-center">The file format was incorrect </h1>
+            <div name = "errorCSV" style = "text-align: center; font-size: 1.3em; font-weight: 400"></div>
+        </div>
+        <div class="row-center">
+            <button onclick = "hideInvalidCSVPopup" class = "btn"> Back</button>
+            <button onclick = "loadCSVAdmins" class = "btn"> Reupload</button>
+            
+        </div>
+    </div>
 </div>

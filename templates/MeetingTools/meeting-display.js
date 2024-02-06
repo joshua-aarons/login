@@ -1,5 +1,5 @@
 import { DataComponent, SvgPlus } from "../../CustomComponent.js"
-import { deleteSession } from "../../Firebase/firebase.js"
+import { deleteSession, getUserInfo} from "../../Firebase/firebase.js"
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 
 useCSSStyle("meeting-display")
@@ -59,6 +59,22 @@ function getStringLength(string) {
 }
 
 
+const TimeZones = {
+    "(UTC+08:00) Perth": 8,
+    "(UTC+09:30) Darwin": 9.5,
+    "(UTC+10:00) Brisbane": 10,
+    "(UTC+10:30) Adelaide": 10.5,
+    "(UTC+11:00) Canberra, Melbourne, Sydney": 11,
+    "(UTC+11:00) Hobart": 11,
+    "(GMT+8:00) Perth": 8,
+    "(GMT+9:30) Darwin": 9.5,
+    "(GMT+10:00) Brisbane": 10,
+    "(GMT+10:30) Adelaide": 10.5,
+    "(GMT+11:00) Canberra, Melbourne, Sydney": 11,
+    "(GMT+11:00) Hobart": 11
+}
+
+
 
 /**
  * @extends HTMLElement
@@ -105,7 +121,7 @@ class MeetingDisplay extends DataComponent {
         this.parentNode.classList.remove('open')
     }
 
-    async delete(){
+    async remove(){
         if (this.value && this.value.sid) {
             await deleteSession(this.value.sid);
         }
@@ -118,11 +134,46 @@ class MeetingDisplay extends DataComponent {
     }
 
     async copy(){
-        let html = new Blob([this.innerHTML], {type:'text/html'})
+        let {displayName} = getUserInfo();
+        let {date, description, link, timezone} = this.value;
+        let html = `<div><b>${displayName} has invited you to a Squidly session.</b></div>
+        <div><b>Topic:</b> <span>${description}</span></div>
+        <div><b>Date:</b> <span>${date} ${timezone}</span></div>
+        <div><b>link:</b> <span>${link}</span></div>`
+        let blob = new Blob([html], {type:'text/html'})
         let copyItems = new ClipboardItem({
-            "text/html": html
+            "text/html": blob
         }) 
         await navigator.clipboard.write([copyItems])
+    }
+
+    addToGoogleCalender(){
+        let {time, description, duration, timezone} = this.value;
+
+        let mOffset = -TimeZones[timezone] * 60;
+        let start = new Date(time);
+        start.setMinutes(start.getMinutes() + start.getTimezoneOffset() + mOffset)
+        let end = new Date(time + duration * 60 * 1000);
+        end.setMinutes(end.getMinutes() + end.getTimezoneOffset() + mOffset)
+
+        let f = (sd) => `${sd.getFullYear()}${(""+(sd.getMonth()+1)).padStart(2, 0)}${(""+(sd.getDate())).padStart(2, 0)}T${(""+sd.getHours()).padStart(2,0)}${(""+sd.getMinutes()).padStart(2,0)}00Z`;
+        let url = `https://calendar.google.com/calendar/render?action=TEMPLATE&dates=${f(start)}%2F${f(end)}&text=${description.replace(" ", "%20")}`
+        window.open(url);
+    }
+
+    addToOutlook(){
+        let {time, description, duration, timezone} = this.value;
+
+        let mOffset = -TimeZones[timezone] * 60;
+        let start = new Date(time);
+        start.setMinutes(start.getMinutes() + start.getTimezoneOffset() + mOffset)
+        let end = new Date(time + duration * 60 * 1000);
+        end.setMinutes(end.getMinutes() + end.getTimezoneOffset() + mOffset)
+
+        let f = (sd) => `${sd.getFullYear()}-${(""+(sd.getMonth()+1)).padStart(2, 0)}-${(""+(sd.getDate())).padStart(2, 0)}T${(""+sd.getHours()).padStart(2,0)}%3A${(""+sd.getMinutes()).padStart(2,0)}%3A00%2B00%3A00`;
+        let url = `https://outlook.live.com/calendar/0/action/compose?allday=false&enddt=${f(end)}&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=${f(start)}&subject=${description}`
+        // let url = `https://outlook.office365.com/calendar/0/action/compose?allday=false&enddt=${f(end)}&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=${f(start)}&subject=${description}`
+        window.open(url);
     }
 }
 

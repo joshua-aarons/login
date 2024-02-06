@@ -7,7 +7,7 @@ export const firebaseConfigs = {
     appId: "1:356416145411:web:b0903c1e4ce0c40bc06636"
 };
 
-export const storageURL = "gs://login-with-firebase-data-5e14d.appspot.com"
+export const storageURL = "gs://eyesee-d0a42.appspot.com"
 
 // Gabes Firebase
 export const firebaseConfig = {
@@ -19,3 +19,6 @@ export const firebaseConfig = {
     messagingSenderId: "56834287411",
     appId: "1:56834287411:web:999340ed2fd5165fa68046"
   };
+
+
+

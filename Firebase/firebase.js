@@ -239,20 +239,17 @@ export async function signup(type, info) {
 
 export function signout() { signOut(Auth) }
 
-function getSessionRef(sessionID, path) {
-    let sref = null;
-    if (Database != null) {
-        if (typeof sessionID === "string") {
-            sref = ref(SESSION_ROOT_KEY + "/" + sessionID);
-            if (typeof path === "string") sref = child(sref, path);
-        } else {
-            sref = push(ref(SESSION_ROOT_KEY));
-        }
-    }
-    return sref;
+
+async function resetPassword(data) {
+    let credentials = EmailAuthProvider.credential(User.email, data.oldpasscode)
+    await reauthenticateWithCredential(User, credentials)
+    await updatePassword(User, data.newpasscode)
 }
 
-/* Make session creates a new session signaling channel in the database
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SESSION FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Make session creates a new session signaling channel in the database
    returns the new session key */
 export async function createSession(info) {
     
@@ -275,12 +272,8 @@ export async function editSession(info){
     return parseSession(data);
 }
 
-async function resetPassword(data) {
-    let credentials = EmailAuthProvider.credential(User.email, data.oldpasscode)
-    await reauthenticateWithCredential(User, credentials)
-    await updatePassword(User, data.newpasscode)
-}
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 let DataListeners = []
 let OldData = null
 export function addDataListener(obj) {
@@ -292,8 +285,15 @@ export function addDataListener(obj) {
     }
 }
 
+
 function updateDataListeners(sc) {
-    OldData = sc
+    OldData = sc;
+
+    let value = parseData(sc);
+    if (value.admin != null) {
+        watchAdmin(value.admin);
+    }
+
     for (let listener of DataListeners) {
         listener(parseData(sc))
     }
@@ -309,7 +309,58 @@ async function watchData() {
         })
     }
 }
+function stopWatch() {
+    for (let listener of FirebaseDataListeners) {
+        listener()
+    }
+}
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ADMIN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+let AdminListeners = []
+let OldAdmin = null
+export function addAdminListener(obj) {
+    if (obj instanceof Function) {
+        AdminListeners.push(obj);
+        if (OldAdmin) {
+            obj(OldAdmin);
+        }
+    }
+}
+
+
+function updateAdminListeners(sc) {
+    OldAdmin = sc
+    for (let listener of AdminListeners) {
+        listener(sc)
+    }
+}
+
+let FirebaseAdminListeners = []
+async function watchAdmin(name) {
+    stopAdminWatch()
+    if (Database && User != null) {
+        let adminRef = ref(`companies/${name}`)
+        onValue(adminRef, (value) => {
+            updateAdminListeners(value.val())
+        })
+    }
+}
+function stopAdminWatch() {
+    for (let listener of FirebaseAdminListeners) {
+        listener()
+    }
+}
+
+export async function updateAdminUsers(info){
+    const update = httpsCallable(Functions, 'updateAdminUsers');
+    let data = await update(info);
+    console.log("update", data);
+
+    return data
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DATA PARSER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 const TIERS = {
     Standard: {
@@ -323,23 +374,18 @@ const TIERS = {
         storage: 0,
     }
 }
-//  userData["sessions-count"] = userData.sessions.length
-//     let mins = 0
-//     for (let d of userData.sessions.map(s => s.duration))
-//         mins += d
-
-//     userData.hours = Math.round(mins/6)/10
-function parseSession(session) {
+export function parseSession(session) {
     let ds = new Date(session.time);
     ds.setMinutes(ds.getMinutes() + ds.getTimezoneOffset());
     if ((new Date()).getTime() > ds.getTime() + session.duration * 60 * 1000) {
         session.status = "complete"
     }
-    session.date = `${ds.getDate()}/${ds.getMonth()}/${ds.getFullYear()} ${ds.toLocaleTimeString("en", {timeStyle: "short"})}`
+    session.date = `${ds.getDate()}/${ds.getMonth()+1}/${ds.getFullYear()} ${ds.toLocaleTimeString("en", {timeStyle: "short"})}`
     session.link = `${window.location.origin}/Session/?${session.sid}`
     return session;
 }
 function round(x, y) {return Math.round(Math.pow(10, y) * x) / Math.pow(10, y)}
+let LastInfo = null;
 const DATA_PARSERS = [
     {
         name: "info",
@@ -365,6 +411,7 @@ const DATA_PARSERS = [
 
             if (typeof info.displayPhoto != 'string')
                 info.displayPhoto = "./images/defaultdp.svg"
+            LastInfo = info;
             return info;
         },
     },
@@ -416,9 +463,16 @@ const DATA_PARSERS = [
             licence["%"] = percent;
             return licence;
         }
+    },
+    {
+        name: "admin",
+        parse: (value) => {
+
+            return value;
+        }
     }
 ]
-function parseData(sc) {
+export function parseData(sc) {
     let data = sc.val()
     if (data == null) {
         data = {};
@@ -432,11 +486,8 @@ function parseData(sc) {
     return data
 }
 
-function stopWatch() {
-    for (let listener of FirebaseDataListeners) {
-        listener()
-    }
-}
+
+
 
 export async function sendSupportMessage(message, progress) {
     let r = push(ref("messages"))
@@ -483,6 +534,10 @@ async function uploadFileToCloud(file, path, statusCallback) {
 
     let url = await getDownloadURL(sr);
     return url;
+}
+
+export function getUserInfo(){
+    return LastInfo;
 }
 
 export { child, get, push, set, onChildAdded, onValue, resetPassword, updateDisplayPhoto }

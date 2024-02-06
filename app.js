@@ -58,7 +58,6 @@ F.addDataListener( (value) => {
 
 window.F = F;
 
-// showScreen("appView")
 
 
 

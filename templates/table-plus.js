@@ -34,7 +34,7 @@ function parseCSV(csv) {
 
         let entry = {}
         for (let j = 0; j < data[0].length; j++) {
-            entry[data[0][j]] = data[i][j]
+            entry[data[0][j].toLowerCase()] = data[i][j]
         }
         data2.push(entry)
     }
