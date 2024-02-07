@@ -304,6 +304,7 @@ async function watchData() {
     stopWatch()
     if (Database && User != null) {
         let userInfoRef = getUserRef()
+        await get(userInfoRef)
         onValue(userInfoRef, (value) => {
             updateDataListeners(value)
         })

@@ -24,7 +24,10 @@ class AdminControl extends UserDataComponent {
             {
                 icon: `<i class="fa-solid fa-trash"></i>`, 
                 name: "delete", 
-                method: "deleteRow"
+                method: (cell) => {
+                    members.deleteRow(cell)
+                    this.update()
+                }
             }
         ]
         members.headers = ["id", "name", "email", "status"]
@@ -65,6 +68,10 @@ class AdminControl extends UserDataComponent {
 
     hideInvalidCSVPopup(){
         this.els.invalidCSVPopup.classList.remove("open")
+    }
+
+    update(){
+        updateAdminUsers([...this.els.members.tbody.children].map(x => x.value))
     }
 
     async loadCSVAdmins(){
