@@ -34,11 +34,22 @@
                 <span>or use your email and password</span>
                 <input-plus><input type="email" name="email" required><label>Email</label></input-plus>
                 <input-plus><input type="password" name="password" required><label>Password</label></input-plus>
+                <span class = "btn-text" name="forgot-password">Forget Your Password?</span>
             </div>
         
             <div id="error-message"></div>
-            <a href="#">Forget Your Password?</a>
             <button name="submit">Sign In</button>
+        </form-plus>
+        <form-plus name = "forgotPasswordForm1" class = "form">
+            <div name = "back" style = "position: absolute; top: 1rem; left: 1.5rem;" class = "btn-text"><i class="fa-solid fa-arrow-left"></i> Back</div>
+            <div class = "col">
+                <h1>Forgot Password</h1>
+                <span>Enter your email to send a password reset code.</span>
+                <input-plus><input type="email" name="email" required><label>Email</label></input-plus>
+                <div>
+                    <button name="submit">Reset Password</button>
+                </div>
+            </div>
         </form-plus>
     </div>
     <div class="toggle-container">
@@ -63,7 +74,9 @@
     <div class = "card col">
         <div class="row-center tick"><i class="fa-regular fa-circle-check"></i></div>
         <span class = "row-center"><h3>Your account requires verification</h3></span>
-        <span style = "text-align: center">Please check your email for the verification link. </br> Can't find the email? <span class = "btn-text" onclick="sendVerification">Click</span> here to resend.</span>
+        <span style = "text-align: center">Please check your email for the verification link. </br> Can't find the email? Click <span class = "btn-text" onclick="sendVerification">here</span> to resend.</span>
         <div class="row-center"><button class = "btn" onclick="closeEmailVerify">Back</button></div>
     </div>
 </div>
+
+

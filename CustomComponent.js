@@ -157,7 +157,7 @@ class CustomForm extends CustomComponent {
 
 class FormPlus extends CustomForm {
     onconnect(){
-        let btns = this.querySelectorAll("button[name]");
+        let btns = this.querySelectorAll("button[name], .btn[name], .btn-text[name]");
         let buttons = {};
         for (let btn of btns) {
             let name = btn.getAttribute("name");

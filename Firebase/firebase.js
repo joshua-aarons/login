@@ -1,6 +1,6 @@
 import { firebaseConfig, storageURL } from "./firebase-config.js"
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
-import { signOut, getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, sendEmailVerification as _sendEmailVerification, EmailAuthProvider, reauthenticateWithCredential, updatePassword, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'
+import { signOut, getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, sendEmailVerification as _sendEmailVerification, EmailAuthProvider, reauthenticateWithCredential, updatePassword, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'
 import { getDatabase, child, push, ref as _ref, get, onValue, onChildAdded, onChildChanged, onChildRemoved, set, update, off } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js'
 import { getStorage, ref as sref, uploadBytes, uploadBytesResumable, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js'
 import { getFunctions, httpsCallable  } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js'
@@ -140,13 +140,21 @@ class LoginError extends Error {
         // Display the error message
         let message = "";
         switch (errorCode) {
+            case "auth/invalid-credential":
             case "auth/invalid-login-credentials":
-                inputName = "email"
+                inputName = "email";
                 message = "wrong email and/or password";
                 break;
 
+            case "auth/email-already-in-use":
+            case "auth/email-already-exists":
+                inputName = "email";
+                message = "An account with this email already exists";
+
+                break;
+
             case "auth/user-not-found":
-                inputName = "email"
+                inputName = "email";
                 message = "email not found";
                 break;
 
@@ -162,7 +170,7 @@ class LoginError extends Error {
 
             case "auth/too-many-requests": 
                 message = "To many attempts";
-                inputName = "password"
+                inputName = "password";
 
             // TODO: Check other errors
             default:
@@ -207,6 +215,13 @@ export async function sendEmailVerification(){
         };
         await _sendEmailVerification(User, actionCodeSettings);
     }
+}
+
+export async function sendForgotPasswordEmail(email){
+    await sendPasswordResetEmail(Auth, email, {
+        url: window.location.origin,
+        handleCodeInApp: true
+    })
 }
 
 export async function signup(type, info) {

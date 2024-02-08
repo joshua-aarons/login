@@ -250,3 +250,15 @@ login-page.active .toggle-right{
 #error-message.error-shown {
     display: block;
 }
+
+login-page[forgot-password] .form[name = 'signinForm'] {
+    display: none;
+}
+
+login-page:not([forgot-password='1']) .form[name = 'forgotPasswordForm1'] {
+    display: none;
+}
+
+login-page:not([forgot-password='2']) .form[name = 'forgotPasswordForm2'] {
+    display: none;
+}

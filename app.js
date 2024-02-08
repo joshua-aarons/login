@@ -39,20 +39,24 @@ function showScreen(type) {
 
 
 // Sometimes user may already be authenticated before siging in to the app
+let noUser = true;
 F.addAuthChangeListener(async (user) => {
     if (user == null) {
         showScreen("loginPage")
+        noUser = true;
     } else if (!user.emailVerified) {
         console.log("HERE");
         showScreen("loginPage")
         loginPage.emailVerify = true;
+        noUser = true;
     } else {
     }
 });
 
 F.addDataListener( (value) => {
     updateUserDataComponents(value);
-    appView.panel = "dash-board";
+    if (noUser) appView.panel = "dash-board";
+    noUser = false;
     showScreen("appView")
 })
 
