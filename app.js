@@ -42,7 +42,6 @@ function showScreen(type) {
 F.addAuthChangeListener(async (user) => {
     if (user == null) {
         showScreen("loginPage")
-        loginPage.emailVerify = false;
     } else if (!user.emailVerified) {
         console.log("HERE");
         showScreen("loginPage")
@@ -53,6 +52,7 @@ F.addAuthChangeListener(async (user) => {
 
 F.addDataListener( (value) => {
     updateUserDataComponents(value);
+    appView.panel = "dash-board";
     showScreen("appView")
 })
 

@@ -63,7 +63,7 @@ export async function initialise(config = firebaseConfig) {
     App = initializeApp(config);
     Database = getDatabase(App);
     Auth = getAuth();
-    Functions = getFunctions(App);
+    Functions = getFunctions(App, "asia-southeast1");
     return new Promise((resolve, reject) => {
         onAuthStateChanged(Auth, async (userData) => {
             console.log("auth state change: user data", userData);
@@ -221,7 +221,10 @@ export async function signup(type, info) {
                 // Set user info
                 setUserInfo(info);
 
+                // 
                 await sendEmailVerification();
+
+                signout();
             } catch (error) {
                 throw new LoginError(error);
             }

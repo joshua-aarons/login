@@ -33,6 +33,7 @@ export class AppView extends UserDataComponent {
         if (type == "logout") {
             this.userLogout();
         } else {
+            this._panel = type;
             for (let child of this.els.sideBar.children) {
                 child.classList.toggle("active", child.getAttribute("type") == type);
             }
@@ -41,10 +42,17 @@ export class AppView extends UserDataComponent {
             }
         }
     }
+    get panel(){
+        return this._panel;
+    }
 
     onvalue(e) {
-        if (e && e.licence) {
-            this.els.noLicencePopup.classList.toggle("open", e.licence.tier == "None")
+        if (e) {
+            if (e.licence) {
+                this.els.noLicencePopup.classList.toggle("open", e.licence.tier == "None")
+            }
+            if (typeof e.admin !== "string" && this.panel == "admin-control") this.panel = "dash-board";
+            this.toggleAttribute("admin", typeof e.admin === "string");
         }
     }
 

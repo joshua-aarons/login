@@ -40,6 +40,8 @@ export class LoginPage extends CustomComponent {
         if (signupForm.validate()){
             try {
                 await signup("email", signupForm.value);
+                signupForm.value = "";
+                this.emailVerify = true;
             } catch(e) {
                 console.log(e);
             }
@@ -48,6 +50,10 @@ export class LoginPage extends CustomComponent {
 
     logout(){signout()}
     sendEmailVericiation(){sendEmailVerification()}
+
+    closeEmailVerify(){
+        this.emailVerify = false;
+    }
 
     set emailVerify(bool){
         this.els.emailVerify.classList.toggle("open", bool);

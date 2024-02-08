@@ -138,6 +138,10 @@ aside .sidebar .message-count{
     border-radius: var(--border-radius-1);
 }
 
+app-view:not([admin]) aside .sidebar > *[type="admin-control"] {
+    display: none;
+}
+
 
 /* MAIN */
 main > * {
