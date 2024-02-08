@@ -60,7 +60,6 @@ app-view table-plus p {
 }
 
 .table__body {
-    width: 95%;
     max-height: 60vh;
     background-color: var(--color-background);
     box-shadow: 0 .4rem .8rem #0005;

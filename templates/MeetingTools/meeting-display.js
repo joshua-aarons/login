@@ -121,7 +121,7 @@ class MeetingDisplay extends DataComponent {
         this.parentNode.classList.remove('open')
     }
 
-    async remove(){
+    async delete(){
         if (this.value && this.value.sid) {
             await deleteSession(this.value.sid);
         }

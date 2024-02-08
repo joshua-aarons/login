@@ -360,6 +360,14 @@ export async function updateAdminUsers(info){
     return data
 }
 
+export async function removeAdminUser(email){
+    const remove = httpsCallable(Functions, 'removeAdminUser');
+    let data = await remove({email});
+    console.log("remove", data);
+
+    return data
+}
+
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DATA PARSER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 

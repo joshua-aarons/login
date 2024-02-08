@@ -1,5 +1,5 @@
 import { CustomComponent, SvgPlus, UserDataComponent } from "../../CustomComponent.js";
-import { addAdminListener, updateAdminUsers } from "../../Firebase/firebase.js";
+import { addAdminListener, removeAdminUser, updateAdminUsers } from "../../Firebase/firebase.js";
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 import { loadCSV } from "../table-plus.js"
 
@@ -12,7 +12,7 @@ class AdminControl extends UserDataComponent {
         this.template = getHTMLTemplate("admin-control");
         this.style_el = this.createChild('style')
         
-        let { members, update, download } = this.els;
+        let { members, download } = this.els;
 
         members.titleName = "Members";
         members.parseValue = (value) => {
@@ -26,7 +26,7 @@ class AdminControl extends UserDataComponent {
                 name: "delete", 
                 method: (cell) => {
                     members.deleteRow(cell)
-                    this.update()
+                    removeAdminUser(cell.parentNode.value.email);
                 }
             }
         ]
@@ -45,33 +45,34 @@ class AdminControl extends UserDataComponent {
         this.attachEvents();
     }
     onvalue(value){
-        // if (value.members) {
-        //     console.log(value)
-        //     value.memberscount = value.members.length
-        //     value.memberspercent = value.members.length / 25
-        // }
-        console.log(value);
+       
         if (value && value.info && value.info.email) {
             let {email} = value.info;
             this.email = email;
-            this.style_el.innerHTML = `tr[email='${email}'] td[key='tool'] {opacity: 0.5; pointer-events: none;}`
+            this.displayName = value.info.displayName ? value.info.displayName : value.info.firstName;
+
+            this.style_el.innerHTML = `tr[email='${email}'] td[key='tool'] {color: rgba(115, 128, 236, 0.5); pointer-events: none;}`
         }
     }
     
 
     onAdminData(v) {
+        let mcount = 0;
+        let seats = 0;
         if (v.users) {
             this.els.members.value = v.users;
+
+            mcount = v.users.length;
         }
+        if (v.seats) seats = v.seats;
+        this.els.maxUserInfo.setAttribute("hover", `A total of <b>${mcount}</b> users out of <b>${seats}</b> maximum users.`)
+
+        this.value = {memberscount: mcount, memberspercent: seats == 0 ? 0 : mcount/seats}
     }
 
 
     hideInvalidCSVPopup(){
         this.els.invalidCSVPopup.classList.remove("open")
-    }
-
-    update(){
-        updateAdminUsers([...this.els.members.tbody.children].map(x => x.value))
     }
 
     async loadCSVAdmins(){
@@ -87,14 +88,13 @@ class AdminControl extends UserDataComponent {
         // update database
         let parsedCSV = [{
             email: this.email,
-            name: this.value.info.displayName,
+            name: this.displayName,
             status: "admin",
         }]
         let error = false;
         if (csv.length <= maxUsers) {
             for (let i = 0; i < csv.length; i++){
                 let {name, email, status} = csv[i];
-                console.log(status);
                 if (!name || !email || !status) {
                     error = "The table is missing the required fields."
                 } else {
