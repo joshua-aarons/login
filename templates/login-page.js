@@ -17,14 +17,21 @@ export class LoginPage extends CustomComponent {
         signupToggle.onclick = () => this.classList.add("active");
 
         signinForm.addEventListener("submit", () => this.signin());
+        
+        this.addEventListener("gmail", () => this.signinProvider("gmail"));
+        this.addEventListener("facebook", () => this.signinProvider("facebook"));
+        
         signinForm.addEventListener("forgot-password", () => {
             this.setAttribute("forgot-password", 1)});
         signupForm.addEventListener("submit", () => this.signup());
         forgotPasswordForm1.addEventListener("back", () => this.removeAttribute("forgot-password"));
         forgotPasswordForm1.addEventListener("submit", () => this.sendForgotPassword());
 
-
         this.attachEvents();
+    }
+
+    async signinProvider(provider){
+        signin(provider);
     }
 
     async signin(){
@@ -58,7 +65,7 @@ export class LoginPage extends CustomComponent {
         let {email} = this.els.forgotPasswordForm1.value;
         sendForgotPasswordEmail(email);
         this.setAttribute("password-form", "2");
-        
+
     }
 
     logout(){signout()}

@@ -16,61 +16,6 @@ function time(date) {
     return (new Date(date)).getTime()
 }
 
-// let options = {
-//   series: [{
-//     name: 'Sessions',
-//     data: [3, 5, 4, 5, 7, 5, 4]
-//   }, {
-//     name: 'Minutes',
-//     data: [75, 120, 100, 150, 100, 135, 100]
-//   }],
-//   yaxis: [
-//     {
-//       title: {
-//         text: "Minutes"
-//       },
-//     },
-//     {
-//       opposite: true,
-//       title: {
-//         text: "Minutes"
-//       }
-//     }
-//   ],
-//   chart: {
-//     height: 350,
-//     type: 'area',
-//     fontFamily: 'Poppins',
-//     foreColor: 'var(--color-dark)',
-//   },
-//   dataLabels: {
-//     enabled: false
-//   },
-//   stroke: {
-//     curve: 'smooth'
-//   },
-//   xaxis: {
-//     type: 'datetime',
-//     // min: new Date('01 Jan 2024').getTime(),
-//     // tickAmount: 6
-//     categories: ["2024-01-05", "2024-01-12", "2024-01-19", "2024-01-26", "2024-02-02", "2024-02-09", "2024-02-16"],
-//     labels: {
-//       datetimeFormatter: {
-//         year: 'yyyy',
-//         month: 'MMM \'yy',
-//         day: 'dd MMM',
-//         hour: 'HH:mm'
-//       }
-//     }
-//   }
-//   // tooltip: {
-//   //     x: {
-//   //         format: 'dd mm yyyy'
-//   //     },
-//   // },
-// };
-
-
 class DashBoard extends UserDataComponent {
     onconnect() {
         this.template = getHTMLTemplate("dash-board");
@@ -81,9 +26,8 @@ class DashBoard extends UserDataComponent {
             if (cell.key == "date") sv = time(cell.value);
             return sv;
         }
-
         sessions.tools = [{
-            icon: 'Details',
+            icon: '<i class="fa-regular fa-file-lines"></i>',
             name: 'details',
             method: (cell) => {
                 document.querySelector('app-view').displayMeeting(cell.parentNode.value)
@@ -105,6 +49,16 @@ class DashBoard extends UserDataComponent {
             }
         }]
         sessions.headers = ["description", "date", "duration", "status"];
+        this.con = true;
+    }
+
+    ondisconnect(){
+        console.log("disconected");
+        this.con = false;
+        this.chart.destroy();
+        // this.els.chart = new SvgPlus("div");
+        // this.els.chartContainer.appendChild(this.els.chart);
+        this.chart = null;
     }
 
     onvalue(value) {
@@ -132,17 +86,6 @@ class DashBoard extends UserDataComponent {
                 series2.push(tsc)
                 xlabel.push(i)
             }
-
-            // Points
-            // let tti = 0
-            // value.sessions.sort((a,b) => time(a.sessionDate) > time(b.sessionDate) ? 1 : -1)
-            // for (let session of value.sessions){
-            //       tti += parseFloat(session.sessionLength)
-            //       series.push(tti)
-            //       xlabel.push(time(session.sessionDate))
-            // }
-            // console.log(series, xlabel);
-
             let options = {
                 series: [{
                     name: 'Cumulative Minutes',
@@ -190,11 +133,12 @@ class DashBoard extends UserDataComponent {
                     curve: 'smooth'
                 }
             }
-            console.log(options)
+
+            // console.log(options, this.chart, this.con);
             if (this.chart)
                 this.chart.updateOptions(options)
             else {
-                if (this.els) {
+                if (this.con) {
                     this.chart = new ApexCharts(this.els.chart, options)
                     this.chart.render()
                 }

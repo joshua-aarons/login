@@ -57,7 +57,7 @@ class TablePlus extends SvgPlus {
 
         // create export file
         let ef = s.createChild('div', {class:'export__file'})
-        let eb = ef.createChild('label', {class:'export__file-btn',title:'Export File'})
+        let eb = ef.createChild('label', {class:'export__file-btn',title:'Export File', content: '<i class="fa-solid fa-file-export"></i>'})
         eb.onclick = (e) => {
             this.toggleAttribute('show-options')
             e.stopPropagation()

@@ -162,7 +162,7 @@ class FormPlus extends CustomForm {
         for (let btn of btns) {
             let name = btn.getAttribute("name");
             buttons[name] = btn;
-            btn.onclick = () => this.dispatchEvent(new Event(name));
+            btn.onclick = () => this.dispatchEvent(new Event(name, {bubbles: true}));
         }
         this.buttons = buttons;
         this.attachEvents();

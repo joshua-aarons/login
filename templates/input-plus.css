@@ -39,6 +39,7 @@ input-plus input, input-plus textarea, input-plus select {
     border: 2px solid transparent;
     box-shadow: 0 0 0 0px var(--input-shadow);
     transition: 0.3s;
+    color: var(--color-dark);
 }
 
 input-plus input:hover, input-plus textarea:hover, input-plus select:hover {

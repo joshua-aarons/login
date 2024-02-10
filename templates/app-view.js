@@ -19,6 +19,7 @@ export class AppView extends UserDataComponent {
     constructor(el = "app-view"){
         super(el)
         this.template = getHTMLTemplate("app-view");
+        this.dark = false;
         let els = this.els;
         let sideBar = els.sideBar;
         for (let child of sideBar.children) {
@@ -48,16 +49,28 @@ export class AppView extends UserDataComponent {
 
     onvalue(e) {
         if (e) {
+            e.isAdmin = typeof e.admin === "string" ? "Admin" : "Staff"
             if (e.licence) {
-                this.els.noLicencePopup.classList.toggle("open", e.licence.tier == "None")
-            }
+                this.els.noLicencePopup.classList.toggle("open", e.licence.tier == "None");
+                e.isAdmin = e.licence.tier == "None" ? "" : e.isAdmin;
+            } 
+            this.dark = e.info.dark === true;
+
             if (typeof e.admin !== "string" && this.panel == "admin-control") this.panel = "dash-board";
             this.toggleAttribute("admin", typeof e.admin === "string");
+
         }
     }
 
+    set dark(bool) {
+        this._dark = bool;
+        this.classList.toggle('dark-theme-variables', bool);
+    }
+    get dark(){return this._dark;}
+
     themeToggle(){
-        this.classList.toggle('dark-theme-variables');
+        this.dark = !this.dark;
+        this.updateUserData({dark: this.dark})
     }
 
     scheduleMeeting(meeting){

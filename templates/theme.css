@@ -13,6 +13,7 @@
     --color-info-light: #dce1eb;
     --color-dark: #363949;
     --color-light: rgba(132, 139, 200, 0.18);
+    --table-head: #eaeef5;
 
     --color-light-op: rgba(132, 139, 200, 0.4);
     --color-disabled-wash: #a6a8c591;
@@ -42,6 +43,10 @@
     font-family: 'Poppins', sans-serif;
 }
 
+.material-symbols-outlined {
+    font-size: 1.8rem;
+}
+
 /* ---------------- DARK THEME VARIABLES ---------------- */
 .dark-theme-variables {
     --color-background: #181a1e;
@@ -51,10 +56,12 @@
     --color-light: rgba(0, 0, 0, 0.4);
     --box-shadow: 0 2rem 3rem var(--color-light);
 
+
     --input-bg: hsla(208, 22%, 50%, 11%);
     --input-bg-hover: hsla(208, 22%, 50%, 18.5%);
     --input-text: hsla(208, 10%, 55%);
     --input-shadow: hsla(208, 92%, 58%, 0.2);
+    --table-head:  #363949;
 }
 
 hover-panel {
@@ -376,7 +383,7 @@ img {
 }
 
 input {
-    font-family: inherit;
+    font: inherit;
 }
   
 input:checked + .slider {

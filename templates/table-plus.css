@@ -25,6 +25,10 @@ app-view table-plus p {
     align-items: center;
 }
 
+.dark-theme-variables .table__header img {
+    filter: invert(1);
+}
+
 .table__header .input-group {
     width: 35%;
     height: 3rem;
@@ -109,9 +113,10 @@ thead th {
     position: sticky;
     top: 0;
     left: 0;
-    background-color: #eaeef5;
+    background-color: var(--table-head);
     cursor: pointer;
     text-transform: capitalize;
+    white-space: pre;
 }
 
 tbody tr:nth-child(even) {
@@ -166,6 +171,10 @@ td[key = tool] {
     transition: 0.3s;
 }
 
+td[key = tool][value = details] {
+    font-size: 1.8rem;
+}
+
 td[key = tool]:hover {
     color: var(--color-primary-variant);
     transition: 0.3s;
@@ -174,18 +183,29 @@ td[key = tool]:hover {
 td[key = "status"][value = "admin"] p, td[key = "status"][value = "complete"] p {
     background-color: #86e49d;
     color: #006b21;
+    padding: 0.4em 0.4em;
 }
 
-td[key = "status"][value = "staff"] p, td[key = "status"][value = "scheduled"] p {
+.dark-theme-variables td[key = "status"][value = "admin"] p,
+.dark-theme-variables td[key = "status"][value = "complete"] p {
+    background-color:#006b21;
+    color:  #86e49d;
+}
+
+td[key = "status"][value = "staff"] p,
+td[key = "status"][value = "scheduled"] p {
     background-color: #d893a3;
     color: #b30021;
+    padding: 0.4em 0.8em;
+
 }
 
-@media (max-width: 1000px) {
-    td:not(:first-of-type) {
-        min-width: 12.1rem;
-    }
+.dark-theme-variables td[key = "status"][value = "staff"] p,
+.dark-theme-variables td[key = "status"][value = "scheduled"] p {
+    color: #f0c6d0;
+    background-color: #b30021;
 }
+
 
 thead th i {
     transform: translateY(0.1rem);
@@ -227,21 +247,20 @@ thead th.active, tbody td.active {
     color: var(--color-danger);
 }
 
+
+
 .export__file {
     position: relative;
 }
 
 .export__file .export__file-btn {
     display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    background: var(--color-background) url(images/export.png) center / 80% no-repeat;
-    border-radius: 50%;
     transition: .2s ease-in-out;
+    font-size: 1.3em;
 }
 
+
 .export__file .export__file-btn:hover { 
-    background-color: #fff;
     transform: scale(1.15);
     cursor: pointer;
 }

@@ -1,6 +1,6 @@
 import { firebaseConfig, storageURL } from "./firebase-config.js"
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
-import { signOut, getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, sendEmailVerification as _sendEmailVerification, EmailAuthProvider, reauthenticateWithCredential, updatePassword, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'
+import { signOut, getAuth, signInWithRedirect, GoogleAuthProvider, FacebookAuthProvider, onAuthStateChanged, sendEmailVerification as _sendEmailVerification, EmailAuthProvider, reauthenticateWithCredential, updatePassword, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'
 import { getDatabase, child, push, ref as _ref, get, onValue, onChildAdded, onChildChanged, onChildRemoved, set, update, off } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js'
 import { getStorage, ref as sref, uploadBytes, uploadBytesResumable, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js'
 import { getFunctions, httpsCallable  } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js'
@@ -131,6 +131,7 @@ export async function setUserInfo(info) {
     }
 }
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SIGNIN/OUT FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 class LoginError extends Error {
     constructor(error) {
@@ -196,9 +197,15 @@ export async function signin(type, info) {
             break;
 
         case "gmail":
-            const provider = new GoogleAuthProvider();
-            console.log(Auth);
-            signInWithRedirect(Auth, provider);
+            const gprovider = new GoogleAuthProvider();
+            signInWithRedirect(Auth, gprovider);
+            break;
+
+        case "facebook": 
+            const fprovider = new FacebookAuthProvider();
+            fprovider.addScope("email");
+            fprovider.addScope("public_profile");
+            signInWithRedirect(Auth, fprovider);
             break;
 
         case "facebook":

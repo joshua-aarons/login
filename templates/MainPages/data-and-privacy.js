@@ -12,9 +12,6 @@ class DataAndPrivacy extends UserDataComponent {
         })
     }
 
-    onvalue(v) {
-        console.log(v);
-    }
 }
 
 SvgPlus.defineHTMLElement(DataAndPrivacy);

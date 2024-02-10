@@ -18,11 +18,11 @@
             <span class="material-symbols-outlined">person</span>
             <h3>Profile</h3>
         </div>
-        <div class="passive" type="meetings-panel">
+        <!-- <div class="passive" type="meetings-panel">
             <span class="material-symbols-outlined">groups</span>
             <h3>Meetings</h3>
             <span class='message-count' name="meetingCount" vfield="innerHTML">26</span>
-        </div>
+        </div> -->
         <!-- <div class="passive" type="analytics">
             <span class="material-symbols-outlined">monitoring</span>
             <h3>Analytics</h3>
@@ -50,68 +50,69 @@
     </div>
 </aside>
 <!-------------------- END OF ASIDE -------------------->
-<main name="main">
-    <dash-board name="dashboard"></dash-board>
-    <data-and-privacy name="privacy"></data-and-privacy>
-    <meetings-panel name="meetings"></meetings-panel>
-    <profile-panel name="profile"></profile-panel>
-    <support-panel name="support"></support-panel>
-    <admin-control name="admin"></admin-control>
-</main>
-<!-------------------- END OF MAIN -------------------->
 
-<div class="right">
-    <div class="top">
-        <button id="menu-btn">
-            <span class="material-symbols-outlined">menu</span>
-        </button>
-        <div onclick = "themeToggle" class="theme-toggler">
-            <span class="material-symbols-outlined active">light_mode</span>
-            <span class="material-symbols-outlined">dark_mode</span>
-        </div>
-        <div class="profile">
-            <div class="info">
-                <p>Hey, <b name="info/firstName" vfield="innerHTML">Name</b></p>
-                <small class="text-muted">Admin</small>
+<div class="row-main">
+    <main name="main">
+        <dash-board name="dashboard"></dash-board>
+        <data-and-privacy name="privacy"></data-and-privacy>
+        <meetings-panel name="meetings"></meetings-panel>
+        <profile-panel name="profile"></profile-panel>
+        <support-panel name="support"></support-panel>
+        <admin-control name="admin"></admin-control>
+    </main>
+    
+    
+    <div class="right">
+        <div class="top">
+            <button id="menu-btn">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <div onclick = "themeToggle" class="theme-toggler">
+                <span class="material-symbols-outlined">light_mode</span>
+                <span class="material-symbols-outlined">dark_mode</span>
             </div>
-            <div class="profile-photo">
-                <img name="info/displayPhoto" vfield="src" />
-            </div>
-        </div>
-    </div>
-
-    <!-- END OF TOP -->
-    <div class="meeting">
-        <h2>Meetings</h2>
-        <div class="item host" onclick = "hostMeeting">
-            <div class="icon">
-                <span class="material-symbols-outlined">videocam</span>
-            </div>
-            <div class="right">
+            <div class="profile">
                 <div class="info">
-                    <h3>HOST MEETING</h3>
+                    <p>Hey, <b name="info/firstName" vfield="innerHTML">Name</b></p>
+                    <small class="text-muted" name = "isAdmin" vfield = "html"></small>
+                </div>
+                <div class="profile-photo">
+                    <img name="info/displayPhoto" vfield="src" />
                 </div>
             </div>
         </div>
-        
-        <div class="item schedule" id="openModal" onclick = "scheduleMeeting" >
-            <div class="icon">
-                <span class="material-symbols-outlined">calendar_month</span>
-            </div>
-            <div class="right">
-                <div class="info">
-                    <h3>SCHEDULE MEETING</h3>
+    
+        <!-- END OF TOP -->
+        <div class="meeting">
+            <h2>Meetings</h2>
+            <div class = "items">
+                <div class="item host" onclick = "hostMeeting">
+                    <div class="icon">
+                        <span class="material-symbols-outlined">videocam</span>
+                    </div>
+                    <div class="info">
+                        <h3>HOST MEETING</h3>
+                    </div>
+                </div>
+                
+                <div class="item schedule" id="openModal" onclick = "scheduleMeeting" >
+                    <div class="icon">
+                        <span class="material-symbols-outlined">calendar_month</span>
+                    </div>
+                    <div class="info">
+                        <h3>SCHEDULE MEETING</h3>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <!--- OPEN SCHEDULER MODAL --->
-        <div class="popup" name = "meetingSchedulerPopup">
-            <meeting-scheduler name="meetingScheduler"></meeting-scheduler>
-        </div>
-
-        <div class="popup" name = "meetingDisplayPopup">
-            <meeting-display name="meetingDisplay"></meeting-display>
+    
+            <!--- OPEN SCHEDULER MODAL --->
+            <div class="popup" name = "meetingSchedulerPopup">
+                <meeting-scheduler name="meetingScheduler"></meeting-scheduler>
+            </div>
+    
+            <div class="popup" name = "meetingDisplayPopup">
+                <meeting-display name="meetingDisplay"></meeting-display>
+            </div>
         </div>
     </div>
 </div>
