@@ -465,3 +465,7 @@ form-plus, meeting-scheduler {
     stroke: var(--color-info-dark);
     stroke-width: 8;
 }
+
+.ctext{
+    text-align: center;
+}

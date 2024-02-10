@@ -82,8 +82,12 @@ export class AppView extends UserDataComponent {
     }
 
     async hostMeeting(){
-        let {sid} = await createSession({name: "Session Now"});
-        window.open(window.location.origin + `/Session/?${key}`);
+        let time = new Date();
+        time.setMinutes(time.getMinutes() - time.getTimezoneOffset());
+        time = time.getTime();
+
+        let {sid} = await createSession({description: "My Meeting", time: time, timezone: "(UTC+11:00) Canberra, Melbourne, Sydney"});
+        // window.open(window.location.origin + `/Session/?${side}`);
     }
 
     displayMeeting(meeting){

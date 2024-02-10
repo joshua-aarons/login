@@ -62,7 +62,9 @@ class DashBoard extends UserDataComponent {
     }
 
     onvalue(value) {
+        let noSessions = true;
         if (value.sessions) {
+            if (value.sessions.length > 0) noSessions = false;
             // console.log(value)
             let series = []
             let series2 = []
@@ -144,6 +146,8 @@ class DashBoard extends UserDataComponent {
                 }
             }
         }
+        
+        this.toggleAttribute("no-sessions", noSessions)
     }
 }
 
