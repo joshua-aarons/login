@@ -65,21 +65,21 @@ export async function initialise(config = firebaseConfig) {
     Auth = getAuth();
     Functions = getFunctions(App, "asia-southeast1");
 
-    try {
-        let result = await getRedirectResult(Auth)
+    // try {
+    //     let result = await getRedirectResult(Auth)
     
-        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-        const credential = FacebookAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
+    //     // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+    //     const credential = FacebookAuthProvider.credentialFromResult(result);
+    //     const token = credential.accessToken;
 
-        const user = result.user;
-        console.log(user);
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
+    //     const user = result.user;
+    //     console.log(user);
+    //     // IdP data available using getAdditionalUserInfo(result)
+    //     // ...
         
-    } catch (e) {
-        console.log(e);
-    }
+    // } catch (e) {
+    //     console.log(e);
+    // }
 
     return new Promise((resolve, reject) => {
         onAuthStateChanged(Auth, async (userData) => {
