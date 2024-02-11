@@ -1,8 +1,8 @@
 import { firebaseConfig, storageURL } from "./firebase-config.js"
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
-import { signOut, getAuth,getRedirectResult, signInWithRedirect, GoogleAuthProvider, FacebookAuthProvider, onAuthStateChanged, sendEmailVerification as _sendEmailVerification, EmailAuthProvider, reauthenticateWithCredential, updatePassword, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'
+import { signOut, getAuth, signInWithRedirect, GoogleAuthProvider, FacebookAuthProvider, onAuthStateChanged, sendEmailVerification as _sendEmailVerification, EmailAuthProvider, reauthenticateWithCredential, updatePassword, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'
 import { getDatabase, child, push, ref as _ref, get, onValue, onChildAdded, onChildChanged, onChildRemoved, set, update, off } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js'
-import { getStorage, ref as sref, uploadBytes, uploadBytesResumable, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js'
+import { getStorage, ref as sref, uploadBytesResumable, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js'
 import { getFunctions, httpsCallable  } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js'
 
 let initialised = false;
@@ -64,22 +64,6 @@ export async function initialise(config = firebaseConfig) {
     Database = getDatabase(App);
     Auth = getAuth();
     Functions = getFunctions(App, "asia-southeast1");
-
-    // try {
-    //     let result = await getRedirectResult(Auth)
-    
-    //     // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-    //     const credential = FacebookAuthProvider.credentialFromResult(result);
-    //     const token = credential.accessToken;
-
-    //     const user = result.user;
-    //     console.log(user);
-    //     // IdP data available using getAdditionalUserInfo(result)
-    //     // ...
-        
-    // } catch (e) {
-    //     console.log(e);
-    // }
 
     return new Promise((resolve, reject) => {
         onAuthStateChanged(Auth, async (userData) => {

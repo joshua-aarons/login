@@ -122,10 +122,11 @@ class AdminControl extends UserDataComponent {
         if (error) {
             errorCSV.innerHTML = error;
             invalidCSVPopup.classList.add("open");
+        } else {
+            updateAdminUsers(parsedCSV);
+            members.value = parsedCSV;
         }
 
-        updateAdminUsers(parsedCSV);
-        members.value = parsedCSV;
     }
 }
 
