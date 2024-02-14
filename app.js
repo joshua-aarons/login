@@ -13,6 +13,11 @@ let appView = new AppView();
 
 let Type = null;
 function showScreen(type) {
+    if (Type == null) {
+        let splash = document.querySelector("splash-screen");
+        splash.toggleAttribute("fade", true);
+        setTimeout(() => splash.remove(), 300);
+    }
     if (type !== Type) {
         Type = type;
         let pages = {loginPage, appView};
