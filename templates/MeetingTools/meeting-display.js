@@ -171,7 +171,7 @@ class MeetingDisplay extends DataComponent {
         end.setMinutes(end.getMinutes() + end.getTimezoneOffset() + mOffset)
 
         let f = (sd) => `${sd.getFullYear()}-${(""+(sd.getMonth()+1)).padStart(2, 0)}-${(""+(sd.getDate())).padStart(2, 0)}T${(""+sd.getHours()).padStart(2,0)}%3A${(""+sd.getMinutes()).padStart(2,0)}%3A00%2B00%3A00`;
-        let url = `https://outlook.live.com/calendar/0/action/compose?allday=false&enddt=${f(end)}&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=${f(start)}&subject=${description}`
+        let url = `https://outlook.office.com/calendar/0/action/compose?allday=false&enddt=${f(end)}&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=${f(start)}&subject=${description}`
         // let url = `https://outlook.office365.com/calendar/0/action/compose?allday=false&enddt=${f(end)}&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=${f(start)}&subject=${description}`
         window.open(url);
     }

@@ -27,27 +27,36 @@ class DashBoard extends UserDataComponent {
             return sv;
         }
         sessions.tools = [{
-            icon: '<i class="fa-regular fa-file-lines"></i>',
-            name: 'details',
-            method: (cell) => {
-                document.querySelector('app-view').displayMeeting(cell.parentNode.value)
+                icon: '<i class="fa-regular fa-file-lines"></i>',
+                name: 'details',
+                method: (cell) => {
+                    document.querySelector('app-view').displayMeeting(cell.parentNode.value)
+                }
+            },
+            {
+                icon: `<span class="material-symbols-outlined">content_copy</span>`, 
+                name: "delete", 
+                method: async (cell) => {
+                    let link = cell.parentNode.value.link
+                    await navigator.clipboard.writeText(link)
+                    let o = 0
+                    let id = setInterval( () => {
+                        cell.style.setProperty('opacity', Math.cos(o)*0.5+0.5)
+                        if (o > 2*Math.PI)
+                            clearInterval(id)
+                        o += 0.3
+                    }, 30)
+                }
+            },
+            {
+                icon: '<i class="fa-regular fa-circle-play"></i>',
+                name: 'start',
+                method: (cell) => {
+                    let value = cell.parentNode.value;
+                    window.open(value.link);
+                }
             }
-        },
-        {
-            icon: `<span class="material-symbols-outlined">content_copy</span>`, 
-            name: "delete", 
-            method: async (cell) => {
-                let link = cell.parentNode.value.link
-                await navigator.clipboard.writeText(link)
-                let o = 0
-                let id = setInterval( () => {
-                    cell.style.setProperty('opacity', Math.cos(o)*0.5+0.5)
-                    if (o > 2*Math.PI)
-                        clearInterval(id)
-                    o += 0.3
-                }, 30)
-            }
-        }]
+        ]
         sessions.headers = ["description", "date", "duration", "status"];
         this.con = true;
     }
@@ -72,7 +81,16 @@ class DashBoard extends UserDataComponent {
             // Quantised
             let today = new Date()
             let before = new Date()
-            before.setMonth(today.getMonth() - 3)
+
+            let m1 = Math.floor(today.getMonth() / 4) *4;
+            before.setMonth(m1)
+            before.setDate(1);
+            before.setHours(0);
+            before.setMinutes(0);
+
+            today = new Date(before+"");
+            today.setMonth(m1 + 3);
+
 
             for (let i = time(before); i < time(today); i += 1000 * 60 * 60 * 24) {
                 let tti = 0

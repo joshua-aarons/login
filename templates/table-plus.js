@@ -49,7 +49,7 @@ class TablePlus extends SvgPlus {
         let s = this.createChild('section', {class:'table__header'})
         this.titleel = s.createChild('h1',{content:'table-name'})
         let ig = s.createChild('div', {class:'input-group'})
-        let searchinput = ig.createChild('input', {name:'searchbar',type:'search',placeholder:'Search Data...'})
+        let searchinput = ig.createChild('input', {name:'searchbar',type:'search',placeholder:'Search...'})
         searchinput.addEventListener("input", () => {
             this.search(searchinput.value)
         })

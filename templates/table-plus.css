@@ -171,7 +171,8 @@ td[key = tool] {
     transition: 0.3s;
 }
 
-td[key = tool][value = details] {
+td[key = tool][value = details],
+td[key = tool][value = start] {
     font-size: 1.8rem;
 }
 

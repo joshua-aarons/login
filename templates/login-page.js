@@ -36,6 +36,7 @@ export class LoginPage extends CustomComponent {
 
     async signin(){
         let {signinForm} = this.els;
+        signinForm.disabled = true;
         if (signinForm.validate()){
             try {
                 console.log("HERE");
@@ -44,12 +45,14 @@ export class LoginPage extends CustomComponent {
             } catch (e) {
                 this.signinError = e
             }
-
         }
+        signinForm.disabled = false;
+
     }
 
     async signup(){
         let {signupForm} = this.els;
+        signupForm.disabled = true;
         if (signupForm.validate()){
             try {
                 await signup("email", signupForm.value);
@@ -59,6 +62,7 @@ export class LoginPage extends CustomComponent {
                 this.signupError = e;
             }
         }
+        signupForm.disabled = false;
     }
 
     async sendForgotPassword(){

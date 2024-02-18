@@ -12,6 +12,10 @@
     color: var(--color-success);
 }
 
+.row {
+    width: 100%;
+}
+
 login-page .col {
     gap: 1.3rem;
     align-items: center;
@@ -41,7 +45,7 @@ login-page{
 
 login-page img{
     display: block;
-    width: 40%;
+    width: calc(5vmax + 5vmin);
     padding: 1rem;
     filter: brightness(0) invert(1);
 }
@@ -58,35 +62,36 @@ login-page .container{
 }
 
 login-page .container p{
-    font-size: 14px;
-    line-height: 20px;
+    font-size: 1rem;
+    line-height: 1.5rem;
     letter-spacing: 0.3px;
-    margin: 20px 0;
+    margin: 1.25rem 0;
 }
 
 login-page .container span{
-    font-size: 12px;
+    font-size: 1rem;
 }
 
 login-page .container a{
     color: #333;
-    font-size: 13px;
+    font-size: 1rem;
     text-decoration: none;
-    margin: 15px 0 10px;
+    margin: 1.2rem 0 0.8rem;
 }
 
 login-page button{
     background-color: #512da8;
     color: #fff;
-    font-size: 12px;
-    padding: 10px 45px;
+    font-size: 1rem;
+    padding: 0.8rem 3rem;
     border: 1px solid transparent;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     font-weight: 600;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.1rem;
     text-transform: uppercase;
-    margin-top: 10px;
+    margin-top: 0.8rem;
     cursor: pointer;
+    white-space: pre;
 }
 
 login-page .container button.hidden{

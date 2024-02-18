@@ -427,6 +427,12 @@ form-plus, meeting-scheduler {
     position: relative;
     overflow: hidden;
 }
+[disabled] .btn,
+[disabled] .btn-text,
+[disabled] button{
+    opacity: 0.5;
+    pointer-events: none;
+}
 
 .loading-popup {
     position: absolute;

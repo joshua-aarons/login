@@ -115,6 +115,10 @@ class CustomForm extends CustomComponent {
         return input;
     }
 
+
+    set disabled(bool){
+        this.toggleAttribute("disabled", bool)
+    }
     get inputs() {
         return this.querySelectorAll("input-plus");
     }
