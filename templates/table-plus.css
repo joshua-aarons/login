@@ -176,6 +176,13 @@ td[key = tool][value = start] {
     font-size: 1.8rem;
 }
 
+td[key = tool][value = start] {
+    color: var(--color-great);
+}
+td[key = tool][value = start]:hover {
+    color: var(--color-great-hover);
+}
+
 td[key = tool]:hover {
     color: var(--color-primary-variant);
     transition: 0.3s;
