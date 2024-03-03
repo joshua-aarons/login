@@ -256,6 +256,7 @@ class UserDataComponent extends DataComponent {
 }
 
 function updateUserDataComponents(value) {
+    console.log(value);
     for (let el of DATA_COMPONENTS) {
         el.value = value;
     }

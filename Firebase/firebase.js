@@ -397,16 +397,16 @@ export async function removeAdminUser(email){
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DATA PARSER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-const TIERS = {
-    Standard: {
-        hours: 50,
-        'sessions-count': 20,
-        storage: 300
-    },
-    None: {
-        hours: 0,
-        'sessions-count': 0,
+const TIER_USAGE_PER_MONTH = {
+    default: {
+        minutes: 0,
+        sessions: 0,
         storage: 0,
+    },
+    Standard: {
+        minutes: 4*2*60,
+        sessions: 20,
+        storage: 300,
     }
 }
 export function parseSession(session) {
@@ -465,37 +465,12 @@ const DATA_PARSERS = [
     },
     {
         name: "licence",
-        parse: (licence, data) => {
+        parse: (licence) => {
             if (licence == null) {
                 licence = {
                     tier: "None"
                 };
             }
-
-
-            //calculate total usage
-            let total = {
-                hours: 0,
-                'sessions-count': 0,
-                storage: 0
-            };
-            if (data.sessions) {
-                for (let s of data.sessions) {
-                    total.hours += s.duration / 60;
-                    total['sessions-count'] += 1;
-                }
-                total.hours = round(total.hours, 2);
-            }
-
-            let max = TIERS[licence.tier];
-            let percent = {}
-            for (let key in max) {
-                percent[key] = max[key] == 0 ? 1 : round(total[key] / max[key], 2);
-            }
-
-            licence.max = max;
-            licence.total = total;
-            licence["%"] = percent;
             return licence;
         }
     },
@@ -504,6 +479,34 @@ const DATA_PARSERS = [
         parse: (value) => {
 
             return value;
+        }
+    },
+    {
+        name: "usage",
+        parse: (usage, data) => {
+            if (usage == null) usage = {};
+
+            let pusage = {
+                minutes: {used: 0},
+                sessions: {used: 0},
+                storage: {used: 0},
+                hours: {used: 0}
+            };
+            let tier = data.licence.tier;
+            let maxUsage = TIER_USAGE_PER_MONTH[tier];
+
+            for (let key in maxUsage) {
+                let used = round(key in usage ? usage[key] : 0, 1);
+                let max = maxUsage[key];
+                pusage[key].max = max;
+                pusage[key].used = used;
+                pusage[key]['%'] = (max == 0) ? 0 :  round(used / max, 2);
+                pusage[key].remaining = max - used;
+            }
+
+            for (let key of ["max", "used", "remaining", "%"]) pusage.hours[key] = key == '%' ? pusage.minutes[key] : round(pusage.minutes[key]/60, 2);
+
+            return pusage;
         }
     }
 ]

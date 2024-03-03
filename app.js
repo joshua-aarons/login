@@ -60,7 +60,6 @@ F.addAuthChangeListener(async (user) => {
 
 F.addDataListener( (value) => {
     updateUserDataComponents(value);
-    if (noUser) appView.panel = "dash-board";
     noUser = false;
     showScreen("appView")
 })
