@@ -6,10 +6,13 @@ useCSSStyle("theme");
 class DataAndPrivacy extends UserDataComponent {
     onconnect(){
         this.template = getHTMLTemplate("data-and-privacy");
-        let optionalData = this.els["info/optionalData"];
-        optionalData.addEventListener("input", () => {
-            this.updateUserData({optionalData: optionalData.checked})
-        })
+        let keys = ['optionalData', 'requiredData']
+        for (let key of keys) {
+            let input = this.els["info/"+key];
+            input.addEventListener("input", () => {
+                this.updateUserData({[key]: input.checked})
+            })
+          }
     }
 
 }

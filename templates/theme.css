@@ -235,7 +235,7 @@ img {
     gap: 1.7rem;
 }
 
-.row, .row-center, .row-stretch {
+.row, .row-center, .row-stretch, .row-slider {
     gap: 1.3em;
     display: flex;
 }
@@ -251,6 +251,11 @@ img {
 
 .row-stretch {
     align-items: stretch;
+}
+
+.row-slider {
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
 .contact-buttons {
@@ -343,11 +348,10 @@ img {
 .switch {
     position: relative;
     display: inline-block;
-    width: 45px;
-    height: 25.5px;
-    top: 0%;
-    transform: translateY(-125%);
-    left: 150%;
+    --s: 1.5em;
+    --p: 0.2em;
+    width: calc(var(--s)*2 + var(--p)*2);
+    height: calc(var(--s) + var(--p)*2);
 }
   
 /* Hide default HTML checkbox */
@@ -359,12 +363,12 @@ img {
   
 /* The slider */
 .slider {
-    position: absolute;
-    cursor: pointer;
     top: 0;
     left: 0;
-    right: 0;
     bottom: 0;
+    right: 0;
+    position: absolute;
+    cursor: pointer;
     background-color: #ccc;
     -webkit-transition: .4s;
     transition: .4s;
@@ -373,13 +377,18 @@ img {
 .slider:before {
     position: absolute;
     content: "";
-    height: 19.5px;
-    width: 19.5px;
-    left: 3px;
-    bottom: 3px;
+    height: var(--s);
+    width: var(--s);
+    left: var(--p);
+    bottom: var(--p);
     background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
+}
+
+.switch[locked], .switch[locked] .slider {
+    opacity: 0.7;
+    cursor: no-drop;
 }
 
 input {
@@ -395,18 +404,18 @@ input:focus + .slider {
 }
   
 input:checked + .slider:before {
-    -webkit-transform: translateX(20px);
-    -ms-transform: translateX(20px);
-    transform: translateX(20px);
+    -webkit-transform: translateX(var(--s));
+    -ms-transform: translateX(var(--s));
+    transform: translateX(var(--s));
 }
   
 /* Rounded sliders */
 .slider.round {
-    border-radius: 25.5px;
+    border-radius: calc(var(--s) + 2*var(--p));
 }
   
 .slider.round:before {
-    border-radius: 50%;
+    border-radius: var(--s);
 }
 
 /* table {
