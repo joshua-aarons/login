@@ -69,8 +69,10 @@ class ProfilePanel extends UserDataComponent {
 
     }
     onhide() {
-        this.els.info.reset()
-        this.els.passwordReset.reset()
+        if (this.els) {
+            this.els.info.reset()
+            this.els.passwordReset.reset()
+        }
 
     }
     async updatePasscode() {

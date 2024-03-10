@@ -16,6 +16,17 @@ import { CustomComponent, SvgPlus, UserDataComponent } from "../CustomComponent.
 useCSSStyle("theme");
 useCSSStyle("app-view");
 
+function getURLPage(){
+    let hash = window.location.hash.replace("#", "");
+    if (hash.length == 0) hash = "dash-board";
+    console.log(hash);
+    return hash;
+}
+function setURLPage(name) {
+    window.location = window.location.origin + (name == null ? "/#" : '/#' + name);
+}
+
+
 export class AppView extends UserDataComponent {
     constructor(el = "app-view"){
         super(el)
@@ -28,13 +39,18 @@ export class AppView extends UserDataComponent {
                 this.panel = child.getAttribute("type");
             })
         }
-        this.panel = "dash-board"
+        this.panel = getURLPage();
+        window.addEventListener("hashchange", (e) => {
+            this.panel = getURLPage();
+        })
+
         // this.afterconnect()
     }
     set panel(type) {
         if (type == "logout") {
             this.userLogout();
         } else {
+            setURLPage(type)
             this._panel = type;
             for (let child of this.els.sideBar.children) {
                 child.classList.toggle("active", child.getAttribute("type") == type);
