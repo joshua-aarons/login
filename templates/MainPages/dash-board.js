@@ -20,7 +20,7 @@ class DashBoard extends UserDataComponent {
     onconnect() {
         this.template = getHTMLTemplate("dash-board");
         let { sessions } = this.els;
-        sessions.titleName = "<span class='row'>Recent Sessions <i class='fa-solid fa-circle-info' hover = 'recent sessions from the last 3 months'></i> </span>";
+        sessions.titleName = "<span class='row'>Recent Sessions <i class='fa-solid fa-circle-info' hover = 'recent sessions from the current and future quarters'></i> </span>";
         sessions.getSortValue = cell => {
             let sv = cell.textContent.toLowerCase();
             if (cell.key == "date") sv = time(cell.value);

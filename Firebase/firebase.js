@@ -330,7 +330,9 @@ async function watchData() {
     stopWatch()
     if (Database && User != null) {
         let userInfoRef = getUserRef()
-        await get(userInfoRef)
+        let us = httpsCallable(Functions, "updateSessions")
+        await us();
+        // await get(userInfoRef)
         onValue(userInfoRef, (value) => {
             updateDataListeners(value)
         })
