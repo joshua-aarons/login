@@ -1,5 +1,4 @@
 import { SvgPlus, Vector } from "./SvgPlus/4.js";
-import { updateUserData, addListener } from "./dummy-data.js";
 import { setUserInfo, signout, updateDisplayPhoto } from "./Firebase/firebase.js";
 
 let DATA_COMPONENTS = [];
@@ -256,7 +255,6 @@ class UserDataComponent extends DataComponent {
 }
 
 function updateUserDataComponents(value) {
-    console.log(value);
     for (let el of DATA_COMPONENTS) {
         el.value = value;
     }

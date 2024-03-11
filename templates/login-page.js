@@ -11,7 +11,6 @@ export class LoginPage extends CustomComponent {
         super(el)
         this.innerHTML = getHTMLTemplate("login")
         this.els = this.getElementLibrary();
-        console.log(this.els);
         let {signinToggle, signupToggle, signinForm, signupForm, forgotPasswordForm1} = this.els;
         signinToggle.onclick = () => this.classList.remove("active");
         signupToggle.onclick = () => this.classList.add("active");

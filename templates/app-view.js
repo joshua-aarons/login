@@ -19,7 +19,6 @@ useCSSStyle("app-view");
 function getURLPage(){
     let hash = window.location.hash.replace("#", "");
     if (hash.length == 0) hash = "dash-board";
-    console.log(hash);
     return hash;
 }
 function setURLPage(name) {
