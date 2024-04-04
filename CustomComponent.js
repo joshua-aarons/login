@@ -218,6 +218,9 @@ class DataComponent extends CustomComponent {
                         break;
                     case "value": el.value = sub;
                         break;
+                    case "background-image": 
+                        el.style.setProperty("background-image", `url("${sub}")`);
+                        break;
                     default: el[fieldtype] = sub;
                         break;
                 }

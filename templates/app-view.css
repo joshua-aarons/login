@@ -272,6 +272,9 @@ app-view:not(.dark-theme-variables) .right .theme-toggler span:first-child{
     border-radius: 50%;
     overflow: hidden;
     background-color: #eaeaf1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .profile-photo i {

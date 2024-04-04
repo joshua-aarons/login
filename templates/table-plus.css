@@ -176,6 +176,10 @@ td[key = tool][value = start] {
     font-size: 1.8rem;
 }
 
+tr[status = complete] td[key = tool][value = start] {
+    opacity: 0.5;
+    pointer-events: none;;
+}
 td[key = tool][value = start] {
     color: var(--color-great);
 }

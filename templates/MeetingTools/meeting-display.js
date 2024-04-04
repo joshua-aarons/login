@@ -74,6 +74,11 @@ const TimeZones = {
     "(GMT+11:00) Hobart": 11
 }
 
+const LINK_FORMAT_TOKENS = {
+    ":": "%3A",
+    "/": "%2F",
+    "?": "%3F"
+}
 
 
 /**
@@ -148,7 +153,7 @@ class MeetingDisplay extends DataComponent {
     }
 
     addToGoogleCalender(){
-        let {time, description, duration, timezone} = this.value;
+        let {time, description, duration, timezone, link} = this.value;
 
         let mOffset = -TimeZones[timezone] * 60;
         let start = new Date(time);
@@ -157,12 +162,14 @@ class MeetingDisplay extends DataComponent {
         end.setMinutes(end.getMinutes() + end.getTimezoneOffset() + mOffset)
 
         let f = (sd) => `${sd.getFullYear()}${(""+(sd.getMonth()+1)).padStart(2, 0)}${(""+(sd.getDate())).padStart(2, 0)}T${(""+sd.getHours()).padStart(2,0)}${(""+sd.getMinutes()).padStart(2,0)}00Z`;
-        let url = `https://calendar.google.com/calendar/render?action=TEMPLATE&dates=${f(start)}%2F${f(end)}&text=${description.replace(" ", "%20")}`
+        
+        let linkf = link.replace(/:|\?|\//g, (a) => LINK_FORMAT_TOKENS[a]);
+        let url = `https://calendar.google.com/calendar/render?action=TEMPLATE&dates=${f(start)}%2F${f(end)}&location=${linkf}&text=${description.replace(" ", "%20")}`
         window.open(url);
     }
 
     addToOutlook(){
-        let {time, description, duration, timezone} = this.value;
+        let {time, description, duration, timezone, link} = this.value;
 
         let mOffset = -TimeZones[timezone] * 60;
         let start = new Date(time);
@@ -170,8 +177,9 @@ class MeetingDisplay extends DataComponent {
         let end = new Date(time + duration * 60 * 1000);
         end.setMinutes(end.getMinutes() + end.getTimezoneOffset() + mOffset)
 
+        let linkf = link.replace(/:|\?|\//g, (a) => LINK_FORMAT_TOKENS[a]);
         let f = (sd) => `${sd.getFullYear()}-${(""+(sd.getMonth()+1)).padStart(2, 0)}-${(""+(sd.getDate())).padStart(2, 0)}T${(""+sd.getHours()).padStart(2,0)}%3A${(""+sd.getMinutes()).padStart(2,0)}%3A00%2B00%3A00`;
-        let url = `https://outlook.office.com/calendar/0/action/compose?allday=false&enddt=${f(end)}&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=${f(start)}&subject=${description}`
+        let url = `https://outlook.office.com/calendar/0/action/compose?allday=false&enddt=${f(end)}&location=${linkf}&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=${f(start)}&subject=${description}`
         // let url = `https://outlook.office365.com/calendar/0/action/compose?allday=false&enddt=${f(end)}&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=${f(start)}&subject=${description}`
         window.open(url);
     }

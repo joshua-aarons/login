@@ -82,7 +82,7 @@ class DashBoard extends UserDataComponent {
             let today = new Date()
             let before = new Date()
 
-            let m1 = Math.floor(today.getMonth() / 4) *4;
+            let m1 = Math.floor(today.getMonth() / 3) * 3;
             before.setMonth(m1)
             before.setDate(1);
             before.setHours(0);
