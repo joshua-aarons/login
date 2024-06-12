@@ -177,8 +177,8 @@ td[key = tool][value = start] {
 }
 
 tr[status = complete] td[key = tool][value = start] {
-    opacity: 0.5;
-    pointer-events: none;;
+    color: var(--color-great-light);
+    pointer-events: none;
 }
 td[key = tool][value = start] {
     color: var(--color-great);
