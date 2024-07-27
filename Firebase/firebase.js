@@ -409,6 +409,11 @@ const TIER_USAGE_PER_MONTH = {
         minutes: 4*2*60,
         sessions: 20,
         storage: 300,
+    },
+    Pro: {
+        minutes: 60 * 1000,
+        sessions: 1000,
+        storage: 500,
     }
 }
 export function parseSession(session) {

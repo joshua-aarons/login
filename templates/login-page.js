@@ -72,7 +72,7 @@ export class LoginPage extends CustomComponent {
     }
 
     logout(){signout()}
-    sendEmailVericiation(){sendEmailVerification()}
+    sendVerification(){sendEmailVerification()}
 
     closeEmailVerify(){
         this.emailVerify = false;

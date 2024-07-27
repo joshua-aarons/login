@@ -3,7 +3,6 @@ import { useCSSStyle } from "../template.js";
 
 useCSSStyle("input-plus");
 useCSSStyle("theme")
-
 const DEFAULT_VALIDATERS = {
     email: (email) => {
         let expression = /^[^@]+@\w+(\.\w+)+\w$/
