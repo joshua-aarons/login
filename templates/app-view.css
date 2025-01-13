@@ -74,9 +74,10 @@ aside .logo {
     gap: 0.8rem;
 }
 
-aside .logo img {
+aside .logo squidly-loader {
     width: 2rem;
     height: 2rem;
+    display: inline;
 }
 
 aside .close {
@@ -263,6 +264,9 @@ app-view:not(.dark-theme-variables) .right .theme-toggler span:first-child{
 
 .right .meeting .item.schedule .icon {
     background: var(--color-danger);
+}
+.right .meeting .item.grid-editor .icon {
+    background: var(--color-great);
 }
 
 .profile-photo {

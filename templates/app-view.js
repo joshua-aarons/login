@@ -11,7 +11,7 @@ import {} from "./hover.js"
 import {} from "./MeetingTools/meeting-display.js"
 import {} from "./MeetingTools/meeting-scheduler.js"
 import { createSession } from "../Firebase/firebase.js"
-import { CustomComponent, SvgPlus, UserDataComponent } from "../CustomComponent.js"
+import { UserDataComponent } from "../CustomComponent.js"
 
 useCSSStyle("theme");
 useCSSStyle("app-view");
@@ -97,6 +97,10 @@ export class AppView extends UserDataComponent {
         this.els.meetingSchedulerPopup.classList.add("open")
     }
 
+    openGridEditor(){
+        window.open(window.location + "/Grids");
+    }
+
     async hostMeeting(){
         let time = new Date();
         time.setMinutes(time.getMinutes() - time.getTimezoneOffset());
@@ -113,5 +117,3 @@ export class AppView extends UserDataComponent {
 
 
 }
-
-// SvgPlus.defineHTMLElement(AppView);
