@@ -1,4 +1,4 @@
-import { SvgPlus, CustomForm } from "../CustomComponent.js"
+import { SvgPlus } from "../CustomComponent.js"
 import { useCSSStyle } from "../template.js";
 
 useCSSStyle("table-plus");

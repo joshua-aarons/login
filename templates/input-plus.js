@@ -1,4 +1,4 @@
-import {SvgPlus, CustomForm, CustomComponent} from "../CustomComponent.js"
+import {SvgPlus} from "../CustomComponent.js"
 import { useCSSStyle } from "../template.js";
 
 useCSSStyle("input-plus");
