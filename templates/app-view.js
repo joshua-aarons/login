@@ -98,7 +98,7 @@ export class AppView extends UserDataComponent {
     }
 
     openGridEditor(){
-        window.open(window.location + "/Grids");
+        window.open(window.location.origin + "/Grids");
     }
 
     async hostMeeting(){
