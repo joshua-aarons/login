@@ -102,6 +102,9 @@ export class AppView extends UserDataComponent {
     openGridEditor(){
         window.open(window.location.origin + "/Grids");
     }
+    openQuizEditor(){
+        window.open(window.location.origin + "/Quizzes");
+    }
 
     async hostMeeting(){
         let time = new Date();
