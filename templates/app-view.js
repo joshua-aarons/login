@@ -48,6 +48,8 @@ export class AppView extends UserDataComponent {
     set panel(type) {
         if (type == "logout") {
             this.userLogout();
+        } else if (type == "billing") {
+            this.updateBilling()
         } else {
             setURLPage(type)
             this._panel = type;
@@ -57,7 +59,7 @@ export class AppView extends UserDataComponent {
             for (let child of this.els.main.children) {
                 child.active = child.tagName.toLowerCase() == type
             }
-        }
+        } 
     }
     get panel(){
         return this._panel;
@@ -113,6 +115,10 @@ export class AppView extends UserDataComponent {
     displayMeeting(meeting){
         this.els.meetingDisplayPopup.classList.add('open')
         this.els.meetingDisplay.value = meeting 
+    }
+
+    updateBilling(){
+        window.open(window.location.origin + `/Billing`);
     }
 
 
