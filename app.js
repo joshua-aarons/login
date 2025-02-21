@@ -14,7 +14,7 @@ let Type = null;
 function showScreen(type) {
     if (Type == null) {
         setTimeout(() => {
-            document.querySelector("squidly-loader").hide(0.5);
+            document.querySelector("squidly-loader[full]").hide(0.5);
         },500);
     }
     if (type !== Type) {

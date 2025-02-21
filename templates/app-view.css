@@ -71,13 +71,16 @@ aside .top {
 
 aside .logo {
     display: flex;
-    gap: 0.8rem;
+    gap: 0rem;
 }
 
 aside .logo squidly-loader {
-    width: 2rem;
-    height: 2rem;
+    width: 3rem;
+    height: 3rem;
     display: inline;
+}
+aside .logo img {
+    height: 3rem;
 }
 
 aside .close {
@@ -376,4 +379,28 @@ dash-board:not([no-sessions]) .no-sessions-message{
 
 .no-sessions-message .ctext {
     padding: 1em 0;
+}
+ .popup > .grid-editor {
+    background: white;
+    border-radius: 1.2em;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.popup > i {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    width: 2.5em;
+    height: 2.5em;
+    padding: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.popup > i:hover {
+    transform: scale(1.2);
+    cursor: pointer;
 }

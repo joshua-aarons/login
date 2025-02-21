@@ -11,7 +11,10 @@ import {} from "./hover.js"
 import {} from "./MeetingTools/meeting-display.js"
 import {} from "./MeetingTools/meeting-scheduler.js"
 import { createSession } from "../Firebase/firebase.js"
-import { UserDataComponent } from "../CustomComponent.js"
+import { SvgPlus, UserDataComponent } from "../CustomComponent.js"
+
+import {} from "../Grids/grid-editor.js";
+
 
 useCSSStyle("theme");
 useCSSStyle("app-view");
@@ -24,6 +27,33 @@ function getURLPage(){
 function setURLPage(name) {
     window.location = window.location.origin + (name == null ? "/#" : '/#' + name);
 }
+
+
+
+
+
+// /** @param {HTMLElement} root */
+// async function addToShadow(root, elements, styles) {
+//     let styleEls = (await Promise.all(styles.map(async styleURL => {
+//         try {
+//             return await (await fetch(styleURL)).text()
+//         } catch (e) {
+//             return null;
+//         }
+//     }))).filter(a => a!=null).map(st => {
+//         st = st.replace(":root", "[root]")
+//         let el = new SvgPlus("style");
+//         el.innerHTML = st;
+//         return el;
+//     });
+//     console.log(styleEls);
+//     let children = [...root.children];
+//     children.forEach(c => c.toggleAttribute("root", true))
+//     children = [...styleEls, ...children];
+//     root.innerHTML = "";
+//     let shadow = root.attachShadow({mode: "open"})
+//     children.forEach(c => shadow.appendChild(c));
+// }
 
 
 export class AppView extends UserDataComponent {
@@ -42,8 +72,6 @@ export class AppView extends UserDataComponent {
         window.addEventListener("hashchange", (e) => {
             this.panel = getURLPage();
         })
-
-        // this.afterconnect()
     }
     set panel(type) {
         if (type == "logout") {
@@ -100,7 +128,10 @@ export class AppView extends UserDataComponent {
     }
 
     openGridEditor(){
-        window.open(window.location.origin + "/Grids");
+        this.els.gridEditorPopup.classList.add("open")
+    }
+    closeGridEditor(){
+        this.els.gridEditorPopup.classList.remove("open")
     }
     openQuizEditor(){
         window.open(window.location.origin + "/Quizzes");

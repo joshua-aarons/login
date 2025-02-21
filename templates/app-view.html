@@ -2,7 +2,7 @@
     <div class="top">
         <div class="logo">
             <squidly-loader></squidly-loader>
-            <h2><span class="danger">SQUIDLY</span></h2>
+            <img src ="./images/logo-text.svg">
         </div>
         <div class="close" id="close-btn">
             <span class="material-symbols-outlined">close</span>
@@ -107,6 +107,29 @@
                         <h3>SCHEDULE MEETING</h3>
                     </div>
                 </div>
+            </div>
+    
+            <!--- OPEN SCHEDULER MODAL --->
+            <div class="popup" name = "meetingSchedulerPopup">
+                <meeting-scheduler name="meetingScheduler"></meeting-scheduler>
+            </div>
+    
+            <div class="popup" name = "meetingDisplayPopup">
+                <meeting-display name="meetingDisplay"></meeting-display>
+            </div>
+
+            <div class="popup" name = "gridEditorPopup">
+                <div name = "gridEditorRoot" class = "grid-editor">
+                    <grid-creator-app></grid-creator-app>
+                </div>
+                <i onclick="closeGridEditor"><span class="material-symbols-outlined">
+                    close
+                    </span></i>
+            </div>
+        </div>
+        <div class="meeting">
+            <h2>Editors</h2>
+            <div class = "items">
 
                 <div class="item grid-editor" onclick = "openGridEditor" >
                     <div class="icon">
@@ -135,6 +158,15 @@
     
             <div class="popup" name = "meetingDisplayPopup">
                 <meeting-display name="meetingDisplay"></meeting-display>
+            </div>
+
+            <div class="popup" name = "gridEditorPopup">
+                <div name = "gridEditorRoot" class = "grid-editor">
+                    <grid-creator-app></grid-creator-app>
+                </div>
+                <i onclick="closeGridEditor"><span class="material-symbols-outlined">
+                    close
+                    </span></i>
             </div>
         </div>
     </div>
