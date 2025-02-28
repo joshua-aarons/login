@@ -1,5 +1,5 @@
-const IS_DEV = true && window.location.origin.startsWith("http://127");
-const URL = IS_DEV ? "http://127.0.0.1:5502" : "https://grids.squidly.com.au"
+const IS_DEV = false && window.location.origin.startsWith("http://127");
+const URL = IS_DEV ? "http://127.0.0.1:5502" : "https://quizzes.squidly.com.au"
 
 let URL_GE = URL + "/QuizEditor/quiz-editor.js";
 import { ShadowElement } from "../CustomComponent.js";
