@@ -28,6 +28,7 @@ function showScreen(type) {
 // Sometimes user may already be authenticated before siging in to the app
 let noUser = true;
 F.addAuthChangeListener(async (user) => {
+    
     if (user == null) {
         showScreen("loginPage")
         noUser = true;
@@ -37,10 +38,12 @@ F.addAuthChangeListener(async (user) => {
         loginPage.emailVerify = true;
         noUser = true;
     } else {
+
     }
 });
 
 F.addDataListener( (value) => {
+    
     updateUserDataComponents(value);
     noUser = false;
     showScreen("appView")

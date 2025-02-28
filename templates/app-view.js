@@ -14,6 +14,7 @@ import { createSession } from "../Firebase/firebase.js"
 import { SvgPlus, UserDataComponent } from "../CustomComponent.js"
 
 import {} from "../Grids/grid-editor.js";
+import {} from "../Quizzes/quiz-editor.js";
 
 
 useCSSStyle("theme");
@@ -134,7 +135,11 @@ export class AppView extends UserDataComponent {
         this.els.gridEditorPopup.classList.remove("open")
     }
     openQuizEditor(){
-        window.open(window.location.origin + "/Quizzes");
+        this.els.quizEditorPopup.classList.add("open")
+
+    }
+    closeQuizEditor(){
+        this.els.quizEditorPopup.classList.remove("open")
     }
 
     async hostMeeting(){

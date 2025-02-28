@@ -1,17 +1,21 @@
+const IS_DEV = true && window.location.origin.startsWith("http://127");
+const URL = IS_DEV ? "http://127.0.0.1:5503/" : "https://grids.squidly.com.au"
+
+let URL_GE = URL + "/GridCreator/grid-editor.js";
 import { ShadowElement } from "../CustomComponent.js";
-import { GridEditor } from "https://grids.squidly.com.au/GridCreator/grid-editor.js";
-import { Icon } from "https://grids.squidly.com.au/Icons/icons.js";
 import { SvgPlus } from "../SvgPlus/4.js";
 
 class GridCreatorApp extends ShadowElement {
     constructor(el = "grid-creator-app"){
         super(el, "grid-root");
-        this.gridEditor = new GridEditor();
-        this.appendChild(this.gridEditor);
+        
         this.load();
     }
 
     async load(){
+        const {GridEditor} = await import(URL_GE)
+        this.gridEditor = new GridEditor();
+        this.appendChild(this.gridEditor);
         try {
             await Promise.all([
                 this.loadStyles(),

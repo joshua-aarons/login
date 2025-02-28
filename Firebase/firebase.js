@@ -1,118 +1,39 @@
-import { firebaseConfig, storageURL } from "./firebase-config.js"
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
-import { signOut, getAuth, signInWithRedirect, GoogleAuthProvider, FacebookAuthProvider, onAuthStateChanged, sendEmailVerification as _sendEmailVerification, EmailAuthProvider, reauthenticateWithCredential, updatePassword, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'
-import { getDatabase, child, push, ref as _ref, get, onValue, onChildAdded, onChildChanged, onChildRemoved, set, update, off } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js'
-import { getStorage, ref as sref, uploadBytesResumable, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js'
-import { getFunctions, httpsCallable  } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js'
+import {
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    sendPasswordResetEmail,
+    sendEmailVerification,
+    signOut,
+    callFunction,
+    ref,
+    onValue,
+    get,
+    update,
+    child,
+    onChildAdded,
+    push,
+    set,
+    addAuthChangeListener,
+    initialise,
+    getUser
 
-let initialised = false;
-let userInitialised = false;
-let App = null;
-let Database = null;
-let Auth = null;
-let User = null;
-let StateListeners = [];
+} from "./firebase-client.js"
 const SESSION_ROOT_KEY = "meetings";
-let Functions = null;
 
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SIGNIN/OUT FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-// Generates a random key to use as the device's unique identifier DUID.
-function makeRandomKey() {
-    return (Math.round(Math.random() * 100000)).toString(32) + Math.round(performance.now() * 1000).toString(32) + (Math.round(Math.random() * 100000)).toString(32);
+
+function callF(name, data) {
+    return callFunction(name, data, "asia-southeast1")
 }
-
-/* If a DUID already exists in local storage retreive that key otherwise generate a new key 
-   and store in local storage. */
-let DUID = localStorage.getItem('duid');
-if (DUID == null) {
-    DUID = makeRandomKey();
-    localStorage.setItem('duid', DUID);
-}
-
-/* If the user has changed updates the new user and calls all listeners with the new user data.
-   If a listener returns the string "remove" then the listener will be removed */
-async function authChangeHandler(user) {
-    // If the user has changed to or from null OR a new user has logged in
-    if (((user == null) != (User == null)) || (user != null && User != null && user.uid != user.uid) || !userInitialised) {
-        // Update the user object
-        User = user;
-        if (User != null) watchData();
-        let newListeners = [];
-        // Call listeners with the new user
-        for (let obj of StateListeners) {
-            if (obj instanceof Function) {
-                if (obj(user) != "remove") newListeners.push(obj);
-            } else if (typeof obj === 'object' && obj !== null) {
-                if (obj.onauthchange instanceof Function) {
-                    if (obj.onauthchange(user) != "remove") newListeners.push(obj);
-                }
-            }
-        }
-        StateListeners = newListeners;
-    }
-}
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-/*  Initialize firebase, initializes the firebase app with the given configuration
-    after initializing wait for an auth state change and return */
-export async function initialise(config = firebaseConfig) {
-    if (initialised) return;
-    initialised = true;
-    App = initializeApp(config);
-    Database = getDatabase(App);
-    Auth = getAuth();
-    Functions = getFunctions(App, "asia-southeast1");
-
-    return new Promise((resolve, reject) => {
-        onAuthStateChanged(Auth, async (userData) => {
-            console.log("auth state change: user data", userData);
-            if (!userInitialised) {
-                resolve();
-            }
-            authChangeHandler(userData);
-            userInitialised = true;
-        });
-    });
-
-}
-
-//  Add an auth state change listener
-export function addAuthChangeListener(obj) {
-    StateListeners.push(obj);
-}
-
-// Get user uid, if none exists then the DUID is returned instead
-export function getUID() {
-    let uid = DUID;
-    if (User != null && typeof User !== "string") {
-        uid = User.uid;
-    }
-    console.log(User);
-    return uid;
-}
-
-// Get user data object
-export function getUser() { return User; }
-
-// Get App object
-export function getApp() { return App; }
-
-// Get Database object
-export function getDB() { return Database; }
-
-// Get Ref using database
-export function ref(path) { return _ref(Database, path); }
-
-
-
 
 function getUserRef(path) {
     let r = null
-    if (User && Database) {
+    let user = getUser();
+    if (user) {
         path = typeof path === "string" ? "/" + path : "";
-        r = ref('users/' + User.uid + path);
+        r = ref('users/' + user.uid + path);
     }
     return r
 }
@@ -125,6 +46,7 @@ async function getUserData(path) {
     }
     return userData;
 }
+
 export async function setUserInfo(info) {
     if (User) {
         let infoRef = ref('users/' + User.uid + '/info');
@@ -132,7 +54,9 @@ export async function setUserInfo(info) {
     }
 }
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SIGNIN/OUT FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+export function getUserInfo() {
+    return LastInfo;
+}
 
 class LoginError extends Error {
     constructor(error) {
@@ -170,7 +94,7 @@ class LoginError extends Error {
                 inputName = "password";
                 break;
 
-            case "auth/too-many-requests": 
+            case "auth/too-many-requests":
                 message = "To many attempts";
                 inputName = "password";
 
@@ -191,45 +115,32 @@ export async function signin(type, info) {
         case "email":
             let { email, password } = info;
             try {
-                await signInWithEmailAndPassword(Auth, email, password);
+                await signInWithEmailAndPassword(email, password);
             } catch (error) {
                 throw new LoginError(error);
             }
             break;
 
-        case "gmail":
-            const gprovider = new GoogleAuthProvider();
-            signInWithRedirect(Auth, gprovider);
-            break;
+        // case "gmail":
+        //     const gprovider = new GoogleAuthProvider();
+        //     signInWithRedirect(Auth, gprovider);
+        //     break;
 
-        case "facebook": 
-            const fprovider = new FacebookAuthProvider();
-            fprovider.addScope("email");
-            fprovider.addScope("public_profile");
-            signInWithRedirect(Auth, fprovider);
-            break;
+        // case "facebook": 
+        //     const fprovider = new FacebookAuthProvider();
+        //     fprovider.addScope("email");
+        //     fprovider.addScope("public_profile");
+        //     signInWithRedirect(Auth, fprovider);
+        //     break;
 
-        case "facebook":
-            throw new LoginError("Facebook has not yet been setup.");
+        // case "facebook":
+        //     throw new LoginError("Facebook has not yet been setup.");
     }
 }
 
-export async function sendEmailVerification(){
-    // Send email verification
-    if (User) {
-        const actionCodeSettings = {
-            url: window.location.origin,
-            handleCodeInApp: true
-        };
-        await _sendEmailVerification(User, actionCodeSettings);
-    }
-}
 
-export async function sendForgotPasswordEmail(email){
-    await sendPasswordResetEmail(Auth, email, {
-        url: window.location.origin,
-        handleCodeInApp: true
-    })
+export async function sendForgotPasswordEmail(email) {
+    await sendPasswordResetEmail(email)
 }
 
 export async function signup(type, info) {
@@ -253,17 +164,17 @@ export async function signup(type, info) {
             }
             break;
 
-        case "gmail":
-            const provider = new GoogleAuthProvider();
-            signInWithRedirect(Auth, provider);
-            break;
+        // case "gmail":
+        //     const provider = new GoogleAuthProvider();
+        //     signInWithRedirect(Auth, provider);
+        //     break;
 
-        case "facebook":
-            throw new LoginError("Facebook has not yet been setup.");
+        // case "facebook":
+        //     throw new LoginError("Facebook has not yet been setup.");
     }
 }
 
-export function signout() { signOut(Auth) }
+export function signout() { signOut() }
 
 
 async function resetPassword(data) {
@@ -276,25 +187,18 @@ async function resetPassword(data) {
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SESSION FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Make session creates a new session signaling channel in the database
-   returns the new session key */
+returns the new session key */
 export async function createSession(info) {
-    
-    const make = httpsCallable(Functions, 'createSession');
-    let {data} = await make(info);
-
+    let { data } = await callF('createSession', info);
     return parseSession(data);
 }
 
 export async function deleteSession(sid) {
-    const del = httpsCallable(Functions, 'deleteSession');
-    await del({sid});
+    const del = await callF('deleteSession', { sid });
 }
 
-export async function editSession(info){
-    const edit = httpsCallable(Functions, 'editSession');
-    let {data} = await edit(info);
-    console.log("edit", data);
-
+export async function editSession(info) {
+    let { data } = await callF('editSession', info);
     return parseSession(data);
 }
 
@@ -328,10 +232,9 @@ function updateDataListeners(sc) {
 let FirebaseDataListeners = []
 async function watchData() {
     stopWatch()
-    if (Database && User != null) {
+    if (getUser() != null) {
         let userInfoRef = getUserRef()
-        let us = httpsCallable(Functions, "updateSessions")
-        await us();
+        let us = await callF("updateSessions")
         // await get(userInfoRef)
         onValue(userInfoRef, (value) => {
             updateDataListeners(value)
@@ -367,7 +270,8 @@ function updateAdminListeners(sc) {
 let FirebaseAdminListeners = []
 async function watchAdmin(name) {
     stopAdminWatch()
-    if (Database && User != null) {
+
+    if (getUser() != null) {
         let adminRef = ref(`companies/${name}`)
         onValue(adminRef, (value) => {
             updateAdminListeners(value.val())
@@ -380,19 +284,14 @@ function stopAdminWatch() {
     }
 }
 
-export async function updateAdminUsers(info){
-    const update = httpsCallable(Functions, 'updateAdminUsers');
-    let data = await update(info);
-    console.log("update", data);
-
+export async function updateAdminUsers(info) {
+    const {data} = await callF('updateAdminUsers', info);
     return data
 }
 
-export async function removeAdminUser(email){
-    const remove = httpsCallable(Functions, 'removeAdminUser');
-    let data = await remove({email});
+export async function removeAdminUser(email) {
+    const {data} = callF('removeAdminUser',{ email });
     console.log("remove", data);
-
     return data
 }
 
@@ -406,7 +305,7 @@ const TIER_USAGE_PER_MONTH = {
         storage: 0,
     },
     Standard: {
-        minutes: 4*2*60,
+        minutes: 4 * 2 * 60,
         sessions: 20,
         storage: 300,
     },
@@ -422,32 +321,33 @@ export function parseSession(session) {
     if ((new Date()).getTime() > ds.getTime() + session.duration * 60 * 1000) {
         session.status = "complete"
     }
-    session.date = `${ds.getDate()}/${ds.getMonth()+1}/${ds.getFullYear()} ${ds.toLocaleTimeString("en", {timeStyle: "short"})}`
+    session.date = `${ds.getDate()}/${ds.getMonth() + 1}/${ds.getFullYear()} ${ds.toLocaleTimeString("en", { timeStyle: "short" })}`
     session.link = `${window.location.origin}/Session/?${session.sid}`
     return session;
 }
-function round(x, y) {return Math.round(Math.pow(10, y) * x) / Math.pow(10, y)}
+function round(x, y) { return Math.round(Math.pow(10, y) * x) / Math.pow(10, y) }
 let LastInfo = null;
 const DATA_PARSERS = [
     {
         name: "info",
         parse: (info) => {
+            let user = getUser();
             if (info == null) {
                 info = {
                     firstName: "",
                     lastName: "",
-                    displayName: User.displayName,
-                    email: User.email,
+                    displayName: user.displayName,
+                    email: user.email,
                 }
                 setUserInfo(info);
             }
             if (!info.email)
-                info.email = User.email
+                info.email = user.email
 
             if (!info.displayName || info.displayName == '')
                 info.displayName = info.firstName + ' ' + info.lastName
 
-            if (!info.displayPhoto) info.displayPhoto = User.photoURL
+            if (!info.displayPhoto) info.displayPhoto = user.photoURL
 
             if (!info.optionalData) info.optionalData = false;
 
@@ -494,10 +394,10 @@ const DATA_PARSERS = [
             if (usage == null) usage = {};
 
             let pusage = {
-                minutes: {used: 0},
-                sessions: {used: 0},
-                storage: {used: 0},
-                hours: {used: 0}
+                minutes: { used: 0 },
+                sessions: { used: 0 },
+                storage: { used: 0 },
+                hours: { used: 0 }
             };
             let tier = data.licence.tier;
             let maxUsage = TIER_USAGE_PER_MONTH[tier];
@@ -507,11 +407,11 @@ const DATA_PARSERS = [
                 let max = maxUsage[key];
                 pusage[key].max = max;
                 pusage[key].used = used;
-                pusage[key]['%'] = (max == 0) ? 0 :  round(used / max, 2);
+                pusage[key]['%'] = (max == 0) ? 0 : round(used / max, 2);
                 pusage[key].remaining = max - used;
             }
 
-            for (let key of ["max", "used", "remaining", "%"]) pusage.hours[key] = key == '%' ? pusage.minutes[key] : round(pusage.minutes[key]/60, 2);
+            for (let key of ["max", "used", "remaining", "%"]) pusage.hours[key] = key == '%' ? pusage.minutes[key] : round(pusage.minutes[key] / 60, 2);
 
             return pusage;
         }
@@ -555,36 +455,13 @@ async function updateDisplayPhoto(file, callback) {
     setUserInfo({ displayPhoto: url })
 }
 
-// Upload file to firebase storage bucket
-async function uploadFileToCloud(file, path, statusCallback) {
-    let Storage = getStorage(App, storageURL);
 
-    // path = `${path}`
-    console.log("uploading file of size", (file.size / 1e6) + "MB");
-
-    if (!(file instanceof File) || typeof path !== 'string') {
-        console.log('invalid file');
-        return null;
+addAuthChangeListener((user) => {
+    if (user != null) {
+        watchData()
     }
+})
 
-    if (!(statusCallback instanceof Function))
-        statusCallback = () => { }
-
-    let sr = sref(Storage, path);
-
-    let uploadTask = uploadBytesResumable(sr, file);
-    console.log(uploadTask);
-    uploadTask.on('next', statusCallback)
-    await uploadTask;
-
-    let url = await getDownloadURL(sr);
-    return url;
-}
-
-export function getUserInfo(){
-    return LastInfo;
-}
-
-export { child, get, push, set, onChildAdded, onValue, resetPassword, updateDisplayPhoto }
+export {initialise, addAuthChangeListener, sendEmailVerification, child, get, push, set, onChildAdded, onValue, resetPassword, updateDisplayPhoto }
 
 
