@@ -37,6 +37,8 @@ class GridCreatorApp extends ShadowElement {
     static get usedStyleSheets() {return [
         "https://grids.squidly.com.au/GridCreator/grid-editor.css",
         "https://grids.squidly.com.au/GridCreator/grid.css",
+        "https://grids.squidly.com.au/GridCreator/symbols.css",
+        "https://grids.squidly.com.au/GridCreator/wb-inputs.css",
     ]}
 }
 
