@@ -21,10 +21,7 @@ class GridCreatorApp extends ShadowElement {
                 this.loadStyles(),
                 this.gridEditor.initialise(),
             ]);
-
-
             
-            this.gridEditor.topicsList.children[0].remove();
             
         } catch (e) {
             console.log(e);
