@@ -10,11 +10,11 @@ import {} from "./hover.js"
 
 import {} from "./MeetingTools/meeting-display.js"
 import {} from "./MeetingTools/meeting-scheduler.js"
-import { createSession } from "../Firebase/firebase.js"
 import { SvgPlus, UserDataComponent } from "../CustomComponent.js"
 
 import {} from "../Grids/grid-editor.js";
 import {} from "../Quizzes/quiz-editor.js";
+import { createSession } from "../Firebase/New/sessions.js"
 
 
 useCSSStyle("theme");
@@ -101,7 +101,7 @@ export class AppView extends UserDataComponent {
                 this.els.noLicencePopup.classList.toggle("open", e.licence.tier == "None");
                 e.isAdmin = e.licence.tier == "None" ? "" : e.isAdmin;
             } 
-            this.dark = e.info.dark === true;
+            this.dark = e?.info?.dark === true;
 
             if (typeof e.admin !== "string" && this.panel == "admin-control") this.panel = "dash-board";
             this.toggleAttribute("admin", typeof e.admin === "string");
@@ -147,8 +147,8 @@ export class AppView extends UserDataComponent {
         time.setMinutes(time.getMinutes() - time.getTimezoneOffset());
         time = time.getTime();
 
-        let {sid} = await createSession({description: "My Meeting", time: time, timezone: "(UTC+11:00) Canberra, Melbourne, Sydney"});
-        window.open(window.location.origin + `/Session/?${sid}`);
+        let sid = await createSession({description: "My Meeting", startTime: time, timezone: "(UTC+11:00) Canberra, Melbourne, Sydney"});
+        window.open(window.location.origin + `/V3/?${sid}`);
     }
 
     displayMeeting(meeting){

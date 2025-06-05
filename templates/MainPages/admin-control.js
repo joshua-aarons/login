@@ -44,8 +44,8 @@ class AdminControl extends UserDataComponent {
 
         this.attachEvents();
     }
+    
     onvalue(value){
-       
         if (value && value.info && value.info.email) {
             let {email} = value.info;
             this.email = email;
@@ -57,6 +57,8 @@ class AdminControl extends UserDataComponent {
     
 
     onAdminData(v) {
+        console.log(v);
+        
         let mcount = 0;
         let seats = 0;
         if (v.users) {

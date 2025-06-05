@@ -1,5 +1,5 @@
 import { CustomForm, SvgPlus } from "../../CustomComponent.js";
-import { createSession, editSession } from "../../Firebase/firebase.js";
+import { createSession, parseSession, updateSession } from "../../Firebase/New/sessions.js";
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 import {} from "../input-plus.js"
 
@@ -22,17 +22,19 @@ class MeetingScheduler extends CustomForm {
 
             let time = new Date(value["start-time"]);
             time.setMinutes(time.getMinutes() - time.getTimezoneOffset());
-            value.time = time.getTime();
+            value.startTime = time.getTime();
 
             this.loading = true;
-            let data = {};
+            let data = null
             if (this.sid == null) {
                 data = await createSession(value);
             } else {
                 value.sid = this.sid;
-                data = await editSession(value);
+                data = this.sid;
+                await updateSession(this.sid, value);
             }
-            this.appView.displayMeeting(data);
+            value.time = time.getTime();
+            this.appView.displayMeeting(parseSession(this.sid, {info: value}, true));
             this.parentNode.classList.remove("open");
             this.loading = false;
             this.value = "";

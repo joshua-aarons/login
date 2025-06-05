@@ -1,5 +1,6 @@
 import { DataComponent, SvgPlus } from "../../CustomComponent.js"
-import { deleteSession, getUserInfo} from "../../Firebase/firebase.js"
+import { getUserInfo} from "../../Firebase/firebase.js"
+import { deleteSession } from "../../Firebase/New/sessions.js"
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 
 useCSSStyle("meeting-display")
