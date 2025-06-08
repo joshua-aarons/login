@@ -1,7 +1,8 @@
-import { CustomComponent, SvgPlus, UserDataComponent } from "../../CustomComponent.js";
+import { SvgPlus, UserDataComponent } from "../../CustomComponent.js";
+import { resetPassword } from "../../Firebase/New/accounts.js";
 import { getHTMLTemplate, useCSSStyle } from "../../template.js";
 import { } from "../input-plus.js"; 
-import { resetPassword } from "../../Firebase/firebase.js";
+
 
 useCSSStyle("theme");
 

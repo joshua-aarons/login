@@ -128,6 +128,32 @@ select {
     -moz-appearance: none;
     text-indent: 1px;
     text-overflow: '';
+    background: transparent;
+}
+.select-box select {
+    color: white;
+    padding: 1em;
+    padding-right: 2.1em;
+}
+.select-box {
+    border-radius: 1em;
+    cursor: pointer;
+    background: var(--color-danger);
+    position: relative;
+    display: flex;
+}
+
+.select-box::after {
+    content: ' ';
+    position: absolute;
+    right: 1.1em;
+    top: 50%;
+    transform: translate(50%, -50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid white;
 }
 
 input-plus input[disabled] {

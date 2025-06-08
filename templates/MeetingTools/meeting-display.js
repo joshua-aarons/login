@@ -1,6 +1,6 @@
 import { DataComponent, SvgPlus } from "../../CustomComponent.js"
-import { getUserInfo} from "../../Firebase/firebase.js"
 import { deleteSession } from "../../Firebase/New/sessions.js"
+import { getUserInfo } from "../../Firebase/New/user.js"
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 
 useCSSStyle("meeting-display")
@@ -95,14 +95,7 @@ class MeetingDisplay extends DataComponent {
 
         computeCharacterWidths(els.link);
         this.els = els;
-
-        // this.value = {
-        //     description: "description",
-        //     "start-time": "today",
-        //     duration:  60,
-        //     "meeting-id": "xxxxxxxxxxxxxxx",
-        //     "link": "app.squidly.com/Session/?xxxxxxxxxxxxxxx"
-        // }
+      
 
         // on frame updates
         let next = () => {
@@ -111,6 +104,7 @@ class MeetingDisplay extends DataComponent {
         }
         window.requestAnimationFrame(next);
     }
+
     resizeLink() {
         if (this.value && this.value.link) {
             let link = this.value.link;
@@ -123,6 +117,8 @@ class MeetingDisplay extends DataComponent {
             this.els.link.innerHTML = linkText;
         }
     }
+
+
     close() {
         this.parentNode.classList.remove('open')
     }

@@ -4,7 +4,7 @@
  * 
  */
 
-import { callFunction, equalTo, get, onChildAdded, onChildRemoved, onValue, orderByChild, query, ref, update } from "../firebase-client.js";
+import { callFunction, equalTo, get, onChildAdded, onChildRemoved, onValue, orderByChild, query, ref, set, update } from "../firebase-client.js";
 /**
  * @typedef {Object} SessionHistory
  * @property {number} startTime - The session start time in milliseconds.
@@ -74,7 +74,7 @@ export function parseSession(sid, session, isHistory = false) {
     sessionData.status = isComplete ? "complete" : "active";
     sessionData.history = isHistory;
     sessionData.link = toSessionLink(sid);
-    let dminutes = round(duration / (60 * 1000), 0); // Convert duration from milliseconds to minutes
+    let dminutes = round(parseFloat(duration), 0); // Convert duration from milliseconds to minutes
     let dhours = Math.floor(dminutes / 60);
     dminutes = dminutes % 60;
     sessionData.duration = Number.isNaN(dhours) ? "-" : `${dhours > 0 ? dhours + "h ":""}${dminutes}m`;
@@ -217,7 +217,7 @@ export async function createSession(sessionInfo) {
 
 export async function deleteSession(sid) {
     await callFunction("sessions-end", {sid:sid}, "australia-southeast1");
-    await set(ref(`users/${UID}/session-history`), null);
+    // await set(ref(`users/${UID}/session-history`), null);
 }
 
 export async function updateSession(sid, sessionInfo) {

@@ -10,7 +10,7 @@ import {} from "./hover.js"
 
 import {} from "./MeetingTools/meeting-display.js"
 import {} from "./MeetingTools/meeting-scheduler.js"
-import { SvgPlus, UserDataComponent } from "../CustomComponent.js"
+import { UserDataComponent } from "../CustomComponent.js"
 
 import {} from "../Grids/grid-editor.js";
 import {} from "../Quizzes/quiz-editor.js";
@@ -96,16 +96,17 @@ export class AppView extends UserDataComponent {
 
     onvalue(e) {
         if (e) {
-            e.isAdmin = typeof e.admin === "string" ? "Admin" : "Staff"
-            if (e.licence) {
-                this.els.noLicencePopup.classList.toggle("open", e.licence.tier == "None");
-                e.isAdmin = e.licence.tier == "None" ? "" : e.isAdmin;
-            } 
+            console.log(e);
+            
+            let isAdmin = Array.isArray(e?.licences) && e.licences.length > 0;
+            let maxTier = e.maxTier
+            e.isAdmin = isAdmin;
+
+            this.els.noLicencePopup.classList.toggle("open", maxTier == 0);
+
             this.dark = e?.info?.dark === true;
-
-            if (typeof e.admin !== "string" && this.panel == "admin-control") this.panel = "dash-board";
-            this.toggleAttribute("admin", typeof e.admin === "string");
-
+            if (!isAdmin && this.panel == "admin-control") this.panel = "dash-board";
+            this.toggleAttribute("admin", isAdmin);
         }
     }
 

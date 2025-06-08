@@ -69,15 +69,29 @@ app-view table-plus p {
     box-shadow: 0 .4rem .8rem #0005;
 
     margin: .8rem auto;
-    border-radius: .6rem;
+    border-radius: 0.5rem;
 
     overflow-x: hidden;
     overflow-y: scroll;
+    position: relative;
 }
+/* .table__body::after {
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0.5em;
+    height: 100%;
+    background-color: var(--table-head);
+    z-index: 1;
+} */
 
 .table__body::-webkit-scrollbar{
     width: 0.5rem;
     height: 0.5rem;
+    border-radius: 0 0.5em 0.5rem 0;
+    background: var(--table-head);
 }
 
 .table__body::-webkit-scrollbar-thumb{

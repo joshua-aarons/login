@@ -1,4 +1,4 @@
-import { CustomComponent, SvgPlus, UserDataComponent } from "../../CustomComponent.js";
+import { SvgPlus, UserDataComponent } from "../../CustomComponent.js";
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 
 useCSSStyle("theme");
@@ -12,7 +12,7 @@ class DataAndPrivacy extends UserDataComponent {
             input.addEventListener("input", () => {
                 this.updateUserData({[key]: input.checked})
             })
-          }
+        }
     }
 
 }

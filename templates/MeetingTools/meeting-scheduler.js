@@ -27,14 +27,15 @@ class MeetingScheduler extends CustomForm {
             this.loading = true;
             let data = null
             if (this.sid == null) {
-                data = await createSession(value);
+                let sid = await createSession(value);
+                data = parseSession(sid, {info: value}, true);
             } else {
                 value.sid = this.sid;
-                data = this.sid;
                 await updateSession(this.sid, value);
+                data = parseSession(this.sid, {info: value}, true);
             }
-            value.time = time.getTime();
-            this.appView.displayMeeting(parseSession(this.sid, {info: value}, true));
+            data.time = time.getTime();
+            this.appView.displayMeeting(data);
             this.parentNode.classList.remove("open");
             this.loading = false;
             this.value = "";

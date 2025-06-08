@@ -128,7 +128,6 @@ export async function initialise(config = firebaseConfig) {
   Database = getDatabase(App);
   Auth = getAuth();
 
-  console.log(LOC, Auth.currentUser);
   
   Storage = getStorage(App, storageURL);
   for (let key in Functions) Functions[key] = getFunctions(App, key);
@@ -203,8 +202,8 @@ export function getUID(){
 export function getUser(){return User;}
 
 
-export function signInWithEmailAndPassword(email, password){
-    signInEandP(Auth, email, password)
+export async function signInWithEmailAndPassword(email, password){
+    return await signInEandP(Auth, email, password)
 }
 
 export async function sendEmailVerification(url = window.location.origin){

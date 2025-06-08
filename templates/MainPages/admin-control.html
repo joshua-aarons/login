@@ -1,4 +1,10 @@
-<h1>Admin Control</h1>
+
+<div class = "row-slider">
+    <h1>Admin Control</h1>
+    <div class = "select-box">
+        <select class="select" name="licenceSelect" vfield="value"></select>
+    </div>
+</div>
 <div class="row-stretch">
     <div class="insights">
         <div class="total-users">
@@ -32,6 +38,44 @@
 <div class="card bottom-margin" id="customers_table">
     <table-plus name="members" vfield="value"></table-plus>
 </div>
+
+
+<div class = "popup" name = "addUserForm">
+    <div class = "card col">
+        <div class = "row-center">
+            <h1 name = "titleEl">Add User</h1>
+        </div>
+        <form-plus class="col" name="userForm" >
+            <input-plus>
+                <input type="text" name="name" required>
+                <label>Name</label>
+                <span class="icon material-symbols-outlined">person</span>
+            </input-plus>
+
+            <input-plus>
+                <input type="email" name="email" required>
+                <label>Email</label>
+                <span class="icon material-symbols-outlined">email</span>
+            </input-plus>
+            
+            <input-plus>
+                <label>Status</label>
+                <select name="status" required value = "staff">
+                    <option value="staff">Staff</option>
+                    <option value="admin">Admin</option>
+                    <option value="owner">Owner</option>
+                </select>   
+                <span class="icon material-symbols-outlined">badge</span>
+            </input-plus>
+
+            <div class = "row-center">
+                <button onclick = "addNewUser" name = "submitButton" class = "btn">Add User</button>
+                <button onclick = "hideAddUserForm" type = "button" class = "btn">Cancel</button>
+            </div>
+        </form>
+    </div>
+        
+
 
 
 <div class = "popup" name = "invalidCSVPopup">

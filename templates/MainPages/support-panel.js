@@ -1,5 +1,5 @@
 import { CustomComponent, SvgPlus } from "../../CustomComponent.js";
-import { sendSupportMessage } from "../../Firebase/firebase.js";
+import { sendSupportMessage } from "../../Firebase/New/accounts.js";
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 
 useCSSStyle("theme");

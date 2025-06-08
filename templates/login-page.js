@@ -1,6 +1,6 @@
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 import { CustomComponent } from "../CustomComponent.js";
-import { signin, signup, signout, sendEmailVerification, sendForgotPasswordEmail } from "../Firebase/firebase.js";
+import { signin, signup, signout, sendEmailVerification, sendForgotPasswordEmail } from "../Firebase/New/accounts.js";
 
 useCSSStyle("login-page");
 useCSSStyle("theme");
@@ -42,6 +42,8 @@ export class LoginPage extends CustomComponent {
                 await signin("email", signinForm.value);
                 console.log("after");
             } catch (e) {
+                console.log("error", e);
+                
                 this.signinError = e
             }
         }

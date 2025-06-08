@@ -1,4 +1,4 @@
-const IS_DEV = true && window.location.origin.startsWith("http://127");
+const IS_DEV = false; //true && window.location.origin.startsWith("http://127");
 const URL = IS_DEV ? "http://127.0.0.1:5503/" : "https://grids.squidly.com.au"
 
 let URL_GE = URL + "/GridCreator/grid-editor.js";

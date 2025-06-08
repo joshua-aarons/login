@@ -1,7 +1,7 @@
 import {AppView} from "./templates/app-view.js"
 import {LoginPage} from "./templates/login-page.js"
 
-import * as F from './Firebase/firebase.js'
+import * as F from './Firebase/firebase-client.js'
 import { updateUserDataComponents } from "./CustomComponent.js"
 import { watch } from "./Firebase/New/main.js";
 
@@ -29,11 +29,11 @@ function showScreen(type) {
 // Sometimes user may already be authenticated before siging in to the app
 let noUser = true;
 F.addAuthChangeListener(async (user) => {
-
     if (user) {
         watch(user?.uid, (allData, type) => {
-            // console.log("Data updated:", type, allData);
+            
             updateUserDataComponents(allData);
+            showScreen("appView");
         });
     }
 
@@ -50,11 +50,11 @@ F.addAuthChangeListener(async (user) => {
     }
 });
 
-F.addDataListener( (value) => {
-    // console.log(value);
-    noUser = false;
-    showScreen("appView")
-})
+// F.addDataListener( (value) => {
+//     // console.log(value);
+//     noUser = false;
+//     showScreen("appView")
+// })
 
 await F.initialise();
 

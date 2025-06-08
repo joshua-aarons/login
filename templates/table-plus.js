@@ -39,8 +39,8 @@ function parseCSV(csv) {
         data2.push(entry)
     }
     return data2
-
 }
+
 
 class TablePlus extends SvgPlus {
 
@@ -113,6 +113,7 @@ class TablePlus extends SvgPlus {
     set parseValue(parser){
         if(parser instanceof Function) this._parseValue = parser;
     }
+
     get parseValue(){
         if (this._parseValue instanceof Function) return this._parseValue;
         else return v => v;
@@ -121,6 +122,7 @@ class TablePlus extends SvgPlus {
     set getSortValue(getSortValue){
         if(getSortValue instanceof Function) this._getSortValue = getSortValue;
     }
+
     get getSortValue(){
         if (this._getSortValue instanceof Function) return this._getSortValue;
         else return (cell) => {

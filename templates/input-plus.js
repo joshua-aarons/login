@@ -67,6 +67,10 @@ class InputPlus extends SvgPlus {
             }
         }
 
+        if (this.input.hasAttribute("value")) {
+            this.value = this.input.getAttribute("value");
+        }
+
     }
 
     showFile(){

@@ -1,8 +1,7 @@
-import { CustomComponent, SvgPlus, UserDataComponent } from "../../CustomComponent.js";
+import { SvgPlus, UserDataComponent } from "../../CustomComponent.js";
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 import { } from "../table-plus.js"
 
-// let options = {}
 
 useCSSStyle("theme");
 function time(date) {

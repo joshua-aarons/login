@@ -1,4 +1,4 @@
-import { equalTo, get, onChildAdded, onChildRemoved, onValue, orderByChild, query, ref, update } from "../firebase-client.js";
+import { callFunction, equalTo, get, onChildAdded, onChildRemoved, onValue, orderByChild, query, ref, update } from "../firebase-client.js";
 
 
 
@@ -89,6 +89,7 @@ export function watch(uid, allData, updateCallback) {
             watchers[licenceID] = onValue(ref(`licences/${licenceID}`), (snapshot) => {
                 let licenceData = snapshot.val();
                 if (licenceData) {
+                    licenceData.id = licenceID; // Add licence ID to the data
                     if (!("licencesByID" in allData)) {
                         allData.licencesByID = {};
                     }
@@ -99,6 +100,7 @@ export function watch(uid, allData, updateCallback) {
                         delete allData.licencesByID[licenceID];
                     }
                 }
+                allData.licences = Object.values(allData.licencesByID || {});
                 updateCallback();
             });
         }
@@ -129,6 +131,8 @@ export function watch(uid, allData, updateCallback) {
             allData.licenceTiers[licenceID] = licences[licenceID];
             listenToStatus(licenceID);
         }
+        // Compute the maximum tier
+        allData.maxTier = Math.max(...Object.values(allData.licenceTiers)) || 0;
         updateCallback();
     });
 
@@ -143,4 +147,25 @@ export function stopWatch() {
         watchers[key]();
         delete watchers[key];
     }
+}
+
+export async function addUsersToLicence(lid, users) {
+    let res = await Promise.all(
+        users.map(async user => {
+            let r = await callFunction("licences-addUser", {user, lid}, "asia-southeast1");
+            return r.data;
+        })
+    );
+    return res;
+}
+export async function removeUsersFromLicence(lid, users) {
+    let res = await Promise.all(
+        users.map(async user => {
+            user.email = user.email.toLowerCase(); // Ensure email is lowercase
+            console.log(`Removing user ${user.name} from licence ${lid}: \n ${JSON.stringify(user, null, "\t")}`);
+            let r = await callFunction("licences-removeUser", {user, lid}, "asia-southeast1");
+            return r.data;
+        })
+    );
+    return res;
 }

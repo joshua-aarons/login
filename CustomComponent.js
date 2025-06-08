@@ -1,6 +1,6 @@
 import { SvgPlus, Vector } from "./SvgPlus/4.js";
-import { setUserInfo, signout, updateDisplayPhoto } from "./Firebase/firebase.js";
-
+import { setUserInfo, updateDisplayPhoto} from "./Firebase/New/user.js";
+import { signout } from "./Firebase/New/accounts.js";
 let DATA_COMPONENTS = [];
 
 function isNested(el, root){
@@ -169,6 +169,7 @@ class FormPlus extends CustomForm {
         }
         this.buttons = buttons;
         this.attachEvents();
+       
     }
 }
 
@@ -242,6 +243,7 @@ class UserDataComponent extends DataComponent {
         super(el);
         DATA_COMPONENTS.push(this)
     }
+    
     afterconnect(){
         this.value = this._value
     }
