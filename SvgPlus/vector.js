@@ -217,6 +217,9 @@ class Vector {
   ceil(){
     return new Vector(ceil(this._x), ceil(this._y))
   }
+  abs(){
+    return new Vector(abs(this._x), abs(this._y))
+  }
 
   round(n){
     return new Vector(round(this._x, n), round(this._y, n))

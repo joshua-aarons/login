@@ -715,7 +715,7 @@ class CPoint extends LinkItem{
   static isType(type) {
     return isNonEmptyString(type) && type.toUpperCase() in CPoint.CMDS;
   }
-  static CMDS = {
+  static get CMDS() {return {
     "Z": 0,
     "M": 2,
     "L": 2,
@@ -726,7 +726,7 @@ class CPoint extends LinkItem{
     "S": 4,
     "Q": 4,
     "A": 7,
-  }
+  }}
 }
 
 

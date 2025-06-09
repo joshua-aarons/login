@@ -36,6 +36,7 @@ class AdminControl extends UserDataComponent {
 
         members.titleName = "Members";
         members.parseValue = parseMembers;
+        members.exportedHeaders = ["id","name", "email", "status"];
         members.tools = [
             {
                 icon: `<i class="fa-solid fa-trash"></i>`, 
@@ -132,7 +133,7 @@ class AdminControl extends UserDataComponent {
         const {licencesByID} = this;
         if (id in licencesByID) {
             const selectedLicence = licencesByID[id];
-            console.log(`Showing selected licence:\n\tid:  ${id}\n\tname: ${selectedLicence.licenceName}`);
+            // console.log(`Showing selected licence:\n\tid:  ${id}\n\tname: ${selectedLicence.licenceName}`);
 
             if (selectedLicence?.users) {
                 users = Object.keys(selectedLicence.users).map((id) => {
@@ -143,7 +144,7 @@ class AdminControl extends UserDataComponent {
             if (selectedLicence?.seats) seats = selectedLicence.seats;
 
         } else {
-            console.warn(`Licence with ID ${id} not found in licencesByID.`);
+            // console.warn(`Licence with ID ${id} not found in licencesByID.`);
         }
 
         let mcount = users.length;
@@ -224,7 +225,7 @@ class AdminControl extends UserDataComponent {
 
     async loadCSVAdmins(){
         const maxUsers = 25;
-        const validStatus = {"admin": true, "staff": true};
+        const validStatus = {"admin": true, "staff": true, "owner": true};
         let {members, invalidCSVPopup, errorCSV} = this.els;
         const exp = /^[^@]+@\w+(\.\w+)+\w$/
 

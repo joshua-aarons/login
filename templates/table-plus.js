@@ -22,7 +22,6 @@ export async function loadCSV() {
 }
 
 
-
 function parseCSV(csv) {
     let data = []
     for (let row of csv.split(/\r*\n\r*/)) {
@@ -39,6 +38,39 @@ function parseCSV(csv) {
         data2.push(entry)
     }
     return data2
+}
+
+class TableCell extends SvgPlus {
+    constructor(key, row, i, parent) {
+        super("td");
+        let content = row[key];
+        let contentValue = typeof content === "string" ? content.toLowerCase() : content;
+        parent.setAttribute(key, content)
+        this.props = { 
+            key: key, 
+            value: contentValue,  
+            content: `<p>${content}</p>`
+        };
+        this.key = key;
+        this.value = content;
+        this.index = i; 
+    }
+}
+class TableCellTool extends SvgPlus {
+    constructor({name, icon, method}) {
+        super("td");
+        this.props = { key: "tool", value: name, content: `<p>${icon}</p>` };
+        this.onclick = () => method(this);
+    }
+}
+
+class TableRow extends SvgPlus {
+    constructor(rowValue, headers, tools) {
+        super("tr");
+        this.value = rowValue;
+        headers.forEach((key, i) => this.createChild(TableCell, {}, key, rowValue, i, this));
+        tools.forEach((tool) => this.createChild(TableCellTool, {}, tool));
+    }
 }
 
 
@@ -145,34 +177,19 @@ class TablePlus extends SvgPlus {
         // parse value extra function
         value = this.parseValue(value)
 
-        // Set headers if none have been set
+         // Set headers if none have been set
         if (!Array.isArray(this.headers)) {
             this.headers = Object.keys(value[0]);
         }
-        let headers = this.headers;
+
+        const {exportedHeaders, headers, tools, tbody} = this;
+
+        // Create export data
+        this.exportData = value.map(r => exportedHeaders.map((key) => r[key] || ""));
 
         // Construct Table
         this.tbody.innerHTML = ""
-        for (let row of value) {
-            let tr = this.tbody.createChild("tr")
-            tr.value = row
-            let i = 0;
-            for (let key of headers) {
-                let content = row[key];
-                let contentValue = typeof content === "string" ? content.toLowerCase() : content;
-                tr.setAttribute(key,content)
-                let cell = tr.createChild('td', { key: key, value: contentValue,  content: `<p>${content}</p>`});
-                cell.key = key;
-                cell.value = content;
-                cell.index = i; 
-                i++;
-            }
-
-            for (let {method, icon, name} of this.tools) {
-                let cell = tr.createChild('td', {key: "tool", value: name, content: `<p>${icon}</p>`});
-                cell.onclick = () => method(cell);
-            }
-        }
+        value.forEach((row) => tbody.createChild(TableRow, {}, row, headers, tools));
     }
 
     deleteRow(e){
@@ -181,7 +198,7 @@ class TablePlus extends SvgPlus {
 
     
     /**
-     * @param {[""]} headers
+     * @param {Array<string|Object>} headers
      */
     set headers(headers) {
         this._headers = [...headers];
@@ -198,6 +215,18 @@ class TablePlus extends SvgPlus {
             i++
         }
         for (let tool of this.tools) tr.createChild("th")
+    }
+    set exportedHeaders(headers) {
+        if (Array.isArray(headers)) {
+            this._exportedHeaders = headers.filter(h => typeof h === "string" || typeof h === "number");
+        }
+    }
+    get exportedHeaders() {
+        if (Array.isArray(this._exportedHeaders)) {
+            return this._exportedHeaders;
+        } else {
+            return this.headers.filter(h => typeof h === "string" || typeof h === "number");
+        }
     }
     get headers(){return this._headers;}
 
@@ -272,21 +301,14 @@ class TablePlus extends SvgPlus {
     }
 
     convertCSV(){
-        let heads = [...this.headrow.children]
-        let rows = [...this.tbody.children]
-        let text = rows.map((row) => [...row.children].map((cell) => cell.textContent).join(","))
-        text.unshift(heads.map((cell) => cell.textContent).join(","))
-        text = text.join("\n")
-        var file = new Blob([text], {type: "csv"});
+        let csv = [this.exportedHeaders, ...this.exportData].map(row => row.join(",")).join("\n");
+        var file = new Blob([csv], {type: "csv"});
         var a = document.createElement("a"),
-                url = URL.createObjectURL(file);
+        url = URL.createObjectURL(file);
         a.href = url;
         a.download = `${this.titleel.textContent.replace(/\s*$/g, "")}.csv`;
         a.click();
         window.URL.revokeObjectURL(url);  
-        // setTimeout(function() {
-        //     document.body.removeChild(a);
-        // }, 0); 
     }
 }
 

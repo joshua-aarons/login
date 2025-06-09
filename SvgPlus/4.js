@@ -1,11 +1,39 @@
 import {Vector, parseVector} from "./vector.js";
 
+/**
+ * @typedef {('animate'|'animateMotion'|'animateTransform'|'circle'|'clipPath'|'color-profile'|'defs'|'desc'|'discard'|'ellipse'|'feBlend'|'feColorMatrix'|'feComponentTransfer'|'feComposite'|'feConvolveMatrix'|'feDiffuseLighting'|'feDisplacementMap'|'feDistantLight'|'feDropShadow'|'feFlood'|'feFuncA'|'feFuncB'|'feFuncG'|'feFuncR'|'feGaussianBlur'|'feImage'|'feMerge'|'feMergeNode'|'feMorphology'|'feOffset'|'fePointLight'|'feSpecularLighting'|'feSpotLight'|'feTile'|'feTurbulence'|'filter'|'foreignObject'|'g'|'hatch'|'hatchpath'|'image'|'line'|'linearGradient'|'marker'|'mask'|'mesh'|'meshgradient'|'meshpatch'|'meshrow'|'metadata'|'mpath'|'path'|'pattern'|'polygon'|'polyline'|'radialGradient'|'rect'|'script'|'set'|'solidcolor'|'stop'|'style'|'svg'|'switch'|'symbol'|'text'|'textPath'|'title'|'tspan'|'unknown'|'use'|'view')} SVGTagName
+ * @typedef {(Element|string)} ElementLike
+ * @typedef {{toString(): string}} Serializable
+ * @typedef {?(string|number|Serializable)} StringLike
+ * @typedef {new(...args: any[]) => SvgPlus} SvgPlusClass
+ * 
+ * 
+ * @typedef {function(Event): void} EventCallback
+ * @typedef {Object.<string, EventCallback>} Events
+ * 
+ * @typedef {Object.<string, StringLike>} Styles
+ * 
+ * @typedef {?(StringLike|Styles|Events)} PropValue
+ * 
+ * @typedef Props
+ * @type {Object}
+ * @property {Styles} [styles]
+ * @property {Styles} [style]
+ * @property {Events} [events]
+ * @property {StringLike} [*]
+ * 
+ */
+
+/**
+ * @type {Object<SVGTagName, boolean}
+ * @ignore
+ */
 const SVGTagNames = {
-  animate: true,
-  animateMotion: true,
-  animateTransform: true,
-  circle: true,
-  clipPath: true,
+  animate: SVGAnimateElement,
+  animateMotion: SVGAnimateMotionElement,
+  animateTransform: SVGAnimateTransformElement,
+  circle: SVGCircleElement,
+  clipPath: SVGClipPathElement,
   "color-profile": true,
   defs: true,
   desc: true,
@@ -75,6 +103,7 @@ const SVGTagNames = {
   view: true,
 };
 
+
 function warn(e){
   console.warning(e)
 }
@@ -83,15 +112,31 @@ const ObjectClass = Object.getPrototypeOf(Object);
 
 function isNonNullObject(obj) {return typeof obj === "object" && obj !== null;}
 
-function make(name){
+
+
+/**
+ * Make a HTML or SVG element by providing the tag name
+ * @type {{
+ * (name: SVGTagName, doc: Document) => SVGElement;
+ * (name: string, doc: Document) => HTMLElement;
+ * }}
+ * @ignore
+ */
+const make = (name, doc = document) => {
   let element = null;
   if (name in SVGTagNames) {
-    element = document.createElementNS("http://www.w3.org/2000/svg", name);
+    element = doc.createElementNS("http://www.w3.org/2000/svg", name);
   } else if (typeof name === "string"){
-    element = document.createElement(name);
+    element = doc.createElement(name);
   }
   return element;
 }
+
+
+/**
+ * @type {SVGSVGElement}
+ * @ignore
+ */
 const Points = make("svg");
 
 /*
@@ -135,10 +180,16 @@ function printChain(cdef) {
   return str;
 }
 
-/*  Copies properties of prototype onto a object.
-    If a property exists then it is set otherwise
-    the property is defined.
-*/
+/**
+ * Copies properties of prototype onto another object.
+ * If a property exists then it is set otherwise
+ * the property is defined. 
+ * 
+ * @param {SvgPlusClass} cdef
+ * @param {Object} obj
+ * @param {string} [plus="__+"]
+ * @ignore
+ */
 function addPrototype(cdef, obj, plus = "__+") {
   if (obj == null || cdef == null) return;
   let proto = cdef.prototype;
@@ -159,7 +210,7 @@ function addPrototype(cdef, obj, plus = "__+") {
         try {
           obj[propName] = proto[propName]
         } catch(e) {
-          warn("error setting " + propName)
+          console.warn("error setting " + propName)
         }
       } else {
         // if it doesn't exist then define it
@@ -169,9 +220,16 @@ function addPrototype(cdef, obj, plus = "__+") {
   }
 }
 
-/* Extends the prototype of one class onto another object
-   by copying all properties of that prototype onto the object.
-*/
+/**
+ * Extends the prototype of one class onto another object
+ * by copying all properties of that prototype onto the object.
+ * @param {Object} obj
+ * @param {SvgPlusClass} cdef
+ * @param {string} [plus="__+"]
+ * 
+ * @return {boolean}
+ * @ignore
+ */
 function extend(obj, cdef, plus = "__+"){
   if (isNonNullObject(obj)) {
       if (!(plus in obj)) obj[plus] = ObjectClass;
@@ -187,11 +245,19 @@ function extend(obj, cdef, plus = "__+"){
   return false;
 }
 
-/*
-e.g. consider the following chains
-C<-B<-A<-o
-X<-Y<-A<-o
-B is extendable by C but not by X or Y
+/**
+ * Returns whether an object can be extended by another class
+ * e.g. consider the following chains
+ * C<-B<-A<-o
+ * X<-Y<-A<-o
+ * B is extendable by C but not by X or Y
+ * 
+ * @param {Object} obj
+ * @param {SvgPlusClass} cdef
+ * @param {string} [plus="__+"]
+ * 
+ * @return {boolean}
+ * @ignore
 */
 function extendable(obj, cdef, plus = "__+") {
   let res = false;
@@ -203,9 +269,26 @@ function extendable(obj, cdef, plus = "__+") {
   return res;
 }
 
-class SvgPlus{
+/**
+ * @class
+ * @ignore
+ */
+function Root(){
+
+}
+
+
+/**
+ * @extends Element
+ * 
+ */
+class SvgPlus extends Root{
+  /**
+   * @param {ElementLike} el
+   */
   constructor(el){
-    el = SvgPlus.parseElement(el)
+    super()
+    el = SvgPlus.parseElement(el);
     if (el == null) {
       throw new Error("null element")
     }
@@ -219,54 +302,104 @@ class SvgPlus{
 
 
   // ~~~~~~~~~~~~~~~~~~~~~ HELPFUL SET GET PROPERTIES ~~~~~~~~~~~~~~~~~~~~~~~~
+
+  /**
+   * Set styles as object were keys represent the style name and the value at those keys is style value.
+   * @param {Styles} styles
+   */
   set styles(styles){
-    if (typeof styles !== 'object'){
-      throw `Error setting styles:\nstyles must be set using an object, not ${typeof styles}`
-      return
+    if (typeof styles !== 'object' || styles === null){
+      throw `Error setting styles:\nStyles must be set to an object, not ${typeof styles}`
     }
     this._style_set = typeof this._style_set != 'object' ? {} : this._style_set;
-    for (var style in styles){
+    for (let style in styles){
       var value = styles[style];
       this.style.setProperty(style, value);
       this._style_set[style] = value;
     }
   }
 
+  /**
+   * @return {Styles}
+   */
   get styles(){
     return this._style_set;
   }
 
-  set class(val){
-    this.props = {class: val}
-  }
 
-  get class(){
-    return this.getAttribute('class');
-  }
-
+  /**
+   * @param {Props} props
+   */
   set props (props){
-    if (typeof props !== 'object'){
-      throw `Error setting styles:\nstyles must be set using an object, not ${typeof props}`
-      return
+    if (typeof props !== 'object' || props === null){
+      throw `Error setting props:\nsProps must be set to an object, not ${typeof props}`
     }
     this._prop_set = typeof this._prop_set != 'object' ? {} : this._prop_set;
-    for (var prop in props){
+    for (let prop in props){
       var value = props[prop]
-      if (prop == 'style' || prop == 'styles'){
-        this.styles = value
-      }else if (prop == "innerHTML" || prop == "content") {
-        this.innerHTML = value;
-      }else{
-        this.setAttribute(prop,value);
-        this._prop_set[prop] = value;
+      switch (prop) {
+        case "style":
+        case "styles":
+          this.styles = value;
+          break;
+        case "events":
+          this.events = value;
+          break;
+        case "innerHTML":
+        case "content":
+          this.innerHTML = value;
+          break;
+        default:
+          this.setAttribute(prop,value);
+          this._prop_set[prop] = value;
+          break;
       }
     }
   }
 
+  /**
+   * @return {Object.<string, StringLike>}
+   */
   get props(){
     return this._prop_set;
   }
 
+  /**
+   * @param {Events} events
+   */
+  set events(events) {
+    if (typeof events !== 'object' || events === null){
+      throw `Error setting events:\nEvents must be set to an object, not ${typeof styles}`
+    }
+    // Check that all events provide valid callbacks
+    for (let key in events) {
+      if (!(events[key] instanceof Function)){
+        throw `Error setting events:\nThe event ${key} is not a valid event`
+      }
+    }
+
+    for (let key in events) {
+      this.addEventListener(key, events[key])
+    }
+  }
+
+  /**
+   * @param {string} val
+   */
+  set class(val){
+    this.props = {class: val}
+  }
+
+  /**
+   * @return {string}
+   */
+  get class(){
+    return this.getAttribute('class');
+  }
+
+  /**
+   * @return {[Vector, Vector]}
+   */
   get bbox(){
     let bbox = this.getBoundingClientRect();
     let pos = new Vector(bbox);
@@ -274,6 +407,9 @@ class SvgPlus{
     return [pos, size];
   }
 
+   /**
+   * @return {[Vector, Vector]}
+   */
   get svgBBox(){
     let bbox = this.getBBox();
     let pos = new Vector(bbox);
@@ -282,37 +418,31 @@ class SvgPlus{
   }
 
 
-
-  createChild(){
-    return this.makeChild.apply(this, arguments)
-  }
-
-  makeChild(){
-    let Name = arguments[0];
+  /** Creates a child SvgPlus element, sets its properties and appends it to itself
+   * @param {(ElementLike|SvgPlusClass)} type Can be provided as an element tag name or an SvgPlus class.
+   * @param {Props} props element properties will be set before appending the newly created element.
+   * @param {any[]} params if a type is given as an SvgPlusClass then the params will be passed to the 
+   *                       constructor of that class when constructing the element.
+   * 
+   * @return {SvgPlus} Either an SvgPlus element or an instance of the SvgPlusClass if given.
+   */
+  createChild(type, props = {}, ...params){
     let child;
-
-    if (Name instanceof Function && Name.prototype instanceof SvgPlus){
-      if (arguments.length > 1){
-        child = new Name(arguments[1]);
-      }else{
-        child = new Name();
-      }
+    if (type instanceof Function && type.prototype instanceof SvgPlus){
+      child = new type(...params);
     }else{
-      child = new SvgPlus(Name);
-      try{
-        if (arguments[1]){
-          child.props = arguments[1];
-        }
-      }catch(e){
-        console.error(e);
-      }
+      child = new SvgPlus(type);
     }
+    child.props = props;
 
     this.appendChild(child);
     return child;
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~  HELPFUL FUNCTIONS  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  /**
+   * @param {string} [name="default"]
+   */
   saveSvg(name = 'default'){
     let output = this.outerHTML;
 
@@ -349,42 +479,62 @@ class SvgPlus{
     }
   }
 
-  watch(config, callback){
+  /**
+   * @param {MutationObserverInit} config
+   * @param {function(MutationRecord[], MutationObserver): void} callback
+   */
+  watchMutations(config, callback){
     this._mutationObserver = new MutationObserver((mutation, observer) => {
-      if (!(callback instanceof Function)){
-        if (this.onmutation instanceof Function){
-          this.onmutation(mutation, observer);
-        }else{
-          return;
-        }
-      }else{
-        callback(mutation, observer);
-      }
+        if (callback instanceof Function) callback(mutation, observer);
+        if (this.onmutation instanceof Function) this.onmutation(mutation, observer);
+        let event = new Event("mutation");
+        this.dispatchEvent(event);
     })
 
     this._mutationObserver.observe(this, config);
   }
 
-  stopWatch(){
+  stopMutationWatch(){
     if (this._mutationObserver instanceof MutationObserver){
       this._mutationObserver.disconnect();
     }
   }
 
+   /**
+   * @param {number} l
+   * 
+   * @return {Vector}
+   */
   getVectorAtLength(l) {
     return new Vector(this.getPointAtLength(l));
   }
 
-  isVectorInFill(x, y) {
-    return this.isPointInFill(this.makeSVGPoint(x, y));
+   /**
+   * @param {...number|Vector} values
+   * 
+   * @return {boolean}
+   */
+  isVectorInFill(...values) {
+    return this.isPointInFill(this.makeSVGPoint(...values));
   }
 
-  isVectorInStroke(x, y) {
-    return this.isPointInStroke(this.makeSVGPoint(x, y));
+  /**
+   * @param {...number|Vector} values
+   * 
+   * @return {boolean}
+   */
+  isVectorInStroke(...values) {
+    return this.isPointInStroke(this.makeSVGPoint(...values));
   }
 
-  makeSVGPoint(x, y) {
-    let v = new Vector(x, y);
+
+  /**
+   * @param {...number|Vector} values
+   * 
+   * @return {SVGPoint}
+   */
+  makeSVGPoint(...values) {
+    let v = parseVector(...values);
     let p = Points.createSVGPoint();
     p.x = v.x;
     p.y = v.y;
@@ -394,15 +544,15 @@ class SvgPlus{
   /**
     Wave transistion
 
-    @param update update(progress) function to be called on each animation frame
+    @param {function(number): void} update update(progress) function to be called on each animation frame
       update function will be passed a number from 0 to 1 which will be the
       ellapsed time mapped to a wave.
 
-    @param dir
+    @param {boolean} dir
       true:  0 -> 1,
       false: 1 -> 0
 
-    @param duration in milliseconds
+    @param {number} duration in milliseconds
 
 
   */
@@ -444,11 +594,21 @@ class SvgPlus{
 
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ STATIC METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+  /**
+   * Make a HTML or SVG element by providing the tag name
+   * @param {string} name
+   * 
+   * @return {Element}
+   */
   static make(name){
     return make(name);
   }
 
+  /**
+   * @param {ElementLike} input
+   * 
+   * @return {Element}
+   */
   static parseElement(input = null) {
     let parsed = input;
 
@@ -470,6 +630,11 @@ class SvgPlus{
     return parsed;
   }
 
+  /**
+   * @param {string} string
+   * 
+   * @return {SVGSVGElement}
+   */
   static parseSVGString(string){
     let parser = new DOMParser()
     let doc = parser.parseFromString(string, "image/svg+xml");
@@ -484,14 +649,39 @@ class SvgPlus{
     return svg;
   }
 
+  /**
+   * @param {Element} el
+   * @param {SvgPlusClass} cdef
+   * 
+   * @return {boolean}
+   */
   static is(el, cdef) {
     return is(el, cdef);
   }
 
+  /**
+   * @param {Element} el
+   * @param {SvgPlusClass} cdef
+   * 
+   * @return {boolean}
+   */
   static extendable(el, cdef) {
     return extendable(el, cdef);
   }
 
+    /**
+   * @param {SvgPlusClass} subcls
+   * @param {SvgPlusClass} cls
+   * 
+   * @return {boolean}
+   */
+  static isSubClass(subcls, cls) {
+    return isSubClass(subcls, cls);
+  }
+
+  /**
+   * @param {SvgPlusClass} classDef
+   */
   static defineHTMLElement(classDef){
     let className = classDef.name.replace(/(\w)([A-Z][^A-Z])/g, "$1-$2").toLowerCase();
     let props = Object.getOwnPropertyDescriptors(classDef.prototype);
@@ -520,9 +710,6 @@ class SvgPlus{
           if (this.onconnect instanceof Function) {
             this.onconnect();
           }
-          if (this.afterconnect instanceof Function) {
-            this.afterconnect();
-          }
         }
       }
 
@@ -549,10 +736,9 @@ class SvgPlus{
     customElements.define(className, htmlClass);
   }
 
-  static isSubClass(subcls, cls) {
-    return isSubClass(subcls, cls);
-  }
-
+  /**
+   * @return {Object.<string, boolean>} 
+   */
   static get SVGTagNames() {
     return SVGTagNames;
   }

@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, uploadFileToCloud } from "../firebase-client.js";
+import { createUserWithEmailAndPassword, EmailAuthProvider, get, getUser, reauthenticateWithCredential, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, uploadFileToCloud } from "../firebase-client.js";
 import { setUserInfo } from "./user.js";
 class LoginError extends Error {
     constructor(error) {
@@ -119,6 +119,7 @@ export async function signup(type, info) {
 export function signout() { signOut() }
 
 export async function resetPassword(data) {
+    const { User } = getUser();
     let credentials = EmailAuthProvider.credential(User.email, data.oldpasscode)
     await reauthenticateWithCredential(User, credentials)
     await updatePassword(User, data.newpasscode)
