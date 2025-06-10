@@ -259,15 +259,160 @@ class UserDataComponent extends DataComponent {
     }
 }
 
+
+class Notification extends SvgPlus {
+    duration = 0.5; // seconds
+    constructor(message, role = "alert") {
+        super("notification-message");
+        this.setAttribute("role", role);
+        this.styles = {
+            position: "absolute",
+            top: "0px",
+            right: "0px",
+            transform: "translateY(-200%)",
+            display: "block",
+        }
+        this.message = message;
+        this.innerHTML = message
+        this.init = new Promise((resolve) => {
+            this._done = resolve;
+        });
+    }
+
+    updateGoal(dt_s) {
+        let ds = dt_s / this.duration;
+
+        this._transState += ds;
+
+        let goalReached = false;
+        if (this._transState >= 1) {
+            this._transState = 1;
+            goalReached = true;
+        }
+        let tf = (1 - Math.cos(Math.PI * this._transState)) / 2; // from 0 to 1
+        
+        this.y = this.goalY * tf + this._startState * (1 - tf);
+        return goalReached;
+    }
+
+    set goalY(value) {
+        this._startState = this.y;
+        this._goalY = value;
+        this._transState = 0;
+    }
+
+    get goalY() {
+        return this._goalY;
+    }
+
+    set y(value) {
+        this.styles = {
+            top: value + "px",
+            transform: null
+        }
+        this._y = value;
+    }
+
+    get y() {
+        return this._y;
+    }
+
+    set x(value) {
+        this.styles = {
+            right: value + "px",
+            transform: null
+        }
+        this._x = value;
+    }
+
+    get x() {
+        return this._x;
+    }
+
+    async initialise() {
+        await new Promise(requestAnimationFrame);
+        this.size = this.bbox[1];
+        this._done();
+    }
+}
+
+
 function updateUserDataComponents(value) {
     for (let el of DATA_COMPONENTS) {
         el.value = value;
     }
 }
 
+class NotificationsList extends SvgPlus {
+    margin = 10;
+    constructor(el = "notifications-list") {
+        super(el);
+        this.styles = {
+            position: "fixed",
+            top: "0px",
+            right: "0px",
+            display: "flex",
+        }
+        this.rel = this.createChild("div", {styles: {position: "relative"}});
+        window.showNotification = this.show.bind(this);
+    }
 
+    async show(message, time, role = "") {
+        let notification = new Notification(message, role);
+        this.rel.prepend(notification);
+        await notification.initialise();
+        notification.y = -notification.size.y - this.margin;
+        notification.x = this.margin;
+        this._updateGoals();
+
+        setTimeout(async () => {
+            await this.waveTransition((t) => {
+                notification.x = this.margin - t * (notification.size.x + 2*this.margin);
+            }, 500, true)
+            notification.remove();
+            this._updateGoals();
+        }, time || 3000);
+    }
+
+    async _updateGoals() {
+        const {margin} = this;
+        let goalY = this.margin;
+
+        await Promise.all(this.notifications.map(n => n.init));
+
+        this.notifications.forEach((n, i) => {
+            n.goalY = goalY;
+            goalY += n.size.y + margin;
+            
+        });
+        
+        this._startUpdating();
+    }
+
+    async _startUpdating() {
+        if (this._updating) return;
+        this._updating = true;
+        let allReached = false;
+        let t0 = performance.now();
+        while (!allReached) {
+            await new Promise(requestAnimationFrame);
+            let t1 = performance.now();
+            let dt = (t1 - t0) / 1000; // seconds
+            t0 = t1;
+            allReached = true;
+            this.notifications.forEach((n) => {
+                allReached = n.updateGoal(dt) && allReached;
+            });
+        }
+        this._updating = false;
+    }
+
+    get notifications() {
+        return [...this.rel.children]
+    }
+}
+SvgPlus.defineHTMLElement(NotificationsList);
 SvgPlus.defineHTMLElement(FormPlus);
-
 
 let LOADED_STYLES = {};
 

@@ -1,4 +1,4 @@
-import {SvgPlus, UserDataComponent } from "../../CustomComponent.js";
+import { SvgPlus, UserDataComponent } from "../../CustomComponent.js";
 import { addUsersToLicence, removeUsersFromLicence } from "../../Firebase/New/licences.js";
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 import { loadCSV } from "../table-plus.js"
@@ -23,6 +23,23 @@ function parseMembers(users) {
     })
 }
 
+function etos(errors) {
+    return errors.map(e => `<b>${e}</b>`).join("\n - ");
+}
+function showChangeMessage(user, res, method) {
+    let msg = "";
+    let time = 5000;
+    if (res.errors.length > 0) {
+        msg = `Failed to ${method} user "${user.name}":\n - ${etos(res.errors)}`;
+        time = res.errors.length * 10000;
+    } else {
+        let pastTense = method + (method[method.length - 1] == "e" ? "d" : "ed");
+        msg = `Successfully ${pastTense} user "${user.name}"`;
+    }
+
+    showNotification(msg, time, res.errors.length > 0 ? "error" : "success");
+}
+
 class AdminControl extends UserDataComponent {
     licencesByID = {};
     selectedLicenceUsers = [];
@@ -41,15 +58,7 @@ class AdminControl extends UserDataComponent {
             {
                 icon: `<i class="fa-solid fa-trash"></i>`, 
                 name: "delete", 
-                method: (cell) => {
-                    let row = cell.parentNode;
-                    let user = row.value;
-                    row.styles = {
-                        "pointer-events":"none",
-                        "opacity": 0.5,
-                    }
-                    removeUsersFromLicence(this.selectedLicenceID, [user]);
-                }
+                method: this.deleteUser.bind(this),
             },
             {
                 name: "edit",
@@ -81,12 +90,15 @@ class AdminControl extends UserDataComponent {
             this.selectedLicence = select.value;
         })
 
+
         this.attachEvents();
         let els = this.els.userForm.getElementLibrary();
         this.els.submitButton = els.submitButton;
         this.els.userForm.hideAddUserForm = this.hideAddUserForm.bind(this);
         this.els.userForm.addNewUser = this.addNewUser.bind(this);
         this.els.userForm.attachEvents();
+
+        
     }
 
 
@@ -96,7 +108,7 @@ class AdminControl extends UserDataComponent {
         this.els.titleEl.innerHTML = value == null ? "Add User" : "Edit User";
         this.els.submitButton.innerHTML = value == null ? "Add User" : "Save Changes";
         this.els.addUserForm.classList.add("open");
-        this.editOrAdd = value == null ? "Added" : "Edited";
+        this.editOrAdd = value == null ? "add" : "edit";
     }
 
     hideAddUserForm() {
@@ -110,14 +122,22 @@ class AdminControl extends UserDataComponent {
             form.classList.add("disabled");
             let data = form.value;
             let res = await addUsersToLicence(this.selectedLicenceID, [data]);
-            if (res[0].errors.length > 0) {
-                console.log(`${this.editOrAdd} new user "${data.name}" failed with errors:\n\t${res[0].errors.join("\n\t")}`);
-            } else {
-                console.log(`${this.editOrAdd} new user "${data.name}" successfully`);
-            }
+            showChangeMessage(data, res[0], this.editOrAdd);
             form.classList.remove("disabled");
             this.hideAddUserForm();
         }
+    }
+
+    async deleteUser(iconCell) {
+        let row = iconCell.parentNode;
+        let user = row.value;
+        row.classList.add("disabled");
+        let response = await removeUsersFromLicence(this.selectedLicenceID, [user]);
+        let errors = response[0].errors;
+        if (errors.length > 0) {
+            row.classList.remove("disabled");
+        }
+        showChangeMessage(user, response[0], "delete");
     }
    
 
@@ -270,9 +290,12 @@ class AdminControl extends UserDataComponent {
             let users = parsedCSV.filter((v) => v.email != this.email);
             let currentUsers = (this.selectedLicenceUsers || []).filter((v) => v.email != this.email);
             let usersToRemove = currentUsers.filter((v) => !users.some((u) => u.email == v.email));
-            addUsersToLicence(this.selectedLicenceID, users);
-            removeUsersFromLicence(this.selectedLicenceID, usersToRemove);
-            members.value = parsedCSV;
+            let [res1, res2] = await Promise.all([
+                addUsersToLicence(this.selectedLicenceID, users),
+                removeUsersFromLicence(this.selectedLicenceID, usersToRemove)
+            ]);
+            res1.forEach((res, i) => showChangeMessage(users[i], res, "add"));
+            res2.forEach((res, i) => showChangeMessage(usersToRemove[i], res, "delete"));
         }
     }
 }

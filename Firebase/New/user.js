@@ -16,6 +16,9 @@ export function stopWatch() {
  * @param {string} uid - The user ID to watch licences for.
  * @param {Object} allData - The object to store licence data.
  * @param {Function} updateCallback - The callback function to call when licence data is updated.
+ * 
+ * TODO: turn this into a async function that returns a promise that resolves when the data is ready
+ * i.e. when user data is loaded and available.
  */
 export function watch(uid, allData, updateCallback) {
     // Stop all previous watchers

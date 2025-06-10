@@ -101,6 +101,9 @@ let UID = null;
  * @param {string} uid - The user ID to watch sessions for.
  * @param {Object} allData - The object to store session data.
  * @param {Function} updateCallback - The callback function to call when session data is updated.
+ * 
+ * TODO: turn this into a async function that returns a promise that resolves when the data is ready
+ * i.e. when all sessions have been loaded including their info.
  */
 export function watch(uid, allData, updateCallback) {
     UID = uid;

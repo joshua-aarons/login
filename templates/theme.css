@@ -7,8 +7,16 @@
     --color-great: #ff7782;
     --color-great-light: #ff778284;
     --color-great-hover: #ff6874;
+    --color-success-hover: #05db94;
     --color-success: #41f1b6;
-    --color-wanring: #ffbb55;
+    --color-success-text: #006240;
+    --color-warning: #ffbb55;
+    --color-warning-hover: #ffb34d;
+    --color-warning-text: #6f4c00;
+    --color-error: #ff4d4d;
+    --color-error-hover: #ff0000;
+    --color-error-text: #6f0000;
+    --color-wanring: var(--color-warning);
     --color-white: #fff;
     --color-info-dark: #7d8da1;
     --color-info-light: #dce1eb;
@@ -490,4 +498,32 @@ form-plus, meeting-scheduler {
 
 .ctext{
     text-align: center;
+}
+
+notification-message {
+    padding: 0.5em;
+    background-color: var(--color-danger);
+    color: white;
+    border-radius: 0.5em;
+    border: 2px solid var(--color-danger-hover);
+    white-space: pre;
+}
+notification-message b {
+    color: inherit;
+}
+notification-message[role='success'] {
+    background-color: var(--color-success);
+    border-color: var(--color-success-hover);
+    color: var(--color-success-text);
+}
+
+notification-message[role='warning'] {
+    background-color: var(--color-wanring);
+    border-color: var(--color-wanring);
+    color: var(--color-dark);
+}
+notification-message[role='error'] {
+    background-color: var(--color-error);
+    border-color: var(--color-error-hover);
+    color: white;
 }

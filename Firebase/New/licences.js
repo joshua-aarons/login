@@ -21,6 +21,9 @@ function round(x, y) { return Math.round(Math.pow(10, y) * x) / Math.pow(10, y) 
  * @param {string} uid - The user ID to watch licences for.
  * @param {Object} allData - The object to store licence data.
  * @param {Function} updateCallback - The callback function to call when licence data is updated.
+ * 
+ * TODO: turn this into a async function that returns a promise that resolves when the data is ready
+ * i.e. whel all licences have been loaded including their status and user data is available
  */
 export function watch(uid, allData, updateCallback) {
     // Stop all previous watchers
