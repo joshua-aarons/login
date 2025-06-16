@@ -172,11 +172,12 @@ tbody tr.hide td img {
 }
 
 td[key = status] p {
-    padding: .4rem 0;
+    padding: 0.4em;
     border-radius: 2rem;
     text-align: center;
     background-color: #ebc474;
 }
+
 
 td[key = tool] {
     width: 2%;
@@ -209,7 +210,13 @@ td[key = tool]:hover {
 td[key = "status"][value = "admin"] p, td[key = "status"][value = "complete"] p {
     background-color: #86e49d;
     color: #006b21;
-    padding: 0.4em 0.4em;
+    padding: 0.4em;
+}
+
+td[key= "status"][value = "active"] p {
+    background-color: var(--color-danger);
+    color: #ffffff;
+    padding: 0.4em;
 }
 
 .dark-theme-variables td[key = "status"][value = "admin"] p,

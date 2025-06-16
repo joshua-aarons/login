@@ -15,6 +15,68 @@ function time(date) {
     return (new Date(date)).getTime()
 }
 
+function cumsum(arr) {
+    let result = new Array(arr.length);
+    for (let i = 0; i < arr.length; i++) {
+        if (i === 0) {
+            result[i] = arr[i];
+        } else {
+            result[i] = result[i - 1] + arr[i];
+        }
+    }
+    return result;
+}
+
+function apexChartsOptions(s1, s2, xlabel) {
+    return {
+        series: [{
+            name: 'Cumulative Minutes',
+            data: s1,
+        },
+        {
+            name: 'Cumulative Sessions',
+            data: s2,
+        }],
+        xaxis: {
+            type: 'datetime',
+            categories: xlabel,
+            labels: {
+                datetimeFormatter: {
+                    year: 'yyyy',
+                    month: 'MMM \'yy',
+                    day: 'dd MMM',
+                    hour: 'HH:mm'
+                }
+            }
+        },
+        yaxis: [
+            {
+                title: {
+                    text: "Minutes"
+                },
+            },
+            {
+                opposite: true,
+                title: {
+                    text: "Sessions"
+                }
+            }
+        ],
+        chart: {
+            height: 350,
+            type: 'area',
+            fontFamily: 'Poppins',
+            foreColor: 'var(--color-dark)',
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'smooth'
+        }
+    }
+}
+
 class DashBoard extends UserDataComponent {
     onconnect() {
         this.template = getHTMLTemplate("dash-board");
@@ -72,88 +134,41 @@ class DashBoard extends UserDataComponent {
     onvalue(value) {
         let noSessions = true;
         if (value.sessions) {
-            if (value.sessions.length > 0) noSessions = false;
-            // console.log(value)
-            let series = []
-            let series2 = []
-            let xlabel = []
-            // Quantised
+            let sessions = [...value.sessions];
+            if (sessions.length > 0) noSessions = false;
+            sessions.sort((a, b) => a.time - b.time);
+
+            // Get the current quarter start and end date
             let today = new Date()
             let before = new Date()
-
             let m1 = Math.floor(today.getMonth() / 3) * 3;
             before.setMonth(m1)
             before.setDate(1);
             before.setHours(0);
             before.setMinutes(0);
-
             today = new Date(before+"");
             today.setMonth(m1 + 3);
 
-
-            for (let i = time(before); i < time(today); i += 1000 * 60 * 60 * 24) {
-                let tti = 0
-                value.sessions.sort((a, b) => time(a.date) > time(b.date) ? 1 : -1)
-                let tsc = 0
-                for (let session of value.sessions) {
-                    if (time(session.date) < i) {
-                        tti += parseFloat(session.duration)
-                        tsc ++ 
-                    }
+            let sessionsByDay = [];
+            let currentTime = time(before); // start from the next day after the first day of the quarter
+            let endTime = time(today) + 1000 * 60 * 60 * 24; // end at the last day of the quarter
+            while (currentTime <= endTime && sessions.length > 0) {
+                let day = [];
+                day.time = currentTime;
+                while (sessions.length > 0 && sessions[0].time < currentTime) {
+                    day.push(sessions.shift());
                 }
-                series.push(tti)
-                series2.push(tsc)
-                xlabel.push(i)
-            }
-            let options = {
-                series: [{
-                    name: 'Cumulative Minutes',
-                    data: series,
-                },
-                {
-                    name: 'Cumulative Sessions',
-                    data: series2,
-                }],
-                xaxis: {
-                    type: 'datetime',
-                    categories: xlabel,
-                    labels: {
-                        datetimeFormatter: {
-                            year: 'yyyy',
-                            month: 'MMM \'yy',
-                            day: 'dd MMM',
-                            hour: 'HH:mm'
-                        }
-                    }
-                },
-                yaxis: [
-                    {
-                        title: {
-                            text: "Minutes"
-                        },
-                    },
-                    {
-                        opposite: true,
-                        title: {
-                            text: "Sessions"
-                        }
-                    }
-                ],
-                chart: {
-                    height: 350,
-                    type: 'area',
-                    fontFamily: 'Poppins',
-                    foreColor: 'var(--color-dark)',
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    curve: 'smooth'
-                }
+                currentTime += 1000 * 60 * 60 * 24;
+                sessionsByDay.push(day);
             }
 
-            // console.log(options, this.chart, this.con);
+            let s1 = cumsum(sessionsByDay.map(day => day.reduce((sum, session) => sum + session.duration, 0)));
+            let s2 = cumsum(sessionsByDay.map(day => day.length));
+            let xlabel = sessionsByDay.map(day => day.time);
+
+
+            let options = apexChartsOptions(s1, s2, xlabel);
+
             if (this.chart)
                 this.chart.updateOptions(options)
             else {

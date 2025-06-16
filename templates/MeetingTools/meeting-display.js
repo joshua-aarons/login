@@ -105,6 +105,21 @@ class MeetingDisplay extends DataComponent {
         window.requestAnimationFrame(next);
     }
 
+   async copyLink() {
+        if (this.value && this.value.link) {
+            let link = this.value.link;
+            let copyItems = new ClipboardItem({
+                "text/plain": new Blob([link], {type: 'text/plain'})
+            });
+            try {
+                await navigator.clipboard.write([copyItems])
+                showNotification("Link copied to clipboard.", 3000, "success");
+            } catch (err) {
+                showNotification("Failed to copy link.", 5000, "success");
+            }
+        }
+    }
+
     resizeLink() {
         if (this.value && this.value.link) {
             let link = this.value.link;
@@ -113,7 +128,6 @@ class MeetingDisplay extends DataComponent {
             let {linkWidth} = this;
             let linkText = cropToLength(link, widthShown-getStringLength("...---"));
             if (linkText != link) linkText += "..."
-            
             this.els.link.innerHTML = linkText;
         }
     }
@@ -124,10 +138,12 @@ class MeetingDisplay extends DataComponent {
     }
 
     async delete(){
+        this.toggleAttribute("loading", true);
         if (this.value && this.value.sid) {
             await deleteSession(this.value.sid);
         }
         this.close();
+        this.toggleAttribute("loading", false);
     }
 
     edit(){
@@ -136,7 +152,7 @@ class MeetingDisplay extends DataComponent {
     }
 
     async copy(){
-        let {displayName} = getUserInfo();
+        let {displayName} = await getUserInfo();
         let {date, description, link, timezone} = this.value;
         let html = `<div><b>${displayName} has invited you to a Squidly session.</b></div>
         <div><b>Topic:</b> <span>${description}</span></div>
@@ -146,17 +162,21 @@ class MeetingDisplay extends DataComponent {
         let copyItems = new ClipboardItem({
             "text/html": blob
         }) 
-        await navigator.clipboard.write([copyItems])
+        try {
+            await navigator.clipboard.write([copyItems])
+            showNotification("Session invite copied to clipboard.", 3000, "success");
+        }  catch (err) {
+            showNotification("Failed to copy session invite.", 5000, "error");
+        }
+
     }
 
     addToGoogleCalender(){
-        let {time, description, duration, timezone, link} = this.value;
+        let {time, description, duration, link} = this.value;
 
-        let mOffset = -TimeZones[timezone] * 60;
         let start = new Date(time);
-        start.setMinutes(start.getMinutes() + start.getTimezoneOffset() + mOffset)
-        let end = new Date(time + duration * 60 * 1000);
-        end.setMinutes(end.getMinutes() + end.getTimezoneOffset() + mOffset)
+        start.setMinutes(start.getMinutes() + start.getTimezoneOffset());
+        let end = new Date(start.getTime() + duration * 60 * 1000);
 
         let f = (sd) => `${sd.getFullYear()}${(""+(sd.getMonth()+1)).padStart(2, 0)}${(""+(sd.getDate())).padStart(2, 0)}T${(""+sd.getHours()).padStart(2,0)}${(""+sd.getMinutes()).padStart(2,0)}00Z`;
         
@@ -166,18 +186,15 @@ class MeetingDisplay extends DataComponent {
     }
 
     addToOutlook(){
-        let {time, description, duration, timezone, link} = this.value;
+        let {time, description, duration, link} = this.value;
 
-        let mOffset = -TimeZones[timezone] * 60;
         let start = new Date(time);
-        start.setMinutes(start.getMinutes() + start.getTimezoneOffset() + mOffset)
-        let end = new Date(time + duration * 60 * 1000);
-        end.setMinutes(end.getMinutes() + end.getTimezoneOffset() + mOffset)
+        start.setMinutes(start.getMinutes() + start.getTimezoneOffset());
+        let end = new Date(start.getTime() + duration * 60 * 1000);
 
         let linkf = link.replace(/:|\?|\//g, (a) => LINK_FORMAT_TOKENS[a]);
         let f = (sd) => `${sd.getFullYear()}-${(""+(sd.getMonth()+1)).padStart(2, 0)}-${(""+(sd.getDate())).padStart(2, 0)}T${(""+sd.getHours()).padStart(2,0)}%3A${(""+sd.getMinutes()).padStart(2,0)}%3A00%2B00%3A00`;
         let url = `https://outlook.office.com/calendar/0/action/compose?allday=false&enddt=${f(end)}&location=${linkf}&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=${f(start)}&subject=${description}`
-        // let url = `https://outlook.office365.com/calendar/0/action/compose?allday=false&enddt=${f(end)}&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=${f(start)}&subject=${description}`
         window.open(url);
     }
 }

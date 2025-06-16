@@ -129,11 +129,17 @@ select {
     text-indent: 1px;
     text-overflow: '';
     background: transparent;
+
 }
+
 .select-box select {
     color: white;
     padding: 1em;
     padding-right: 2.1em;
+    font-size: 1rem;
+}
+.select-box option {
+    color: black;
 }
 .select-box {
     border-radius: 1em;

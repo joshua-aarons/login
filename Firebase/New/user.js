@@ -31,6 +31,12 @@ export function watch(uid, allData, updateCallback) {
             let userData = snapshot.val();
             if (userData) {
                 allData.info = userData;
+                if (!userData.displayName) {
+                    let name = userData.firstName + " " + userData.lastName;
+                    setUserInfo({
+                        displayName: name,
+                    });
+                }
             } else {
                 allData.info = null; // If user data is null, set it to null
             }

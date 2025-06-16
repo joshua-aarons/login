@@ -282,6 +282,7 @@ app-view:not(.dark-theme-variables) .right .theme-toggler span:first-child{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    background-image: url('data:image/svg+xml,<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 256 256"><path opacity="0.3" d="M24.77,256c0-69.4,46.22-125.66,103.23-125.66s103.23,56.26,103.23,125.66"/><ellipse opacity="0.3" cx="128" cy="62.64" rx="46.42" ry="45.2"/></svg>');
 }
 
 .profile-photo i {
@@ -311,8 +312,7 @@ app-view:not(.dark-theme-variables) .right .theme-toggler span:first-child{
 }
 
 
-@media screen and (max-width: 1200px) {
-
+@media screen and (max-width: 1400px) {
     app-view {
         --side-width: 6rem;
     }
@@ -331,7 +331,7 @@ app-view:not(.dark-theme-variables) .right .theme-toggler span:first-child{
 
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 1200px) {
     :root {
         font-size: 1.8vmin;
     }

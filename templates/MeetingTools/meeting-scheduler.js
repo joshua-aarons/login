@@ -1,41 +1,90 @@
 import { CustomForm, SvgPlus } from "../../CustomComponent.js";
-import { createSession, parseSession, updateSession } from "../../Firebase/New/sessions.js";
+import { createSession, updateSession } from "../../Firebase/New/sessions.js";
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 import {} from "../input-plus.js"
 
 useCSSStyle("theme")
 
+function firstDayInMonth(year, month, day) {
+    let date = new Date(year, month, 1, 0, 0, 0, 0);
+    let d = date.getDay();
+    if (d === day) {
+        return date;
+    } else {
+        // If the first day is not Sunday, calculate the next Sunday
+        date.setDate(date.getDate() + (day - d + 7) % 7);
+        return date;
+    }
+}
+
+function isInAustralianDST(date) {
+    // Get the year and month from the date
+    let year = date.getFullYear();
+
+    let end = firstDayInMonth(year, 3, 0).getTime(); // First Sunday in April
+    let start = firstDayInMonth(year, 9, 0).getTime(); // First Sunday in October
+
+    date = date.getTime();
+
+    // Check if the date is between the first Sunday in April and the first Sunday in October
+    return (date >= start || date <= end);
+}
+const daylightSaving = {
+    "Perth": 0,
+    "Adelaide": 100,
+    "Brisbane": 0,
+    "Darwin": 0,
+    "Hobart": 100,
+    "Sydney, Melbourne, Canberra": 100
+}
+const TimeZones = {
+    "Perth": 800,
+    "Adelaide": 950,
+    "Brisbane": 1000,
+    "Darwin": 950,
+    "Hobart": 1000,
+    "Sydney, Melbourne, Canberra": 1000
+}
+
+function createTimeZonedDateString(timezone, date) {
+    let dateO = new Date(date);
+    let offset = TimeZones[timezone] || 0;
+    if (daylightSaving[timezone] > 0 && isInAustralianDST(dateO)) {
+        offset += daylightSaving[timezone];
+    }
+    let offsetString = (offset > 0 ? "+" : "-") + (Math.floor(offset / 100)+"").padStart(2, '0') + ":" + (Math.round(60 * (offset % 100) / 100)).toString().padStart(2, '0');
+    date =  date + offsetString;
+    return date;
+}
+
+
 class MeetingScheduler extends CustomForm {
     onconnect(){
         this.sid = null;
-
         this.innerHTML = getHTMLTemplate("meeting-scheduler");
-        // this.getInput("end-time").addEventListener("change", () => this.computeTime())
         this.attachEvents();
-        
         this.appView = document.querySelector("app-view")
     }
 
     async save(){
         if (this.validate()) {
-            let value = this.value;
-
-            let time = new Date(value["start-time"]);
-            time.setMinutes(time.getMinutes() - time.getTimezoneOffset());
-            value.startTime = time.getTime();
-
-            this.loading = true;
-            let data = null
-            if (this.sid == null) {
-                let sid = await createSession(value);
-                data = parseSession(sid, {info: value}, true);
-            } else {
-                value.sid = this.sid;
-                await updateSession(this.sid, value);
-                data = parseSession(this.sid, {info: value}, true);
+            let {value, sid} = this;
+            let sessionInfo = {
+                duration: parseInt(value.duration) || 5,
+                description: value.description || "My Meeting",
+                timzone: value.timezone,
+                startDate: createTimeZonedDateString(value.timezone, value["start-time"]),
             }
-            data.time = time.getTime();
-            this.appView.displayMeeting(data);
+            sessionInfo.startTime = new Date(sessionInfo.startDate).getTime();
+            
+            this.loading = true;
+            let session = null;
+            if (sid == null) {
+                session = await createSession(sessionInfo);
+            } else {
+                session = await updateSession(sid, sessionInfo);
+            }
+            this.appView.displayMeeting(session);
             this.parentNode.classList.remove("open");
             this.loading = false;
             this.value = "";
@@ -55,8 +104,6 @@ class MeetingScheduler extends CustomForm {
         }
         return value;
     }
-
-
 
     close(){
         this.value = "";

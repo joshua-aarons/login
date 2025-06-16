@@ -1,3 +1,8 @@
+<i class = "close-i" onclick="close"><span class="material-symbols-outlined">
+    close
+</span></i>
+
+
 <h2>Details</h2>
 
 <div class="schedule-shape">
@@ -14,7 +19,7 @@
         <p class="schedule-heading">Time</p>
     </div>
     <div>
-        <p class="schedule-content"><span name="date" vfield="html"></span> <span name="timezone" vfield="html"></span></p>
+        <p class="schedule-content"><span name="date" vfield="html"></span></p>
     </div>
 </div>
 
@@ -32,7 +37,7 @@
         <p class="schedule-heading">Meeting ID</p>
     </div>
     <div>
-        <p class="schedule-content" name="sid" vfield="html">Nni4dRctlklU8FUhkdQ</p>
+        <p class="schedule-content" style="user-select: all;" name="sid" vfield="html">Nni4dRctlklU8FUhkdQ</p>
     </div>
 </div>
 
@@ -43,7 +48,7 @@
     <div class="link-copy">
         <p class="schedule-content" name="link" vfield="html">
             https://app.squidly.com.au/Session/?-Nni4dRctlklU8FUhkdQ</p>
-        <span class="icon material-symbols-outlined">content_copy</span>
+        <span onclick = "copyLink" class="icon material-symbols-outlined">content_copy</span>
     </div>
 </div>
 
@@ -58,8 +63,7 @@
 </div>
 
 <div class="contact-buttons-finish">
-    <button class="btn" onclick="close()" color="red">Close</button>
-    <button class="btn" onclick="copy()" color="gray">Copy</button>
-    <button class="btn" onclick="delete()" color="gray">Delete</button>
-    <button class="btn" onclick="edit()">Edit</button>
+    <button class="btn" onclick="copy" color="gray">Copy</button>
+    <button class="btn" onclick="delete" color="gray">Delete</button>
+    <button class="btn" onclick="edit">Edit</button>
 </div>

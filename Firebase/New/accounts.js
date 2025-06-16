@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, EmailAuthProvider, get, getUser, reauthenticateWithCredential, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, uploadFileToCloud } from "../firebase-client.js";
+import { createUserWithEmailAndPassword, EmailAuthProvider, get, getUser, push, reauthenticateWithCredential, ref, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updatePassword, uploadFileToCloud, set } from "../firebase-client.js";
 import { setUserInfo } from "./user.js";
 class LoginError extends Error {
     constructor(error) {
@@ -119,10 +119,14 @@ export async function signup(type, info) {
 export function signout() { signOut() }
 
 export async function resetPassword(data) {
-    const { User } = getUser();
-    let credentials = EmailAuthProvider.credential(User.email, data.oldpasscode)
-    await reauthenticateWithCredential(User, credentials)
-    await updatePassword(User, data.newpasscode)
+    try {
+        const User = getUser();
+        let credentials = EmailAuthProvider.credential(User.email, data.oldpasscode)
+        await reauthenticateWithCredential(User, credentials)
+        await updatePassword(User, data.newpasscode)
+    } catch (error) {
+        throw new LoginError(error);
+    }
 }
 
 export async function sendSupportMessage(message, progress) {
@@ -137,7 +141,6 @@ export async function sendSupportMessage(message, progress) {
     } else if ('attachment' in message) {
         delete message.attachment
     }
-    console.log(message)
     await set(r, message)
 }
 

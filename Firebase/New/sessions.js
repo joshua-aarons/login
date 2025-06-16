@@ -1,6 +1,9 @@
 /**
  * @typedef {Object} SessionInfo
- * @property {number} scheduledTime - The session ID.
+ * @property {number} startTime - The session ID.
+ * @property {string} description - The session description.
+ * @property {string} startDate - The session start date in the format "DD/MM/YYYY HH:MM AM".
+ * @property {number} duration - The session duration in minutes.
  * 
  */
 
@@ -20,77 +23,183 @@ import { callFunction, equalTo, get, onChildAdded, onChildRemoved, onValue, orde
 */
 
 
-/**
- * @typedef {Object} Session
- * @property {string} sid - The session ID.
- * @property {number} time - The session start time in milliseconds.
- * @property {number} duration - The session duration in minutes.
- * @property {string} date - The session date in the format "DD/MM/YYYY HH:MM AM".
- * @property {string} status - The session status, can be "complete", "active", or "upcoming".
- * @property {string} link - The link to the session.
- * @property {string} timezone - The timezone of the session.
- * @property {number} timezoneOffset - The timezone offset in minutes.
- * @property {boolean} history - Whether the session is part of the history.
- */
-
-const SessionInfoKeys = {
-    "description": (val) => val || "My Meeting",
-    "timezone": (val) => val || "UTC",
-    "timezoneOffset": (val) => val || 0,
-}
-    
 
 
-function toSessionLink(sid) {
-    return `${window.location.origin}/V3/?${sid}`;
-}
 
-function toDateString(ds) {
-    ds.setMinutes(ds.getMinutes() + ds.getTimezoneOffset());
-    return `${ds.getDate()}/${ds.getMonth() + 1}/${ds.getFullYear()} ${ds.toLocaleTimeString("en", { timeStyle: "short" })}`;
-}
 function round(x, y) { return Math.round(Math.pow(10, y) * x) / Math.pow(10, y) }
 
 
-/**
- * Parses a session object and returns a formatted session object.
- * @param {string} sid - The session ID.
- * @param {SessionDescriptor | SessionHistory} session - The session object to parse.
- * @param {boolean} [isHistory=false] - Whether the session is part of the history.
- * 
- * @returns {Session} The parsed session object with additional properties.
- */
-export function parseSession(sid, session, isHistory = false) {
-    let sessionData = {sid}
+const SessionInfoKeys = {
+    "description": (val) => val || "My Meeting",
+    "startTime": (val) => typeof val === "number" && !Number.isNaN(val) ? new Date(val) : null,
+    "startDate": (val) => typeof val === "string" ? val : null,
+    "duration": (val) => typeof val === "number" && !Number.isNaN(val) ? Math.round(val) : 5, // Convert milliseconds to minutes
+    "timezoneName": (val) => typeof val === "string" ? val : "Sydney",
+}
 
-    let ds = new Date(isHistory ? session.startTime : session.info.scheduledTime);
-    if (isHistory) ds.setMinutes(ds.getMinutes() + ds.getTimezoneOffset());
-    sessionData.time = ds.getTime();
-    sessionData.date = toDateString(ds);
-
-    let duration = isHistory ? session.duration : session.info.duration;
-
-    let isComplete = ((new Date()).getTime() > (ds.getTime() + duration)) || isHistory;
-    sessionData.status = isComplete ? "complete" : "active";
-    sessionData.history = isHistory;
-    sessionData.link = toSessionLink(sid);
-    let dminutes = round(parseFloat(duration), 0); // Convert duration from milliseconds to minutes
-    let dhours = Math.floor(dminutes / 60);
-    dminutes = dminutes % 60;
-    sessionData.duration = Number.isNaN(dhours) ? "-" : `${dhours > 0 ? dhours + "h ":""}${dminutes}m`;
-
-    const info = session.info || {};
-  
+const oldMode = false;
     
-    for (let key in SessionInfoKeys) {
-        
-        sessionData[key] = SessionInfoKeys[key](info[key]);
+class Session {
+    /**
+     * @type {number} timestamp in milliseconds 
+     **/
+    startTime = null;
+
+    /**
+     * @type {number} duration in minutes
+     **/
+    duration = 5;
+
+    /**
+     * @type {string} date in the format "YYYY-MM-DDTHH:MMZ"
+     **/
+    startDate = null;
+
+    /**
+     * @type {string}
+     **/
+    description = "My Meeting";
+
+    /**
+     * @type {string}
+     **/
+    sid = null;
+
+    /**
+     * @type {string}
+     **/
+    timezoneName = "Sydney";
+
+    /**
+     * @type {number} timezone offset in minutes
+     **/
+    timezoneOffset = 0;
+
+    /**
+     * @type {boolean} is this session in the past?
+     **/
+    isHistory = false;
+
+    /**
+     * @type {boolean} is this session currently active?
+     **/
+    active = false;
+
+    constructor(sid, session, isHistory = false) {
+        if (oldMode) {
+            console.log(session);
+            
+            if (!session.info) {
+                session.info = {duration: 5, description: "My Meeting", startTime: Date.now(), startDate: new Date().toISOString()};
+            }
+        }
+
+        if (typeof sid !== "string" || sid.length === 0) {
+            throw new Error("Session ID must be a non-empty string");
+        } else if (session === null || typeof session !== "object") {
+            throw new Error("Session data must be a non-null object");
+        } else if (!("info" in session) || typeof session.info !== "object") {  
+            throw new Error("Session data must contain an 'info' object");
+        } 
+
+        this.sid = sid;
+        for (let key in SessionInfoKeys) {
+            let value = SessionInfoKeys[key](session.info[key]);
+            if (value === null || value === undefined) {
+                throw new Error("Session info is missing required key: " + key);
+            } else {
+                this[key] = value;
+            }
+        }
+      
+
+        if (isHistory) {
+            this.scheduledTime = this.startTime;
+            this.scheduledDuration = this.duration;
+            this.startTime = session.startTime;
+            this.duration = Math.round(session.duration);
+        }
+        this.isHistory = isHistory;
+        this.active = false;
+        this.timezoneOffset = Session.gettimezoneOffset(this.startDate);
+
+        let ds = new Date(this.startTime);
+        this.date = `${ds.getDate()}/${ds.getMonth() + 1}/${ds.getFullYear()} ${ds.toLocaleTimeString("en", { timeStyle: "short" })}`;
     }
 
-    sessionData.active = false; // Default to false, will be updated later if needed
+    /**
+     * @returns {string} The session link.
+     */
+    get link() {
+        return Session.sid2link(this.sid);
+    }
 
-    return sessionData;
+    /**
+     * @returns {("active"|"complete"|"upcoming")} The session status.
+     */
+    get status() {
+        if (this.active) {
+            return "active";
+        } else if (this.isHistory) {
+            return "complete";
+        } else {
+            return "upcoming";
+        }
+    }
+
+    /**
+     * @returns {number} The rank of the session status.
+     * - "active" has the highest rank (2)  
+     * - "upcoming" has a middle rank (1)
+     * - "complete" has the lowest rank (0)
+     * - Unknown status has a rank of -1
+     */
+    get statusRank() {
+        switch (this.status) {
+            case "active":
+                return 2;
+            case "complete":
+                return 0;
+            case "upcoming":
+                return 1;
+            default:
+                return -1; // Unknown status
+        }
+    }
+
+    compare(other) {
+        if (this.status === other.status) {
+            return this.startTime - other.startTime;
+        } else {
+            return this.statusRank - other.statusRank;
+        }
+    }
+
+    /**
+     * @returns {number} The session time in milliseconds.
+     */
+    get time() {
+        return this.startTime;
+    }
+
+    static sid2link(sid) {
+        return `${window.location.origin}/V3/?${sid}`;
+    }
+
+    static gettimezoneOffset(date) {
+        let match = date.match(/[+-]\d{2}:\d{2}/);
+        if (match) {
+            let offset = match[0];
+            let hours = parseInt(offset.slice(1, 3), 10);
+            let minutes = parseInt(offset.slice(4, 6), 10);
+            return (hours * 60 + minutes) * (offset[0] === '+' ? -1 : 1);
+        } else {
+            return 0; // Default to no offset if not found
+        }
+    }
 }
+
+
 
 let watchers = {}
 
@@ -119,9 +228,9 @@ export function watch(uid, allData, updateCallback) {
 
     // Create a sessions list and call the update callback
     let update = () => {
-        allData.sessions = Object.values(allData.sessionsBySID).sort((a, b) => b.time - a.time);
-        allData.sessions.forEach((session) => {
-            session.status = session.sid === activeSID ? "active" : (session.history ? "complete" : "upcoming")});
+        let sessions = Object.values(allData.sessionsBySID);
+        sessions.sort((a, b) => b.compare(a));
+        allData.sessions = sessions;
         updateCallback();
     }
 
@@ -136,17 +245,17 @@ export function watch(uid, allData, updateCallback) {
     // Stop watching the info of a session
     let watchSessionInfo = (sid) => {
          watchers[`session-${sid}`] = onValue(ref(`sessions-v3/${sid}/info`), (snapshot) => {
-            let info = snapshot.val();
-            if (info !== null) {
+            try {
+                let sdata = new Session(sid, {info: snapshot.val()});
                 format();
-                allData.sessionsBySID[sid] = parseSession(sid, {info});
                 if (activeSID === sid) {
-                    allData.sessionsBySID[sid].active = true;
+                    sdata.active = true;
                 } else {
-                    allData.sessionsBySID[sid].active = false;
+                    sdata.active = false;
                 }
+                allData.sessionsBySID[sid] = sdata;
                 update();
-            }
+            } catch (e) {}
         })
     }
 
@@ -171,7 +280,10 @@ export function watch(uid, allData, updateCallback) {
         let sessionHistory = snapshot.val();
         format();
         for (let sid in sessionHistory) {
-            allData.sessionsBySID[sid] = parseSession(sid, sessionHistory[sid], true);
+            try {    
+                let sdata = new Session(sid, sessionHistory[sid], true);
+                allData.sessionsBySID[sid] = sdata;
+            } catch (e) {}
         }
         update();
     });
@@ -207,7 +319,7 @@ export function stopWatch() {
 
 export async function createSession(sessionInfo) {
     sessionInfo = sessionInfo || {};
-    let res = await callFunction("sessions-create", {startTime: sessionInfo.scheduledTime || (new Date()).getTime()}, "australia-southeast1");
+    let res = await callFunction("sessions-create", sessionInfo, "australia-southeast1");
     let {sid, errors} = res.data
     if (errors.length > 0) {
         console.log(errors);
@@ -215,7 +327,10 @@ export async function createSession(sessionInfo) {
     } else {
         await update(ref(`sessions-v3/${sid}/info`), sessionInfo)
     }
-    return sid;
+
+    return new Session(sid, {
+        info: sessionInfo,
+    });
 }
 
 export async function deleteSession(sid) {
@@ -225,4 +340,8 @@ export async function deleteSession(sid) {
 
 export async function updateSession(sid, sessionInfo) {
     await update(ref(`sessions-v3/${sid}/info`), sessionInfo);
+
+    return new Session(sid, {
+        info: sessionInfo,
+    });
 }
