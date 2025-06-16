@@ -197,6 +197,16 @@ class Session {
             return 0; // Default to no offset if not found
         }
     }
+
+    static createEmptySessionInfo() {
+        return{
+            startTime: Date.now(),
+            duration: 5,
+            description: "My Meeting",
+            startDate: new Date().toISOString(),
+            timezoneName: "Sydney",
+        }
+    }
 }
 
 
@@ -318,7 +328,12 @@ export function stopWatch() {
 }
 
 export async function createSession(sessionInfo) {
-    sessionInfo = sessionInfo || {};
+    if (sessionInfo === "empty") {
+        sessionInfo = Session.createEmptySessionInfo();
+    } else if (typeof sessionInfo !== "object" || sessionInfo === null) {
+        throw new Error("Session info must be a non-null object");
+    }
+    
     let res = await callFunction("sessions-create", sessionInfo, "australia-southeast1");
     let {sid, errors} = res.data
     if (errors.length > 0) {

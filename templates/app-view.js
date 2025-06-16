@@ -147,9 +147,8 @@ export class AppView extends UserDataComponent {
         let time = new Date();
         time.setMinutes(time.getMinutes() - time.getTimezoneOffset());
         time = time.getTime();
-
-        let sid = await createSession({description: "My Meeting", startTime: time, timezone: "(UTC+11:00) Canberra, Melbourne, Sydney"});
-        window.open(window.location.origin + `/V3/?${sid}`);
+        let session = await createSession("empty");
+        window.open(window.location.origin + `/V3/?${session.sid}`);
     }
 
     displayMeeting(meeting){

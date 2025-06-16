@@ -11,6 +11,12 @@ const usageKeys = [
     "sessions",
     "storage",
 ]
+const tierNames = {
+    "0": "Free",
+    "1": "Basic",
+    "2": "Plus",
+    "3": "Pro",
+}
 let watchers = {};
 
 function round(x, y) { return Math.round(Math.pow(10, y) * x) / Math.pow(10, y) }
@@ -29,14 +35,12 @@ export function watch(uid, allData, updateCallback) {
     // Stop all previous watchers
     stopWatch();
 
-
     allData.usage = {
         minutes: { used: 0, max: 0, "%": 0, remaining: 0 },
         sessions: { used: 0, max: 0, "%": 0, remaining: 0 },
         storage: { used: 0, max: 0, "%": 0, remaining: 0 },
         hours: { used: 0, max: 0, "%": 0, remaining: 0 }, // Added hours usage
     }
-
 
     let tierSettings = null;
     let waitingForTierValues = new Promise((resolve) => {
@@ -136,9 +140,9 @@ export function watch(uid, allData, updateCallback) {
         }
         // Compute the maximum tier
         allData.maxTier = Math.max(...Object.values(allData.licenceTiers)) || 0;
+        allData.tierName = tierNames[allData.maxTier] || "None";
         updateCallback();
     });
-
 }
 
 /**
