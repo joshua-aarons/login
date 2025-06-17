@@ -29,25 +29,29 @@ function showScreen(type) {
 // Sometimes user may already be authenticated before siging in to the app
 let noUser = true;
 F.addAuthChangeListener(async (user) => {
+    if (user && user.isAnonymous) {
+        F.signOut();
+        user = null;
+    } 
+
+
     if (user) {
-        watch(user?.uid, (allData, type) => {
-            
-            updateUserDataComponents(allData);
-            showScreen("appView");
-        });
-    }
-
-    if (user == null) {
-        showScreen("loginPage")
-        noUser = true;
-    } else if (!user.emailVerified) {
-        console.log("HERE");
-        showScreen("loginPage")
-        loginPage.emailVerify = true;
-        noUser = true;
+        if (user.emailVerified) {
+            noUser = false;
+             watch(user?.uid, (allData, type) => {
+                updateUserDataComponents(allData);
+                showScreen("appView");
+            });
+        } else {
+            showScreen("loginPage")
+            loginPage.emailVerify = true;
+            noUser = true;
+        }
     } else {
-
+        showScreen("loginPage")
+        noUser = true;
     }
+    
 });
 
 // F.addDataListener( (value) => {

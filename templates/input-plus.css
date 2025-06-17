@@ -135,18 +135,30 @@ select {
 .select-box select {
     color: white;
     padding: 1em;
-    padding-right: 2.1em;
+    padding: 1.1rem 2.5rem 1.1em 1.5em;
     font-size: 1rem;
 }
 .select-box option {
     color: black;
 }
+
 .select-box {
-    border-radius: 1em;
+    --color: var(--color-danger);
+    --hover-color: var(--color-danger-hover);
     cursor: pointer;
-    background: var(--color-danger);
+    background-color: var(--color);
+    color: var(--color-white);
     position: relative;
     display: flex;
+    border-radius: 40px;
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.select-box:hover {
+    background-color: var(--hover-color);
 }
 
 .select-box::after {

@@ -1,5 +1,5 @@
 import { SvgPlus, UserDataComponent } from "../../CustomComponent.js";
-import { addUsersToLicence, removeUsersFromLicence } from "../../Firebase/New/licences.js";
+import { addUsersToLicence, openBillingPortal, removeUsersFromLicence } from "../../Firebase/New/licences.js";
 import { getHTMLTemplate, useCSSStyle } from "../../template.js"
 import { loadCSV } from "../table-plus.js"
 
@@ -42,6 +42,7 @@ function showChangeMessage(user, res, method) {
 
 class AdminControl extends UserDataComponent {
     licencesByID = {};
+    licenceStatus = {};
     selectedLicenceUsers = [];
     _selectedLicenceID = null;
 
@@ -139,6 +140,19 @@ class AdminControl extends UserDataComponent {
         }
         showChangeMessage(user, response[0], "delete");
     }
+
+
+    async openBillingPortal() {
+        let return_url = window.location.href;
+        if (return_url.endsWith("/")) {
+            return_url = return_url.slice(0, -1);
+        }
+        console.log(`Opening billing portal for licence ID: ${this.selectedLicenceID} with return URL: ${return_url}`);
+        
+        this.els.openBillingButton.classList.add("disabled");
+        await openBillingPortal(this.selectedLicenceID, return_url);
+        this.els.openBillingButton.classList.remove("disabled");
+    }
    
 
     /** 
@@ -150,10 +164,14 @@ class AdminControl extends UserDataComponent {
         let seats = 0;
         let users = [];
 
-        const {licencesByID} = this;
+        
+        const {licencesByID, licenceStatus} = this;
         if (id in licencesByID) {
             const selectedLicence = licencesByID[id];
-            // console.log(`Showing selected licence:\n\tid:  ${id}\n\tname: ${selectedLicence.licenceName}`);
+            this.els.licenceName.innerHTML = selectedLicence.licenceName;
+
+            let isOwner = id in licenceStatus && licenceStatus[id] == "owner";
+            this.els.billingCard.style.setProperty("display", isOwner ? null : "none");
 
             if (selectedLicence?.users) {
                 users = Object.keys(selectedLicence.users).map((id) => {
@@ -204,8 +222,11 @@ class AdminControl extends UserDataComponent {
 
     updateLicences(value) {
         if ("licences" in value) {
+            
             let licences = value.licences;
             this.licencesByID = value.licencesByID || {};
+            this.licenceStatus = value.licenceStatus || {};
+
             if (!Array.isArray(value.licences)) {
                 licences = [];
             }

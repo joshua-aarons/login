@@ -119,9 +119,10 @@ export function watch(uid, allData, updateCallback) {
             watchers[watchStatusKey] = onValue(ref(`licences/${licenceID}/users/${uid}/status`), (snapshot) => {
                 let status = snapshot.val();
                 if (!("licenceStatus" in allData)) {
-                    allData.licenceStates = {};
+                    allData.licenceStatus = {};
                 }
-                allData.licenceStates[licenceID] = status;
+
+                allData.licenceStatus[licenceID] = status;
                 listenToLicence(licenceID, !(status in isEditorStatus)); // Remove the licence watcher
                 updateCallback();
             });
@@ -165,6 +166,7 @@ export async function addUsersToLicence(lid, users) {
     );
     return res;
 }
+
 export async function removeUsersFromLicence(lid, users) {
     let res = await Promise.all(
         users.map(async user => {
@@ -175,4 +177,17 @@ export async function removeUsersFromLicence(lid, users) {
         })
     );
     return res;
+}
+
+export async function openBillingPortal(licenceID, return_url) {
+    try {
+        let res = await callFunction("stripe-createCustomerPortal", {licenceID, return_url}, "asia-southeast1");
+        if (res.data && res.data.url) {
+            window.open(res.data.url, "_blank");
+        } else {
+            console.warn("Failed to open billing portal:", res.data.errors);
+        }
+    } catch (error) {
+        console.error("Error opening billing portal:", error);
+    }
 }

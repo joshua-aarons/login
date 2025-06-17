@@ -19,6 +19,8 @@
             <small class="text-muted row">With site access<i name = "maxUserInfo" hover = "number of users" class='fa-solid fa-circle-info'></i></small>
         </div>
     </div>
+
+
     
     <div class="card">
         <div class="row">
@@ -31,6 +33,19 @@
                 <button class="btn" name="download" color="gray">Download Template</button>
                 <button class="btn" onclick = "loadCSVAdmins" name="update">Upload Site Members</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div name = "billingCard" class = "card bottom-margin">
+    <div class="row">
+        <div class="col">
+            <h2><span><i class="fa-solid fa-credit-card"></i></span>&nbsp;&nbsp;&nbsp;Billing</h2>
+            <p class="data-preferences-body">Manage billing information for <b name = "licenceName"></b> and view the current plan.</p>
+        </div>
+        <div class = "col">
+            <button class="btn" name = "openBillingButton" onclick="openBillingPortal">Billing Portal</button>
+            <img src = "images/stripe.svg" alt = "Powered By Stripe" style = "height: 1.5rem;">
         </div>
     </div>
 </div>

@@ -141,6 +141,7 @@ export async function initialise(config = firebaseConfig) {
   });
   return await waitForUserProm;
 }
+
 // Get App object
 export function getApp(){return App;}
 
