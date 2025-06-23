@@ -17,25 +17,25 @@ input-plus textarea {
 }
 
 input-plus textarea ~ label {
-    top: 1.2rem;
+    top: 1.2em;
     transform: none;
 }
 
 input-plus textarea ~ .icon {
-    top: 1.3rem;
+    top: 1.3em;
     transform: none;
 }
 
 input-plus input, input-plus textarea, input-plus select {
     width: 100%;
     background-color: var(--input-bg);
-    padding: 1.5rem 1.35rem calc(0.75rem - 2px) 1.35rem;
+    padding: 1.5em 1.35em calc(0.75em - 2px) 1.35em;
     border: none;
     outline: none;
     font-family: inherit;
     border-radius: 20px;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.95em;
     border: 2px solid transparent;
     box-shadow: 0 0 0 0px var(--input-shadow);
     transition: 0.3s;
@@ -49,22 +49,22 @@ input-plus input:hover, input-plus textarea:hover, input-plus select:hover {
 input-plus label {
     position: absolute;
     top: 50%;
-    left: calc(1.35rem + 2px);
+    left: calc(1.35em + 2px);
     transform: translateY(-50%);
     color: var(--color-info-dark);
     pointer-events: none;
     transition: 0.25s;
-    font-size: 0.95rem;
+    font-size: 0.95em;
 }
 
 input-plus > .icon {
     position: absolute;
-    right: calc(1.35rem + 2px);
+    right: calc(1.35em + 2px);
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
     color: var(--input-text);
-    font-size: 1.25rem;
+    font-size: 1.25em;
     transition: 0.3s;
 }
 
@@ -83,8 +83,8 @@ input-plus.focus .icon {
 }
 
 input-plus.not-empty label {
-    font-size: 0.66rem;
-    top: 0.75rem;
+    font-size: 0.66em;
+    top: 0.75em;
     transform: translateY(0);
 }
 
@@ -135,8 +135,8 @@ select {
 .select-box select {
     color: white;
     padding: 1em;
-    padding: 1.1rem 2.5rem 1.1em 1.5em;
-    font-size: 1rem;
+    padding: 1.1em 2.5em 1.1em 1.5em;
+    font-size: 1em;
 }
 .select-box option {
     color: black;
@@ -151,7 +151,7 @@ select {
     position: relative;
     display: flex;
     border-radius: 40px;
-    font-size: 1rem;
+    font-size: 1em;
     font-weight: 500;
     font-family: inherit;
     cursor: pointer;
@@ -194,11 +194,11 @@ input-plus .error-message, input-plus .file-name {
 input-plus[invalid] .error-message, input-plus[file] .file-name {
     display: flex;
     position: absolute;
-    bottom: -1.2rem;
-    left: 1.35rem;
-    gap: 0.5rem;
+    bottom: -1.4em;
+    left: 1.35em;
+    gap: 0.5em;
     align-items: center;
-    font-size: 0.8rem;
+    font-size: 0.8em;
 }
 
 input-plus[invalid] .error-message {
@@ -239,8 +239,8 @@ progress-chart {
 }
 
 progress-chart svg {
-    width: 5rem;
-    height: 5rem; 
+    width: 5em;
+    height: 5em; 
 }
 
 progress-chart svg circle {

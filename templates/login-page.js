@@ -11,20 +11,16 @@ export class LoginPage extends CustomComponent {
         super(el)
         this.innerHTML = getHTMLTemplate("login")
         this.els = this.getElementLibrary();
-        let {signinToggle, signupToggle, signinForm, signupForm, forgotPasswordForm1} = this.els;
-        signinToggle.onclick = () => this.classList.remove("active");
-        signupToggle.onclick = () => this.classList.add("active");
+        const {signinForm, signupForm, forgotPasswordForm} = this.els;
+        this.setAttribute("mode", "sign-in");
 
-        signinForm.addEventListener("submit", () => this.signin());
-        
-        this.addEventListener("gmail", () => this.signinProvider("gmail"));
-        this.addEventListener("facebook", () => this.signinProvider("facebook"));
-        
-        signinForm.addEventListener("forgot-password", () => {
-            this.setAttribute("forgot-password", 1)});
-        signupForm.addEventListener("submit", () => this.signup());
-        forgotPasswordForm1.addEventListener("back", () => this.removeAttribute("forgot-password"));
-        forgotPasswordForm1.addEventListener("submit", () => this.sendForgotPassword());
+        signinForm.addEventListener("toggle", () => this.setAttribute("mode", "sign-up"));
+        signinForm.addEventListener("submit", this.signin.bind(this));
+        signupForm.addEventListener("toggle", () => this.setAttribute("mode", "sign-in"));
+        signupForm.addEventListener("submit", this.signup.bind(this));
+        signinForm.addEventListener("forgot-password", () => this.setAttribute("mode", "forgot-password"));
+        forgotPasswordForm.addEventListener("submit", this.sendForgotPassword.bind(this));
+        forgotPasswordForm.addEventListener("back", () => this.setAttribute("mode", "sign-in"));
 
         this.attachEvents();
     }
@@ -91,13 +87,11 @@ export class LoginPage extends CustomComponent {
             this.els.signinForm.getInput(error.inputName).error = error.message;
         }
     }
+
     set signupError(error){
         console.log({error});
         if (error.inputName != "") {
             this.els.signupForm.getInput(error.inputName).error = error.message;
         }
     }
-
-    
-
 }

@@ -71,6 +71,7 @@ export async function getUserInfo() {
 }
 
 export async function updateDisplayPhoto(file, callback) {
+    const User = getUser();
     let url = await uploadFileToCloud(file, `users/${User.uid}/displayPhoto`)
     setUserInfo({ displayPhoto: url })
 }

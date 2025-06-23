@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
+/* 
   *{
     margin: 0;
     padding: 0;
@@ -20,28 +20,7 @@ login-page .col {
     gap: 1.3rem;
     align-items: center;
 }
-login-page{
-    --fw: max(40rem, 60vw);
-    --fh: max(40rem, 70vh);
-    --ratio: 0.4;
 
-    --tw: calc(var(--ratio) * var(--fw));
-    --fcw: calc(var(--fw) - var(--tw));
-
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #c9d6ff;
-    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-}
 
 login-page img{
     display: block;
@@ -51,15 +30,7 @@ login-page img{
 }
 
 
-login-page .container{
-    background-color: #fff;
-    border-radius: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
-    position: relative;
-    overflow: hidden;
-    width: var(--fw);
-    height: var(--fh);
-}
+
 
 login-page .container p{
     font-size: 1rem;
@@ -110,16 +81,6 @@ login-page .container .form{
 }
 
 
-/* login-page .container input{
-    background-color: #eee;
-    border: none;
-    margin: 8px 0;
-    padding: 10px 15px;
-    font-size: 13px;
-    border-radius: 8px;
-    width: 100%;
-    outline: none;
-} */
 
 .form-container{
     position: absolute;
@@ -245,6 +206,93 @@ login-page.active .toggle-left{
 login-page.active .toggle-right{
     transform: translateX(200%);
 }
+*/
+login-page .form-container {
+    display: none;
+    flex-direction: column;
+}
+
+
+login-page[mode = "sign-in"] .form-container.sign-in {
+    display: unset;
+}
+
+login-page[mode = "sign-up"] .form-container.sign-up {
+    display: unset;
+}
+login-page[mode = "forgot-password"] .form-container.forgot-password {
+    display: unset;
+}
+
+
+login-page{
+
+    --wclamp: clamp(500px, 100vw, 1000px);
+    font-size: calc(12px + (var(--wclamp) - 500px) / 100);
+    --fw: min(500px, 90vw);
+    --ratio: 0.4;
+
+    --tw: calc(var(--ratio) * var(--fw));
+    --fcw: calc(var(--fw) - var(--tw));
+
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #c9d6ff;
+    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+login-page .container{
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    position: relative;
+    width: var(--fw);
+}
+
+login-page .form  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    padding: 2em;
+}
+
+login-page squidly-loader {
+    --w: calc(5vmax + 5vmin);
+    position: absolute;
+    top: calc(-1.5 * var(--w));
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--w);
+}
+
+.terms {
+    position: absolute;
+    bottom: 0em;
+    left: 50%;
+    padding-top: 3em;
+    transform: translate(-50%, 100%);
+    color: #333;
+    text-align: center;
+    white-space: pre;
+}
+.terms a { 
+    color: #333;
+    text-decoration: none;
+}
+.terms a:hover {
+     color: #333;
+    text-decoration: none;
+}
 
 #error-message {
     display: none;
@@ -255,7 +303,7 @@ login-page.active .toggle-right{
 #error-message.error-shown {
     display: block;
 }
-
+/* 
 login-page[forgot-password] .form[name = 'signinForm'] {
     display: none;
 }
@@ -266,4 +314,4 @@ login-page:not([forgot-password='1']) .form[name = 'forgotPasswordForm1'] {
 
 login-page:not([forgot-password='2']) .form[name = 'forgotPasswordForm2'] {
     display: none;
-}
+} */

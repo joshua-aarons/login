@@ -92,7 +92,7 @@ export async function signup(type, info) {
             delete info.password;
             try {
                 // Register user
-                await createUserWithEmailAndPassword(Auth, email, password);
+                await createUserWithEmailAndPassword(email, password);
 
                 // Set user info
                 setUserInfo(info);

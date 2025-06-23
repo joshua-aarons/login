@@ -118,6 +118,7 @@ class CustomForm extends CustomComponent {
     set disabled(bool){
         this.toggleAttribute("disabled", bool)
     }
+
     get inputs() {
         return this.querySelectorAll("input-plus");
     }
@@ -258,7 +259,6 @@ class UserDataComponent extends DataComponent {
         updateDisplayPhoto(file, callback)
     }
 }
-
 
 class Notification extends SvgPlus {
     duration = 0.5; // seconds
