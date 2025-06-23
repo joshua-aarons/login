@@ -72,7 +72,7 @@ class MeetingScheduler extends CustomForm {
             let sessionInfo = {
                 duration: parseInt(value.duration) || 5,
                 description: value.description || "My Meeting",
-                timzone: value.timezone,
+                timezone: value.timezone,
                 startDate: createTimeZonedDateString(value.timezone, value["start-time"]),
             }
             sessionInfo.startTime = new Date(sessionInfo.startDate).getTime();
@@ -98,8 +98,10 @@ class MeetingScheduler extends CustomForm {
             } else {
                 this.sid = null;
             }
-            if (value.time) {
-                value["start-time"] = value.time;
+            if (value.startDate && value.timezone) {
+                const {startDate} = value;
+                let match = startDate.match(/\d{4}-\d{2}-\d{2}[T]\d{2}:\d{2}/);
+                value["start-time"] = match[0];
             }
         }
         return value;

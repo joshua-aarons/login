@@ -96,7 +96,7 @@ export class AppView extends UserDataComponent {
 
     onvalue(e) {
         if (e) {
-            console.log(e);
+            console.log("All Data: %O ", e);
             
             let isAdmin = Array.isArray(e?.licences) && e.licences.length > 0;
             let maxTier = e.maxTier

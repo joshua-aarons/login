@@ -269,7 +269,7 @@ img {
 
 .contact-buttons {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     column-gap: 1rem;
     margin-top: 1rem;
     width: 100%;

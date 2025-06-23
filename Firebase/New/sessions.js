@@ -34,7 +34,7 @@ const SessionInfoKeys = {
     "startTime": (val) => typeof val === "number" && !Number.isNaN(val) ? new Date(val) : null,
     "startDate": (val) => typeof val === "string" ? val : null,
     "duration": (val) => typeof val === "number" && !Number.isNaN(val) ? Math.round(val) : 5, // Convert milliseconds to minutes
-    "timezoneName": (val) => typeof val === "string" ? val : "Sydney",
+    "timezone": (val) => typeof val === "string" ? val : "-",
 }
 
 const oldMode = false;
@@ -68,7 +68,7 @@ class Session {
     /**
      * @type {string}
      **/
-    timezoneName = "Sydney";
+    timezone = "-";
 
     /**
      * @type {number} timezone offset in minutes
