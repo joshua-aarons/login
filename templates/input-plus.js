@@ -234,5 +234,108 @@ class ProgressChart extends SvgPlus{
     stop() {}
 }
 
+class OptionSlider extends SvgPlus {
+    observers = new Map();
+    onconnect() {
+        if ( this.hasAttribute("toggle") ) {
+            this.addEventListener("click", (e) => {
+                if (this.selectedElement && this.selectedElement.nextElementSibling) {
+                        this.selectedElement = this.selectedElement.nextElementSibling;
+                } else {
+                    this.selectedElement = this.querySelector("option:first-child");
+                }
+
+                this.dispatchEvent(new Event("change"));
+            });
+        } else {
+            for (let option of this.querySelectorAll("option")) {
+                option.addEventListener("click", (e) => {
+                    this.selectedElement = option;
+                    this.dispatchEvent(new Event("change"));
+                });
+            }
+        }
+       
+        this.addObservers();
+        this.selectedElement = this.querySelector("option[selected]");
+    }
+
+    _update() {
+        if (!this.selectedElement) return;
+        let size = this.observers.get(this.selectedElement).size;
+        if (!size) return;
+        let width = size.borderBoxSize[0].inlineSize;
+        // let x = size.contentRect.x;
+        this.style.setProperty("--slider-width", width + "px");
+
+        let offset = this.selectedElement.offsetLeft;
+        this.style.setProperty("--slider-position", offset + "px");
+    }
+
+    addObservers() {
+        let elementsToWatch = [...this.querySelectorAll("option")]
+
+        for (let el of elementsToWatch) {
+            let obj = {};
+            obj.resizeObserver = new ResizeObserver((entries) => {
+                
+                obj.size = entries[0];
+                window.requestAnimationFrame(() => {
+                    this._update();
+                });
+            });
+            obj.resizeObserver.observe(el, {box: "border-box"});
+            this.observers.set(el, obj);
+        }
+    }
+
+    removeObservers() {
+        for (let [el, obj] of this.observers.entries()) {
+            if (obj.resizeObserver) {
+                obj.resizeObserver.disconnect();
+            }
+        }
+        this.observers.clear();
+    }
+
+    set selectedElement(element) {
+        if (this.selectedElement) {
+            this.selectedElement.removeAttribute("selected");
+        }
+
+        if (!(element instanceof HTMLElement)) {
+            element = null;
+        }
+
+        this._selectedElement = element;
+        if (element) {
+            element.toggleAttribute("selected", true);
+        } 
+        this.toggleAttribute("no-selection", !element);
+        this._update();
+    }
+
+    get selectedElement() {
+        return this._selectedElement;
+    }
+
+    set value(value) {
+        for (let option of this.querySelectorAll("option")) {
+            if (option.getAttribute("value") == value || option.innerHTML == value) {
+                this.selectedElement = option;
+            }
+        }
+    }
+
+    get value() {
+        if (this.selectedElement) {
+            return this.selectedElement.getAttribute("value") || this.selectedElement.innerHTML;
+        }
+        return null;
+    }
+
+}
+
+SvgPlus.defineHTMLElement(OptionSlider);
 SvgPlus.defineHTMLElement(InputPlus);
 SvgPlus.defineHTMLElement(ProgressChart);

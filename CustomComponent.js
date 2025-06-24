@@ -52,10 +52,18 @@ class CustomComponent extends SvgPlus {
                     let match= value.match(/(\w+)(\(([^)]*)\))?/);
                     if (match) {
                         let fname = match[1];
-                        let params = match[3];
+                        // let params = match[3];
                         if (this[fname] instanceof Function) {
                             el.removeAttribute(event);
-                            el.onclick = () => this[fname]();
+                            el.addEventListener(event.replace("on", ""), (e) => {
+                                e.stopPropagation();
+                                // if (params) {
+                                //     let args = params.split(",").map(a => a.trim());
+                                //     this[fname](...args);
+                                // } else {
+                                this[fname]();
+                                // }
+                            })
                         }
                     }
                 }

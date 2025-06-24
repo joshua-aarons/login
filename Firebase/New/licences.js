@@ -1,6 +1,6 @@
 import { callFunction, equalTo, get, onChildAdded, onChildRemoved, onValue, orderByChild, query, ref, update } from "../firebase-client.js";
 
-
+const stripe = Stripe('pk_test_WmYzJXrtzE00MAhbTgAZwhaO00gjCfkWn8', {apiVersion: '2025-01-27.acacia'});
 
 const isEditorStatus = {
     "admin": true,
@@ -100,6 +100,7 @@ export function watch(uid, allData, updateCallback) {
                     if (!("licencesByID" in allData)) {
                         allData.licencesByID = {};
                     }
+                    licenceData.tierName = tierNames[licenceData.tier] || "Unknown";
                     allData.licencesByID[licenceID] = licenceData;
                 } else {
                     // If licence data is null, remove it from licencesByID
@@ -191,3 +192,24 @@ export async function openBillingPortal(licenceID, return_url) {
         console.error("Error opening billing portal:", error);
     }
 }
+
+export async function getStripeCheckout(period, seats, tier = "Pro") {
+    seats = parseInt(seats);
+    const checkout = await stripe.initEmbeddedCheckout({
+        fetchClientSecret: async () => {
+            const res = await callFunction("stripe-createLicenceCheckout", {
+                period,
+                tier,
+                seats,
+                licenceName: "my licence",
+                return_url: window.location.origin,
+            })
+            let {errors, client_secret} = res.data;
+            if (errors.length > 0) {
+                console.warn(errors[0]);
+            }
+            return client_secret;
+        },
+    });
+    return checkout;
+};

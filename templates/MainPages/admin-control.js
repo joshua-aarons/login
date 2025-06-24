@@ -169,6 +169,7 @@ class AdminControl extends UserDataComponent {
         if (id in licencesByID) {
             const selectedLicence = licencesByID[id];
             this.els.licenceName.innerHTML = selectedLicence.licenceName;
+            this.els.licenceSelect.value = id;
 
             let isOwner = id in licenceStatus && licenceStatus[id] == "owner";
             this.els.billingCard.style.setProperty("display", isOwner ? null : "none");

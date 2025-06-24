@@ -2,6 +2,14 @@ input-plus {
     display: flex;
     position: relative;
     width: 100%;
+
+
+    --background-color: var(--input-bg);
+    --background-color-hover: var(--input-bg-hover);
+    --text-color: var(--color-dark);
+    --label-text-color: var(--color-info-dark);
+    --icon-color: var(--input-text);
+    --slider-color: rgb(122, 162, 255);
 }
 
 input-plus.btn[color='gray']{
@@ -28,7 +36,7 @@ input-plus textarea ~ .icon {
 
 input-plus input, input-plus textarea, input-plus select {
     width: 100%;
-    background-color: var(--input-bg);
+    background-color: var(--background-color);
     padding: 1.5em 1.35em calc(0.75em - 2px) 1.35em;
     border: none;
     outline: none;
@@ -39,11 +47,11 @@ input-plus input, input-plus textarea, input-plus select {
     border: 2px solid transparent;
     box-shadow: 0 0 0 0px var(--input-shadow);
     transition: 0.3s;
-    color: var(--color-dark);
+    color: var(--text-color);
 }
 
 input-plus input:hover, input-plus textarea:hover, input-plus select:hover {
-    background-color: var(--input-bg-hover);
+    background-color: var(--background-color-hover);
 }
 
 input-plus label {
@@ -51,7 +59,7 @@ input-plus label {
     top: 50%;
     left: calc(1.35em + 2px);
     transform: translateY(-50%);
-    color: var(--color-info-dark);
+    color: var(--label-text-color);
     pointer-events: none;
     transition: 0.25s;
     font-size: 0.95em;
@@ -63,7 +71,7 @@ input-plus > .icon {
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
-    color: var(--input-text);
+    color: var(--icon-color);
     font-size: 1.25em;
     transition: 0.3s;
 }
@@ -129,7 +137,6 @@ select {
     text-indent: 1px;
     text-overflow: '';
     background: transparent;
-
 }
 
 .select-box select {
@@ -222,6 +229,44 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~this is the option slider~~~~~~~~~~~~~~~~~~ */
+
+option-slider {
+    --border: 0.2em;
+    --slider-width: 5em;
+    --slider-position: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: var(--border);
+    background: var(--background-color);
+    border-radius: 1em;
+    position: relative;
+}
+option-slider::before {
+    content: ' ';
+    position: absolute;
+    width: var(--slider-width);
+    height: calc(100% - 2 * var(--border));
+    z-index: 0;
+    left: calc(var(--slider-position));
+    top: var(--border);
+    background: var(--slider-color);
+    border-radius: 1em;
+    transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+option-slider option {
+    line-height: 1.2em;
+    padding: 0.2em 0.4em;
+    border-radius: 1em;
+    z-index: 2;
+    color: var(--text-color);
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~this is the progress chart~~~~~~~~~~~~~~~~~~ */

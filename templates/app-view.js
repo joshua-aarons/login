@@ -6,6 +6,7 @@ import {} from "./MainPages/profile-panel.js"
 import {} from "./MainPages/support-panel.js"
 import {} from "./MainPages/admin-control.js"
 import {} from "./MainPages/settings-panel.js"
+import {} from "./MainPages/licences-page.js"
 import {} from "./hover.js"
 
 import {} from "./MeetingTools/meeting-display.js"
