@@ -90,14 +90,21 @@ licences-page[nolicences] .call-to-action::after {
 }
 
 
+.popup > .popup-rel {
+    padding: 0;
+    background: transparent;
+    display: flex;
+    max-height: 80%;
+    position: relative;
+}
 
 licences-page li {
     white-space: pre;
 }
 
 licences-page .popup .card {
-    max-height: 80%;
     overflow: scroll;
     background: #f5ebff;
     display: block;
+    width: 100%;
 }

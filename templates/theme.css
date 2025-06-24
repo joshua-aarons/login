@@ -316,7 +316,7 @@ img {
     padding: var(--popup-padding);
     text-align: left;
     justify-content: center;
-    width: 600px;
+    width: min(600px, 90%);
 }
 
 .insights {

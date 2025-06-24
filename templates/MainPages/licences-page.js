@@ -168,6 +168,11 @@ class LicencesPage extends UserDataComponent {
     }
 
 
+    close() {
+        this.els.stripeMountPopup.classList.remove("open")
+    }
+
+
     onvalue(value) {
         const {licencesList} = this.els;
         licencesList.innerHTML = "";
