@@ -204,7 +204,7 @@ class Session {
             duration: 5,
             description: "My Meeting",
             startDate: new Date().toISOString(),
-            timezoneName: "Sydney",
+            timezone: "Sydney, Melbourne, Canberra",
         }
     }
 }
@@ -333,8 +333,10 @@ export async function createSession(sessionInfo) {
     } else if (typeof sessionInfo !== "object" || sessionInfo === null) {
         throw new Error("Session info must be a non-null object");
     }
+
     
     let res = await callFunction("sessions-create", sessionInfo, "australia-southeast1");
+    
     let {sid, errors} = res.data
     if (errors.length > 0) {
         console.log(errors);

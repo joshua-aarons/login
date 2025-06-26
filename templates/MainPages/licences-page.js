@@ -125,11 +125,11 @@ class LicenceProductCard extends DataComponent {
 
 const licenceProducts = [
      {
-        licenceName: "Squidly Standard",
-        tierName: "Standard",
+        licenceName: "Squidly Essentials",
+        tierName: "Essentials",
         features: [
             "Meetings up to 240\nminutes per month",
-            "Advanced custom session\neditors and accessibility tool",
+            "Create and edit up to 3 custom\nAAC grids and quizzes.",
             "Plan and schedule sessions",
             "Ongoing customer support"
         ],
@@ -143,7 +143,7 @@ const licenceProducts = [
         tierName: "Pro",
         features: [
             "Meetings up to 480\nminutes per month",
-            "Advanced custom session\neditors and accessibility tool",
+            "Create and edit up to 20 custom\nAAC grids and quizzes.",
             "Plan and schedule sessions",
             "Ongoing customer support"
         ],

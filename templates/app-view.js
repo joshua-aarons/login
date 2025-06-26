@@ -145,9 +145,6 @@ export class AppView extends UserDataComponent {
     }
 
     async hostMeeting(){
-        let time = new Date();
-        time.setMinutes(time.getMinutes() - time.getTimezoneOffset());
-        time = time.getTime();
         let session = await createSession("empty");
         window.open(window.location.origin + `/V3/?${session.sid}`);
     }
