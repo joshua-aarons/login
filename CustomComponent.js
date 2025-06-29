@@ -360,6 +360,7 @@ class NotificationsList extends SvgPlus {
             top: "0px",
             right: "0px",
             display: "flex",
+            "z-index": "1000",
         }
         this.rel = this.createChild("div", {styles: {position: "relative"}});
         window.showNotification = this.show.bind(this);

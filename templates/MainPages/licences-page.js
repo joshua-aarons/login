@@ -1,5 +1,5 @@
 import { DataComponent, SvgPlus, UserDataComponent } from "../../CustomComponent.js";
-import { getStripeCheckout, openBillingPortal } from "../../Firebase/New/licences.js";
+import { getStripeCheckout, getStripeCheckoutFromClientSecret, openBillingPortal } from "../../Firebase/New/licences.js";
 import { getHTMLTemplate, useCSSStyle } from "../../template.js";
 
 useCSSStyle("theme");
@@ -24,7 +24,7 @@ class LicenceIcon extends DataComponent {
         </div>
         <div class = "row-slider"> 
             <div> 
-                seats: <span name = "usedSeats" vfield = "html"></span> / <span name = "seats" vfield="html">$</span>
+                users: <span name = "usedSeats" vfield = "html"></span> / <span name = "seats" vfield="html">$</span>
             </div>
             <div ${!licence.disabled ? "active" : ""} class = "active-icon">
                 ${licence.disabled ? "inactive" : "active"}
@@ -53,22 +53,24 @@ class LicenceProductCard extends DataComponent {
 
         super("licence-product-card");
         this.template = `
-                <h2>Squidly <span name = "tierName" vfield = "html"></span></h2>
+            <div class="col c-align">
+                <h2>Squidly <span name = "name" vfield = "html"></span></h2>
                 <option-slider toggle onchange = "updatePrice" name = "period">
-                    <option value="monthly" selected>Monthly</option>
-                    <option value="yearly">Yearly</option>
                 </option-slider>
-                <h1 class="price"><b name="price">$35.00</b><span>AUD</span> <i name="priceInfo" hover class="fa-solid fa-circle-info"></i></h1>
+                <h1 class="price"><b name="amountEl"></b><span name = "currencyEl">AUD</span> <i name="priceInfo" hover class="fa-solid fa-circle-info"></i></h1> 
                 <ul name = "featureList">
                 </ul>
+                </div>
+                
+            <div class="col c-align">
                 <input-plus name = "seats" style = "width: min(100%, 8em);">
                     <input min="1" max="999" value="1" type="number" key="seats">
-                    <label>seats</label>
+                    <label>users</label>
                     <span class="icon material-symbols-outlined">group</span>
                 </input-plus>
-
                 <button name = "submit" onclick = "openBilling" class = "btn call-to-action"></button>
                 <small class = "trial">7 day free trial.</small>
+            </div>
            `
         this.class = "card col c-align"
         this.value = licenceProduct;
@@ -79,33 +81,23 @@ class LicenceProductCard extends DataComponent {
 
 
     async openBilling() {
-        const {value: {tierName}, els: {submit, period, seats}, licencePage: {els: {stripeMount, stripeMountPopup}}} = this;
-        
-        if (this.stripeCheckout) {
-            this.stripeCheckout.unmount();
-            this.stripeCheckout.destroy();
-        }
-
-        submit.classList.add("disabled")
-        
-        try {
-            await new Promise((r) => setTimeout(r, 100))
-            const checkout = await getStripeCheckout(period.value, seats.value, tierName);
-            checkout.mount(stripeMount);
-            this.stripeCheckout = checkout;
-            stripeMountPopup.classList.add("open");
-        } catch (e) {
-            console.warn(e);
-            showNotification("We were unable to connect with stripe,\nplease try again later", 3000, "error");
-            stripeMountPopup.remove("open");
-        }
-
-        submit.classList.remove("disabled")
+        const {value: {id}, els: {submit, period, seats}, licencePage} = this;
+        submit.classList.add("disabled");
+        await licencePage.openBilling(id, period.value, seats.value);
+        submit.classList.remove("disabled");
     }
 
    
-    onvalue() {
-        const { value: {features}, els: {featureList} } = this;
+    onvalue(value) {
+        const { value: {features, prices}, els: {featureList, period} } = this;
+        period.innerHTML = "";
+        prices.map((price, i) => {
+            period.createChild("option", {
+                value: i,
+                selected: i == 0,
+                content: price.name
+            })
+        })
         features.innerHTML = "";
         features.forEach(feature => {
             let li = document.createElement("li");
@@ -115,63 +107,97 @@ class LicenceProductCard extends DataComponent {
     }
 
     updatePrice(e) {
-        const { value: {prices}, els: {period: {value}, priceInfo, price} } = this;
+        const { value: {prices}, els: {period: {value}, priceInfo, amountEl, currencyEl} } = this;
+        console.log(prices[value]);
         
-        price.innerHTML = `$${(prices[value] || 0).toFixed(2)}`;
-        priceInfo.setAttribute("hover", `Price per seat per ${value.slice(0, -2)}`); // Remove the last 'y' from 'yearly' or 'monthly'
+        const {amount, currency, interval} = prices[value] || {amount: 0, currency: "AUD"};
+        amountEl.innerHTML = `$${(amount || 0).toFixed(2)}`;
+        currencyEl.innerHTML = (currency || "AUD").toUpperCase();
+        priceInfo.setAttribute("hover", `Price per user per ${interval}`); // Remove the last 'y' from 'yearly' or 'monthly'
     }
 }
 
-
-const licenceProducts = [
-     {
-        licenceName: "Squidly Essentials",
-        tierName: "Essentials",
-        features: [
-            "Meetings up to 240\nminutes per month",
-            "Create and edit up to 3 custom\nAAC grids and quizzes.",
-            "Plan and schedule sessions",
-            "Ongoing customer support"
-        ],
-        prices: {
-            "monthly": 20,
-            "yearly": 220
-        }
-    },
-    {
-        licenceName: "Squidly Pro",
-        tierName: "Pro",
-        features: [
-            "Meetings up to 480\nminutes per month",
-            "Create and edit up to 20 custom\nAAC grids and quizzes.",
-            "Plan and schedule sessions",
-            "Ongoing customer support"
-        ],
-        prices: {
-            "monthly": 35,
-            "yearly": 400
-        }
-    },
-   
-]
 
 class LicencesPage extends UserDataComponent {
     onconnect() {
         this.template = getHTMLTemplate("licences-page");
         this.attachEvents(["onchange"]);
+        this._ready = true;
+        this.params = this._params;
+    }
 
+    close() {
+        this.els.stripeMountPopup.classList.remove("open")
+
+    }
+
+    set params(value) {
+        if (Array.isArray(value) && value.length > 0) {
+            console.log("VALUE", value, !this._ready);
+            if (!this._ready) {
+                this._params = value;
+            } else {
+                if (value.length == 1) {
+                    this.openBillingFromClientSecret(value[0])
+                }
+            }
+        }
+    }
+
+
+        
+
+
+    set licenceProducts(value) {
         this.els.licenceProducts.innerHTML = "";
-        licenceProducts.forEach(product => {
+        if (!value || typeof value !== "object") {
+            return;
+        }
+        Object.values(value).forEach(product => {
             let card = new LicenceProductCard(product, this);
             this.els.licenceProducts.appendChild(card);
         });
     }
 
+    async openBillingFromClientSecret(clientSecret) {
+         const {els: {stripeMount, stripeMountPopup}} = this;
 
-    close() {
-        this.els.stripeMountPopup.classList.remove("open")
+        if (this.stripeCheckout) {
+            this.stripeCheckout.unmount();
+            this.stripeCheckout.destroy();
+        }
+        
+        try {
+            const checkout = await getStripeCheckoutFromClientSecret(clientSecret)
+            checkout.mount(stripeMount);
+            this.stripeCheckout = checkout;
+            stripeMountPopup.classList.add("open");
+        } catch (e) {
+            console.warn(e);
+            showNotification(typeof e === "string" ? e : "We were unable to connect with stripe,\nplease try again later", 3000, "error");
+            stripeMountPopup.remove("open");
+        }
     }
 
+    async openBilling(productID, priceIndex = 0, seats = 1) {
+        const {els: {stripeMount, stripeMountPopup}} = this;
+
+        if (this.stripeCheckout) {
+            this.stripeCheckout.unmount();
+            this.stripeCheckout.destroy();
+        }
+        
+        try {
+            const checkout = await getStripeCheckout(productID, priceIndex, seats);
+            checkout.mount(stripeMount);
+            this.stripeCheckout = checkout;
+            stripeMountPopup.classList.add("open");
+        } catch (e) {
+            console.warn(e);
+            showNotification(typeof e === "string" ? e : "We were unable to connect with stripe,\nplease try again later", 3000, "error");
+            stripeMountPopup.remove("open");
+        }
+    }
 
     onvalue(value) {
         const {licencesList} = this.els;
@@ -181,6 +207,8 @@ class LicencesPage extends UserDataComponent {
             value.licences.forEach(licence => licencesList.appendChild(new LicenceIcon(licence)));
             noLicence = value.licences.length == 0;
         }
+        this.licenceProducts = value.licenceProducts;
+
         this.toggleAttribute("nolicences", noLicence)
     }
 }

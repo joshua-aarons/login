@@ -8,7 +8,7 @@ import { SvgPlus } from "../SvgPlus/4.js";
 class GridCreatorApp extends ShadowElement {
     constructor(el = "grid-creator-app"){
         super(el, "grid-root");
-        
+        this.root.styles = {color: "black"}
         this.load();
     }
 

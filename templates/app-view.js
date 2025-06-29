@@ -23,39 +23,15 @@ useCSSStyle("app-view");
 
 function getURLPage(){
     let hash = window.location.hash.replace("#", "");
+    let params = hash.split("?"); // Remove query parameters if any
+    hash = params.shift();
     if (hash.length == 0) hash = "dash-board";
-    return hash;
+    return [hash, params];
 }
 function setURLPage(name) {
     window.location = window.location.origin + (name == null ? "/#" : '/#' + name);
 }
 
-
-
-
-
-// /** @param {HTMLElement} root */
-// async function addToShadow(root, elements, styles) {
-//     let styleEls = (await Promise.all(styles.map(async styleURL => {
-//         try {
-//             return await (await fetch(styleURL)).text()
-//         } catch (e) {
-//             return null;
-//         }
-//     }))).filter(a => a!=null).map(st => {
-//         st = st.replace(":root", "[root]")
-//         let el = new SvgPlus("style");
-//         el.innerHTML = st;
-//         return el;
-//     });
-//     console.log(styleEls);
-//     let children = [...root.children];
-//     children.forEach(c => c.toggleAttribute("root", true))
-//     children = [...styleEls, ...children];
-//     root.innerHTML = "";
-//     let shadow = root.attachShadow({mode: "open"})
-//     children.forEach(c => shadow.appendChild(c));
-// }
 
 
 export class AppView extends UserDataComponent {
@@ -78,16 +54,25 @@ export class AppView extends UserDataComponent {
     set panel(type) {
         if (type == "logout") {
             this.userLogout();
-        } else if (type == "billing") {
-            this.updateBilling()
         } else {
+            let params = null;
+            
+            if (Array.isArray(type)) {
+                params = type[1];
+                type = type[0];
+            }
             setURLPage(type)
             this._panel = type;
             for (let child of this.els.sideBar.children) {
                 child.classList.toggle("active", child.getAttribute("type") == type);
             }
             for (let child of this.els.main.children) {
-                child.active = child.tagName.toLowerCase() == type
+                if (child.tagName.toLowerCase() == type) {
+                    child.active = true;
+                    child.params = params;
+                } else {
+                    child.active = false;
+                }
             }
         } 
     }

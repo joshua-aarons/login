@@ -38,10 +38,10 @@ F.addAuthChangeListener(async (user) => {
     if (user) {
         if (user.emailVerified) {
             noUser = false;
-             watch(user?.uid, (allData, type) => {
+             await watch(user?.uid, (allData, type) => {
                 updateUserDataComponents(allData);
-                showScreen("appView");
             });
+            showScreen("appView");
         } else {
             showScreen("loginPage")
             loginPage.emailVerify = true;

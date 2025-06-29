@@ -7,16 +7,19 @@ import * as user from "./user.js";
  * @param {string} uid - The user ID to watch sessions and licences for.
  * @param {Function} callback - The callback function to call when data is updated.
  */
-export function watch(uid, callback) {
+export async function watch(uid, callback) {
     let allData = {};
 
-    // Watch sessions
-    sessions.watch(uid, allData, () => callback(allData, "sessions"));
+    await Promise.all([
+        // Watch sessions
+        sessions.watch(uid, allData, () => callback(allData, "sessions")),
 
-    // Watch licences
-    licences.watch(uid, allData, () => callback(allData, "licences"));
+         // Watch licences
+        licences.watch(uid, allData, () => callback(allData, "licences")),
 
-    user.watch(uid, allData, () => callback(allData, "user"));
+        user.watch(uid, allData, () => callback(allData, "user"))
+    ])
+
 
     return () => {
         // Stop watching sessions and licences

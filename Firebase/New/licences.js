@@ -10,6 +10,9 @@ const usageKeys = [
     "minutes",
     "sessions",
     "storage",
+    "files",
+    "quizzes",
+    "girds",
 ]
 const tierNames = {
     "0": "Free",
@@ -22,6 +25,9 @@ let watchers = {};
 function round(x, y) { return Math.round(Math.pow(10, y) * x) / Math.pow(10, y) }
 
 
+
+
+
 /**
  * Watches the licences of a user and updates the provided allData object.
  * @param {string} uid - The user ID to watch licences for.
@@ -31,45 +37,56 @@ function round(x, y) { return Math.round(Math.pow(10, y) * x) / Math.pow(10, y) 
  * TODO: turn this into a async function that returns a promise that resolves when the data is ready
  * i.e. whel all licences have been loaded including their status and user data is available
  */
-export function watch(uid, allData, updateCallback) {
+export async function watch(uid, allData, updateCallback) {
     // Stop all previous watchers
     stopWatch();
 
+    let [usageTemplate, tierSettings, tierInfo] = await Promise.all([
+        (await get(ref(`licences-settings/usage-template`))).val(),
+        (await get(ref(`licences-settings/tier-usage`))).val(),
+        (await get(query(ref(`licences-settings/tier-info`), orderByChild("public"), equalTo(true)))).val()
+    ]);
+
+    allData.licenceProducts = tierInfo || {};
+
+    // Initialize allData with empty usage
     allData.usage = {
-        minutes: { used: 0, max: 0, "%": 0, remaining: 0 },
-        sessions: { used: 0, max: 0, "%": 0, remaining: 0 },
-        storage: { used: 0, max: 0, "%": 0, remaining: 0 },
         hours: { used: 0, max: 0, "%": 0, remaining: 0 }, // Added hours usage
     }
+    for (let key in usageTemplate) {
+        allData.usage[key] = { used: 0, max: 0, "%": 0, remaining: 0 };
+    }
 
-    let tierSettings = null;
-    let waitingForTierValues = new Promise((resolve) => {
-        watchers.tierSettings = onValue(ref(`licences-settings/tiers`), (snapshot) => {
-            tierSettings = snapshot.val();
-            resolve();
-        });
-    });
+    let parseUsage = (usage) => {
+        let parsedUsage = {};
+        for (let key in usageTemplate) {
+            if (typeof usage === "object" && usage !== null && key in usage) {
+                parsedUsage[key] = usage[key];
+            } else {
+                parsedUsage[key] = usageTemplate[key].default || 0; // Use default value from usageTemplate if not provided
+            }
+        }
+        return parsedUsage;
+    }
+    
 
     let updateUsagePercentages = () => {
         for (let key in allData.usage) {
-            // let dp = key === "minutes" ? 0 : 2; // Use 0 decimal places for minutes, 2 for others
             allData.usage[key]["%"] = allData.usage[key].max > 0 ? round(allData.usage[key].used / allData.usage[key].max, 2) : 0;
             allData.usage[key].remaining = round((allData.usage[key].max - allData.usage[key].used), key === "minutes" ? 0 : 2); // Use 0 decimal places for minutes, 2 for others
         }
     }
 
     let updateMaxUsage = async (licences) => {    
-        await waitingForTierValues; // Ensure tierSettings is loaded before processing licences
-        let usage = {minutes: 0, sessions: 0, storage: 0};
+        let usage = parseUsage(null);
         for (let tier of licences) {
-            let tierUsage = tierSettings[tier]?.usage || {};
+            let tierUsage = parseUsage(tierSettings[tier])
             for (let key in usage) {
-                if (key in tierUsage) {
-                    usage[key] += tierUsage[key];
-                }
+                usage[key] += tierUsage[key];
             }
         }
-        for (let key of usageKeys) {
+        
+        for (let key in usageTemplate) {
             allData.usage[key].max = round(usage[key], key=="minutes"?0:2); // Ensure max is a number with 2 decimal places
         }
         allData.usage.hours.max = round(usage.minutes / 60, 2);
@@ -77,10 +94,12 @@ export function watch(uid, allData, updateCallback) {
     }
 
     watchers[`user-${uid}-usage`] = onValue(ref(`users/${uid}/usage`), async (snapshot) => {
-        let usageData = snapshot.val() || {};
-        for (let key of usageKeys) {
-            allData.usage[key].used = round(usageData[key] || 0, key == "minutes" ? 0 : 2) // Ensure used is a number with 2 decimal places
+        let usageData = parseUsage(snapshot.val());
+        for (let key in usageData) {
+            allData.usage[key].used = round(usageData[key], key == "minutes" ? 0 : 2) // Ensure used is a number with 2 decimal places
         }
+        console.log(allData.usage);
+        
         allData.usage.hours.used = round(allData.usage.minutes.used / 60, 2); // Calculate hours used
         updateUsagePercentages();
         updateCallback();
@@ -193,23 +212,38 @@ export async function openBillingPortal(licenceID, return_url) {
     }
 }
 
-export async function getStripeCheckout(period, seats, tier = "Pro") {
-    seats = parseInt(seats);
+export async function getStripeCheckoutFromClientSecret(clientSecret) {
     const checkout = await stripe.initEmbeddedCheckout({
         fetchClientSecret: async () => {
-            const res = await callFunction("stripe-createLicenceCheckout", {
-                period,
-                tier,
-                seats,
-                licenceName: "my licence",
-                return_url: window.location.origin,
-            })
-            let {errors, client_secret} = res.data;
-            if (errors.length > 0) {
-                console.warn(errors[0]);
-            }
-            return client_secret;
+            return clientSecret || "-";
         },
     });
     return checkout;
-};
+}
+
+export async function getStripeCheckout(productID, priceIndex, seats) {
+    seats = parseInt(seats);
+    priceIndex = parseInt(priceIndex);
+    
+    let error = null;
+    const checkout = await stripe.initEmbeddedCheckout({
+        fetchClientSecret: async () => {
+            const res = await callFunction("stripe-createLicenceCheckout", {
+                priceIndex,
+                productID,
+                seats,
+                return_url: window.location.origin,
+            })
+            let {errors, client_secret} = res.data;
+            
+            if (errors.length > 0) {
+                console.warn(errors);
+                error = errors.join("\n");
+                showNotification(error, 3000, "error");
+            }
+            return client_secret || "-";
+        },
+    });
+
+    return checkout;
+}

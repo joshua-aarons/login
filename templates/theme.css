@@ -552,7 +552,8 @@ meeting-scheduler {
     align-items: center;
     justify-content: center;
     background: white;
-    border-radius: 2em
+    border-radius: 2em;
+    color:black;
 }
 .close-i:hover {
     transform: scale(1.2);

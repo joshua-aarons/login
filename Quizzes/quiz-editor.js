@@ -9,11 +9,15 @@ class QuizEditorContainer extends ShadowElement {
     constructor(el = "quiz-editor-container"){
         super(el, "quiz-root");
         this.load();
+        this.root.styles = {color: "black"}
     }
 
     async load(){
         const {QuizEditorApp} = await import(URL_GE)
         this.quizEditor = new QuizEditorApp();
+        this.quizEditor.addEventListener("error", ({error}) => {
+            error.errors.map(em => showNotification(em, 3000, "error"));
+        })
         this.appendChild(this.quizEditor);
         await Promise.all([
             this.loadStyles(),
