@@ -58,9 +58,10 @@ class LicenceProductCard extends DataComponent {
                 <option-slider toggle onchange = "updatePrice" name = "period">
                 </option-slider>
                 <h1 class="price"><b name="amountEl"></b><span name = "currencyEl">AUD</span> <i name="priceInfo" hover class="fa-solid fa-circle-info"></i></h1> 
+                <b name = "userGuide" vfield="html"></b>
                 <ul name = "featureList">
                 </ul>
-                </div>
+            </div>
                 
             <div class="col c-align">
                 <input-plus name = "seats" style = "width: min(100%, 8em);">
@@ -89,10 +90,13 @@ class LicenceProductCard extends DataComponent {
 
    
     onvalue(value) {
-        const { value: {features, prices}, els: {featureList, period} } = this;
+        const { value: {features, prices, attributes}, els: {featureList, period} } = this;
+        if (Array.isArray(attributes)) {
+            attributes.forEach(attr => this.toggleAttribute(attr, true));
+        }
         period.innerHTML = "";
         prices.map((price, i) => {
-            period.createChild("option", {
+            period.createChild("s-option", {
                 value: i,
                 selected: i == 0,
                 content: price.name
@@ -146,7 +150,6 @@ class LicencesPage extends UserDataComponent {
 
 
         
-
 
     set licenceProducts(value) {
         this.els.licenceProducts.innerHTML = "";
@@ -203,8 +206,12 @@ class LicencesPage extends UserDataComponent {
         const {licencesList} = this.els;
         licencesList.innerHTML = "";
         let noLicence = true;
-        if (value.licences) {
-            value.licences.forEach(licence => licencesList.appendChild(new LicenceIcon(licence)));
+        if (value.licences && value.licenceStatus) {
+            const {licencesByID, licenceStatus} = value;
+            let keys = Object.keys(licenceStatus).filter(key => licenceStatus[key] === "owner");
+            let licences = keys.map(key => licencesByID[key]).filter(licence => !!licence);
+            
+            licences.forEach(licence => licencesList.appendChild(new LicenceIcon(licence)))
             noLicence = value.licences.length == 0;
         }
         this.licenceProducts = value.licenceProducts;

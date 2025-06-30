@@ -242,13 +242,13 @@ class OptionSlider extends SvgPlus {
                 if (this.selectedElement && this.selectedElement.nextElementSibling) {
                         this.selectedElement = this.selectedElement.nextElementSibling;
                 } else {
-                    this.selectedElement = this.querySelector("option:first-child");
+                    this.selectedElement = this.querySelector("s-option:first-child");
                 }
 
                 this.dispatchEvent(new Event("change"));
             });
         } else {
-            for (let option of this.querySelectorAll("option")) {
+            for (let option of this.querySelectorAll("s-option")) {
                 option.addEventListener("click", (e) => {
                     this.selectedElement = option;
                     this.dispatchEvent(new Event("change"));
@@ -257,7 +257,7 @@ class OptionSlider extends SvgPlus {
         }
        
         this.addObservers();
-        this.selectedElement = this.querySelector("option[selected]");
+        this.selectedElement = this.querySelector("s-option[selected]");
     }
 
     _update() {
@@ -273,7 +273,7 @@ class OptionSlider extends SvgPlus {
     }
 
     addObservers() {
-        let elementsToWatch = [...this.querySelectorAll("option")]
+        let elementsToWatch = [...this.querySelectorAll("s-option")]
 
         for (let el of elementsToWatch) {
             let obj = {};
@@ -320,7 +320,7 @@ class OptionSlider extends SvgPlus {
     }
 
     set value(value) {
-        for (let option of this.querySelectorAll("option")) {
+        for (let option of this.querySelectorAll("s-option")) {
             if (option.getAttribute("value") == value || option.innerHTML == value) {
                 this.selectedElement = option;
             }

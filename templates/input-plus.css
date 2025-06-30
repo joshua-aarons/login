@@ -137,10 +137,11 @@ select {
     text-indent: 1px;
     text-overflow: '';
     background: transparent;
+    font-family: inherit;
 }
 
 .select-box select {
-    color: white;
+    color: var(--color-white);
     padding: 1em;
     padding: 1.1em 2.5em 1.1em 1.5em;
     font-size: 1em;
@@ -178,7 +179,7 @@ select {
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid white;
+    border-top: 5px solid var(--color-white);
 }
 
 input-plus input[disabled] {
@@ -247,6 +248,7 @@ option-slider {
     background: var(--background-color);
     border-radius: 1em;
     position: relative;
+    cursor: pointer;
 }
 option-slider::before {
     content: ' ';
@@ -261,12 +263,13 @@ option-slider::before {
     transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
 }
 
-option-slider option {
+option-slider s-option {
     line-height: 1.2em;
     padding: 0.2em 0.4em;
     border-radius: 1em;
     z-index: 2;
     color: var(--text-color);
+    display: inline-block;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~this is the progress chart~~~~~~~~~~~~~~~~~~ */
