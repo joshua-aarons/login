@@ -267,7 +267,7 @@ login-page .form  {
 }
 
 login-page squidly-loader {
-    --w: calc(5vmax + 5vmin);
+    --w: 10vh;
     position: absolute;
     top: calc(-1.5 * var(--w));
     left: 50%;
