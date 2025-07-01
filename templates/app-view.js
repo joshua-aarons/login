@@ -84,12 +84,7 @@ export class AppView extends UserDataComponent {
         if (e) {
             console.log("All Data: %O ", e);
             
-            let isAdmin = Array.isArray(e?.licences) && e.licences.length > 0;
-            let maxTier = e.maxTier
-            e.isAdmin = isAdmin;
-
-            this.els.noLicencePopup.classList.toggle("open", maxTier == 0);
-
+            const {isAdmin} = e;
             this.dark = e?.info?.dark === true;
             if (!isAdmin && this.panel == "admin-control") this.panel = "dash-board";
             this.toggleAttribute("admin", isAdmin);

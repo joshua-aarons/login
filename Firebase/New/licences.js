@@ -14,15 +14,11 @@ const usageKeys = [
     "quizzes",
     "girds",
 ]
-const tierNames = {
-    "0": "Free",
-    "1": "Basic",
-    "2": "Plus",
-    "3": "Pro",
-}
+
 let watchers = {};
 
 function round(x, y) { return Math.round(Math.pow(10, y) * x) / Math.pow(10, y) }
+
 
 
 
@@ -32,12 +28,40 @@ function round(x, y) { return Math.round(Math.pow(10, y) * x) / Math.pow(10, y) 
  * Watches the licences of a user and updates the provided allData object.
  * @param {string} uid - The user ID to watch licences for.
  * @param {Object} allData - The object to store licence data.
- * @param {Function} updateCallback - The callback function to call when licence data is updated.
+ * @param {Function} update - The callback function to call when licence data is updated.
  * 
  * TODO: turn this into a async function that returns a promise that resolves when the data is ready
  * i.e. whel all licences have been loaded including their status and user data is available
  */
-export async function watch(uid, allData, updateCallback) {
+export async function watch(uid, allData, update) {
+
+    const licencesByID = {};
+    allData.licencesByID = licencesByID;
+    allData.licences = [];
+
+
+    let updateCallback = () => {
+        allData.licences = Object.values(licencesByID || {});
+        allData.isAdmin = allData.licences.filter(licence => licence.editor).length > 0;
+        update();
+    }
+    let updateLicence = (lid, data, key) => {
+        if (typeof lid === "string" && lid.length > 0) {
+            if (!(lid in licencesByID)) {
+                licencesByID[lid] = {};
+            }
+
+            if (typeof key === "string" && key.length > 0) {
+                licencesByID[lid][key] = data;
+            } else if (typeof data === "object" && data !== null) {
+                for (let k in data) {
+                    licencesByID[lid][k] = data[k];
+                }
+            }
+        }
+    }
+
+
     // Stop all previous watchers
     stopWatch();
 
@@ -48,7 +72,13 @@ export async function watch(uid, allData, updateCallback) {
     ]);
 
     allData.licenceProducts = tierInfo || {};
+    const tierNames = {};
+    for (let prod in tierInfo) {
+        let licence = tierInfo[prod];
+        tierNames[licence.tierID] = licence.name || `Tier ${tier}`;
+    }
 
+    
     // Initialize allData with empty usage
     allData.usage = {
         hours: { used: 0, max: 0, "%": 0, remaining: 0 }, // Added hours usage
@@ -116,18 +146,13 @@ export async function watch(uid, allData, updateCallback) {
                 let licenceData = snapshot.val();
                 if (licenceData) {
                     licenceData.id = licenceID; // Add licence ID to the data
-                    if (!("licencesByID" in allData)) {
-                        allData.licencesByID = {};
-                    }
-                    licenceData.tierName = tierNames[licenceData.tier] || "Unknown";
-                    allData.licencesByID[licenceID] = licenceData;
+                    updateLicence(licenceID, licenceData);
                 } else {
                     // If licence data is null, remove it from licencesByID
                     if ("licencesByID" in allData) {
                         delete allData.licencesByID[licenceID];
                     }
                 }
-                allData.licences = Object.values(allData.licencesByID || {});
                 updateCallback();
             });
         }
@@ -138,11 +163,8 @@ export async function watch(uid, allData, updateCallback) {
         if (!watchers[watchStatusKey]) {
             watchers[watchStatusKey] = onValue(ref(`licences/${licenceID}/users/${uid}/status`), (snapshot) => {
                 let status = snapshot.val();
-                if (!("licenceStatus" in allData)) {
-                    allData.licenceStatus = {};
-                }
-
-                allData.licenceStatus[licenceID] = status;
+                updateLicence(licenceID, status, "status");
+                updateLicence(licenceID, status in isEditorStatus, "editor");
                 listenToLicence(licenceID, !(status in isEditorStatus)); // Remove the licence watcher
                 updateCallback();
             });
@@ -151,16 +173,22 @@ export async function watch(uid, allData, updateCallback) {
 
     watchers.userLicences = onValue(ref(`users/${uid}/licences`), async (snapshot) => {
         let licences = snapshot.val() || {};
-        if (!("licenceTiers" in allData)) {
-            allData.licenceTiers = {};
-        }
+        // if (!("licenceTiers" in allData)) {
+        //     allData.licenceTiers = {};
+        //     allData.licenceTierNames = {};
+        // }
         await updateMaxUsage(Object.values(licences));
-        for (let licenceID in licences) {
-            allData.licenceTiers[licenceID] = licences[licenceID];
+
+        await Promise.all(Object.keys(licences).map(async licenceID => {
+            updateLicence(licenceID, licences[licenceID], "tier");
+            updateLicence(licenceID, tierNames[licences[licenceID]] || "Unknown", "tierName");
+            let name = (await get(ref(`licences/${licenceID}/licenceName`))).val();
+            updateLicence(licenceID, name, "licenceName");
             listenToStatus(licenceID);
-        }
+        }));
+
         // Compute the maximum tier
-        allData.maxTier = Math.max(...Object.values(allData.licenceTiers)) || 0;
+        allData.maxTier = Math.max(...Object.values(licencesByID).map(({tier}) => tier)) || 0;
         allData.tierName = tierNames[allData.maxTier] || "None";
         updateCallback();
     });

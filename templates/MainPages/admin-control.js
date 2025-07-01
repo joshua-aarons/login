@@ -165,13 +165,13 @@ class AdminControl extends UserDataComponent {
         let users = [];
 
         
-        const {licencesByID, licenceStatus} = this;
+        const {licencesByID} = this;
         if (id in licencesByID) {
             const selectedLicence = licencesByID[id];
             this.els.licenceName.innerHTML = selectedLicence.licenceName;
             this.els.licenceSelect.value = id;
 
-            let isOwner = id in licenceStatus && licenceStatus[id] == "owner";
+            let isOwner = selectedLicence.status == "owner";
             this.els.billingCard.style.setProperty("display", isOwner ? null : "none");
 
             if (selectedLicence?.users) {
@@ -181,7 +181,6 @@ class AdminControl extends UserDataComponent {
                 });
             }
             if (selectedLicence?.seats) seats = selectedLicence.seats;
-
         } else {
             // console.warn(`Licence with ID ${id} not found in licencesByID.`);
         }
@@ -210,13 +209,17 @@ class AdminControl extends UserDataComponent {
     updateLicenceSelectionList(licences) {
         let select = this.els.licenceSelect;
         select.innerHTML = "";
-        licences.forEach(element => {
-            let option = new SvgPlus("option");
-            option.props = {
-                value: element.id,
-                innerHTML: `${element.licenceName} (${element.seats} seats)`,
+        console.log(licences);
+        
+        licences.forEach(licence => {
+            if (licence.editor) {
+                let option = new SvgPlus("option");
+                option.props = {
+                    value: licence.id,
+                    innerHTML: `${licence.licenceName} (${licence.seats} seats)`,
+                }
+                select.appendChild(option);
             }
-            select.appendChild(option);
         });
         select.value =  this.selectedLicenceID;
     }
@@ -225,18 +228,25 @@ class AdminControl extends UserDataComponent {
         if ("licences" in value) {
             
             let licences = value.licences;
-            this.licencesByID = value.licencesByID || {};
-            this.licenceStatus = value.licenceStatus || {};
-
             if (!Array.isArray(value.licences)) {
                 licences = [];
             }
+
+            this.licencesByID = {};
+            licences = licences.filter(licence => {
+                if (licence.editor) {
+                    this.licencesByID[licence.id] = licence;
+                    return true;
+                }
+                return false;
+            })
 
             // Update the current licence selected. 
             // If there are no licences, set the last selected to null.
             // If there are licences, set the last selected to 
             // the first licence or the last selected licence.
             let lastSelected = this.selectedLicenceID;
+            lastSelected = lastSelected in this.licencesByID ? lastSelected : null;
             if (licences.length == 0) {
                 lastSelected = null;
             } else if (lastSelected == null) {

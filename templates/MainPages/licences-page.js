@@ -17,13 +17,13 @@ class LicenceIcon extends DataComponent {
                 <span name = "tierName" vfield="html"></span>
             </div>
 
-            <div class = "row">
+            <div class = "i-buttons row">
                 <span onclick = "openAdmin" hover = "Manage" class="material-symbols-outlined i-button">supervisor_account</span>
-                <span class = "i-button" onclick = "openBilling" hover = "Billing" ><i class="fa-solid fa-credit-card"></i></span>
+                <span name = "billing" class = "i-button" onclick = "openBilling" hover = "Billing" ><i class="fa-solid fa-credit-card"></i></span>
             </div>
         </div>
         <div class = "row-slider"> 
-            <div> 
+            <div class = "users-info"> 
                 users: <span name = "usedSeats" vfield = "html"></span> / <span name = "seats" vfield="html">$</span>
             </div>
             <div ${!licence.disabled ? "active" : ""} class = "active-icon">
@@ -44,7 +44,13 @@ class LicenceIcon extends DataComponent {
         document.querySelector("app-view").panel = "admin-control"
     }
     onvalue(v) {
-        v.usedSeats = Object.keys(v.users).length;
+        this.toggleAttribute("editor", v.editor);
+        this.toggleAttribute("owner", v.status === "owner");
+        if (v.editor && v.users) {
+            v.usedSeats = Object.keys(v.users).length;
+        } else {
+            v.usedSeats = 0;
+        }
     }
 }
 
@@ -112,7 +118,6 @@ class LicenceProductCard extends DataComponent {
 
     updatePrice(e) {
         const { value: {prices}, els: {period: {value}, priceInfo, amountEl, currencyEl} } = this;
-        console.log(prices[value]);
         
         const {amount, currency, interval} = prices[value] || {amount: 0, currency: "AUD"};
         amountEl.innerHTML = `$${(amount || 0).toFixed(2)}`;
@@ -137,7 +142,6 @@ class LicencesPage extends UserDataComponent {
 
     set params(value) {
         if (Array.isArray(value) && value.length > 0) {
-            console.log("VALUE", value, !this._ready);
             if (!this._ready) {
                 this._params = value;
             } else {
@@ -206,11 +210,8 @@ class LicencesPage extends UserDataComponent {
         const {licencesList} = this.els;
         licencesList.innerHTML = "";
         let noLicence = true;
-        if (value.licences && value.licenceStatus) {
-            const {licencesByID, licenceStatus} = value;
-            let keys = Object.keys(licenceStatus).filter(key => licenceStatus[key] === "owner");
-            let licences = keys.map(key => licencesByID[key]).filter(licence => !!licence);
-            
+        if (value.licences) {
+            const {licences} = value;
             licences.forEach(licence => licencesList.appendChild(new LicenceIcon(licence)))
             noLicence = value.licences.length == 0;
         }
