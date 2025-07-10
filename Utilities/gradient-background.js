@@ -372,7 +372,7 @@ class GradientBackground extends SvgPlus {
             gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
 
             gl.drawArrays(gl.TRIANGLES, 0, 6);
-            await new Promise(requestAnimationFrame);
+            // await new Promise(requestAnimationFrame);
         }
     }
 
