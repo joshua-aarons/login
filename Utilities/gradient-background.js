@@ -350,6 +350,7 @@ class GradientBackground extends SvgPlus {
 
     async render() {
         // while (!this.stopped) {
+        for (let i = 0; i < 10; i++) {
             const time = performance.now();
             const {gl, canvas, program, positionLocation, timeLocation, resolutionLocation, positionBuffer} = this;
             gl.clear(gl.COLOR_BUFFER_BIT);
@@ -372,8 +373,10 @@ class GradientBackground extends SvgPlus {
             gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
 
             gl.drawArrays(gl.TRIANGLES, 0, 6);
-            // await new Promise(requestAnimationFrame);
-        // }
+            await new Promise(requestAnimationFrame);
+        }
+        console.log("GradientBackground rendered");
+        
     }
 
     static get observedAttributes() {
