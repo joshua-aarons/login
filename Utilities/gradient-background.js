@@ -238,6 +238,12 @@ class GradientBackground extends SvgPlus {
     set colors(colors) {
         let n = colors.length;
         this.blobs = colors.map((color, i) => new MovingBlob(color/360,  2*((n - i)/(n)), this._speed));
+        if (this.gl) {
+            const {gl, blobData: {hues, sizes, count}} = this;
+            gl.uniform1fv(this.blobHuesLocation, new Float32Array(hues));
+            gl.uniform1i(this.blobCountLocation, count);
+            gl.uniform1fv(this.blobSizesLocation, new Float32Array(sizes));
+        }
     }
 
     get blobData() {
@@ -263,6 +269,7 @@ class GradientBackground extends SvgPlus {
         canvas.width = this.clientWidth;
         canvas.height = this.clientWidth;
         gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.uniform2f(this.resolutionLocation, canvas.width, canvas.height);
     }
 
     onconnect() {
@@ -279,15 +286,17 @@ class GradientBackground extends SvgPlus {
             }
         });
         this.gl = this.canvas.getContext("webgl");
-        const {gl, canvas} = this;
-        this.resizeObserver = new ResizeObserver(() => this.resize());
-        this.resizeObserver.observe(this);
-
+        const {gl} = this;
         const program = this.createProgram(vertexShader, fragmentShader);
         this.positionLocation = gl.getAttribLocation(program, "a_position");
         this.timeLocation = gl.getUniformLocation(program, "u_time");
         this.resolutionLocation = gl.getUniformLocation(program, "u_resolution");
-        // Define blobs dynamically in JavaScriptconst BLOB_COUNT = 5;
+        this.blobHuesLocation = gl.getUniformLocation(program, "u_blobHues");
+        this.blobSizesLocation = gl.getUniformLocation(program, "u_blobSizes");
+        this.blobPositionsLocation = gl.getUniformLocation(program, "u_blobPositions");
+        this.blobCountLocation = gl.getUniformLocation(program, "u_blobCount");
+
+
         this.positionBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
@@ -298,6 +307,14 @@ class GradientBackground extends SvgPlus {
             1, -1,
             1, 1,
         ]), gl.STATIC_DRAW);
+        gl.enableVertexAttribArray(this.positionLocation);
+        gl.vertexAttribPointer(this.positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+        gl.useProgram(program);
+
+        this.resizeObserver = new ResizeObserver(() => this.resize());
+        this.resizeObserver.observe(this);
+
 
         let defaultColors = [ 0, 10, 20, 30, 40, 50, 360, 350, 340, 330];
         let att = this.getAttribute("colors");
@@ -305,7 +322,7 @@ class GradientBackground extends SvgPlus {
             defaultColors = att.split(",").map(c => parseFloat(c.trim()));
         }
         this.colors = defaultColors;
-            
+        
         this.render();
     }
 
@@ -349,34 +366,15 @@ class GradientBackground extends SvgPlus {
     }
 
     async render() {
-        // while (!this.stopped) {
-        for (let i = 0; i < 10; i++) {
+        while (!this.stopped) {
             const time = performance.now();
-            const {gl, canvas, program, positionLocation, timeLocation, resolutionLocation, positionBuffer} = this;
-            gl.clear(gl.COLOR_BUFFER_BIT);
-            gl.useProgram(program);
-
-
-            const {positions, sizes, hues, count} = this.blobData;
-
-            // Send uniforms to WebGL
-            gl.uniform1i(gl.getUniformLocation(program, "u_blobCount"), count);
-            gl.uniform2fv(gl.getUniformLocation(program, "u_blobPositions"), new Float32Array(positions));
-            gl.uniform1fv(gl.getUniformLocation(program, "u_blobSizes"), new Float32Array(sizes));
-            gl.uniform1fv(gl.getUniformLocation(program, "u_blobHues"), new Float32Array(hues));
-
-            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-            gl.enableVertexAttribArray(positionLocation);
-            gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
-
+            const {gl, timeLocation,blobPositionsLocation } = this;
+            const {positions} = this.blobData;
+            gl.uniform2fv(blobPositionsLocation, new Float32Array(positions));
             gl.uniform1f(timeLocation, time * 0.001);
-            gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
-
             gl.drawArrays(gl.TRIANGLES, 0, 6);
             await new Promise(requestAnimationFrame);
         }
-        console.log("GradientBackground rendered");
-        
     }
 
     static get observedAttributes() {
