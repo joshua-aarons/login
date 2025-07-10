@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <gradient-background  colors = "150, 160, 170, 180, 190, 200, 210, 220"></gradient-background>
+    <!-- <gradient-background></gradient-background> -->
+    <!-- <gradient-background></gradient-background> -->
+    <!-- <gradient-background></gradient-background> -->
+    
+</body>
+<style> 
+    gradient-background { 
+        width: 1000px;
+        height: 1000px;
+        position: relative;
+        display: block;
+        /* margin-bottom: 10vh; */
+        /* margin-bottom: 200vw; */
+    }
+
+    gradient-background canvas {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        /* margin-bottom: 10vh; */
+        /* margin-bottom: 200vw; */
+    }
+
+
+   
+</style>
+
+<script type="module">
+    import {  } from "../Utilities/gradient-background.js";
+    const canvas = document.querySelector('canvas');
+    const stream = canvas.captureStream(30); // 30 fps
+    const mediaRecorder = new MediaRecorder(stream, {
+        mimeType: 'video/webm'
+    });
+
+    const chunks = [];
+
+    mediaRecorder.ondataavailable = e => {
+    if (e.data.size > 0) chunks.push(e.data);
+    };
+
+    mediaRecorder.onstop = () => {
+    const blob = new Blob(chunks, { type: 'video/webm' });
+    const url = URL.createObjectURL(blob);
+    
+    // Download
+    const a = document.createElement('a');
+        a.href = url;
+        a.download = 'recording.webm';
+        a.click();
+    };
+
+    setTimeout(() => {
+        mediaRecorder.start();
+        setTimeout(() => {
+            mediaRecorder.stop();
+        }, 5000);
+    }, 5000); // Stop after 5 seconds (adjust as needed)
+    // Start recording
+
+    // Stop after 5 seconds (adjust as needed)
+    
+</script>
+</html>

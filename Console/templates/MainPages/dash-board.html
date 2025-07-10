@@ -1,0 +1,56 @@
+<h1>Dashboard</h1>
+<div class="row-stretch">
+    <div class="insights">
+        <div class="hours">
+            <span class="material-symbols-outlined">analytics</span>
+            <div class="center">
+                <div class="left">
+                    <h3>Total</br>Hours</h3>
+                    <h1 vfield="innerHTML" name="usage/hours/used"></h1>
+                </div>
+                <progress-chart vfield="progress" name="usage/hours/%"></progress-chart>
+            </div>
+            <small class="text-muted">Current Month</small>
+        </div>
+    </div>
+    <div class="insights">
+        <div class="sessions-count">
+            <span class="material-symbols-outlined">bar_chart</span>
+            <div class="center">
+                <div class="left">
+                    <h3>Total</br>Sessions</h3>
+                    <h1 vfield="innerHTML" name="usage/sessions/used"></h1>
+                </div>
+                <progress-chart vfield="progress" name="usage/sessions/%"></progress-chart>
+            </div>
+            <small class="text-muted">Current Month</small>
+        </div>
+    </div>
+    <div class="insights">
+        <div class="storage">
+            <span class="material-symbols-outlined">stacked_line_chart</span>
+            <div class="center">
+                <div class="left">
+                    <h3>Total</br>Bandwidth</h3>
+                    <h1><b vfield="innerHTML" name="usage/storage/used"></b>MB</h1>
+                </div>
+                <progress-chart vfield="progress" name="usage/storage/%"></progress-chart>
+            </div>
+            <small class="text-muted">Current Month</small>
+        </div>
+    </div>
+</div>
+
+<div class="card" id="customers_table">
+    <table-plus name="sessions" vfield="value"></table-plus>
+    <div class = "no-sessions-message"> 
+        <h1>Recent Sessions</h1>
+        <div class = "ctext"><span name = "info/firstName" vfield="html"></span>, you do not have any meetings scheduled. <br> To schedule a new meeting click Schedule Meeting.</div>
+    </div>
+</div>
+<div class="card bottom-margin">
+    <h1>Progress Tracker</h1>
+    <div name = "chartContainer" class="chartOne top-margin">
+        <div name="chart"></div>
+    </div>
+</div>

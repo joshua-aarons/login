@@ -1,6 +1,5 @@
 const fs = require('node:fs');
-const folderPath = './templates';
-
+const path = require('node:path');
 
 function searchDirectory(dir, type) {
     let matches = [];
@@ -11,7 +10,7 @@ function searchDirectory(dir, type) {
         // search through the files
         for (const file of files) {
             // build the full path of the file
-            const filePath = d + "/" + file;
+            const filePath = path.join(d, file);
 
             // get the file stats
             const fileStat = fs.statSync(filePath);
@@ -29,46 +28,28 @@ function searchDirectory(dir, type) {
     return matches;
 }
 
-let html_templates = searchDirectory("./templates", ".html");
-let css_styles = searchDirectory("./templates", ".css");
+function buildTemplateModule() {
+    
+    let library = {};
+    for (let key of ["css", "html"]) {
+        let templates = searchDirectory("./", key)
+        templates = templates.filter(path => path.indexOf("templates") !== -1);
 
-let template_module = `let html_templates = ${JSON.stringify(html_templates)};
-let css_styles = ${JSON.stringify(css_styles)};
+        templates.map(path => {
+            let pathParts = path.replace("."+key, "").split("/");
+            pathParts = pathParts.filter(n => n!="templates");
+            
+            let name = pathParts[pathParts.length - 1];
+            if (!(name in library)) {
+                library[name] = {};
+            }
 
-let HTMLTemplates = {};
-let CSSStyles = {};
-
-for(let path of html_templates) {
-    let html = await (await fetch(path)).text();
-    let patha = path.replace("./templates/", "").replace(".html", "").split("/");
-    HTMLTemplates[patha[patha.length-1]] = html;
-}
-for(let path of css_styles) {
-    let css = await (await fetch(path)).text();
-    let style = document.createElement("style");
-    style.innerHTML = css;
-    let patha = path.replace("./templates/", "").replace(".css", "").split("/");
-    style.setAttribute("name", patha[patha.length-1]);
-    CSSStyles[patha[patha.length-1]] = style;
-}
-export function getHTMLTemplate(name) {
-    let html = "";
-    if (name in HTMLTemplates) {
-        html = HTMLTemplates[name];
+            library[name][key] = path.replace("./", "");
+        })
     }
-    return html;
-}
-export function useCSSStyle(name){
-    if (name in CSSStyles) {
-        let style = CSSStyles[name];
-        document.body.appendChild(style);
-    }
-}
-`
 
-fs.writeFile('./template.js', template_module, err => {
-    if (err) {
-      console.error(err);
-    }
-    // file written successfully
-  });
+    let template_module = `export const TemplateLibrary = ${JSON.stringify(library, null, "\t")};`;
+    fs.writeFileSync('./Utilities/template-library.js', template_module);
+
+}
+buildTemplateModule();

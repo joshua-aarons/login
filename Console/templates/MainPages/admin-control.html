@@ -1,0 +1,108 @@
+
+<div class = "row-slider">
+    <h1>Admin Control</h1>
+    <div class = "select-box">
+        <select class="select" name="licenceSelect" vfield="value"></select>
+    </div>
+</div>
+<div class="row-stretch">
+    <div class="insights">
+        <div class="total-users">
+            <span class="material-symbols-outlined">analytics</span>
+            <div class="center">
+                <div class="left">
+                    <h3>Total Members </h3>
+                    <h1><b name="memberscount" vfield="html">25</b></h1>
+                </div>
+                <progress-chart name="memberspercent" vfield="progress"></progress-chart>
+            </div>
+            <small class="text-muted row">With site access<i name = "maxUserInfo" hover = "number of users" class='fa-solid fa-circle-info'></i></small>
+        </div>
+    </div>
+
+
+    
+    <div class="card">
+        <div class="row">
+            <div class="col">
+                <h1>Site Members</h1>
+                <p class="data-preferences-body">Members are people who have access to sign up and use Squidly. Upload and
+                        manage your site members here.</p>
+            </div>
+            <div class="col">
+                <button class="btn" name="download" color="gray">Download Template</button>
+                <button class="btn" onclick = "loadCSVAdmins" name="update">Upload Site Members</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div name = "billingCard" class = "card bottom-margin">
+    <div class="row">
+        <div class="col">
+            <h2><span><i class="fa-solid fa-credit-card"></i></span>&nbsp;&nbsp;&nbsp;Billing</h2>
+            <p class="data-preferences-body">Manage billing information for <b name = "licenceName"></b> and view the current plan.</p>
+        </div>
+        <div class = "col">
+            <button class="btn" name = "openBillingButton" onclick="openBillingPortal">Billing Portal</button>
+            <img src = "../images/stripe.svg" alt = "Powered By Stripe" style = "height: 1.5rem;">
+        </div>
+    </div>
+</div>
+
+<div class="card bottom-margin" id="customers_table">
+    <table-plus name="members" vfield="value"></table-plus>
+</div>
+
+
+<div class = "popup" name = "addUserForm">
+    <div class = "card col">
+        <div class = "row-center">
+            <h1 name = "titleEl">Add User</h1>
+        </div>
+        <form-plus class="col" name="userForm" >
+            <input-plus>
+                <input type="text" name="name" required>
+                <label>Name</label>
+                <span class="icon material-symbols-outlined">person</span>
+            </input-plus>
+
+            <input-plus>
+                <input type="email" name="email" required>
+                <label>Email</label>
+                <span class="icon material-symbols-outlined">email</span>
+            </input-plus>
+            
+            <input-plus>
+                <label>Status</label>
+                <select name="status" required value = "staff">
+                    <option value="staff">Staff</option>
+                    <option value="admin">Admin</option>
+                    <option value="owner">Owner</option>
+                </select>   
+                <span class="icon material-symbols-outlined">badge</span>
+            </input-plus>
+
+            <div class = "row-center">
+                <button onclick = "addNewUser" name = "submitButton" class = "btn">Add User</button>
+                <button onclick = "hideAddUserForm" type = "button" class = "btn">Cancel</button>
+            </div>
+        </form>
+    </div>
+        
+
+
+
+<div class = "popup" name = "invalidCSVPopup">
+    <div class = "card col">
+        <div >
+            <h1 class = "row-center">The file format was incorrect </h1>
+            <div name = "errorCSV" style = "text-align: center; font-size: 1.3em; font-weight: 400"></div>
+        </div>
+        <div class="row-center">
+            <button onclick = "hideInvalidCSVPopup" class = "btn"> Back</button>
+            <button onclick = "loadCSVAdmins" class = "btn"> Reupload</button>
+            
+        </div>
+    </div>
+</div>

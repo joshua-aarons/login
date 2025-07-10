@@ -1,0 +1,361 @@
+@media print {
+ .table, .table__body {
+  overflow: visible;
+  height: auto !important;
+  width: auto !important;
+ }
+}
+
+table-plus {
+    display: block;
+}
+
+app-view table-plus p {
+    color: inherit;
+}
+
+
+.table__header {
+    width: 100%;
+    height: 10%;
+    padding: .8rem 1rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dark-theme-variables .table__header img {
+    filter: invert(1);
+}
+
+.table__header .input-group {
+    width: 35%;
+    height: 3rem;
+    background-color: var(--color-background);
+    padding: 0 .8rem;
+    border-radius: 2rem;
+    color: var(--color-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: .2s;
+}
+
+.table__header .input-group:hover {
+    width: 45%;
+    background-color: var(--color-background);
+    box-shadow: 0 .1rem .4rem #0002;
+}
+
+.table__header .input-group img {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.table__header .input-group input {
+    width: 100%;
+    padding: 0 .5rem 0 .3rem;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--color-dark);
+}
+
+.table__body {
+    max-height: 60vh;
+    background-color: var(--color-background);
+    box-shadow: 0 .4rem .8rem #0005;
+
+    margin: .8rem auto;
+    border-radius: 0.5rem;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: relative;
+}
+/* .table__body::after {
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0.5em;
+    height: 100%;
+    background-color: var(--table-head);
+    z-index: 1;
+} */
+
+.table__body::-webkit-scrollbar{
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 0 0.5em 0.5rem 0;
+    background: var(--table-head);
+}
+
+.table__body::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+.table__body:hover::-webkit-scrollbar-thumb{ 
+    visibility: visible;
+}
+
+table {
+    width: 100%;
+}
+
+td img {
+    width: 36px;
+    height: 36px;
+    margin-right: .5rem;
+    border-radius: 50%;
+
+    vertical-align: middle;
+}
+
+table, th, td {
+    border-collapse: collapse;
+    padding: 1rem;
+    text-align: left;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: var(--table-head);
+    cursor: pointer;
+    text-transform: capitalize;
+    white-space: pre;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #0000000b;
+}
+
+tbody tr {
+    --delay: .1s;
+    transition: .5s ease-in-out var(--delay), background-color 0s;
+}
+
+tbody tr.hide {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+tbody tr:hover {
+    background-color: #fff6 !important;
+}
+
+tbody tr td,
+tbody tr td p,
+tbody tr td img {
+    transition: .2s ease-in-out;
+}
+
+tbody tr.hide td,
+tbody tr.hide td p {
+    padding: 0;
+    font-size: 0px;
+    transition: .2s ease-in-out .5s;
+    height: 0;
+}
+
+tbody tr.hide td img {
+    width: 0;
+    height: 0;
+    transition: .2s ease-in-out .5s;
+}
+
+td[key = status] p {
+    padding: 0.4em;
+    border-radius: 2rem;
+    text-align: center;
+    background-color: #ebc474;
+}
+
+
+td[key = tool] {
+    width: 2%;
+    cursor: pointer;
+    color: var(--color-primary);
+    transition: 0.3s;
+}
+
+td[key = tool][value = details],
+td[key = tool][value = start] {
+    font-size: 1.8rem;
+}
+
+tr[status = complete] td[key = tool][value = start] {
+    color: var(--color-great-light);
+    pointer-events: none;
+}
+td[key = tool][value = start] {
+    color: var(--color-great);
+}
+td[key = tool][value = start]:hover {
+    color: var(--color-great-hover);
+}
+
+td[key = tool]:hover {
+    color: var(--color-primary-variant);
+    transition: 0.3s;
+}
+
+td[key = "status"][value = "admin"] p, td[key = "status"][value = "complete"] p {
+    background-color: #86e49d;
+    color: #006b21;
+    padding: 0.4em;
+}
+
+td[key= "status"][value = "active"] p {
+    background-color: var(--color-danger);
+    color: #ffffff;
+    padding: 0.4em;
+}
+
+.dark-theme-variables td[key = "status"][value = "admin"] p,
+.dark-theme-variables td[key = "status"][value = "complete"] p {
+    background-color:#006b21;
+    color:  #86e49d;
+}
+
+td[key = "status"][value = "staff"] p,
+td[key = "status"][value = "scheduled"] p {
+    background-color: #d893a3;
+    color: #b30021;
+    padding: 0.4em 0.8em;
+
+}
+
+.dark-theme-variables td[key = "status"][value = "staff"] p,
+.dark-theme-variables td[key = "status"][value = "scheduled"] p {
+    color: #f0c6d0;
+    background-color: #b30021;
+}
+
+
+thead th i {
+    transform: translateY(0.1rem);
+}
+
+thead th span {
+    display: inline-block;
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: 50%;
+    border: 1.4px solid transparent;
+    
+    vertical-align: middle;
+    text-align: center;
+    font-size: 0.7rem;
+    
+    margin-left: .5rem;
+    transition: .2s ease-in-out;
+}
+
+thead th:hover span {
+    border: 1.4px solid var(--color-danger);
+}
+
+thead th:hover {
+    color: var(--color-danger-hover);
+}
+
+thead th.active span {
+    background-color: var(--color-danger);
+    color: #fff;
+}
+
+thead th.asc span {
+    transform: rotate(180deg);
+}
+
+thead th.active, tbody td.active {
+    color: var(--color-danger);
+}
+
+
+
+.export__file {
+    position: relative;
+}
+
+.export__file .export__file-btn {
+    display: inline-block;
+    transition: .2s ease-in-out;
+    font-size: 1.3em;
+}
+
+
+.export__file .export__file-btn:hover { 
+    transform: scale(1.15);
+    cursor: pointer;
+}
+
+.export__file input {
+    display: none;
+}
+
+.export__file .export__file-options {
+    position: absolute;
+    right: 0;
+    
+    width: 12rem;
+    border-radius: .5rem;
+    overflow: hidden;
+    text-align: center;
+
+    opacity: 0;
+    z-index: -5;
+    pointer-events: none;
+    transform: scale(.8);
+    transform-origin: top right;
+    
+    box-shadow: 0 .2rem .5rem #0004;
+    
+    transition: .2s;
+}
+
+[show-options] .export__file-options {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: all;
+
+    z-index: 100;
+}
+
+.export__file .export__file-options label{
+    display: block;
+    width: 100%;
+    padding: .6rem 0;
+    background-color: var(--color-background);
+    
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    transition: .2s ease-in-out;
+}
+
+.export__file .export__file-options label:first-of-type{
+    padding: 1rem 0;
+    background-color: #86e49d !important;
+}
+
+.export__file .export__file-options label:hover{
+    transform: scale(1.05);
+    background-color: var(--color-white);
+    cursor: pointer;
+}
+
+.export__file .export__file-options img{
+    width: 2rem;
+    height: auto;
+}
+

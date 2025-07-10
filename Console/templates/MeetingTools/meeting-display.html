@@ -1,0 +1,69 @@
+<i class = "close-i" onclick="close"><span class="material-symbols-outlined">
+    close
+</span></i>
+
+
+<h2>Details</h2>
+
+<div class="schedule-shape">
+    <div class="schedule-wrap">
+        <p class="schedule-heading">Topic</p>
+    </div>
+    <div>
+        <p class="schedule-content" name="description" vfield="html"></p>
+    </div>
+</div>
+
+<div class="schedule-shape">
+    <div class="schedule-wrap">
+        <p class="schedule-heading">Time</p>
+    </div>
+    <div>
+        <p class="schedule-content"><span name="date" vfield="html"></span></p>
+    </div>
+</div>
+
+<div class="schedule-shape">
+    <div class="schedule-wrap">
+        <p class="schedule-heading">Duration</p>
+    </div>
+    <div>
+        <p class="schedule-content" name="duration" vfield="html"></p>
+    </div>
+</div>
+
+<div class="schedule-shape">
+    <div class="schedule-wrap">
+        <p class="schedule-heading">Meeting ID</p>
+    </div>
+    <div>
+        <p class="schedule-content" style="user-select: all;" name="sid" vfield="html">Nni4dRctlklU8FUhkdQ</p>
+    </div>
+</div>
+
+<div class="schedule-shape" name="ss-link">
+    <div class="schedule-wrap">
+        <p class="schedule-heading">Invite Link</p>
+    </div>
+    <div class="link-copy">
+        <p class="schedule-content" name="link" vfield="html">
+            https://app.squidly.com.au/Session/?-Nni4dRctlklU8FUhkdQ</p>
+        <span onclick = "copyLink" class="icon material-symbols-outlined">content_copy</span>
+    </div>
+</div>
+
+<div class="schedule-shape-calendar">
+    <div class="schedule-wrap">
+        <p class="schedule-heading">Add to</p>
+    </div>
+    <button class="calendar-icon" onclick="addToGoogleCalender"><img style="width:20px" src="../images/g-cal.png"><span>Google
+            Calendar</span></button>
+    <button class="calendar-icon outlook" onclick="addToOutlook"><img style="width:20px" src="../images/o-cal.png"><span>Outlook
+            Calendar</span></button>
+</div>
+
+<div class="contact-buttons-finish">
+    <button class="btn" onclick="copy" color="gray">Copy</button>
+    <button class="btn" onclick="deleteMeeting" color="gray">Delete</button>
+    <button class="btn" onclick="edit">Edit</button>
+</div>

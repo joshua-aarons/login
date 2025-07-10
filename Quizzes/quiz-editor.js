@@ -2,7 +2,7 @@ const IS_DEV = false && window.location.origin.startsWith("http://127");
 const URL = IS_DEV ? "http://127.0.0.1:5502" : "https://quizzes.squidly.com.au"
 
 let URL_GE = URL + "/QuizEditor/quiz-editor.js";
-import { ShadowElement } from "../CustomComponent.js";
+import { ShadowElement } from "../Utilities/CustomComponent.js";
 import { SvgPlus } from "../SvgPlus/4.js";
 
 class QuizEditorContainer extends ShadowElement {

@@ -1,0 +1,317 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+/* 
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.tick {
+    font-size: 2.4em;
+    color: var(--color-success);
+}
+
+.row {
+    width: 100%;
+}
+
+login-page .col {
+    gap: 1.3rem;
+    align-items: center;
+}
+
+
+login-page img{
+    display: block;
+    width: calc(5vmax + 5vmin);
+    padding: 1rem;
+    filter: brightness(0) invert(1);
+}
+
+
+
+
+login-page .container p{
+    font-size: 1rem;
+    line-height: 1.5rem;
+    letter-spacing: 0.3px;
+    margin: 1.25rem 0;
+}
+
+login-page .container span{
+    font-size: 1rem;
+}
+
+login-page .container a{
+    color: #333;
+    font-size: 1rem;
+    text-decoration: none;
+    margin: 1.2rem 0 0.8rem;
+}
+
+login-page button{
+    background-color: #512da8;
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.8rem 3rem;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    margin-top: 0.8rem;
+    cursor: pointer;
+    white-space: pre;
+}
+
+login-page .container button.hidden{
+    background-color: transparent;
+    border-color: #fff;
+}
+
+login-page .container .form{
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    height: 100%;
+}
+
+
+
+.form-container{
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
+
+
+
+.sign-in{
+    left: 0;
+    width: var(--fcw);
+    z-index: 2;
+}
+
+login-page.active .sign-in{
+    transform: translateX(var(--tw));
+}
+
+.sign-up{
+    left: 0;
+    width: var(--fcw);
+    opacity: 0;
+    z-index: -1;
+}
+
+login-page.active .sign-up{
+    transform: translateX(var(--tw));
+    opacity: 1;
+    z-index: 5;
+    animation: move 0.6s;
+}
+
+@keyframes move{
+    0%, 49.99%{
+        opacity: 0;
+        z-index: 1;
+    }
+    50%, 100%{
+        opacity: 1;
+        z-index: 5;
+    }
+}
+
+login-page .social-icons{
+    margin: 20px 0;
+}
+
+login-page .social-icons a{
+    border: 1px solid #ccc;
+    border-radius: 20%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 3px;
+    width: 40px;
+    height: 40px;
+}
+
+.toggle-container{
+    position: absolute;
+    top: 0;
+    left: var(--fcw);
+    width: var(--tw);
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.6s ease-in-out;
+    border-radius: 150px 0 0 100px;
+    z-index: 50;
+}
+
+login-page.active .toggle-container{
+    transform: translateX(calc(-1 * var(--fcw)));
+    border-radius: 0 150px 100px 0;
+}
+
+.toggle{
+    background-color: #512da8;
+    height: 100%;
+    background: linear-gradient(to right, #5c6bc0, #512da8);
+    color: #fff;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: all 0.6s ease-in-out;
+}
+
+login-page.active .toggle{
+    transform: translateX(50%);
+}
+
+.toggle-panel{
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 30px;
+    text-align: center;
+    top: 0;
+    transform: translateX(0);
+    transition: all 0.6s ease-in-out;
+}
+
+.toggle-left{
+    transform: translateX(-200%);
+}
+
+login-page.active .toggle-left{
+    transform: translateX(0);
+}
+
+.toggle-right{
+    right: 0;
+    transform: translateX(0);
+}
+
+login-page.active .toggle-right{
+    transform: translateX(200%);
+}
+*/
+login-page .form-container {
+    display: none;
+    flex-direction: column;
+}
+
+
+login-page[mode = "sign-in"] .form-container.sign-in {
+    display: unset;
+}
+
+login-page[mode = "sign-up"] .form-container.sign-up {
+    display: unset;
+}
+login-page[mode = "forgot-password"] .form-container.forgot-password {
+    display: unset;
+}
+
+
+login-page{
+
+    --wclamp: clamp(500px, 100vw, 1000px);
+    font-size: calc(12px + (var(--wclamp) - 500px) / 100);
+    --fw: min(500px, 90vw);
+    --ratio: 0.4;
+
+    --tw: calc(var(--ratio) * var(--fw));
+    --fcw: calc(var(--fw) - var(--tw));
+
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #c9d6ff;
+    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+login-page .container{
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    position: relative;
+    width: var(--fw);
+}
+
+login-page .form  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    padding: 2em;
+}
+
+login-page squidly-loader {
+    --w: 10vh;
+    position: absolute;
+    top: calc(-1.5 * var(--w));
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--w);
+}
+
+.terms {
+    position: absolute;
+    bottom: 0em;
+    left: 50%;
+    padding-top: 3em;
+    transform: translate(-50%, 100%);
+    color: #333;
+    text-align: center;
+    white-space: pre;
+}
+.terms a { 
+    color: #333;
+    text-decoration: none;
+}
+.terms a:hover {
+     color: #333;
+    text-decoration: none;
+}
+
+#error-message {
+    display: none;
+    color: red;
+    font-size: 12px;
+}
+
+#error-message.error-shown {
+    display: block;
+}
+/* 
+login-page[forgot-password] .form[name = 'signinForm'] {
+    display: none;
+}
+
+login-page:not([forgot-password='1']) .form[name = 'forgotPasswordForm1'] {
+    display: none;
+}
+
+login-page:not([forgot-password='2']) .form[name = 'forgotPasswordForm2'] {
+    display: none;
+} */
