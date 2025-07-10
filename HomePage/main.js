@@ -2,7 +2,7 @@ import { CustomComponent, DataComponent, SvgPlus } from "../Utilities/CustomComp
 import { getHTMLTemplate, loadTemplates, useCSSStyle } from "../Utilities/template.js";
 import {} from "../Utilities/gradient-background.js"
 import { } from "../Utilities/hamburger-icon.js";
-// import { } from "../Utilities/gradient-model.js";
+import { } from "../Utilities/gradient-model.js";
 import { } from "../Utilities/carousel.js";
 import { Testimonials } from "./testimonals.js";
 import { addAuthChangeListener, initialise } from "../Firebase/firebase-client.js";

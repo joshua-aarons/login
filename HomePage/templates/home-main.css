@@ -232,7 +232,7 @@ gradient-background.smaller {
     gap: 1.5em;
 }
 
-gradient-background img {
+gradient-background.hero img {
     max-height: 80%;
     width: unset;
     max-width: calc(100% - 2 * var(--gradient-padding));
@@ -292,7 +292,7 @@ gradient-background.outline {
     padding: var(--outline);
     background-color: rgb(127, 127, 131);
     overflow: hidden;
-    border-radius: 2em;;
+    border-radius: calc(2 * var(--font-size));
 }
 gradient-background.outline > canvas {
     opacity: 0;
@@ -377,9 +377,11 @@ element-carousel gradient-background {
 }
 
 .feature {
+    --height-adjustment: 4em;
+    --height: calc(var(--inner-height) - var(--full-header-height) - 3 * var(--header-margin) - var(--height-adjustment));
     background-color: rgb(255, 255, 255);
-    border-radius: calc(2em - var(--outline));
-    height: calc(var(--inner-height) - var(--full-header-height) - 3 * var(--header-margin) - 4em);
+    border-radius: calc(2 * var(--font-size) - var(--outline));
+    height: var(--height);
     --padding: calc(2 * var(--font-size));
     width: 100%;
 }
@@ -397,6 +399,23 @@ element-carousel gradient-background {
     width: 100%;
     padding: var(--padding);
     padding-bottom: 0;
+}
+
+.feature img {
+    height: 100%;
+    max-width: 80%;
+    object-fit: contain; 
+}
+
+.feature .img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 
@@ -433,7 +452,7 @@ element-carousel carousel-body > div{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 1em;
+    gap: 3em;
     height: 100%;
 }
 .review * {
@@ -472,6 +491,7 @@ element-carousel carousel-body > div{
 @media (max-width: 650px) {
     main-page {
         --side-margin: 1.5em;
+        --gradient-padding: 0.5em;
     }
     .hide-for-phone {
         display: none;
@@ -480,6 +500,16 @@ element-carousel carousel-body > div{
         margin: 0;
     }
 
+    gradient-background.hero img {
+        max-height: 35%;
+    }
+
+    .feature {
+        --height-adjustment: 10em;
+        --height: calc(var(--inner-height) - var(--full-header-height) - 3 * var(--header-margin) - var(--height-adjustment));
+
+        font-size: 1.3em;
+    }
     .features .row {
         flex-direction: column;
         align-items: center;
@@ -516,6 +546,9 @@ element-carousel carousel-body > div{
         gap: 1.5em;
     }
 
+    .hero {
+        justify-content: space-evenly;
+    }
 
 }
 @media (min-width: 650px) {
