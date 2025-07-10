@@ -21,6 +21,7 @@ main-page {
     --gradient-padding: 4.5vw;
 
     --side-margin: 3em;
+    --side-margin-text: 3em;
 
     --font-size: clamp(var(--font-min-size), var(--font-scale), var(--font-max-size));
     --full-header-height: calc(var(--header-height) + var(--header-padding) * 2 + var(--header-margin));
@@ -340,7 +341,7 @@ gradient-background.outline:hover {
 }
 
 .header-text {
-    margin: 0 var(--side-margin);
+    margin: 0 var(--side-margin-text);
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -371,7 +372,8 @@ gradient-background.smaller {
     width: 100%;
 }
 element-carousel gradient-background {
-    width: var(--w);
+    width: calc(var(--w) - var(--side-margin) * 2);
+    margin: 0 var(--side-margin);
 }
 
 .feature {
@@ -468,6 +470,9 @@ element-carousel carousel-body > div{
 
 
 @media (max-width: 650px) {
+    main-page {
+        --side-margin: 1.5em;
+    }
     .hide-for-phone {
         display: none;
     }
@@ -478,10 +483,12 @@ element-carousel carousel-body > div{
     .features .row {
         flex-direction: column;
         align-items: center;
+        margin: 0 var(--side-margin-text)
     }
     .features .header-text {
         text-align: center;
     }
+    
     .review {
         --num: 1;
         --margin: var(--side-margin);
@@ -508,6 +515,8 @@ element-carousel carousel-body > div{
         flex-direction: column;
         gap: 1.5em;
     }
+
+
 }
 @media (min-width: 650px) {
     .hide-for-computer {
