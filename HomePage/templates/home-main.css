@@ -20,8 +20,8 @@ main-page {
 
     --gradient-padding: 4.5vw;
 
-    --side-margin: 3em;
-    --side-margin-text: 3em;
+    --side-margin: calc(3 * var(--font-size));
+    --side-margin-text: calc(3 * var(--font-size));
 
     --font-size: clamp(var(--font-min-size), var(--font-scale), var(--font-max-size));
     --full-header-height: calc(var(--header-height) + var(--header-padding) * 2 + var(--header-margin));
@@ -500,6 +500,8 @@ element-carousel carousel-body > div{
         margin: 0;
     }
 
+    
+
     gradient-background.hero img {
         max-height: 35%;
     }
@@ -520,6 +522,7 @@ element-carousel carousel-body > div{
     }
     
     .review {
+        font-size: 1.3em;
         --num: 1;
         --margin: var(--side-margin);
     }
