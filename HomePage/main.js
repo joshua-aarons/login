@@ -1,6 +1,6 @@
 import { CustomComponent, DataComponent, SvgPlus, updateUserDataComponents, UserDataComponent } from "../Utilities/CustomComponent.js";
 import { getHTMLTemplate, loadTemplates, useCSSStyle } from "../Utilities/template.js";
-// import {} from "../Utilities/gradient-background.js"
+import {} from "../Utilities/gradient-background.js"
 import { } from "../Utilities/hamburger-icon.js";
 // import { } from "../Utilities/gradient-model.js";
 // import { } from "../Utilities/carousel.js";
