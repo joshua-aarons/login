@@ -50,16 +50,15 @@ main-page .btn {
     border-radius: 5em;
 }
 
+main-page .profile-photo {
+    --size: var(--header-height);
+}
 
-main-page:not([signed-in]) .user-icon {
+main-page:not([signed-in]) .profile-photo {
     display: none;
 }
-main-page[signed-in] .user-icon {
+main-page[signed-in] .profile-photo {
     display: block;
-    height: var(--header-height);
-    width: var(--header-height);
-    border-radius: 50%;
-    object-fit: cover;
 }
 
 main-page:not([signed-in]) .sign-in::after {
@@ -210,12 +209,13 @@ main {
     gap: 8em;
 }
 
-
-
-main > .row {
-    margin: var(--side-margin);
+main > * {
+    display: contents;
 }
 
+main > * > .row {
+    margin: var(--side-margin);
+}
 
 gradient-background {
     display: flex;
@@ -290,7 +290,7 @@ gradient-model canvas {
 gradient-background.outline {
     --outline: 2px;
     padding: var(--outline);
-    background-color: rgb(127, 127, 131);
+    background-color: #7f7f8329;
     overflow: hidden;
     border-radius: calc(2 * var(--font-size));
 }
@@ -446,7 +446,7 @@ element-carousel carousel-body > div{
     width: calc(var(--w) / var(--num) - 2 * var(--margin));
     padding: 2em;
     margin: 0 var(--margin);
-    border: 2px solid gray;
+    border: 2px solid #7f7f8329;
     border-radius: 2em;
     background-color: white;
     display: flex;
@@ -487,6 +487,16 @@ element-carousel carousel-body > div{
     width: 20em;
 }
 
+
+main-page form-plus {
+    padding: var(--gradient-padding);
+    margin: 0 var(--side-margin);
+    border: 2px solid #7f7f8329;
+}
+
+*[hide] {
+    display: none;
+}
 
 @media (max-width: 650px) {
     main-page {

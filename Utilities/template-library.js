@@ -18,9 +18,9 @@ export const TemplateLibrary = {
 	"theme": {
 		"css": "Console/templates/theme.css"
 	},
-	"home-main": {
-		"css": "HomePage/templates/home-main.css",
-		"html": "HomePage/templates/home-main.html"
+	"squidly-main": {
+		"css": "HomePage/templates/squidly-main.css",
+		"html": "HomePage/templates/squidly-main.html"
 	},
 	"input-plus": {
 		"css": "Utilities/templates/input-plus.css"
@@ -51,5 +51,14 @@ export const TemplateLibrary = {
 	},
 	"meeting-scheduler": {
 		"html": "Console/templates/MeetingTools/meeting-scheduler.html"
+	},
+	"contact-page": {
+		"html": "HomePage/templates/contact-page.html"
+	},
+	"features-page": {
+		"html": "HomePage/templates/features-page.html"
+	},
+	"home-page": {
+		"html": "HomePage/templates/home-page.html"
 	}
 };

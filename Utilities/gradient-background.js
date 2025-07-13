@@ -273,57 +273,66 @@ class GradientBackground extends SvgPlus {
     }
 
     onconnect() {
-        this.canvas = this.createChild("canvas", {
-            styles: {
-                top: "0",
-                left: "0",
-                right: "0",
-                bottom: "0",
-                width: "100%",
-                height: "100%",
-                position: "absolute",
-                "z-index": -1,
+
+        if (!this.gl) {
+            this.canvas = this.createChild("canvas", {
+                styles: {
+                    top: "0",
+                    left: "0",
+                    right: "0",
+                    bottom: "0",
+                    width: "100%",
+                    height: "100%",
+                    position: "absolute",
+                    "z-index": -1,
+                }
+            });
+            this.gl = this.canvas.getContext("webgl");
+            const {gl} = this;
+            const program = this.createProgram(vertexShader, fragmentShader);
+            this.positionLocation = gl.getAttribLocation(program, "a_position");
+            this.timeLocation = gl.getUniformLocation(program, "u_time");
+            this.resolutionLocation = gl.getUniformLocation(program, "u_resolution");
+            this.blobHuesLocation = gl.getUniformLocation(program, "u_blobHues");
+            this.blobSizesLocation = gl.getUniformLocation(program, "u_blobSizes");
+            this.blobPositionsLocation = gl.getUniformLocation(program, "u_blobPositions");
+            this.blobCountLocation = gl.getUniformLocation(program, "u_blobCount");
+
+
+            this.positionBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+                -1, -1,
+                1, -1,
+                -1, 1,
+                -1, 1,
+                1, -1,
+                1, 1,
+            ]), gl.STATIC_DRAW);
+            gl.enableVertexAttribArray(this.positionLocation);
+            gl.vertexAttribPointer(this.positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+            gl.useProgram(program);
+
+            
+            // if (!this.resizeObserver) {
+                this.resizeObserver = new ResizeObserver(() => this.resize());
+                this.resizeObserver.observe(this);
+            // }
+            
+            let defaultColors = [ 0, 10, 20, 30, 40, 50, 360, 350, 340, 330];
+            let att = this.getAttribute("colors");
+            if (att) {
+                defaultColors = att.split(",").map(c => parseFloat(c.trim()));
             }
-        });
-        this.gl = this.canvas.getContext("webgl");
-        const {gl} = this;
-        const program = this.createProgram(vertexShader, fragmentShader);
-        this.positionLocation = gl.getAttribLocation(program, "a_position");
-        this.timeLocation = gl.getUniformLocation(program, "u_time");
-        this.resolutionLocation = gl.getUniformLocation(program, "u_resolution");
-        this.blobHuesLocation = gl.getUniformLocation(program, "u_blobHues");
-        this.blobSizesLocation = gl.getUniformLocation(program, "u_blobSizes");
-        this.blobPositionsLocation = gl.getUniformLocation(program, "u_blobPositions");
-        this.blobCountLocation = gl.getUniformLocation(program, "u_blobCount");
-
-
-        this.positionBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-            -1, -1,
-            1, -1,
-            -1, 1,
-            -1, 1,
-            1, -1,
-            1, 1,
-        ]), gl.STATIC_DRAW);
-        gl.enableVertexAttribArray(this.positionLocation);
-        gl.vertexAttribPointer(this.positionLocation, 2, gl.FLOAT, false, 0, 0);
-
-        gl.useProgram(program);
-
-        this.resizeObserver = new ResizeObserver(() => this.resize());
-        this.resizeObserver.observe(this);
-
-
-        let defaultColors = [ 0, 10, 20, 30, 40, 50, 360, 350, 340, 330];
-        let att = this.getAttribute("colors");
-        if (att) {
-            defaultColors = att.split(",").map(c => parseFloat(c.trim()));
+            this.colors = defaultColors;
         }
-        this.colors = defaultColors;
         
         this.render();
+    }
+
+    ondisconnect() {
+        // this.stopped = true;
     }
 
     createShader(type, source) {
@@ -366,6 +375,9 @@ class GradientBackground extends SvgPlus {
     }
 
     async render() {
+        // if (this.rendering) return;
+        this.rendering = true;
+        this.stopped = false;
         while (!this.stopped) {
             const time = performance.now();
             const {gl, timeLocation,blobPositionsLocation } = this;
@@ -375,6 +387,7 @@ class GradientBackground extends SvgPlus {
             gl.drawArrays(gl.TRIANGLES, 0, 6);
             await new Promise(requestAnimationFrame);
         }
+        this.rendering = false;
     }
 
     static get observedAttributes() {

@@ -1,36 +1,3 @@
-<header name = "header" class = "card">
-    <div class = "row-no-gap">
-        <img src = "../images/logo.svg" alt = "Squidly Logo" class = "logo">
-        <img src = "../images/logo-text.svg" alt = "Squidly Logo" class = "logo-text">
-    </div>
-
-    <div class = "row hide-for-phone">
-        <div class = "btn-text">Pricing</div>
-        <div class = "btn-text">Features</div>
-        <div class = "btn-text">Contact us</div>
-    </div>
-
-    <div class = "row  hide-for-phone" style = "gap: 0.5em;">
-        <img class = "user-icon" name="displayPhoto-1">
-        <div onclick = "window.location = '/Console'" class = "btn sign-in"></div>
-    </div>
-
-    <div class = "hamburger hide-for-computer" onclick = "toggleHamburger">
-       <hamburger-icon></hamburger-icon>
-    </div>
-
-    <div class = "header-menu hide-for-computer">
-        <div class = "btn-text">Pricing</div>
-        <div class = "btn-text">Features</div>
-        <div class = "btn-text">Contact</div>
-        <div class = "row" style = "gap: 0.5em;">
-            <img class = "user-icon" name="displayPhoto-2">
-            <div onclick = "window.location = '/Console'" style = "padding: 0; width: 100%;" class = "btn sign-in"></div>
-        </div>
-    </div>
-</header>
-
-<main>
 <gradient-background speed = "0.001" colors = "250, 270, 0, 10, 20, 30, 40, 50, 360, 350, 340, 330" class = "hero">
     <div class="col">
         <h1>Video Calls for Every Voice </h1>
@@ -41,7 +8,7 @@
 
     <div class = "contents hide-for-phone">
         <div class = "border-offset">
-            <div class = "btn">Get started for free</div>
+            <div onclick = "gotoLicenses" class = "btn">Get started for free</div>
         </div>
     
         <img src = "../images/hero-image.png"/>
@@ -257,7 +224,7 @@
                 <h1>Try Squidly Now</h1>
             <div class = "row">
                 <div style = "border-color: var(--color-danger)" class="border-offset">
-                    <div class="btn">Get started for free</div>
+                    <div  onclick = "gotoLicenses" class="btn">Get started for free</div>
                 </div>
                 <div style = "border-color: black" class="border-offset">
                     <div class="btn" style = "--color: white; --hover-color: rgb(244, 242, 242); color: var(--color-dark); border: 1px solid black">Schedule a call</div>
@@ -268,46 +235,3 @@
         <squidly-loader ></squidly-loader>
     </div>
 </div>
-</main>
-
-<footer>
-
-    <div class = "fcol">
-        <div>
-            <b><a href = "mailto:contact@squidly.com.au">contact@squidly.com.au</a></b>
-            <div>
-                <a href = "https://www.linkedin.com/company/squidly/" target = "_blank">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
-                        <g fill-rule="evenodd">
-                            <path d="M8,72 L64,72 C68.418278,72 72,68.418278 72,64 L72,8 C72,3.581722 68.418278,-8.11624501e-16 64,0 L8,0 C3.581722,8.11624501e-16 -5.41083001e-16,3.581722 0,8 L0,64 C5.41083001e-16,68.418278 3.581722,72 8,72 ZM62,62 L51.315625,62 L51.315625,43.8021149 C51.315625,38.8127542 49.4197917,36.0245323 45.4707031,36.0245323 C41.1746094,36.0245323 38.9300781,38.9261103 38.9300781,43.8021149 L38.9300781,62 L28.6333333,62 L28.6333333,27.3333333 L38.9300781,27.3333333 L38.9300781,32.0029283 C38.9300781,32.0029283 42.0260417,26.2742151 49.3825521,26.2742151 C56.7356771,26.2742151 62,30.7644705 62,40.051212 L62,62 Z M16.349349,22.7940133 C12.8420573,22.7940133 10,19.9296567 10,16.3970067 C10,12.8643566 12.8420573,10 16.349349,10 C19.8566406,10 22.6970052,12.8643566 22.6970052,16.3970067 C22.6970052,19.9296567 19.8566406,22.7940133 16.349349,22.7940133 Z M11.0325521,62 L21.769401,62 L21.769401,27.3333333 L11.0325521,27.3333333 L11.0325521,62 Z"/>
-                        </g>
-                    </svg>
-                </a>
-            </div>
-            <span> © 2025 Made by Squidly</span>
-        </div>
-        <div>
-            <b>Product</b>
-            <span>Pricing</span>
-            <span>Features</span>
-        </div>
-    </div>
-    <div class = "fcol">
-        <div>
-            <b>Legal</b>
-            <span>Privacy</span>
-            <span>Terms</span>
-        </div>
-    
-        <div>
-            <b>Contact</b>
-            <span>Contact us</span>
-            <span>Schedule a call</span>
-            <span>+61 406 741 714</span>
-        </div>
-    
-        <div> 
-            <b>Sydney, NSW 2076</b>
-        </div>
-    </div>
-</footer>

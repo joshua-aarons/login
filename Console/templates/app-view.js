@@ -16,22 +16,11 @@ import { UserDataComponent } from "../../Utilities/CustomComponent.js";
 import {} from "../../Grids/grid-editor.js";
 import {} from "../../Quizzes/quiz-editor.js";
 import { createSession } from "../../Firebase/sessions.js"
+import { onLocationChange } from "../../Utilities/router.js"
 
 
 useCSSStyle("theme");
 useCSSStyle("app-view");
-
-function getURLPage(){
-    let hash = window.location.hash.replace("#", "");
-    let params = hash.split("?"); // Remove query parameters if any
-    hash = params.shift();
-    if (hash.length == 0) hash = "dash-board";
-    return [hash, params];
-}
-function setURLPage(name) {
-    window.location.hash = name == null ? "" : name;
-}
-
 
 
 export class AppView extends UserDataComponent {
@@ -47,33 +36,27 @@ export class AppView extends UserDataComponent {
             })
         }
         this.panel = getURLPage();
-        window.addEventListener("hashchange", (e) => {
-            this.panel = getURLPage();
-        })
+        onLocationChange((location) => {
+            this.panel = location;
+        }, "dash-board");
     }
     set panel(type) {
-        if (type == "logout") {
+        const query = RouteQuery.parse(type, "dash-board");
+        if (query.location == "logout") {
             this.userLogout();
         } else {
-            let params = null;
-            
-            if (Array.isArray(type)) {
-                params = type[1];
-                type = type[0];
-            }
-            setURLPage(type)
-            this._panel = type;
             for (let child of this.els.sideBar.children) {
-                child.classList.toggle("active", child.getAttribute("type") == type);
+                child.classList.toggle("active", child.getAttribute("type") == query.location);
             }
             for (let child of this.els.main.children) {
-                if (child.tagName.toLowerCase() == type) {
+                if (child.tagName.toLowerCase() == query.location) {
                     child.active = true;
-                    child.params = params;
+                    child.params = query.params;
                 } else {
                     child.active = false;
                 }
             }
+            query.setLocation();
         } 
     }
     get panel(){
@@ -88,6 +71,12 @@ export class AppView extends UserDataComponent {
             this.dark = e?.info?.dark === true;
             if (!isAdmin && this.panel == "admin-control") this.panel = "dash-board";
             this.toggleAttribute("admin", isAdmin);
+
+            if (!e.info.displayPhoto) {
+                this.els["info/displayPhoto"].style = {
+                    "background-image": null,
+                }
+            }
         }
     }
 
