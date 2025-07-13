@@ -95,6 +95,14 @@ class MainPage extends DataComponent {
     }
 
 
+    onvalue(v) {
+        if (v.displayPhoto) {
+            this.els["displayPhoto-1"].src = v.displayPhoto
+            this.els["displayPhoto-2"].src = v.displayPhoto
+        }
+    }
+
+
     async toggleHamburger() {
         this.hamburgerMenuOpen = !this.hamburgerMenuOpen;
 

@@ -167,10 +167,10 @@ header > .header-menu > .btn,
     line-height: var(--item-height);
 }
 
-header > .header-menu > .btn {
+header > .header-menu > .row {
     margin-top: var(--login-space);
-    align-items: flex-start;
-    text-align: center;
+    /* align-items: flex-start;
+    text-align: center; */
 }
 
 header .btn {
