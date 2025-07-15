@@ -19,19 +19,25 @@ class FeaturePanel extends SvgPlus {
             </div>
         </gradient-background>`;
 
-        let row = s.createChild("div", {class: "row feature-cards"});
-        for (let child of feature.children.slice(0, 3) || []) {
-            let c = row.createChild("div", {
-                class: "col card",
-            });
-            if (child.image) {
-                c.createChild("img", {src: child.image, alt: child.title});
+
+        let col = this.createChild("div", {class: "side-margin feature-rows"});
+        for (let i = 0; i < feature.children.length; i += 3) {
+            let row = col.createChild("div", {class: "row feature-cards"});
+            let section = (feature.children || []).slice(i, i+3)
+            for (let child of section ) {
+                console.log(child);
+                
+                let c = row.createChild("div", {
+                    class: "col card",
+                });
+                if (child.image) {
+                    c.createChild("img", {src: child.image, alt: child.title});
+                }
+                
+                let cc = c.createChild("div", {class: "col"})
+                cc.createChild("h3", {content: child.title});
+                cc.createChild("p", {content: child.text});
             }
-            
-            let cc = c.createChild("div", {class: "col"})
-            cc.createChild("h3", {content: child.title});
-            cc.createChild("p", {content: child.text});
-            
         }
     }
 }

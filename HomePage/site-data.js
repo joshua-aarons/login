@@ -151,19 +151,19 @@ export const Features = [
             {
                 "title": "Zero Touch Calibration",
                 "text": "Use Squidly instantly with no complicated setup or lengthy calibration.",
-                "image": ""
+                "image": imgURL("quiz.svg")
             },
             {
                 "title": "Integrated AAC Tools",
                 "text": "Effortlessly combine eye-gaze with built-in communication boards, quizzes and tools.",
-                "image": ""
+                "image": imgURL("quiz.svg")
             } 
         ],
     },
     {
         "title": "Universal Session Accessibility",
         "text": "Squidly ensures every session is inclusive, empowering meaningful interactions regardless of ability or communication method.",
-        "image": "",
+        "image": imgURL("hero-image.png"),
         "children": [
             {
                 "title": "Switch Access Ready",
@@ -200,7 +200,7 @@ export const Features = [
     {
         "title": "Privacy & Security Built-in",
         "text": "Squidly priorities your privacy, meeting strict Australian security standards to protect every interaction and user data.",
-        "image": "",
+        "image": imgURL("hero-image.png"),
         "children": [
             {
                 "title": "End-to-End Encryption",

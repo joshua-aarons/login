@@ -36,10 +36,15 @@ feature-panel .description {
     width: 40%;
 }
 
+
+feature-panel .feature-rows {
+    gap: 1em;
+}
 feature-panel .feature-cards {
     align-items: stretch;
+    gap: 1em;
 }
-
 feature-panel .feature-cards .col {
     gap: 0.5em;
+    margin: 0;
 }

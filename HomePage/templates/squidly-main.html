@@ -6,7 +6,7 @@
 
     <div class = "row hide-for-phone">
         <div name = "pricing-page-btn" onclick = "setPage('prices-page')" class = "btn-text">Pricing</div>
-        <div name = "features-page-btn" onclick = "setPage('features-page')"class = "btn-text">Features</div>
+        <div name = "features-page-btn" onclick = "setPage('features-page')" class = "btn-text">Features</div>
         <div name = "contact-page-btn" onclick = "setPage('contact-page')" class = "btn-text">Contact us</div>
     </div>
 
@@ -50,8 +50,8 @@
         </div>
         <div>
             <b>Product</b>
-            <span>Pricing</span>
-            <span>Features</span>
+            <span class = "clickable" onclick = "setPage('prices-page')">Pricing</span>
+            <span class = "clickable" onclick = "setPage('features-page')">Features</span>
         </div>
     </div>
     <div class = "fcol">
@@ -63,7 +63,7 @@
     
         <div>
             <b>Contact</b>
-            <span>Contact us</span>
+            <span class = "clickable" onclick = "setPage('contact-page')">Contact us</span>
             <span>Schedule a call</span>
             <span>+61 406 741 714</span>
         </div>
