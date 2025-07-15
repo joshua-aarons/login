@@ -242,7 +242,8 @@ gradient-background video {
     max-width: calc(100% - 2 * var(--gradient-padding));
 }
 
-gradient-background canvas {
+gradient-background canvas,
+gradient-background .gradient-img {
     border-radius: 2em;
 }
 
@@ -294,10 +295,12 @@ gradient-background.outline {
     overflow: hidden;
     border-radius: calc(2 * var(--font-size));
 }
-gradient-background.outline > canvas {
+gradient-background.outline > canvas,
+gradient-background.outline > .gradient-img {
     opacity: 0;
 }
-gradient-background.outline:hover > canvas {
+gradient-background.outline:hover > canvas,
+gradient-background.outline:hover > .gradient-img {
     opacity: 1;
 }
 gradient-background.outline:hover {

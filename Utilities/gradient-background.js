@@ -52,7 +52,6 @@ void main() {
 const fragmentShader = `
 precision highp float;
 
-uniform float u_time;
 uniform vec2 u_resolution;
 uniform vec2 u_blobPositions[10];
 uniform float u_blobSizes[10];
@@ -119,7 +118,8 @@ const SQUARE_MESH = new Float32Array([
 class GradientBackground extends SvgPlus {
     _speed = 0.0;
 
-    mode = "webgl";
+    mode = "image";
+    // mode = 
 
     constructor(el) {
         super(el);
@@ -181,12 +181,31 @@ class GradientBackground extends SvgPlus {
                     gl.uniform2f(this.resolutionLocation, canvas.width, canvas.height);
                 }
             }
+        },
+        "image": () => {
         }
     }
 
     initialisers = {
         "webgl": () => {
             
+        },
+        "image": () => {
+            this.createChild("div", {
+                class: "gradient-img",
+                styles: {
+                    "background-image": `url(${this.getAttribute("img-src")})`,
+                    "background-size": "cover",
+                    "width": "100%",
+                    "height": "100%",
+                    "position": "absolute",
+                    "top": "0",
+                    "left": "0",
+                    "right": "0",
+                    "bottom": "0",
+                    "z-index": "-1",
+                }
+            });
         }
     }
 
@@ -217,7 +236,6 @@ class GradientBackground extends SvgPlus {
     
                 // Get attribute and uniform locations
                 this.positionLocation = gl.getAttribLocation(program, "a_position");
-                this.timeLocation = gl.getUniformLocation(program, "u_time");
                 this.resolutionLocation = gl.getUniformLocation(program, "u_resolution");
                 this.blobHuesLocation = gl.getUniformLocation(program, "u_blobHues");
                 this.blobSizesLocation = gl.getUniformLocation(program, "u_blobSizes");
@@ -236,6 +254,8 @@ class GradientBackground extends SvgPlus {
                 this.updateColors();
 
             }
+        },
+        "image": () => {
         }
     }
 
@@ -264,23 +284,25 @@ class GradientBackground extends SvgPlus {
                 this.vertexShader = null;
                 this.fragmentShader = null;
             }
+        },
+        "image": () => {
         }
     }
 
     renderers = {
         "webgl": (time) => {
             if (this.gl) {
-                const {gl, timeLocation, blobPositionsLocation } = this;
+                const {gl, blobPositionsLocation } = this;
                 const {positions} = this.blobData;
                 gl.uniform2fv(blobPositionsLocation, new Float32Array(positions));
-                gl.uniform1f(timeLocation, time * 0.001);
                 gl.drawArrays(gl.TRIANGLES, 0, 6);
-
                 if (this.canvas.width > 0 && this.canvas.height > 0 && this._speed == 0) {
                     this.stopped = true; // Stop rendering if speed is 0
                 }
             }
-            
+        },
+        "image": () => {
+            this.stopped = true; // Stop rendering for image mode
         }
     }
 
