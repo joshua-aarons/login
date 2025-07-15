@@ -16,7 +16,7 @@ import { UserDataComponent } from "../../Utilities/CustomComponent.js";
 import {} from "../../Grids/grid-editor.js";
 import {} from "../../Quizzes/quiz-editor.js";
 import { createSession } from "../../Firebase/sessions.js"
-import { onLocationChange } from "../../Utilities/router.js"
+import { onLocationChange, RouteQuery } from "../../Utilities/router.js"
 
 
 useCSSStyle("theme");
@@ -35,11 +35,13 @@ export class AppView extends UserDataComponent {
                 this.panel = child.getAttribute("type");
             })
         }
-        this.panel = getURLPage();
+        this.panel = RouteQuery.fromWindow("dash-board");
         onLocationChange((location) => {
             this.panel = location;
         }, "dash-board");
     }
+
+
     set panel(type) {
         const query = RouteQuery.parse(type, "dash-board");
         if (query.location == "logout") {
@@ -59,6 +61,7 @@ export class AppView extends UserDataComponent {
             query.setLocation();
         } 
     }
+
     get panel(){
         return this._panel;
     }
