@@ -52,6 +52,9 @@ prices-page .card {
     border: var(--card-outline);
     border-radius: calc(var(--card-border-radius) + 5px);
 }
+.faq .outline > * {
+    height: 100%;
+}
 
 @media (max-width: 650px) {
     [name="productsList"] {

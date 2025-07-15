@@ -18,6 +18,10 @@ export const TemplateLibrary = {
 	"theme": {
 		"css": "Console/templates/theme.css"
 	},
+	"features-page": {
+		"css": "HomePage/templates/features-page.css",
+		"html": "HomePage/templates/features-page.html"
+	},
 	"prices-page": {
 		"css": "HomePage/templates/prices-page.css",
 		"html": "HomePage/templates/prices-page.html"
@@ -58,9 +62,6 @@ export const TemplateLibrary = {
 	},
 	"contact-page": {
 		"html": "HomePage/templates/contact-page.html"
-	},
-	"features-page": {
-		"html": "HomePage/templates/features-page.html"
 	},
 	"home-page": {
 		"html": "HomePage/templates/home-page.html"

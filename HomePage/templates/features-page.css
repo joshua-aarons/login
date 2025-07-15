@@ -1,0 +1,45 @@
+feature-panel {
+    --height: calc(var(--inner-height) - var(--full-header-height) - 3 * var(--header-margin) - 13em);
+}
+feature-panel gradient-background {
+    height: var(--height);
+    flex-direction: row;
+    align-items: flex-end;
+    overflow: hidden;
+    border-radius: 2em;
+    gap: var(--gradient-padding);
+}
+
+feature-panel gradient-background > div {
+    height: 100%;
+}
+
+feature-panel .image {
+    width: 60%;
+    position: relative;
+}
+
+feature-panel .image img {
+    height: 100%;
+    position: absolute;
+    width: unset;
+    object-fit: cover;
+    top: var(--gradient-padding);
+}
+
+feature-panel .description {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 1em;
+    padding: var(--gradient-padding) 0 var(--gradient-padding) var(--gradient-padding);
+    width: 40%;
+}
+
+feature-panel .feature-cards {
+    align-items: stretch;
+}
+
+feature-panel .feature-cards .col {
+    gap: 0.5em;
+}
