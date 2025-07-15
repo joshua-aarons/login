@@ -117,6 +117,7 @@ const SQUARE_MESH = new Float32Array([
     1, 1,
 ]);
 
+const DefaultColors = [250, 270, 0, 10, 20, 30, 40, 50, 360, 350, 340, 330]; // Default colors for the blobs
 
 
 const MODE = getDeviceInfo().os == "Windows" ? "image" : "webgl"; // Use image mode for Windows to avoid WebGL issues
@@ -143,6 +144,17 @@ class GradientBackground extends SvgPlus {
     }
 
     set colors(colors) {
+        if (typeof colors === "string") {
+            colors = colors.split(",").map(c => parseFloat(c.trim()));
+        } else if (!Array.isArray(colors)) {
+            colors = DefaultColors;
+        }
+
+        let isValid = colors.every(c => typeof c === "number" && !Number.isNaN(c) && c >= 0 && c <= 360);
+        if (!isValid) { 
+            colors = DefaultColors;
+        }
+
         let n = colors.length;
         this.blobs = colors.map((color, i) => new MovingBlob(color/360,  2*((n - i)/(n)), this._speed));
         this.updateColors();
@@ -331,14 +343,9 @@ class GradientBackground extends SvgPlus {
             this.initialisers[this.mode]();
 
             this.resizeObserver = new ResizeObserver(() => this.resize());
-            
-            let defaultColors = [ 0, 10, 20, 30, 40, 50, 360, 350, 340, 330];
-            let att = this.getAttribute("colors");
-            if (att) {
-                defaultColors = att.split(",").map(c => parseFloat(c.trim()));
-            }
-            this.colors = defaultColors;
+
         }
+        this.colors = this.getAttribute("colors");
 
         this.onConnecters[this.mode]();
 

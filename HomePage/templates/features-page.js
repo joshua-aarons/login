@@ -9,7 +9,7 @@ class FeaturePanel extends SvgPlus {
         this.class = "side-margin-always"
         let s = this.createChild("div", {class: "side-margin"})
         s.innerHTML = `
-        <gradient-background class = "inside-text" img-src = "../images/gradient-background.png" speed="0.001" >
+        <gradient-background class = "inside-text" img-src = "../images/gradient-background.png" speed="0.001">
             <div class = "description">
                 <h1>${feature.title}</h1>
                 <p>${feature.text}</p>

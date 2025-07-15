@@ -89,11 +89,11 @@ class MainPage extends UserDataComponent {
     onvalue(v) {
         this.toggleAttribute("signed-in", v != null && v.isUser === true);
         
-        const displayPhoto = v?.info?.displayPhoto || null;
-        this.els["displayPhoto-1"].styles = {"background-image": displayPhoto};
-        this.els["displayPhoto-2"].styles = {"background-image": displayPhoto};
-        console.log(v);
+        let displayPhoto = v?.info?.displayPhoto || null;
+        displayPhoto = displayPhoto ? `url("${displayPhoto}")` : null;
         
+        this.els["displayPhoto-1"].style.setProperty("background-image", displayPhoto);
+        this.els["displayPhoto-2"].style.setProperty("background-image", displayPhoto);
     }
 
 
