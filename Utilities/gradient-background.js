@@ -184,7 +184,9 @@ class GradientBackground extends SvgPlus {
                 if (gl) {
                     gl.viewport(0, 0, canvas.width, canvas.height);
                     gl.uniform2f(this.resolutionLocation, canvas.width, canvas.height);
-                    if (!this.rendering) {
+                    if (!this.rendering || this.stopped) {
+                        console.log("red");
+                        
                         this.render();
                     }
                 }

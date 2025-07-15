@@ -75,7 +75,7 @@ export class AppView extends UserDataComponent {
             if (!isAdmin && this.panel == "admin-control") this.panel = "dash-board";
             this.toggleAttribute("admin", isAdmin);
 
-            if (!e.info.displayPhoto) {
+            if (!e?.info?.displayPhoto) {
                 this.els["info/displayPhoto"].style = {
                     "background-image": null,
                 }

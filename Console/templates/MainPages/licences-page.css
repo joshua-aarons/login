@@ -1,4 +1,4 @@
-licences-page {
+:root{
     --call-to-action: #2489f5;
     --call-to-action-hover: #2074c7;
     --background-color: #72b6fe;
@@ -6,6 +6,7 @@ licences-page {
     --text-color: #ffffffeb;
     
 }
+
 licences-page .shadow-container {
     display: flex;
     flex-direction: column;

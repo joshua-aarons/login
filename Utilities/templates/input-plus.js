@@ -235,8 +235,16 @@ class ProgressChart extends SvgPlus{
 }
 
 class OptionSlider extends SvgPlus {
+    constructor(el = "option-slider") {
+        super(el);
+        
+        this.childrenObserver = new MutationObserver(this._elements_changed.bind(this));
+        this.childrenObserver.observe(this, {childList: true});
+    }
+
     observers = new Map();
-    onconnect() {
+  
+    _elements_changed() {
         if ( this.hasAttribute("toggle") ) {
             this.addEventListener("click", (e) => {
                 if (this.selectedElement && this.selectedElement.nextElementSibling) {
@@ -244,7 +252,6 @@ class OptionSlider extends SvgPlus {
                 } else {
                     this.selectedElement = this.querySelector("s-option:first-child");
                 }
-
                 this.dispatchEvent(new Event("change"));
             });
         } else {

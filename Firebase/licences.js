@@ -1,6 +1,7 @@
 import { callFunction, equalTo, get, onChildAdded, onChildRemoved, onValue, orderByChild, query, ref, update } from "./firebase-client.js";
 
-const stripe = Stripe('pk_test_WmYzJXrtzE00MAhbTgAZwhaO00gjCfkWn8', {apiVersion: '2025-01-27.acacia'});
+
+const stripe = window.Stripe ? Stripe('pk_test_WmYzJXrtzE00MAhbTgAZwhaO00gjCfkWn8', {apiVersion: '2025-01-27.acacia'}) : {};
 
 const isEditorStatus = {
     "admin": true,
@@ -18,9 +19,6 @@ const usageKeys = [
 let watchers = {};
 
 function round(x, y) { return Math.round(Math.pow(10, y) * x) / Math.pow(10, y) }
-
-
-
 
 
 
@@ -173,10 +171,6 @@ export async function watch(uid, allData, update) {
 
     watchers.userLicences = onValue(ref(`users/${uid}/licences`), async (snapshot) => {
         let licences = snapshot.val() || {};
-        // if (!("licenceTiers" in allData)) {
-        //     allData.licenceTiers = {};
-        //     allData.licenceTierNames = {};
-        // }
         await updateMaxUsage(Object.values(licences));
 
         await Promise.all(Object.keys(licences).map(async licenceID => {
@@ -194,6 +188,20 @@ export async function watch(uid, allData, update) {
     });
 }
 
+
+export async function getProductInfo() {
+    let [usageTemplate, tierSettings, tierInfo] = await Promise.all([
+        (await get(ref(`licences-settings/usage-template`))).val(),
+        (await get(ref(`licences-settings/tier-usage`))).val(),
+        (await get(query(ref(`licences-settings/tier-info`), orderByChild("public"), equalTo(true)))).val()
+    ]);
+
+    return {
+        usageTemplate,
+        tierSettings,
+        tierInfo,
+    }
+}
 /**
  * Stops all watchers for licences.
  */

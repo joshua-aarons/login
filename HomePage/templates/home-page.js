@@ -1,6 +1,6 @@
 import { SvgPlus, UserDataComponent } from "../../../Utilities/CustomComponent.js";
 import { getHTMLTemplate } from "../../Utilities/template.js";
-import { Testimonials } from "../testimonals.js";
+import { Testimonials } from "../site-data.js";
 
 export class HomePage extends UserDataComponent {
      constructor() {

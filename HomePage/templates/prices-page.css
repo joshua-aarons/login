@@ -1,0 +1,70 @@
+[name="productsList"] {
+    display: flex;
+    gap: 1em;
+}
+
+prices-page > *:first-child {
+    margin-top: 1em;
+}
+
+prices-page input-plus[name="seats"] {
+    display: none;
+}
+
+licence-product-card {
+    border: var(--card-outline);
+}
+
+prices-page .call-to-action::after {
+    content: "Get " attr(licence-name);
+    text-transform: capitalize;
+}
+
+prices-page .card[emphasise] {
+    border: 2px solid var(--color-danger);
+}
+prices-page .card {
+    margin: 0;
+    border: var(--card-outline);
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.faq {
+    display: flex;
+    gap: 1em;
+}
+.faq > .col {
+    width: 100%;
+    gap: 1em;
+}
+.faq > * > * {
+    height: 100%;
+}
+
+.faq .last-question .row-slider {
+    font-size: 0.6em;
+}
+
+.faq .outline {
+    padding: 5px;
+    border: var(--card-outline);
+    border-radius: calc(var(--card-border-radius) + 5px);
+}
+
+@media (max-width: 650px) {
+    [name="productsList"] {
+        flex-direction: column;
+    }
+    .faq {
+        flex-direction: column;
+    }
+    .faq > .col {
+        width: 100%;
+    }
+
+    .faq .last-question .row-slider {
+        font-size: 0.8em;
+    }
+}

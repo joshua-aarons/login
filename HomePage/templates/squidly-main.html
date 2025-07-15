@@ -5,7 +5,7 @@
     </div>
 
     <div class = "row hide-for-phone">
-        <div name = "pricing-page-btn" class = "btn-text">Pricing</div>
+        <div name = "pricing-page-btn" onclick = "setPage('prices-page')" class = "btn-text">Pricing</div>
         <div name = "features-page-btn" class = "btn-text">Features</div>
         <div name = "contact-page-btn" onclick = "setPage('contact-page')" class = "btn-text">Contact us</div>
     </div>
@@ -16,11 +16,11 @@
     </div>
 
     <div class = "hamburger hide-for-computer" onclick = "toggleHamburger">
-       <hamburger-icon></hamburger-icon>
+       <hamburger-icon name = "hamburgerIcon"></hamburger-icon>
     </div>
 
     <div class = "header-menu hide-for-computer">
-        <div class = "btn-text">Pricing</div>
+        <div onclick = "setPage('prices-page')" class = "btn-text">Pricing</div>
         <div class = "btn-text">Features</div>
         <div class = "btn-text" onclick = "setPage('contact-page')">Contact us</div>
         <div class = "row" style = "gap: 0.5em;">

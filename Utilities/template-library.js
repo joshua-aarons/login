@@ -18,6 +18,10 @@ export const TemplateLibrary = {
 	"theme": {
 		"css": "Console/templates/theme.css"
 	},
+	"prices-page": {
+		"css": "HomePage/templates/prices-page.css",
+		"html": "HomePage/templates/prices-page.html"
+	},
 	"squidly-main": {
 		"css": "HomePage/templates/squidly-main.css",
 		"html": "HomePage/templates/squidly-main.html"

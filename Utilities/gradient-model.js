@@ -159,7 +159,6 @@ class GradientModel extends SvgPlus {
                 u_blobSizes: { value: new Float32Array(MAX_BLOBS).fill(this.blobSize) }, // Placeholder for blob sizes
                 u_blobHues: { value: new Float32Array(MAX_BLOBS).fill(0.3) }, // Placeholder for blob hues
                 u_blobCount: { value: MAX_BLOBS } // Placeholder for blob count
-
             },
             depthWrite: true,
             depthTest: true,

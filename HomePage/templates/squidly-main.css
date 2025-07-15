@@ -25,6 +25,7 @@ main-page {
 
     --font-size: clamp(var(--font-min-size), var(--font-scale), var(--font-max-size));
     --full-header-height: calc(var(--header-height) + var(--header-padding) * 2 + var(--header-margin));
+    --card-outline: 2px solid #7f7f8329;
     font-size: var(--font-size);
 }
 
@@ -36,7 +37,9 @@ main-page .btn {
 .logo {
     height: var(--header-height);
 }
-
+.logo-container {
+    cursor: pointer;
+}
 .logo-text {
     height: var(--header-height);
     width: unset;
@@ -50,8 +53,14 @@ main-page .btn {
     border-radius: 5em;
 }
 
+
 main-page .profile-photo {
     --size: var(--header-height);
+    
+}
+main-page .header-menu .profile-photo {
+    max-width: var(--size);
+    width: 100%;
 }
 
 main-page:not([signed-in]) .profile-photo {
@@ -146,9 +155,6 @@ hamburger-icon svg {
     padding-right: var(--header-padding);
 }
 
-header:not([bg-show]) .header-menu {
-    /* transition-delay: 0.3s; */
-}
 
 header:not([open]) .header-menu {
     height: 0px;
@@ -325,9 +331,17 @@ gradient-background.outline:hover {
     align-items: center;
 }
 
+
+
+trusted-companies {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+    margin: 0 var(--side-margin);
+}
 .company-logos {
-    margin: var(--side-margin);
-    margin-bottom: 0;
+    margin: 0 var(--side-margin);
     display: flex;
     flex-wrap: wrap;
     gap: 3em;
@@ -339,9 +353,8 @@ gradient-background.outline:hover {
     width: unset;
     max-width: 100%;
     opacity: 0.8;
-    /* filter: grayscale(0.5);
-    transition: filter 0.3s ease-in-out; */
 }
+
 
 .header-text {
     margin: 0 var(--side-margin-text);
@@ -350,6 +363,10 @@ gradient-background.outline:hover {
     flex-direction: column;
     gap: 1em;
 }
+.header-text.left {
+    text-align: left;
+}
+
 .side-margin, .side-margin-always {
     margin: 0 calc(var(--side-margin) * 1);
     display: flex;
@@ -449,7 +466,7 @@ element-carousel carousel-body > div{
     width: calc(var(--w) / var(--num) - 2 * var(--margin));
     padding: 2em;
     margin: 0 var(--margin);
-    border: 2px solid #7f7f8329;
+    border: var(--card-outline);
     border-radius: 2em;
     background-color: white;
     display: flex;
@@ -494,7 +511,7 @@ element-carousel carousel-body > div{
 main-page form-plus {
     padding: var(--gradient-padding);
     margin: 0 var(--side-margin);
-    border: 2px solid #7f7f8329;
+    border: var(--card-outline);
 }
 
 *[hide] {

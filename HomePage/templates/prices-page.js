@@ -1,0 +1,69 @@
+import { SvgPlus, UserDataComponent } from "../../../Utilities/CustomComponent.js";
+import { LicenceProductCard } from "../../Console/templates/MainPages/licences-page.js";
+import { getHTMLTemplate, useCSSStyle } from "../../Utilities/template.js";
+import { FAQ } from "../site-data.js";
+
+useCSSStyle("prices-page");
+export class PricesPage extends UserDataComponent {
+     constructor() {
+        super("prices-page");
+        this.template = getHTMLTemplate("prices-page");
+        this.makeFAQ(3);
+    }
+
+
+    makeFAQ(cols){
+        let qas = FAQ.questions.map((faq) => {
+            let qa = new SvgPlus("div");
+            qa.class = "card";
+            qa.createChild("h3", {class: "question", content: faq.question});
+            qa.createChild("p", {class: "answer", content: faq.answer});
+            return qa;
+        });
+        let last = new SvgPlus("div");
+        last.class = "outline";
+        let lastInner = last.createChild("div");
+        lastInner.class = "card last-question";
+        lastInner.createChild("h3", {class: "question", content: FAQ.lastQuestion.question});
+        lastInner.createChild("p", {class: "answer", content: FAQ.lastQuestion.answer});
+        let r = lastInner.createChild("div", {class: "row-slider"});
+        r.createChild("button", {
+            class: "btn btn-primary", 
+            content: FAQ.lastQuestion["purple-btn"],
+            events: {
+                click: () => {
+                    document.querySelector("main-page").page = "contact-page";
+                }
+            }
+        });
+        r.createChild("button", {class: "btn btn-secondary", color: "gray", content: FAQ.lastQuestion["white-btn"]});
+        qas.push(last);
+
+        let length = qas.length;
+        let n = Math.round(length / cols);
+        let elCols = new Array(cols).fill(0).map((_, i) => {
+            let colEls = i == cols-1 ? qas.slice(i * n) : qas.slice(i * n, (i + 1) * n);
+            let col = new SvgPlus("div");
+            col.class = "col";
+            colEls.forEach((el) => {
+                col.appendChild(el);
+            });
+            this.els.faq.appendChild(col);
+        });
+    }
+
+    onvalue(data) {
+        const {productsList} = this.els;
+        
+        if (data?.productInfo?.tierInfo) {
+            const {tierInfo} = data.productInfo;
+            for (let tier in tierInfo) {
+                productsList.appendChild(new LicenceProductCard(tierInfo[tier]));
+            }
+        }
+    }
+
+    gotoLicenses() {
+        window.location = "/Console/#licences-page";
+    }
+}

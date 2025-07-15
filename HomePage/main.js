@@ -4,13 +4,15 @@ import {} from "../Utilities/gradient-background.js"
 import { } from "../Utilities/hamburger-icon.js";
 // import { } from "../Utilities/gradient-model.js";
 import { } from "../Utilities/carousel.js";
-import { addAuthChangeListener, initialise, update } from "../Firebase/firebase-client.js";
+import { addAuthChangeListener, get, initialise, update } from "../Firebase/firebase-client.js";
 import { stopWatch, watch } from "../Firebase/user.js";
 import { ContactPage } from "./templates/contact-page.js";
 import { HomePage } from "./templates/home-page.js";
 import { FeaturesPage } from "./templates/features-page.js";
 import { onLocationChange, RouteQuery } from "../Utilities/router.js";
-
+import { PricesPage } from "./templates/prices-page.js";
+import {} from "./templates/trusted-companies.js"
+import { getProductInfo } from "../Firebase/licences.js";
 useCSSStyle("theme");
 useCSSStyle("squidly-main");
 
@@ -24,6 +26,7 @@ class MainPage extends UserDataComponent {
         this.pages = {
             "contact-page": new ContactPage(),
             "home-page": new HomePage(),
+            "prices-page": new PricesPage(),
             "features-page": new FeaturesPage(),
         }
 
@@ -71,6 +74,10 @@ class MainPage extends UserDataComponent {
 
     setPage(value) {
         this.page = value;
+        document.scrollingElement.scrollTo(0, 0);
+        if (this.hamburgerMenuOpen) {
+            this.toggleHamburger();
+        }
     }
 
 
@@ -80,17 +87,19 @@ class MainPage extends UserDataComponent {
 
 
     onvalue(v) {
-        this.toggleAttribute("signed-in", v != null);
+        this.toggleAttribute("signed-in", v != null && v.isUser === true);
         
-        const displayPhoto = v?.displayPhoto || null;
+        const displayPhoto = v?.info?.displayPhoto || null;
         this.els["displayPhoto-1"].styles = {"background-image": displayPhoto};
         this.els["displayPhoto-2"].styles = {"background-image": displayPhoto};
+        console.log(v);
+        
     }
 
 
     async toggleHamburger() {
         this.hamburgerMenuOpen = !this.hamburgerMenuOpen;
-
+        this.els.hamburgerIcon.toggle(this.hamburgerMenuOpen)
         if (!this.isScrolled && this.hamburgerMenuOpen) {
             this.els.header.toggleAttribute("show-bg", true);
             await new Promise(resolve => setTimeout(resolve, 300));
@@ -107,25 +116,45 @@ class MainPage extends UserDataComponent {
 }
 
 
+async function getProducts(data) {
+    let productInfo = await getProductInfo();
+    data.productInfo = productInfo;
+    console.log("Product Info: ", productInfo);
+    
+    updateUserDataComponents(data);
+}
+
 async function start() {
+    let query = RouteQuery.fromWindow("home-page");
     await loadTemplates();
-    addAuthChangeListener((user) => {
-        
-        if (user != null) {
-            let data = {}
-            watch(user.uid, data,  () => {
-                updateUserDataComponents(data.info);
-            });
-        } else {
-            stopWatch();
-            updateUserDataComponents(null);
-        }
-    });
-    initialise();
 
     // Start the main page
     const mainPage = new MainPage();
     document.body.appendChild(mainPage);
+
+    let data = {}
+    addAuthChangeListener((user) => {
+        if (user != null) {
+            data.isUser = true;
+            watch(user.uid, data,  () => {
+                updateUserDataComponents(data);
+            });
+        } else {
+            data.isUser = false;
+            stopWatch();
+            updateUserDataComponents(data);
+        }
+    });
+    initialise();
+    if (query.location == "prices-page") {
+        await getProducts(data);
+    } else {
+        getProducts(data);
+    }
+
+    
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     document.querySelector("squidly-loader[full]").hide(0.5);
 }

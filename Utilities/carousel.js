@@ -1,7 +1,7 @@
 import { SvgPlus } from "../SvgPlus/4.js";
 
 export class ElementCarousel extends SvgPlus {
-    onconnect() {
+    initialise() {
         let main = this.innerHTML;
         this.innerHTML = "";
         this.main = this.createChild("carousel-body", {content: main});
@@ -77,6 +77,13 @@ export class ElementCarousel extends SvgPlus {
 
 
         this.updateScroll();
+    }
+
+    onconnect() {
+        if (!this.initialised) {
+            this.initialised = true;
+            this.initialise();
+        }
     }
 
 

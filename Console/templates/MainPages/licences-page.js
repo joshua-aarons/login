@@ -5,7 +5,7 @@ import { getHTMLTemplate, useCSSStyle } from "../../../Utilities/template.js";
 useCSSStyle("theme");
 useCSSStyle("licences-page");
 
-class LicenceIcon extends DataComponent {
+export class LicenceIcon extends DataComponent {
     constructor(licence) {
         super("licence-icon");
         this.template = `
@@ -54,7 +54,7 @@ class LicenceIcon extends DataComponent {
     }
 }
 
-class LicenceProductCard extends DataComponent {
+export class LicenceProductCard extends DataComponent {
     constructor(licenceProduct, licencePage) {
 
         super("licence-product-card");
@@ -82,6 +82,7 @@ class LicenceProductCard extends DataComponent {
         this.class = "card col c-align"
         this.value = licenceProduct;
         this.licencePage = licencePage;
+        this.els.submit.setAttribute("licence-name", licenceProduct.name);
         this.attachEvents(["onchange", "onclick"]);
         window.requestAnimationFrame(this.updatePrice.bind(this));
     }
@@ -93,7 +94,6 @@ class LicenceProductCard extends DataComponent {
         await licencePage.openBilling(id, period.value, seats.value);
         submit.classList.remove("disabled");
     }
-
    
     onvalue(value) {
         const { value: {features, prices, attributes}, els: {featureList, period} } = this;
@@ -108,6 +108,9 @@ class LicenceProductCard extends DataComponent {
                 content: price.name
             })
         })
+
+        console.log("created options");
+        
         features.innerHTML = "";
         features.forEach(feature => {
             let li = document.createElement("li");
@@ -116,16 +119,21 @@ class LicenceProductCard extends DataComponent {
         });
     }
 
+
+    reset(){
+        const {els: {period}} = this;
+        period.value = 0;
+        this.updatePrice(); 
+    }
+
     updatePrice(e) {
         const { value: {prices}, els: {period: {value}, priceInfo, amountEl, currencyEl} } = this;
-        
         const {amount, currency, interval} = prices[value] || {amount: 0, currency: "AUD"};
         amountEl.innerHTML = `$${(amount || 0).toFixed(2)}`;
         currencyEl.innerHTML = (currency || "AUD").toUpperCase();
         priceInfo.setAttribute("hover", `Price per user per ${interval}`); // Remove the last 'y' from 'yearly' or 'monthly'
     }
 }
-
 
 class LicencesPage extends UserDataComponent {
     onconnect() {
@@ -151,9 +159,6 @@ class LicencesPage extends UserDataComponent {
             }
         }
     }
-
-
-        
 
     set licenceProducts(value) {
         this.els.licenceProducts.innerHTML = "";

@@ -5,6 +5,7 @@ class HamburgerIcon extends SvgPlus {
         super(el);
     }
     onconnect() {
+        this.innerHTML = "";
         this.styles = {
             display: "content"
         }
@@ -23,14 +24,8 @@ class HamburgerIcon extends SvgPlus {
     }
 
 
-    onclick() {
-        this.animate_one();
-    }
-
-
-    async animate_one() {
-        this.direction = !this.direction;
-        // const t1 = 5;
+    async toggle(direction = true) {
+        this.direction = direction;
         const w = 3;
         let pointsF = (t, t1, top = false) => {
             let tt = top ? 24 : 8;
@@ -72,17 +67,12 @@ class HamburgerIcon extends SvgPlus {
             ]
             this.lines[1].setAttribute("d", "M"+points.join("L"));
 
-
             let t1 = t < t2point ? t/t2point : 1; 
             let t2 = t > t2point ? (t - t2point)/(1 - t2point) : 0;
             t2 = 1 - t2;
 
-
             t1 = t1 ** (this.direction ? 0.3 : 3);
             t2 = t2 ** (this.direction ? 3 : 0.3);
-
-            console.log(t1, t2, t3, t);
-            
 
             this.lines[0].setAttribute("d", pointsF(t1, 7*t2));
             this.lines[2].setAttribute("d", pointsF(t1, 7*t2, true));
@@ -90,28 +80,7 @@ class HamburgerIcon extends SvgPlus {
             await new Promise(resolve => setTimeout(resolve, 16.67));
         }
         
-        // this.waveTransition((t) => {
-            
-        // }, 800, this.direction)
-        // if (this.direction) {
-        //     await this.waveTransition((t) => {
-        //         this.lines[0].setAttribute("d", pointsF(t, 7));
-        //         this.lines[2].setAttribute("d", pointsF(t, 7, true));
-        //     }, 500, true)
-        //     await this.waveTransition((t) => {
-        //         this.lines[0].setAttribute("d", pointsF(1, t*7));
-        //         this.lines[2].setAttribute("d", pointsF(1, t*7, true));
-        //     }, 300, false)
-        // } else {
-        //     await this.waveTransition((t) => {
-        //         this.lines[0].setAttribute("d", pointsF(1, t*7));
-        //         this.lines[2].setAttribute("d", pointsF(1, t*7, true));
-        //     }, 300, true)
-        //     await this.waveTransition((t) => {
-        //         this.lines[0].setAttribute("d", pointsF(t, 7));
-        //         this.lines[2].setAttribute("d", pointsF(t, 7, true));
-        //     }, 500, false)
-        // }
+     
     }
 }
 
