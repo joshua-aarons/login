@@ -3,7 +3,7 @@ import { getHTMLTemplate, loadTemplates, useCSSStyle } from "../Utilities/templa
 import {} from "../Utilities/gradient-background.js"
 import { } from "../Utilities/hamburger-icon.js";
 // import { } from "../Utilities/gradient-model.js";
-// import { } from "../Utilities/carousel.js";
+import { } from "../Utilities/carousel.js";
 import { addAuthChangeListener, initialise, update } from "../Firebase/firebase-client.js";
 import { stopWatch, watch } from "../Firebase/user.js";
 import { ContactPage } from "./templates/contact-page.js";
