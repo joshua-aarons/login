@@ -29,6 +29,29 @@ export function isIpadOS() {
     /MacIntel/.test(navigator.platform);
 }
 
+export function getDeviceInfo() {
+  let os = "Unknown";
+  let mobile = false;
+
+  if (navigator.userAgentData) {
+    os = navigator.userAgentData.platform;
+    mobile = navigator.userAgentData.mobile;
+  } else {
+    const ua = navigator.userAgent.toLowerCase();
+    const platform = navigator.platform.toLowerCase();
+
+    if (platform.includes("win")) os = "Windows";
+    else if (platform.includes("mac")) os = "macOS";
+    else if (/android/.test(ua)) os = "Android";
+    else if (/iphone|ipad|ipod/.test(ua)) os = "iOS";
+    else if (/linux/.test(platform)) os = "Linux";
+
+    mobile = /android|iphone|ipad|ipod|mobile|touch/.test(ua);
+  }
+
+  return { os, mobile };
+}
+
 export function isExactSame(obj1, obj2) {
   if (typeof obj1 !== typeof obj2) return false;
   else if (typeof obj1 === "object") {

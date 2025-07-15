@@ -1,4 +1,5 @@
 import { SvgPlus } from "../SvgPlus/4.js";
+import { getDeviceInfo } from "./utils.js";
 
 
 export class MovingBlob {
@@ -115,10 +116,14 @@ const SQUARE_MESH = new Float32Array([
     1, -1,
     1, 1,
 ]);
+
+
+
+const MODE = getDeviceInfo().os == "Windows" ? "image" : "webgl"; // Use image mode for Windows to avoid WebGL issues
 class GradientBackground extends SvgPlus {
     _speed = 0.0;
 
-    mode = "image";
+    mode = MODE;
     // mode = 
 
     constructor(el) {
@@ -179,6 +184,9 @@ class GradientBackground extends SvgPlus {
                 if (gl) {
                     gl.viewport(0, 0, canvas.width, canvas.height);
                     gl.uniform2f(this.resolutionLocation, canvas.width, canvas.height);
+                    if (!this.rendering) {
+                        this.render();
+                    }
                 }
             }
         },
