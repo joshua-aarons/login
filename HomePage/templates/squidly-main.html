@@ -57,14 +57,14 @@
     <div class = "fcol">
         <div>
             <b>Legal</b>
-            <span>Privacy</span>
-            <span>Terms</span>
+            <span class = "clickable" onclick = "openPolicy('privacy')">Privacy</span>
+            <span class = "clickable" onclick = "openPolicy('terms-of-use')">Terms</span>
         </div>
     
         <div>
             <b>Contact</b>
             <span class = "clickable" onclick = "setPage('contact-page')">Contact us</span>
-            <span>Schedule a call</span>
+            <span class = "clickable" onclick = "scheduleCall()">Schedule a call</span>
             <span>+61 406 741 714</span>
         </div>
     
@@ -73,3 +73,5 @@
         </div>
     </div>
 </footer>
+
+<notifications-list></notifications-list>

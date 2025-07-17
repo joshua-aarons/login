@@ -4,6 +4,7 @@ import {} from "../Utilities/gradient-background.js"
 import { } from "../Utilities/hamburger-icon.js";
 import { } from "../Utilities/gradient-model.js";
 import { } from "../Utilities/carousel.js";
+import { } from "../Utilities/hover.js";
 import { addAuthChangeListener, get, initialise, update } from "../Firebase/firebase-client.js";
 import { stopWatch, watch } from "../Firebase/user.js";
 import { ContactPage } from "./templates/contact-page.js";
@@ -16,6 +17,12 @@ import { getProductInfo } from "../Firebase/licences.js";
 useCSSStyle("theme");
 useCSSStyle("squidly-main");
 
+window.scheduleCall = () => {
+    window.open("https://calendly.com/joshua-aarons71/30min?month=2025-07", "_blank");
+}
+window.openPolicy = (policy) => {
+    window.open(`https://policies.squidly.com.au/${policy}`, "_blank");
+}
 
 class MainPage extends UserDataComponent {
     constructor() {

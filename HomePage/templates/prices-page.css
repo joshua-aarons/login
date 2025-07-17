@@ -43,8 +43,13 @@ prices-page .card {
     height: 100%;
 }
 
-.faq .last-question .row-slider {
-    font-size: 0.6em;
+
+.faq .last-question .row {
+    gap: 1em;
+    flex-wrap: wrap;
+}
+.faq .last-question .row .btn {
+    font-size: 0.8em;
 }
 
 .faq .outline {

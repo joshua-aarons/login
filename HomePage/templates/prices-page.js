@@ -26,7 +26,7 @@ export class PricesPage extends UserDataComponent {
         lastInner.class = "card last-question";
         lastInner.createChild("h3", {class: "question", content: FAQ.lastQuestion.question});
         lastInner.createChild("p", {class: "answer", content: FAQ.lastQuestion.answer});
-        let r = lastInner.createChild("div", {class: "row-slider"});
+        let r = lastInner.createChild("div", {class: "row"});
         r.createChild("button", {
             class: "btn btn-primary", 
             content: FAQ.lastQuestion["purple-btn"],
@@ -36,7 +36,18 @@ export class PricesPage extends UserDataComponent {
                 }
             }
         });
-        r.createChild("button", {class: "btn btn-secondary", color: "gray", content: FAQ.lastQuestion["white-btn"]});
+        r.createChild("button", {
+            class: "btn btn-secondary",
+            color: "gray", 
+            content: FAQ.lastQuestion["white-btn"],
+            events: {
+                click: () => {
+                    window.scheduleCall();
+                }
+            }
+        });
+        lastInner.appendChild(r);
+        this.els.faq.appendChild(last);
         qas.push(last);
 
         let length = qas.length;

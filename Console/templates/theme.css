@@ -84,7 +84,7 @@ hover-panel {
 }
 
 i[hover] {
-    font-size: 0.6em;
+    font-size: 1rem;
     color: var(--color-info-dark);
 }
 

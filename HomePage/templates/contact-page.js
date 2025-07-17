@@ -17,6 +17,7 @@ export class ContactPage extends UserDataComponent {
             }
             return true;
         }
+        
         form.addEventListener("submit", (e) => {
             e.preventDefault();
             if (form.validate()) {
@@ -24,6 +25,7 @@ export class ContactPage extends UserDataComponent {
                 formData.users = parseInt(formData.users);              
                 set(push(ref("contact-messages")), formData);
                 form.reset();
+                showNotification(`Thanks ${formData.firstName} for reaching out!\nOur team will be in contact shortly.`, 3000, "success");
             }
         })
     }
