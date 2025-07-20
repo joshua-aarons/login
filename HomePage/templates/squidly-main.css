@@ -5,7 +5,8 @@ body {
     padding: 0;
     font-family: Arial, sans-serif;
     background-color: var(--color-background);
-     --font-min-size: 12px;
+    
+    --font-min-size: 12px;
     --font-max-size: 20px;
     --font-scale: 1.5vw;
 
@@ -16,6 +17,9 @@ body {
 
 main-page {
     display: block;
+    font-size: var(--font-size);
+
+
     --header-height: 1.7em;
     --header-margin: 0.8em;
     --header-padding: 0.5em;
@@ -28,7 +32,6 @@ main-page {
 
     --full-header-height: calc(var(--header-height) + var(--header-padding) * 2 + var(--header-margin));
     --card-outline: 2px solid #7f7f8329;
-    font-size: var(--font-size);
     font-family: 'Poppins', sans-serif;
 
 }
@@ -237,12 +240,15 @@ gradient-background {
     align-items: center;
 }
 
+gradient-background.hero {
+    height: calc(var(--inner-height) - var(--full-header-height) - 3 * var(--header-margin));
+}
 gradient-background.hero,
 gradient-background.smaller {
+    --top-padding: max(2em, var(--gradient-padding));
     margin: 0 var(--side-margin);
     border-radius: 2em;
-    height: calc(var(--inner-height) - var(--full-header-height) - 3 * var(--header-margin));
-    padding: var(--gradient-padding);
+    padding: var(--top-padding) var(--gradient-padding);
     gap: 1.5em;
 }
 
@@ -253,7 +259,8 @@ gradient-background.hero img {
 }
 gradient-background video {
     max-height: 100%;
-    max-width: calc(100% - 2 * var(--gradient-padding));
+    max-width: 100%;
+    border-radius: 1em;
 }
 
 gradient-background canvas,
@@ -284,6 +291,7 @@ gradient-background.hero h2 {
     text-align: center;
     font-weight: normal;
 }
+
 
 .btn {
     /* margin-top: 0.8em; */
@@ -391,8 +399,7 @@ trusted-companies {
     gap: var(--side-margin);
 }
 gradient-background.smaller {
-    height: calc(var(--inner-height) - var(--full-header-height) - 3 * var(--header-margin) - 4em);
-    padding-bottom: 0;
+    /* height: calc(var(--inner-height) - var(--full-header-height) - 3 * var(--header-margin) - 4em); */
     justify-content: flex-end;
 }
 
@@ -537,19 +544,27 @@ main-page form-plus {
     cursor: pointer;
 }
 @media (max-width: 650px) {
+    body {
+        --font-size-min: 13px;
+        --font-scale: 3vw;
+    }
     main-page {
         --side-margin: 1.5em;
         --gradient-padding: 0.5em;
     }
+
     .hide-for-phone {
         display: none;
     }
+
     .side-margin {
         margin: 0;
     }
 
     
-
+    gradient-background.hero {
+        height: unset;
+    }
     gradient-background.hero img {
         max-height: 35%;
     }

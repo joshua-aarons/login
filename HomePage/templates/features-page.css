@@ -8,6 +8,7 @@ feature-panel gradient-background {
     overflow: hidden;
     border-radius: 2em;
     gap: var(--gradient-padding);
+    border: var(--card-outline);
 }
 
 feature-panel gradient-background > div {
@@ -36,6 +37,10 @@ feature-panel .description {
     width: 40%;
 }
 
+.description h1 {
+    white-space: pre;
+}
+
 
 feature-panel .feature-rows {
     gap: 1em;
@@ -48,6 +53,43 @@ feature-panel .feature-cards .col {
     gap: 0.5em;
     margin: 0;
 }
+feature-panel .feature-cards > .card {
+    border: var(--card-outline);
+}
 
+@media (max-width: 650px) {
+    .feature-cards {
+        flex-direction: column;
+    }
 
-/* @media (max-width: 650px) { */
+    feature-panel gradient-background {
+        height: unset;
+    }
+
+    feature-panel gradient-background {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    feature-panel gradient-background > div {
+        width: 100%;
+        height: unset;
+    }
+    feature-panel .image {
+        width: 100%;
+        height: 47vw;
+    }
+    feature-panel .image img {
+        height: unset;
+        width: 100%;
+        object-fit: cover;
+        top: 0;
+    }
+
+    feature-panel .description {
+        width: 100%;
+        text-align: center;
+        padding: 0 var(--gradient-padding);
+        padding-top: var(--gradient-padding);
+    }
+}

@@ -20,6 +20,18 @@ export class HomePage extends UserDataComponent {
         });
 
         carousel.innerHTML = d.innerHTML; 
+
+        this.addEventListener("wheel", (e) => {
+            this.playVideo();
+        }, {passive: true});
+    }
+
+
+    playVideo() {
+        let videos = this.querySelectorAll("video");
+        for (let video of videos) {
+            video.play();
+        }
     }
 
 

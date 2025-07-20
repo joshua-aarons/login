@@ -118,89 +118,89 @@ export const FAQ = {
 export const TrustedCompanieLogos = [
     {
         alt: "Cerebral Palsy Alliance",
-        src: imgURL("cpa.png")
+        src: imgURL("companies/cpa.png")
     },
     {
         alt: "University of Sydney",
-        src: imgURL("usyd.png")
+        src: imgURL("companies/usyd.png")
     },
     {
         alt: "Australian Rehabilitation and Assistive Technology Association",
-        src: imgURL("arata.png")
+        src: imgURL("companies/arata.png")
     },
     {
         alt: "Royal Melbourne Institute of Technology",
-        src: imgURL("rmit.png")
+        src: imgURL("companies/rmit.png")
     },
     {
         alt: "Assistive Technology Suppliers Australia",
-        src: imgURL("atsa.png")
+        src: imgURL("companies/atsa.png")
     }
 ];
 export const Features = [
     {
-        "title": "Eye Gaze Control",
+        "title": "Eye Gaze\nControl",
         "text": "Powered by proprietary models, Squidly includes a powerful interactive webcam eye gaze option making it the only solution clinically verified that virtually connects people and enables remote eye gaze communication.",
         "image": imgURL("hero-image.png"),
         "children":  [
             {
                 "title": "Precise Tracking",
                 "text": "Immediate eye-gaze access without extra devices or software.",
-                "image": imgURL("precise.svg")
+                "image": imgURL("features/precise.svg")
             },
             {
                 "title": "Zero Touch Calibration",
                 "text": "Use Squidly instantly with no complicated setup or lengthy calibration.",
-                "image": imgURL("calibration.svg")
+                "image": imgURL("features/calibration.svg")
             },
             {
                 "title": "Integrated AAC Tools",
                 "text": "Effortlessly combine eye-gaze with built-in communication boards, quizzes and tools.",
-                "image": imgURL("quiz.svg")
+                "image": imgURL("features/settings-calibration.svg")
             } 
         ],
     },
     {
-        "title": "Universal Accessibility",
+        "title": "Universal\nAccessibility",
         "text": "Squidly ensures every session is inclusive, empowering meaningful interactions regardless of ability or communication method.",
-        "image": imgURL("hero-card-2-with-cursor.png"),
+        "image": imgURL("features/hero-card-2-with-cursor.png"),
         "children": [
             {
                 "title": "Switch Access Ready",
                 "text": "Navigate sessions indepently with built-in adaptive switch scanning controls.",
-                "image": imgURL("switch.svg")
+                "image": imgURL("features/switch.svg")
             },
             {
                 "title": "Enhanced Low-Vision Modes",
                 "text": "Clearly view sessions with high-contrast visuals and larger text.",
-                "image": imgURL("display-settings.svg")
+                "image": imgURL("features/settings-display.svg")
             },
             {
                 "title": "Easy Communication Boards",
                 "text": "Quickly personalise communication boards and quizzes for immediate, accessibly interactions. Share them with colleagues or the community.",
-                "image": imgURL("quiz-edit.png")
+                "image": imgURL("features/quiz-editor-2.png")
             },
             {
                 "title": "Simplified Navigation Layout",
                 "text": "Clear, intuitive navigation ensures easy use with minimal effort.",
-                "image":  imgURL("share.svg")
+                "image":  imgURL("features/share.svg")
             },
             {
                 "title": "AI Text-to-Speech",
                 "text": "Natural, clear and personalised voice models giving every user a voice.",
-                "image": imgURL("settings-sound.svg")
+                "image": imgURL("features/settings-sound.svg")
             },
             {
                 "title": "Smart Session Reports",
                 "text": "Automated, insightful session summaries highlighting progress and user engagement.",
-                "image": imgURL("test-results.png")
+                "image": imgURL("features/test-results.png")
             }
         ]
     },
     {
-        "title": "Privacy Built-in",
+        "title": "Privacy\nBuilt-in",
         "text": "Squidly priorities your privacy, meeting strict Australian security standards to protect every interaction and user data.",
-        "image": imgURL("privacy.png"),
+        "image": imgURL("features/privacy.png"),
         "children": [
             {
                 "title": "End-to-End Encryption",
