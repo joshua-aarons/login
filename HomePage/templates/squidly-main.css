@@ -553,6 +553,11 @@ main-page form-plus {
         --gradient-padding: 0.5em;
     }
 
+    form-plus .row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
     .hide-for-phone {
         display: none;
     }
