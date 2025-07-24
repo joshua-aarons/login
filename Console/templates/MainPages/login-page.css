@@ -225,6 +225,13 @@ login-page[mode = "forgot-password"] .form-container.forgot-password {
 }
 
 
+@media (max-width: 650px) {
+    input-plus  {
+        font-size: 16px;
+    }
+}
+
+
 login-page{
 
     --wclamp: clamp(500px, 100vw, 1000px);
