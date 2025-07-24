@@ -139,8 +139,16 @@ class MeetingDisplay extends DataComponent {
 
     async deleteMeeting(){
         this.toggleAttribute("loading", true);
-        if (this.value && this.value.sid) {
-            await deleteSession(this.value.sid);
+        if (this.value) {
+            try {
+                if (!await this.value.delete()) {
+                    throw "error"
+                }
+            } catch (e) {
+                console.log(e);
+                
+                showNotification("Failed to delete session.", 5000, "error");
+            }
         }
         this.close();
         this.toggleAttribute("loading", false);

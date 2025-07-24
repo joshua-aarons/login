@@ -7,7 +7,7 @@
  * 
  */
 
-import { callFunction, equalTo, get, onChildAdded, onChildRemoved, onValue, orderByChild, query, ref, set, update } from "./firebase-client.js";
+import { callFunction, equalTo, get, getUser, onChildAdded, onChildRemoved, onValue, orderByChild, query, ref, set, update } from "./firebase-client.js";
 /**
  * @typedef {Object} SessionHistory
  * @property {number} startTime - The session start time in milliseconds.
@@ -87,13 +87,11 @@ class Session {
 
     constructor(sid, session, isHistory = false) {
         if (oldMode) {
-            console.log(session);
-            
             if (!session.info) {
                 session.info = {duration: 5, description: "My Meeting", startTime: Date.now(), startDate: new Date().toISOString()};
             }
         }
-
+        
         if (typeof sid !== "string" || sid.length === 0) {
             throw new Error("Session ID must be a non-empty string");
         } else if (session === null || typeof session !== "object") {
@@ -125,6 +123,17 @@ class Session {
 
         let ds = new Date(this.startTime);
         this.date = `${ds.getDate()}/${ds.getMonth() + 1}/${ds.getFullYear()} ${ds.toLocaleTimeString("en", { timeStyle: "short" })}`;
+    }
+
+    async delete(){
+        if (this.isHistory) {
+            let uid = getUser().uid;
+            let r = ref(`users/${uid}/session-history/${this.sid}`);
+            await set(r, null);
+        } else {
+            await deleteSession(this.sid);
+        }
+        return true;
     }
 
     /**
@@ -227,6 +236,9 @@ let UID = null;
 export function watch(uid, allData, updateCallback) {
     UID = uid;
     let activeSID = null;
+    let sessionHistoryData = {};
+    let sessionsData = {};
+
     stopWatch();
 
     // If sessionsBySID does not exist, create it
@@ -238,6 +250,7 @@ export function watch(uid, allData, updateCallback) {
 
     // Create a sessions list and call the update callback
     let update = () => {
+        allData.sessionsBySID = {...sessionsData, ...sessionHistoryData};
         let sessions = Object.values(allData.sessionsBySID);
         sessions.sort((a, b) => b.compare(a));
         allData.sessions = sessions;
@@ -263,7 +276,8 @@ export function watch(uid, allData, updateCallback) {
                 } else {
                     sdata.active = false;
                 }
-                allData.sessionsBySID[sid] = sdata;
+                // allData.sessionsBySID[sid] = sdata;
+                sessionsData[sid] = sdata;
                 update();
             } catch (e) {}
         })
@@ -274,13 +288,13 @@ export function watch(uid, allData, updateCallback) {
         console.log("Active session ID:", activeSID);
         
         format();
+        // Set all sessions to inactive
+        for (let sid in allData.sessionsBySID) {
+            allData.sessionsBySID[sid].active = false
+        }
+
         if (activeSID && activeSID in allData.sessionsBySID) {
             allData.sessionsBySID[activeSID].active = true;
-        } else {
-            // Set all sessions to inactive
-            for (let sid in allData.sessionsBySID) {
-                allData.sessionsBySID[sid].active = false
-            }
         }
         update();
     });
@@ -289,10 +303,11 @@ export function watch(uid, allData, updateCallback) {
     watchers.sessionHistory = onValue(ref(`users/${uid}/session-history`), (snapshot) => {
         let sessionHistory = snapshot.val();
         format();
+        sessionHistoryData = {};
         for (let sid in sessionHistory) {
             try {    
                 let sdata = new Session(sid, sessionHistory[sid], true);
-                allData.sessionsBySID[sid] = sdata;
+                sessionHistoryData[sid] = sdata;
             } catch (e) {}
         }
         update();
@@ -312,8 +327,8 @@ export function watch(uid, allData, updateCallback) {
         let sid = snapshot.key;
         stopWatchSessionInfo(sid);
         format();
-        if (sid in allData.sessionsBySID) {
-            delete allData.sessionsBySID[sid];
+        if (sid in sessionsData) {
+            delete sessionsData[sid];
             update();
         }
     })
@@ -351,6 +366,7 @@ export async function createSession(sessionInfo) {
 }
 
 export async function deleteSession(sid) {
+    
     await callFunction("sessions-end", {sid:sid}, "australia-southeast1");
     // await set(ref(`users/${UID}/session-history`), null);
 }

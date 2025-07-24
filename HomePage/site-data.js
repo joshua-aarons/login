@@ -161,7 +161,7 @@ export const Features = [
         ],
     },
     {
-        "title": "Universal\nAccessibility",
+        "title": "Universal\nAccess",
         "text": "Squidly ensures every session is inclusive, empowering meaningful interactions regardless of ability or communication method.",
         "image": imgURL("features/hero-card-2-with-cursor.png"),
         "children": [

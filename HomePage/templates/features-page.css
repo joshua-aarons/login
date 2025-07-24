@@ -1,5 +1,5 @@
 feature-panel {
-    --height: calc(var(--inner-height) - var(--full-header-height) - 3 * var(--header-margin) - 13em);
+    --height: max(27em, calc(var(--inner-height) - var(--full-header-height) - 3 * var(--header-margin) - 10em));
 }
 feature-panel gradient-background {
     height: var(--height);
