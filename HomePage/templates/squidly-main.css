@@ -88,6 +88,10 @@ main-page[signed-in] .sign-in::after {
 }
 
 
+header [selected] {
+    text-decoration: underline;
+}
+
 header.card {
     display: flex;
     justify-content: space-between;

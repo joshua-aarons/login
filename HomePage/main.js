@@ -43,6 +43,10 @@ class MainPage extends UserDataComponent {
 
         this.page = RouteQuery.fromWindow("home-page");
 
+        window.openPage = (page) => {
+            this.setPage(page);
+        }
+
         document.addEventListener("scroll", (e) => {
             this.isScrolled = document.scrollingElement.scrollTop > 10;
             this.els.header.toggleAttribute("show-bg", this.isScrolled);
@@ -74,7 +78,10 @@ class MainPage extends UserDataComponent {
             this.els.main.appendChild(this.pages[query.location]);
             query.setLocation();
 
-           
+            for (let key in this.pages) {
+                this.els[key + "-btn-list"]?.toggleAttribute("selected", key === query.location);
+                this.els[key + "-btn"]?.toggleAttribute("selected", key === query.location);
+            }
         }
     }
 

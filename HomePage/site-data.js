@@ -171,14 +171,14 @@ export const Features = [
                 "image": imgURL("features/switch.svg")
             },
             {
+                "title": "Easy Communication Boards",
+                "text": "Quickly personalise communication boards and quizzes for immediate, accessibly interactions. ",
+                "image": imgURL("features/quiz-editor-3.png")
+            },
+            {
                 "title": "Enhanced Low-Vision Modes",
                 "text": "Clearly view sessions with high-contrast visuals and larger text.",
                 "image": imgURL("features/settings-display.svg")
-            },
-            {
-                "title": "Easy Communication Boards",
-                "text": "Quickly personalise communication boards and quizzes for immediate, accessibly interactions. Share them with colleagues or the community.",
-                "image": imgURL("features/quiz-editor-2.png")
             },
             {
                 "title": "Simplified Navigation Layout",
