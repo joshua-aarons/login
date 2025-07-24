@@ -263,7 +263,7 @@ gradient-background.hero img {
 gradient-background video {
     max-height: 100%;
     max-width: 100%;
-    border-radius: 1em;
+    border-radius: calc(0.01 * (100vw - 4 * var(--side-margin) - 2 * var(--gradient-padding)));
 }
 
 gradient-background canvas,
@@ -627,6 +627,10 @@ main-page form-plus {
 
     .hero {
         justify-content: space-evenly;
+    }
+
+    gradient-background video {
+        border-radius: calc(0.01 * (100vw - 4 * var(--side-margin) - 2 * var(--gradient-padding)));
     }
 
 }
