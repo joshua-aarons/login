@@ -172,7 +172,7 @@ export const Features = [
             },
             {
                 "title": "Easy Communication Boards",
-                "text": "Quickly personalise communication boards and quizzes for immediate, accessibly interactions. ",
+                "text": "Quickly personalise communication boards and quizzes for immediate, accessible interactions. ",
                 "image": imgURL("features/quiz-editor-3.png")
             },
             {

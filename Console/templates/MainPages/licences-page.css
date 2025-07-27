@@ -22,7 +22,9 @@ main > licences-page.active {
     display: flex;
 }
 
-
+licence-product-card h1.price {
+    color: var(--color-dark);
+}
 licences-page .card {
     margin: 0;
 }

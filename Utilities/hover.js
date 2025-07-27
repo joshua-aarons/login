@@ -46,16 +46,23 @@ class HoverPanel extends SvgPlus{
 
 }
 
-const config = {childList: true, subTree: true}
+const config = {childList: true, subtree: true}
 
+
+let scheduledUpdate = false;
 const onUpdate = (mutations) => {
-    let hoverIcons = document.querySelectorAll('[hover]')
-    for (let icon of hoverIcons){
-        if (!icon.hoverSet){
-            icon.hoverSet = true
-            addHoverListener(icon)
+    if (scheduledUpdate) return;
+    scheduledUpdate = true;
+    window.requestAnimationFrame(() => {
+        let hoverIcons = document.querySelectorAll('[hover]')
+        for (let icon of hoverIcons){
+            if (!icon.hoverSet){
+                icon.hoverSet = true
+                addHoverListener(icon)
+            }
         }
-    }
+        scheduledUpdate = false;
+    })
 }
 
 let x = -10
