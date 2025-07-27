@@ -109,8 +109,6 @@ export class LicenceProductCard extends DataComponent {
             })
         })
 
-        console.log("created options");
-        
         features.innerHTML = "";
         features.forEach(feature => {
             let li = document.createElement("li");
@@ -145,19 +143,17 @@ class LicencesPage extends UserDataComponent {
 
     close() {
         this.els.stripeMountPopup.classList.remove("open")
-
     }
 
     set params(value) {
-        if (Array.isArray(value) && value.length > 0) {
-            if (!this._ready) {
-                this._params = value;
-            } else {
-                if (value.length == 1) {
-                    this.openBillingFromClientSecret(value[0])
-                }
+        if (this._ready && typeof value === "object" && value != null) {
+            if ("clientSecret" in value) {
+                this.openBillingFromClientSecret(value.clientSecret);
+            } else if ("productID" in value) {
+                this.openBilling(value.productID, value.priceIndex, value.seats);
             }
         }
+        this._params = value;
     }
 
     set licenceProducts(value) {
@@ -214,6 +210,7 @@ class LicencesPage extends UserDataComponent {
     onvalue(value) {
         const {licencesList} = this.els;
         licencesList.innerHTML = "";
+        
         let noLicence = true;
         if (value.licences) {
             const {licences} = value;

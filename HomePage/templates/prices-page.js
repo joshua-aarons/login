@@ -1,7 +1,28 @@
 import { SvgPlus, UserDataComponent } from "../../../Utilities/CustomComponent.js";
 import { LicenceProductCard } from "../../Console/templates/MainPages/licences-page.js";
+import { RouteQuery } from "../../Utilities/router.js";
 import { getHTMLTemplate, useCSSStyle } from "../../Utilities/template.js";
 import { FAQ } from "../site-data.js";
+
+
+class LicenceProductCardLink extends LicenceProductCard {
+   async openBilling() {
+        const {value: {prices, id}, els: {submit, period, seats}, licencePage} = this;
+
+        let data = {
+            productID: id,
+            priceIndex: parseInt(period.value),
+            seats: parseInt(seats.value),
+        }
+
+        let hashURL = new RouteQuery("licences-page", data);
+        hashURL.setLocation("Console");
+    }
+   
+}
+
+
+
 
 useCSSStyle("prices-page");
 export class PricesPage extends UserDataComponent {
@@ -67,9 +88,10 @@ export class PricesPage extends UserDataComponent {
         const {productsList} = this.els;
         
         if (data?.productInfo?.tierInfo) {
+            productsList.innerHTML = "";
             const {tierInfo} = data.productInfo;
             for (let tier in tierInfo) {
-                productsList.appendChild(new LicenceProductCard(tierInfo[tier]));
+                productsList.appendChild(new LicenceProductCardLink(tierInfo[tier]));
             }
         }
     }

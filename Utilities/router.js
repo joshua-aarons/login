@@ -7,17 +7,35 @@ export class RouteQuery {
         }
         this.params = params;
     }
-
+ 
     get paramsString() {
-        return this.params.length > 0 ? "?" + this.params.join("&") : "";
+        let keys = Object.keys(this.params);
+
+        if (keys.length > 0) {
+            return "?" + keys.map(key => {
+                return encodeURIComponent(key) + "=" + encodeURIComponent(this.params[key]);
+            }).join("&");
+        } else {
+            return "";
+        }
     }
 
     toString() {
-        return "#" + this.location + this.paramsString;
+        return `#${encodeURIComponent(this.location)}${this.paramsString}`;
     }
 
-    setLocation() {
-        window.location.hash = this + "";
+
+    getFullURL(urlPath) {
+        let url = `${window.origin}/${urlPath}/${this}`;
+        return url;
+    }
+
+    setLocation(location) {
+        if (location) {
+            window.location = this.getFullURL(location);
+        } else {
+            window.location.hash = this + "";
+        }
     }
 
     static parse(arg1, arg2) {
@@ -31,10 +49,26 @@ export class RouteQuery {
     }
         
     static parseHashString(str, defaultPath) {
-        let hash = str.replace(/^#/, "");
-        let params = hash.split("?"); // Remove query parameters if any
-        hash = params.shift();
-        if (hash.length == 0) hash = defaultPath;
+        str = str.replace(/^#/, "");
+
+        let [hash, paramStr] = str.split("?"); // Remove query parameters if any
+        if (!hash || hash.length == 0) {
+            hash = defaultPath;
+        } else {
+            hash = decodeURIComponent(hash);
+        }
+
+        let params = {}
+        if (paramStr && paramStr.length > 0) {
+             [...paramStr.matchAll(/([^=&]+)=([^&]+)/g)].forEach(([_, key, value]) => {
+                key = decodeURIComponent(key);
+                value = decodeURIComponent(value);
+                if (key.length > 0) {
+                    params[key] = value;
+                }
+            })
+        }
+
         return new RouteQuery(hash, params);
     }
 
