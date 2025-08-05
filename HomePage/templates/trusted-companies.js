@@ -8,7 +8,7 @@ class TrustedCompanies extends SvgPlus {
     }
     onconnect() {
         this.innerHTML = "";
-        this.createChild("div", {class: "text-1", style: {"text-align": "center"}, content: "Trusted by proffessionals at"});
+        this.createChild("div", {class: "text-1", style: {"text-align": "center"}, content: "Trusted by professionals at"});
         let logos = this.createChild("div", {class: "company-logos"})
         TrustedCompanieLogos.map((logo) => {
             logos.createChild("img", {src: logo.src, alt: logo.alt});
