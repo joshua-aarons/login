@@ -98,7 +98,6 @@ export class AppView extends UserDataComponent {
         if (meeting) {
             this.els.meetingScheduler.value = meeting;
         }
-        console.log(meeting);
         this.els.meetingSchedulerPopup.classList.add("open")
     }
 
@@ -117,8 +116,13 @@ export class AppView extends UserDataComponent {
     }
 
     async hostMeeting(){
-        let session = await createSession("empty");
-        window.open(window.location.origin + `/V3/?${session.sid}`);
+        try {
+            let session = await createSession("empty");
+            window.open(window.location.origin + `/V3/?${session.sid}`);
+        } catch (e) {
+            console.warn("Failed to create session: ", e);
+            window.showNotification("You will need a licence to host meetings.", 5000, "error");
+        }
     }
 
     displayMeeting(meeting){

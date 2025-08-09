@@ -349,13 +349,11 @@ export async function createSession(sessionInfo) {
         throw new Error("Session info must be a non-null object");
     }
 
-    
     let res = await callFunction("sessions-create", sessionInfo, "australia-southeast1");
-    
     let {sid, errors} = res.data
     if (errors.length > 0) {
-        console.log(errors);
         sid = null
+        throw new Error("Failed to create session: " + errors.join(", "));
     } else {
         await update(ref(`sessions-v3/${sid}/info`), sessionInfo)
     }

@@ -541,6 +541,12 @@ export class ShadowElement extends SvgPlus {
     get root() {return this._root;}
 }
 
+export class UserDataShadowElement extends ShadowElement {
+    constructor(el, name = el) {
+        super(el, name);
+        DATA_COMPONENTS.push(this);
+    }
+}
 
 
 

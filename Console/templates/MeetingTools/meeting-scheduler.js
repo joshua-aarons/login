@@ -78,16 +78,21 @@ class MeetingScheduler extends CustomForm {
             sessionInfo.startTime = new Date(sessionInfo.startDate).getTime();
             
             this.loading = true;
-            let session = null;
-            if (sid == null) {
-                session = await createSession(sessionInfo);
-            } else {
-                session = await updateSession(sid, sessionInfo);
+            try {
+                let session = null;
+                if (sid == null) {
+                    session = await createSession(sessionInfo);
+                } else {
+                    session = await updateSession(sid, sessionInfo);
+                }
+                this.appView.displayMeeting(session);
+                this.parentNode.classList.remove("open");
+                this.value = "";
+            } catch (e) {
+                window.showNotification("You will need a licence to schedule meetings.", 5000, "error");
+                console.warn(e);
             }
-            this.appView.displayMeeting(session);
-            this.parentNode.classList.remove("open");
             this.loading = false;
-            this.value = "";
         }
     }
 
