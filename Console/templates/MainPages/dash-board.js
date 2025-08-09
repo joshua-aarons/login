@@ -138,39 +138,49 @@ class DashBoard extends UserDataComponent {
             if (sessions.length > 0) noSessions = false;
 
             // Get the current quarter start and end date
-            let today = new Date()
-            let before = new Date()
-            let m1 = Math.floor(today.getMonth() / 3) * 3;
-            before.setMonth(m1)
-            before.setDate(1);
-            before.setHours(0);
-            before.setMinutes(0);
-            today = new Date(before+"");
-            today.setMonth(m1 + 3);
+            let qStart = new Date()
+            let m1 = Math.floor(qStart.getMonth() / 3) * 3;
+            qStart.setMonth(m1)
+            qStart.setDate(1);
+            qStart.setHours(0);
+            qStart.setMinutes(0);
+
+            let qEnd = new Date(qStart+"");
+            qEnd.setMonth(m1 + 3);
             
-            let sessionsByDay = [];
-            let currentTime = time(before); // start from the next day after the first day of the quarter
-            let endTime = time(today) + 1000 * 60 * 60 * 24; // end at the last day of the quarter
+            // Ensure sessions are sorted by time
+            sessions.sort((a, b) => a.time - b.time);
 
-            sessions.filter(a => a.time > currentTime && a.time < endTime ).sort((a, b) => a.time - b.time);
+            let getDay = (time) =>  Math.round(time / (1000 * 60 * 60 * 24));
 
-
-            while (currentTime <= endTime && sessions.length > 0) {
-                let day = [];
-                day.time = currentTime;
-                while (sessions.length > 0 && sessions[0].time < currentTime) {
-                    day.push(sessions.shift());
+            // Create a map of sessions by day
+            let sessionsByDay = {};
+            for (let session of sessions) {
+                let day = getDay(session.time);
+                if (!sessionsByDay[day]) {
+                    sessionsByDay[day] = [];
                 }
-                currentTime += 1000 * 60 * 60 * 24;
-                sessionsByDay.push(day);
+                sessionsByDay[day].push(session);
             }
 
-            let s1 = cumsum(sessionsByDay.map(day => day.reduce((sum, session) => sum + session.duration, 0)));
-            let s2 = cumsum(sessionsByDay.map(day => day.length));
-            let xlabel = sessionsByDay.map(day => day.time);
+            // Compute cumulative minutes and sessions per day
+            let sessionCountPerDay = [];
+            let sessionDurationPerDay = [];
+            let labels = [];
+            let lastCount = 0;
+            let lastDuration = 0;
+            for (let day = getDay(qStart); day <= getDay(qEnd); day++) {
+                if (sessionsByDay[day]) {
+                    let sessionsToday = sessionsByDay[day];
+                    lastCount += sessionsToday.length;
+                    lastDuration += sessionsToday.reduce((sum, session) => sum + session.duration, 0);
+                } 
+                sessionCountPerDay.push(lastCount);
+                sessionDurationPerDay.push(lastDuration);
+                labels.push(day * 24 * 60 * 60 * 1000); // Convert day to timestamp
+            }
 
-
-            let options = apexChartsOptions(s1, s2, xlabel);
+            let options = apexChartsOptions(sessionCountPerDay, sessionDurationPerDay, labels);
 
             if (this.chart)
                 this.chart.updateOptions(options)
