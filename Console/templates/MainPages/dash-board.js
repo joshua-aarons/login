@@ -180,7 +180,7 @@ class DashBoard extends UserDataComponent {
                 labels.push(day * 24 * 60 * 60 * 1000); // Convert day to timestamp
             }
 
-            let options = apexChartsOptions(sessionCountPerDay, sessionDurationPerDay, labels);
+            let options = apexChartsOptions(sessionDurationPerDay, sessionCountPerDay, labels);
 
             if (this.chart)
                 this.chart.updateOptions(options)
