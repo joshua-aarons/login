@@ -41,6 +41,13 @@ export async function watch(uid, allData, update) {
     let updateCallback = () => {
         allData.licences = Object.values(licencesByID || {});
         allData.isAdmin = allData.licences.filter(licence => licence.editor).length > 0;
+        const tierCounts = {};
+        allData.licences.forEach(l => {
+            if (l.tier > 0 && !l.disabled ) {
+               tierCounts[l.tierName] = (tierCounts[l.tierName] || 0) + 1; 
+            }
+        });
+        allData.allTiersTitle = Object.keys(tierCounts).map(tier => `${tierCounts[tier]} x ${tier}`).join(", ");
         update();
     }
     let updateLicence = (lid, data, key) => {
@@ -56,6 +63,7 @@ export async function watch(uid, allData, update) {
                     licencesByID[lid][k] = data[k];
                 }
             }
+            
         }
     }
 

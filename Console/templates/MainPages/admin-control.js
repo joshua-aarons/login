@@ -146,8 +146,6 @@ class AdminControl extends UserDataComponent {
         if (return_url.endsWith("/")) {
             return_url = return_url.slice(0, -1);
         }
-        console.log(`Opening billing portal for licence ID: ${this.selectedLicenceID} with return URL: ${return_url}`);
-        
         this.els.openBillingButton.classList.add("disabled");
         await openBillingPortal(this.selectedLicenceID, return_url);
         this.els.openBillingButton.classList.remove("disabled");
@@ -208,10 +206,8 @@ class AdminControl extends UserDataComponent {
     updateLicenceSelectionList(licences) {
         let select = this.els.licenceSelect;
         select.innerHTML = "";
-        console.log(licences);
-        
         licences.forEach(licence => {
-            if (licence.editor) {
+            if (licence.editor && !licence.disabled) {
                 let option = new SvgPlus("option");
                 option.props = {
                     value: licence.id,
