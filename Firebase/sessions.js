@@ -370,7 +370,11 @@ export async function deleteSession(sid) {
 }
 
 export async function updateSession(sid, sessionInfo) {
-    await update(ref(`sessions-v3/${sid}/info`), sessionInfo);
+    try {
+        await update(ref(`sessions-v3/${sid}/info`), sessionInfo);
+    } catch (e) {
+        throw "Can't update past sessions";
+    }
 
     return new Session(sid, {
         info: sessionInfo,

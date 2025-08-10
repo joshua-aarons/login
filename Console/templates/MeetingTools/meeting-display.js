@@ -132,6 +132,9 @@ class MeetingDisplay extends DataComponent {
         }
     }
 
+    onvalue(value) {
+        this.toggleAttribute("complete", value.status === "complete");
+    }
 
     close() {
         this.parentNode.classList.remove('open')

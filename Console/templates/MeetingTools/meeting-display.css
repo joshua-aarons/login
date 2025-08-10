@@ -113,3 +113,8 @@ meeting-display[loading]{
     pointer-events: none;
     opacity: 0.5;
 }
+
+meeting-display[complete] .edit-btn {
+    pointer-events: none;
+    opacity: 0.5;
+}
