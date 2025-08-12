@@ -71,18 +71,19 @@ export async function watch(uid, allData, update) {
     // Stop all previous watchers
     stopWatch();
 
-    let [usageTemplate, tierSettings, tierInfo] = await Promise.all([
+    let [tierNames, usageTemplate, tierSettings, tierInfo] = await Promise.all([
+        (await get(ref(`licences-settings/tier-names`))).val(),
         (await get(ref(`licences-settings/usage-template`))).val(),
         (await get(ref(`licences-settings/tier-usage`))).val(),
         (await get(query(ref(`licences-settings/tier-info`), orderByChild("public"), equalTo(true)))).val()
     ]);
 
     allData.licenceProducts = tierInfo || {};
-    const tierNames = {};
-    for (let prod in tierInfo) {
-        let licence = tierInfo[prod];
-        tierNames[licence.tierID] = licence.name || `Tier ${tier}`;
-    }
+    // const tierNames = {};
+    // for (let prod in tierInfo) {
+    //     let licence = tierInfo[prod];
+    //     tierNames[licence.tierID] = licence.name || `Tier ${tier}`;
+    // }
 
     
     // Initialize allData with empty usage
