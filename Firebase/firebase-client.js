@@ -206,7 +206,7 @@ export async function signInWithEmailAndPassword(email, password){
     return await signInEandP(Auth, email, password)
 }
 
-export async function sendEmailVerification(url = window.location.origin){
+export async function sendEmailVerification(url = window.location + "") {
     // Send email verification
     if (User) {
         const actionCodeSettings = {
@@ -219,7 +219,7 @@ export async function sendEmailVerification(url = window.location.origin){
 
 export async function sendPasswordResetEmail(email){
     await sendPRE(Auth, email, {
-        url: window.location.origin,
+        url: window.location + "",
         handleCodeInApp: true
     })
 }
