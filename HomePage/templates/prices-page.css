@@ -19,6 +19,9 @@ prices-page .call-to-action::after {
     content: "Get " attr(licence-name);
     text-transform: capitalize;
 }
+prices-page .call-to-action[name ="signup"]::after {
+    content: "Sign up";
+}
 
 prices-page .card[emphasise] {
     border: 2px solid var(--color-danger);

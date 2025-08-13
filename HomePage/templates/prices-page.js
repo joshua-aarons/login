@@ -88,7 +88,20 @@ export class PricesPage extends UserDataComponent {
         const {productsList} = this.els;
         
         if (data?.productInfo?.tierInfo) {
-            productsList.innerHTML = "";
+            productsList.innerHTML = `<licence-product-card class="card col c-align">
+                <div class="col c-align">
+                    <h2>Squidly Hobby</h2>
+                    <h1 class="price"><b>Free</b></h1>
+                    <ul class="feature-list">
+                        <li>Limited meeting minutes</li>
+                        <li>Limited quiz and grid editor requests</li>
+                    </ul>
+                </div>
+                <div class="col c-align">
+                    <button name="signup" class = "btn call-to-action"></button>
+                    <small class="trial">7 day free trial.</small>
+                </div>
+            </licence-product-card>`;
             const {tierInfo} = data.productInfo;
             for (let tier in tierInfo) {
                 productsList.appendChild(new LicenceProductCardLink(tierInfo[tier]));
