@@ -99,6 +99,7 @@ export class PricesPage extends UserDataComponent {
                 </div>
                 <div class="col c-align">
                     <button onclick = "window.open('/Console')" name="signup" class = "btn call-to-action"></button>
+                    <small class="trial" style = "color: #fff0"> a</small>
                 </div>
             </licence-product-card>`;
             const {tierInfo} = data.productInfo;
