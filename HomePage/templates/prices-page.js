@@ -98,7 +98,7 @@ export class PricesPage extends UserDataComponent {
                     </ul>
                 </div>
                 <div class="col c-align">
-                    <button name="signup" class = "btn call-to-action"></button>
+                    <button onclick = "window.open('/Console')" name="signup" class = "btn call-to-action"></button>
                     <small class="trial">7 day free trial.</small>
                 </div>
             </licence-product-card>`;
