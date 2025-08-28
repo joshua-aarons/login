@@ -79,8 +79,6 @@ export async function signin(type, info) {
     }
 }
 
-
-
 export async function sendForgotPasswordEmail(email) {
     await sendPasswordResetEmail(email)
 }

@@ -90,7 +90,7 @@ export class PricesPage extends UserDataComponent {
         if (data?.productInfo?.tierInfo) {
             productsList.innerHTML = `<licence-product-card class="card col c-align">
                 <div class="col c-align">
-                    <h2>Squidly Hobby</h2>
+                    <h2>Squidly hobby</h2>
                     <h1 class="price"><b>Free</b></h1>
                     <ul class="feature-list">
                         <li>Limited meeting minutes</li>
