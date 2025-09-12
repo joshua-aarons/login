@@ -343,6 +343,85 @@ class OptionSlider extends SvgPlus {
 
 }
 
+
+class OtpInput extends SvgPlus {
+    constructor(el = "opt-input") {
+        super(el);
+        this.inputs = [];
+    }
+
+    set length(length) {
+        length = parseInt(length);
+        if (isNaN(length)) length = 6;
+        let dir = 1;
+        for (let i = this.inputs.length; i < length; i++) {
+            let next = () => {
+                let nextI = i + dir;
+                if (nextI < 0) nextI = 0;
+                if (nextI >= this.inputs.length) nextI = this.inputs.length - 1;
+                this.inputs[nextI].focus();
+                this.inputs[nextI].select();
+            }
+            let input = this.createChild("input", {
+                name: "otp-" + (i+1),
+                maxlength: 1,
+                autocomplete: "off",
+                events: {
+                    paste: (e) => {
+                        e.preventDefault();
+                        let paste = (e.clipboardData || window.clipboardData).getData('text');
+                        this.value = paste;
+                        input.blur();
+                    },
+                    keydown: (e) => {
+                        if (!e.ctrlKey && !e.metaKey && !e.altKey) {                       
+                            if (this.getAttribute("type") == "number" && e.key.length == 1 && !e.key.match(/[0-9]/)) {
+                                e.preventDefault();
+                            } else {
+                                dir = (e.key == "Backspace" || e.key == "Delete" || e.key == "ArrowLeft") ? -1 : 1;
+                                let isArrow = (e.key == "ArrowLeft" || e.key == "ArrowRight");
+                                if ((input.value == "" && dir == -1) || isArrow) {
+                                    next();
+                                    e.preventDefault();
+                                }
+                            }
+                        }
+                    },
+                    keyup: (e) => {
+                        if (this.getAttribute("type") == "number" && e.key.length == 1 && !e.key.match(/[0-9]/)) {
+                            e.preventDefault();
+                        } else {
+                           
+                        }
+                    },
+                    input: (e) => {
+                        next();
+                    },
+                    click: (e) => {
+                        input.select();
+                    }
+                }
+            })
+            this.inputs.push(input);
+        }
+    }
+
+    get value() {
+        return this.inputs.map(input => input.value).join("");
+    }
+
+    set value(value) {
+        this.inputs.forEach((input, i) => {
+            input.value = value[i] || "";
+        });
+    }
+
+    static get observedAttributes() {
+        return ["value", "length", "placeholder"];
+    }
+}
+
 SvgPlus.defineHTMLElement(OptionSlider);
 SvgPlus.defineHTMLElement(InputPlus);
 SvgPlus.defineHTMLElement(ProgressChart);
+SvgPlus.defineHTMLElement(OtpInput);

@@ -1,235 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-/* 
-  *{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-.tick {
-    font-size: 2.4em;
-    color: var(--color-success);
-}
-
-.row {
-    width: 100%;
-}
-
-login-page .col {
-    gap: 1.3rem;
-    align-items: center;
-}
-
-
-login-page img{
-    display: block;
-    width: calc(5vmax + 5vmin);
-    padding: 1rem;
-    filter: brightness(0) invert(1);
-}
-
-
-
-
-login-page .container p{
-    font-size: 1rem;
-    line-height: 1.5rem;
-    letter-spacing: 0.3px;
-    margin: 1.25rem 0;
-}
-
-login-page .container span{
-    font-size: 1rem;
-}
-
-login-page .container a{
-    color: #333;
-    font-size: 1rem;
-    text-decoration: none;
-    margin: 1.2rem 0 0.8rem;
-}
-
-login-page button{
-    background-color: #512da8;
-    color: #fff;
-    font-size: 1rem;
-    padding: 0.8rem 3rem;
-    border: 1px solid transparent;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    letter-spacing: 0.1rem;
-    text-transform: uppercase;
-    margin-top: 0.8rem;
-    cursor: pointer;
-    white-space: pre;
-}
-
-login-page .container button.hidden{
-    background-color: transparent;
-    border-color: #fff;
-}
-
-login-page .container .form{
-    background-color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 0 40px;
-    height: 100%;
-}
-
-
-
-.form-container{
-    position: absolute;
-    top: 0;
-    height: 100%;
-    transition: all 0.6s ease-in-out;
-}
-
-
-
-.sign-in{
-    left: 0;
-    width: var(--fcw);
-    z-index: 2;
-}
-
-login-page.active .sign-in{
-    transform: translateX(var(--tw));
-}
-
-.sign-up{
-    left: 0;
-    width: var(--fcw);
-    opacity: 0;
-    z-index: -1;
-}
-
-login-page.active .sign-up{
-    transform: translateX(var(--tw));
-    opacity: 1;
-    z-index: 5;
-    animation: move 0.6s;
-}
-
-@keyframes move{
-    0%, 49.99%{
-        opacity: 0;
-        z-index: 1;
-    }
-    50%, 100%{
-        opacity: 1;
-        z-index: 5;
-    }
-}
-
-login-page .social-icons{
-    margin: 20px 0;
-}
-
-login-page .social-icons a{
-    border: 1px solid #ccc;
-    border-radius: 20%;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 3px;
-    width: 40px;
-    height: 40px;
-}
-
-.toggle-container{
-    position: absolute;
-    top: 0;
-    left: var(--fcw);
-    width: var(--tw);
-    height: 100%;
-    overflow: hidden;
-    transition: all 0.6s ease-in-out;
-    border-radius: 150px 0 0 100px;
-    z-index: 50;
-}
-
-login-page.active .toggle-container{
-    transform: translateX(calc(-1 * var(--fcw)));
-    border-radius: 0 150px 100px 0;
-}
-
-.toggle{
-    background-color: #512da8;
-    height: 100%;
-    background: linear-gradient(to right, #5c6bc0, #512da8);
-    color: #fff;
-    position: relative;
-    left: -100%;
-    height: 100%;
-    width: 200%;
-    transform: translateX(0);
-    transition: all 0.6s ease-in-out;
-}
-
-login-page.active .toggle{
-    transform: translateX(50%);
-}
-
-.toggle-panel{
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 0 30px;
-    text-align: center;
-    top: 0;
-    transform: translateX(0);
-    transition: all 0.6s ease-in-out;
-}
-
-.toggle-left{
-    transform: translateX(-200%);
-}
-
-login-page.active .toggle-left{
-    transform: translateX(0);
-}
-
-.toggle-right{
-    right: 0;
-    transform: translateX(0);
-}
-
-login-page.active .toggle-right{
-    transform: translateX(200%);
-}
-*/
-login-page .form-container {
-    display: none;
-    flex-direction: column;
-}
-
-
-login-page[mode = "sign-in"] .form-container.sign-in {
-    display: unset;
-}
-
-login-page[mode = "sign-up"] .form-container.sign-up {
-    display: unset;
-}
-login-page[mode = "forgot-password"] .form-container.forgot-password {
-    display: unset;
-}
-
-
-@media (max-width: 650px) {
-    input-plus  {
-        font-size: 16px;
-    }
-}
 
 
 login-page{
@@ -264,6 +33,53 @@ login-page .container{
     position: relative;
     width: var(--fw);
 }
+
+login-page .form-container {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding: 2em;
+}
+    
+login-page:not([loading]) .overlay {
+    display: none;
+}
+login-page .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #dcc0f7a3;
+    border: 2px solid #c090f1;
+    border-radius: 30px;
+    z-index: 100000;
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* login-page .form-container.otp-verify {
+    display: flex;
+}
+
+login-page[mode = "sign-up"] .form-container.sign-up {
+    display: none;
+}
+login-page[mode = "forgot-password"] .form-container.forgot-password {
+    display: none;
+} */
+
+
+@media (max-width: 650px) {
+    input-plus  {
+        font-size: 16px;
+    }
+}
+
+
 
 login-page .form  {
     display: flex;
@@ -310,15 +126,82 @@ login-page squidly-loader {
 #error-message.error-shown {
     display: block;
 }
+
+
+.with-btn {
+    --p: 1.5em;
+    background: var(--input-bg);
+    border-radius: 20px;
+    padding: var(--p);
+    font-size: 0.95em;
+    line-height: 1.3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding-left: calc(var(--p) + var(--i-size));
+    border: 2px solid transparent;
+    transition: 0.1s ease-in-out border-color;
+    --i-size: 2em;
+}
+.with-btn:hover {
+    background: var(--input-bg-hover);
+    cursor: pointer;
+}
+.with-btn:active {
+   border-color: var(--color-primary);
+
+}
+.with-btn::before {
+    position: absolute;
+    left: calc(2px + (var(--p) * 2 + 1.3em - var(--i-size)) / 2);
+    top: 50%;
+    transform: translateY(-50%);
+    height: var(--i-size);
+    width: var(--i-size);
+    content: "";
+}
+
+
+.google::before {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="%234285f4" d="M386 400c45-42 65-112 53-179H260v74h102c-4 24-18 44-38 57z"></path><path fill="%2334a853" d="M90 341a192 192 0 0 0 296 59l-62-48c-53 35-141 22-171-60z"></path><path fill="%23fbbc02" d="M153 292c-8-25-8-48 0-73l-63-49c-23 46-30 111 0 171z"></path><path fill="%23ea4335" d="M153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55z"></path></svg>')
+}
+
+.microsoft::before {
+    background-image: url('data:image/svg+xml,<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path fill="%23f24f21" d="M4 4h10.7v10.7H4z"></path><path fill="%237fb900" d="M17.3 4H28v10.7H17.3z"></path><path fill="%2300a3ee" d="M4 17.3h10.7V28H4z"></path><path fill="%23ffb900" d="M17.3 17.3H28V28H17.3z"></path></svg>');
+} 
+
+
+.otp-verify[count-down] .otp-resend-code {
+    display: none;
+}
+.otp-verify:not([count-down]) .otp-resend {
+    display: none;
+}
+
+.error-message {
+    color: rgb(172, 14, 14);
+    font-size: 0.9em;
+}
+.error-message:empty {
+    display: none;
+}
+
+.hide {
+    display: none !important;
+}
 /* 
-login-page[forgot-password] .form[name = 'signinForm'] {
-    display: none;
-}
+.opt-input {
+    display: flex;
+    font-size: 2.5em;
+    font-family: monospace;
+    --leter-spacing: 0.4em;
+    --letter-size: calc(0.6em + var(--leter-spacing));
+    --num-chars: 6;
+    letter-spacing: var(--leter-spacing)
 
-login-page:not([forgot-password='1']) .form[name = 'forgotPasswordForm1'] {
-    display: none;
 }
-
-login-page:not([forgot-password='2']) .form[name = 'forgotPasswordForm2'] {
-    display: none;
+.opt-input input {
+    letter-spacing: var(--leter-spacing);
+    width: calc(var(--num-chars) * var(--letter-size));
 } */

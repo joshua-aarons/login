@@ -1,71 +1,76 @@
 <div class="container">
     <squidly-loader></squidly-loader>
 
-    <div class="form-container sign-up">
-        <form-plus name = "signupForm" class="form col">
+    <div class="form-container sign-in" name = "sign-in">
+            <h1>Sign in</h1>
+        
+            <div class = "col">
+                <input-plus><input type="email" name="email" required><label>Email</label></input-plus>
+                <div id="error-message" name = "emailError"></div>
+                <button onclick = "requestOTP" class = "btn">Continue</button>
+            </div>
+            
+            <!-- <span class = "btn-text" name="forgot-password">Forget your password?</span> -->
+            
+            <div class = "col">
+                <div class = "ctext"> or </div>
+                <button class="with-btn google" onclick = "signInWithGoogle" name="googleSignIn">Continue with Google</button>
+                <button class="with-btn microsoft" onclick = "signInWithMicrosoft" name="appleSignIn">Continue with Microsoft</button>
+            </div>
+
+            <div class ="terms"><a target="_blank" href ="https://policies.squidly.com.au/terms-of-use/" >Terms of Service</a> and <a target="_blank" href = "https://policies.squidly.com.au/privacy/" >Privacy Policy</a>.</div>
+    </div>
+
+
+    <div class="form-container sign-up" name = "sign-up">
+        <!-- <form-plus name = "signupForm" class="form col"> -->
             <h1>Create account</h1>
     
-            
             <div class = "col">
                 <!-- <span>or use your email for registeration</span> -->
                 <div class="row">
                     <input-plus><input required type="text" name="firstName"><label>First name</label></input-plus>
                     <input-plus><input required type="text" name="lastName"><label>Last name</label></input-plus>
                 </div>
-                <input-plus><input type="email" name="email"><label>Email</label></input-plus>
-                <input-plus><input type="password" name="password"><label>Password</label></input-plus>                  
             </div> 
             
             <button class = "btn" name = "submit">Register</button>
-
-            <span>Already have an account? <span class="btn-text" name="toggle">Sign in</span></span>
-
-        </form-plus>
-<div class ="terms">By creating an account, you agree to the
-<a target="_blank" href ="https://policies.squidly.com.au/terms-of-use/">Terms of Service</a> and <a target="_blank" href = "https://policies.squidly.com.au/privacy/">Privacy Policy</a>.</div>
+        <!-- </form-plus> -->
+        <div class ="terms">By creating an account, you agree to the
+        <a target="_blank" href ="https://policies.squidly.com.au/terms-of-use/">Terms of Service</a> and <a target="_blank" href = "https://policies.squidly.com.au/privacy/">Privacy Policy</a>.</div>
     </div>
 
-
-    <div class="form-container sign-in">
-        <form-plus  name="signinForm" class="form">
-            <h1>Sign in</h1>
-        
-            <div class = "col">
-                <input-plus><input type="email" name="email" required><label>Email</label></input-plus>
-                <input-plus><input type="password" name="password" required><label>Password</label></input-plus>
-            </div>
-            <div id="error-message"></div>
-
-            <span class = "btn-text" name="forgot-password">Forget your password?</span>
-
-            <button name="submit" class = "btn">Sign in</button>
-
-            <span>Don't have an account? <span class="btn-text" name="toggle">Sign up</span></span>
-        </form-plus>
-
-<div class ="terms"><a target="_blank" href ="https://policies.squidly.com.au/terms-of-use/" >Terms of Service</a> and <a target="_blank" href = "https://policies.squidly.com.au/privacy/" >Privacy Policy</a>.</div>
-    </div>
-
-    <div class = "form-container forgot-password">
-        <form-plus name = "forgotPasswordForm" class = "form">
-            <h1>Forgot password</h1>
-            <span>Enter your email to send a password reset code.</span>
+    <div class = "form-container otp-verify" name = "otp-verify">
+            <h1>Please verify your identity</h1>
+            <span>Please enter the code sent to your email.</span>
             
-            <div class = "col">
-                <input-plus><input type="email" name="email" required><label>Email</label></input-plus>
-            </div>
+            <otp-input name = "otpInput" length="6" type = "number"></otp-input>
             
+            <div name = "otpError" class = "error-message"></div>
+
             <div>
-                <button class = "btn" name="submit">Reset password</button>
+                <button class = "btn" onclick = "verifyOTP">Verify</button>
             </div>
-            
-            <div name = "back" class = "btn-text"><i class="fa-solid fa-arrow-left"></i> Back</div>
-        </form-plus>
+
+            <div class = "otp-resend">
+                <span class = "ctext">Resend code in <span name = "otpResend"></span>.</span>
+            </div>
+            <div class = "otp-resend-code">
+                <span class = "ctext">Didn't receive the email? </span>
+                <span class = "btn-text" onclick="requestOTP">Resend code.</span>
+            </div>
+            <!-- <div style = "width: 100%"> <span class = "btn-text" onclick="back">back</span></div> -->
     </div>
 
+
+    <div class = "overlay">
+        <div class = "ctext" name = "overlayText">
+
+        </div>
+    </div>
 </div>
 
-
+<!-- 
 <div class = "popup" name = "emailVerify">
     <div class = "card col">
         <div class="row-center tick"><i class="fa-regular fa-circle-check"></i></div>
@@ -75,4 +80,4 @@
     </div>
 </div>
 
-
+ -->

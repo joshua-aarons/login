@@ -16,9 +16,13 @@ import {
         signInWithEmailAndPassword as signInEandP, 
         reauthenticateWithCredential, 
         updatePassword, 
-        signInWithRedirect, 
+        OAuthProvider,
+        linkWithCredential,
+        signInWithRedirect as signInWithRedir, 
+        signInWithPopup as signInWithPop,
         GoogleAuthProvider, 
         EmailAuthProvider,
+        signInWithCustomToken as signInWithToken,
         onAuthStateChanged, 
         sendEmailVerification as _sendEmailVerification} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'
 
@@ -45,8 +49,10 @@ import {
         orderByChild, 
         limitToFirst, 
         limitToLast } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js'
+
 import { getFunctions, 
          httpsCallable  } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js'
+
 import { getStorage, 
          ref as sref, 
          uploadBytesResumable, 
@@ -228,12 +234,24 @@ export async function createUserWithEmailAndPassword(email, password) {
     await createUserEandP(Auth, email, password);
 }
 
+export async function signInWithCustomToken(token) {
+    return await signInWithToken(Auth, token);
+}
+
 export async function signInAnonymously(){
-    await signInAnom(Auth);
+    return await signInAnom(Auth);
 }
 
 export async function signOut(){
     sOut(Auth);
+}
+
+export async function signInWithPopup(provider) {
+    return await signInWithPop(Auth, provider);
+}
+
+export async function signInWithRedirect(provider) {
+    return await signInWithRedir(Auth, provider);
 }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ REALTIME DATABASE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -292,10 +310,11 @@ export async function getFile(path) {
 export {
         reauthenticateWithCredential, 
         updatePassword, 
-        signInWithRedirect, 
         GoogleAuthProvider, 
+        OAuthProvider,
         EmailAuthProvider,
         getMetadata,
+        linkWithCredential,
 
         update,
         child,
@@ -315,5 +334,5 @@ export {
         orderByValue,
         orderByChild,
         limitToFirst,
-        limitToLast
+        limitToLast,
 }

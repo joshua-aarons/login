@@ -1,98 +1,191 @@
 import { getHTMLTemplate, useCSSStyle } from "../../../Utilities/template.js"
 import { CustomComponent } from "../../../Utilities/CustomComponent.js";
-import { signin, signup, signout, sendEmailVerification, sendForgotPasswordEmail } from "../../../Firebase/accounts.js";
+import { loadTemplates } from "../../../Utilities/template.js";
+import {} from "../../../Utilities/templates/input-plus.js"
+import { callFunction, GoogleAuthProvider, linkWithCredential, OAuthProvider, signInWithCustomToken, signInWithPopup } from "../../../Firebase/firebase-client.js";
 
+await loadTemplates();
+useCSSStyle("input-plus")
 useCSSStyle("login-page");
 useCSSStyle("theme");
+
+
+
+const OTP_RESEND_INTERVAL = 120; // seconds
+
+let credential = null;
+function retrievePendingCred() {
+    return credential;
+}
+
+
+function savePendingCred(pendingCred) {
+    credential = pendingCred;
+    // localStorage.setItem("pendingCred", JSON.stringify(pendingCred));
+}
+
+async function requestOTP(email) {
+    let res = (await callFunction("otp-getOTP", {email} )).data;
+    let isNewUser = false;
+    let error = null
+    if (res.errors && res.errors.length > 0){
+        error = res.errors[0];
+        if (!error.startsWith("OTP:")) {
+            isNewUser = true;
+        }
+    }
+    return [isNewUser, error];
+}
+
+async function verifyOTP(email, otp) {
+    let res = (await callFunction("otp-checkOTP", {email, otp} )).data;
+    
+    let error = null
+    if (res.errors && res.errors.length > 0){
+        error = res.errors[0];
+    } else {
+        try {
+            let result = await signInWithCustomToken(res.token);
+            let cred = retrievePendingCred();
+            
+            if (cred) {
+                console.log("linking", cred, result.user);
+                
+                let r = await linkWithCredential(result.user, cred);
+                console.log("linking", r);
+                
+            }
+        } catch (e) {
+            console.log(e);
+            
+            error = e.message;
+        }
+    }
+    return error
+}
+
 
 
 export class LoginPage extends CustomComponent {
     constructor(el = "login-page"){
         super(el)
-        this.innerHTML = getHTMLTemplate("login-page")
-        
+        let t = getHTMLTemplate("login-page")
+        this.innerHTML = t;
         this.els = this.getElementLibrary();
-        const {signinForm, signupForm, forgotPasswordForm} = this.els;
-        this.setAttribute("mode", "sign-in");
-
-        signinForm.addEventListener("toggle", () => this.setAttribute("mode", "sign-up"));
-        signinForm.addEventListener("submit", this.signin.bind(this));
-        signupForm.addEventListener("toggle", () => this.setAttribute("mode", "sign-in"));
-        signupForm.addEventListener("submit", this.signup.bind(this));
-        signinForm.addEventListener("forgot-password", () => this.setAttribute("mode", "forgot-password"));
-        forgotPasswordForm.addEventListener("submit", this.sendForgotPassword.bind(this));
-        forgotPasswordForm.addEventListener("back", () => this.setAttribute("mode", "sign-in"));
-
         this.attachEvents();
+        this.mode = "sign-in";
     }
 
-    async signinProvider(provider){
-        signin(provider);
+    set loading(value) {
+        this.toggleAttribute("loading", value);
+        if (!value) this.els.overlayText.innerHTML = "";
+    }
+    set overlayText(text) {
+        this.els.overlayText.innerHTML = text;
     }
 
-    async signin(){
-        let {signinForm} = this.els;
-        signinForm.disabled = true;
-        if (signinForm.validate()){
-            try {
-                console.log("HERE");
-                await signin("email", signinForm.value);
-                console.log("after");
-            } catch (e) {
-                console.log("error", e);
+    set mode(mode) {
+        this.els.otpError.innerText = "";
+        this.els.emailError.innerText = "";
+        for (let m of [
+            "otp-verify",
+            "sign-in",
+            "sign-up"
+        ]) {
+            
+            this.els[m].classList.toggle("hide", mode !== m)
+        }
+    }
+   
+    resetOTPCountDown() {
+        const {otpResend} = this.els;
+        const otpVerify = this.els["otp-verify"];
+        otpVerify.toggleAttribute("count-down", true);
+        otpResend.innerText = `${Math.ceil(OTP_RESEND_INTERVAL / 60)}  minutes`;
+        if (this.otpInterval) {
+            clearInterval(this.otpInterval);
+        }
+
+        let time = OTP_RESEND_INTERVAL;
+        this.otpInterval = setInterval(() => {
+            if (time > 1) {
+                time--;
                 
-                this.signinError = e
+                otpResend.innerText = time > 60 ? `${Math.ceil(time / 60)} minutes` : `${time}s`;
+            } else {
+                clearInterval(this.otpInterval);
+                otpVerify.toggleAttribute("count-down", false);
+            }
+        }, 1000);
+    }
+
+    async verifyOTP() {
+        this.loading = true;
+        let otp = this.els.otpInput.value;
+        console.log("OPT:", otp);
+        
+        let error = await verifyOTP(this.els.email.value, otp);
+        if (error) {
+            this.els.otpError.innerText = error;
+        }
+        this.loading = false;
+    }
+
+    async requestOTP(email = this.els.email.value) {
+        this.loading = true;
+        this.overlayText = `Sending verifcation code`;
+        let [isNewUser, error] = await requestOTP(email);
+        if (isNewUser) {
+            // this.els.otpError.innerText = error;
+        } else if (error) {
+            this.els.emailError.innerText = error;
+        } else {
+            this.resetOTPCountDown();
+            this.mode = "otp-verify";
+        }
+        this.loading = false;
+    } 
+
+    async signInWithGoogle(){
+        let provider = new GoogleAuthProvider();
+        console.log("signing in with google");
+        
+        await this.signInWithProvider(provider);
+    }
+
+    async signInWithProvider(p) {
+        this.loading = true;
+        try {
+            console.log(p);
+            
+            let res = await signInWithPopup(p);
+        } catch (error) {
+            console.log(error);
+            
+            // Users email already exists with a different auth provider.
+            if (error.code === "auth/account-exists-with-different-credential") {
+
+                console.log("User has signed in with a different provider.");
+                
+                const email = error.customData.email;
+                const pendingCred = p.constructor.credentialFromError(error);
+                
+                // Step 3: Save the pending credential in temporary storage,
+                savePendingCred(pendingCred);
+                
+                this.els.email.value = email;
+                await this.requestOTP(email);
+            } else {
+                console.log(error);
+                
             }
         }
-        signinForm.disabled = false;
-
+        this.loading = false;
     }
 
-    async signup(){
-        let {signupForm} = this.els;
-        signupForm.disabled = true;
-        if (signupForm.validate()){
-            try {
-                await signup("email", signupForm.value);
-                signupForm.value = "";
-                this.emailVerify = true;
-            } catch(e) {
-                this.signupError = e;
-            }
-        }
-        signupForm.disabled = false;
+    async signInWithMicrosoft(){
+        let provider = new OAuthProvider('microsoft.com');
+        await this.signInWithProvider(provider);
     }
 
-    async sendForgotPassword(){
-        let {email} = this.els.forgotPasswordForm1.value;
-        sendForgotPasswordEmail(email);
-        this.setAttribute("password-form", "2");
-
-    }
-
-    logout(){signout()}
-    sendVerification(){sendEmailVerification()}
-
-    closeEmailVerify(){
-        this.emailVerify = false;
-        this.logout();
-    }
-
-    set emailVerify(bool){
-        this.els.emailVerify.classList.toggle("open", bool);
-    }
-
-    set signinError(error){
-        console.log(error);
-        if (error.inputName != "") {
-            this.els.signinForm.getInput(error.inputName).error = error.message;
-        }
-    }
-
-    set signupError(error){
-        console.log({error});
-        if (error.inputName != "") {
-            this.els.signupForm.getInput(error.inputName).error = error.message;
-        }
-    }
 }

@@ -44,11 +44,14 @@ async function start() {
                 });
                 showScreen("appView");
             } else {
+                loginPage.mode = "sign-in";
                 showScreen("loginPage")
-                loginPage.emailVerify = true;
+
+                // loginPage.emailVerify = true;
                 noUser = true;
             }
         } else {
+            loginPage.mode = "sign-in";
             showScreen("loginPage")
             noUser = true;
         }
