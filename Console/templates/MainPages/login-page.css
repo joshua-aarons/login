@@ -47,18 +47,22 @@ login-page:not([loading]) .overlay {
 }
 login-page .overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
     background: #dcc0f7a3;
     border: 2px solid #c090f1;
+    font-size: 2em;
+    color: #350167;
     border-radius: 30px;
     z-index: 100000;
     backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    gap: 1em;
 }
 
 /* login-page .form-container.otp-verify {
@@ -77,8 +81,11 @@ login-page[mode = "forgot-password"] .form-container.forgot-password {
     input-plus  {
         font-size: 16px;
     }
+    .row {
+        flex-direction: column;
+        align-items: stretch;
+    }
 }
-
 
 
 login-page .form  {
@@ -205,3 +212,58 @@ login-page squidly-loader {
     letter-spacing: var(--leter-spacing);
     width: calc(var(--num-chars) * var(--letter-size));
 } */
+
+
+/* loader container */
+  .simple-loader {
+    --dot-size: 12px;
+    --dot-gap: 12px;
+    --dot-color: #350167;
+    --duration: 0.8s;
+    --amplitude: 0.5;
+    display: inline-flex
+;
+    align-items: end;
+    gap: var(--dot-gap);
+  }
+
+  /* dots */
+  .simple-loader b{
+
+    width: var(--dot-size);
+    height: var(--dot-size);
+    border-radius: var(--dot-size);
+    background: var(--dot-color);
+    display:block;
+    transform: translateY(calc(-100% * var(--amplitude)));
+    /* staggered animation using delays below */
+    animation: oscillate var(--duration) cubic-bezier(0.38, 0, 0.62, 1) infinite;
+    will-change: transform;
+  }
+
+  /* slightly different easing to feel more organic */
+  @keyframes oscillate {
+    0%   { 
+        transform: translateY(calc(-100% * var(--amplitude))); 
+    }
+    50%  { 
+        transform: translateY(calc(100% * var(--amplitude)));
+    }
+    100%  { 
+        transform: translateY(calc(-100% * var(--amplitude)));
+    }
+  }
+
+  /* Stagger the three dots to create a wave/oscillating effect */
+  .simple-loader b:nth-child(1){ animation-delay: calc(var(--duration) * -0.20); }
+  .simple-loader b:nth-child(2){ animation-delay: calc(var(--duration) * -0.40); }
+  .simple-loader b:nth-child(3){ animation-delay: calc(var(--duration) * -0.60); }
+
+  /* Respect prefers-reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    .simple-loader b {
+      animation: none;
+      transform: translateY(0);
+      opacity: 0.95;
+    }
+  }

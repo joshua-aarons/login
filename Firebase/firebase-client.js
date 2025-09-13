@@ -104,9 +104,9 @@ if (DUID == null) {
 
 /* If the user has changed updates the new user and calls all listeners with the new user data.
    If a listener returns the string "remove" then the listener will be removed */
-function authChangeHandler(user){
+function authChangeHandler(user, force = false){
   // If the user has changed
-  if (user !== User) {
+  if (user !== User || force) {
     // Update the user object
     User = user;
     let newListeners = [];
@@ -119,6 +119,11 @@ function authChangeHandler(user){
     }
     StateListeners = newListeners;
   }
+}
+
+export async function forceAuthStateChange() {
+    await User.reload();
+    authChangeHandler(User, true);
 }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -139,6 +144,8 @@ export async function initialise(config = firebaseConfig) {
   waitForUserProm = new Promise((r) => {
     onAuthStateChanged(Auth, async (userData) => {
       authChangeHandler(userData);
+      console.log(userData);
+      
       initialising = false;
       initialised = true;
       r(userData);

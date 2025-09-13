@@ -1,4 +1,4 @@
-import {getUser, onValue, ref, update, uploadFileToCloud } from "./firebase-client.js";
+import {getUser, onValue, ref, set, update, uploadFileToCloud } from "./firebase-client.js";
 
 
 let userInfo = null;
@@ -28,17 +28,28 @@ export function watch(uid, allData, updateCallback) {
     // Watch the user data
     gettingInfo = new Promise((resolve) => {
         watchers[`user-${uid}-info`] = onValue(ref(`users/${uid}/info`), (snapshot) => {
-            let userData = snapshot.val();
-            if (userData) {
-                allData.info = userData;
-                if (!userData.displayName) {
-                    let name = userData.firstName + " " + userData.lastName;
-                    setUserInfo({
-                        displayName: name,
-                    });
-                }
-            } else {
-                allData.info = null; // If user data is null, set it to null
+            let userData = snapshot.val() || {};
+            allData.info = userData;
+            if (!userData.firstName) {
+                let user = getUser();
+                let name = user.displayName || "User";
+                let names = name.split(" ");
+                userData.firstName = names[0];
+                userData.lastName = names.length > 1 ? names.slice(1).join(" ") : "";
+                userData.displayName = name;
+                userData.email = user.email;
+                setUserInfo({
+                    firstName: userData.firstName,
+                    lastName: userData.lastName,
+                    displayName: name,
+                    email: user.email,
+                });
+            } else if (!userData.displayName) {
+                let name = userData.firstName + " " + userData.lastName;
+                userData.displayName = name;
+                setUserInfo({
+                    displayName: name,
+                });
             }
             userInfo = userData;
             updateCallback();

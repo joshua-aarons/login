@@ -30,19 +30,19 @@ class ProfilePanel extends UserDataComponent {
         els.uploadDP.onclick = () => this.openimage()
 
 
-        passwordReset.attachEvents()
-        passwordReset.getInput("oldpasscode").validater = validate_password;
-        passwordReset.getInput("newpasscode").validater = validate_password;
-        passwordReset.getInput("confirmpasscode").validater = (cp) => {
-            if (passwordReset.getInputValue("newpasscode") != cp) {
-                throw "Confirm passcode must be the same"
-            } else {
-                return true;
-            }
-        }
-        passwordReset.addEventListener("submit", () => {
-            this.updatePasscode()
-        });
+        // passwordReset.attachEvents()
+        // passwordReset.getInput("oldpasscode").validater = validate_password;
+        // passwordReset.getInput("newpasscode").validater = validate_password;
+        // passwordReset.getInput("confirmpasscode").validater = (cp) => {
+        //     if (passwordReset.getInputValue("newpasscode") != cp) {
+        //         throw "Confirm passcode must be the same"
+        //     } else {
+        //         return true;
+        //     }
+        // }
+        // passwordReset.addEventListener("submit", () => {
+        //     this.updatePasscode()
+        // });
     }
   
     async openimage() {
@@ -72,7 +72,7 @@ class ProfilePanel extends UserDataComponent {
     onhide() {
         if (this.els) {
             this.els.info.reset()
-            this.els.passwordReset.reset()
+            // this.els.passwordReset.reset()
         }
 
     }

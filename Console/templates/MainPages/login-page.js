@@ -2,7 +2,9 @@ import { getHTMLTemplate, useCSSStyle } from "../../../Utilities/template.js"
 import { CustomComponent } from "../../../Utilities/CustomComponent.js";
 import { loadTemplates } from "../../../Utilities/template.js";
 import {} from "../../../Utilities/templates/input-plus.js"
-import { callFunction, GoogleAuthProvider, linkWithCredential, OAuthProvider, signInWithCustomToken, signInWithPopup } from "../../../Firebase/firebase-client.js";
+import { callFunction, forceAuthStateChange, getUser, GoogleAuthProvider, linkWithCredential, OAuthProvider, set, signInWithCustomToken, signInWithPopup } from "../../../Firebase/firebase-client.js";
+import { delay } from "../../../Utilities/utils.js";
+import { RouteQuery } from "../../../Utilities/router.js";
 
 await loadTemplates();
 useCSSStyle("input-plus")
@@ -30,8 +32,12 @@ async function requestOTP(email) {
     let error = null
     if (res.errors && res.errors.length > 0){
         error = res.errors[0];
-        if (!error.startsWith("OTP:")) {
-            isNewUser = true;
+        let isToSoon = error.startsWith("OTP");
+        isNewUser = error.startsWith("NewUser");
+        if (!isToSoon && !isNewUser) {
+            error = "opt-FF: " + error
+        } else {
+            error = null;
         }
     }
     return [isNewUser, error];
@@ -47,19 +53,29 @@ async function verifyOTP(email, otp) {
         try {
             let result = await signInWithCustomToken(res.token);
             let cred = retrievePendingCred();
-            
             if (cred) {
-                console.log("linking", cred, result.user);
-                
-                let r = await linkWithCredential(result.user, cred);
-                console.log("linking", r);
-                
+                try {
+                    await linkWithCredential(result.user, cred);
+                } catch (e) {
+                    console.log("Error linking credential: ", e);
+                }
             }
         } catch (e) {
-            console.log(e);
-            
-            error = e.message;
+            error = "sign in with token + link: " + e.message;
         }
+    }
+    return error
+}
+
+async function createAccountWithOTP(email, firstName, lastName) {
+    let res = (await callFunction("otp-createAccountWithOTP", {
+        email,
+        firstName,
+        lastName
+    })).data;
+    let error = null
+    if (res.errors && res.errors.length > 0){
+        error = "otp-FF: "+res.errors[0];
     }
     return error
 }
@@ -87,6 +103,11 @@ export class LoginPage extends CustomComponent {
     set mode(mode) {
         this.els.otpError.innerText = "";
         this.els.emailError.innerText = "";
+        this.els.otpInput.value = "";
+        if (mode === "sign-in") {
+            this.els.email.value = "";
+            credential = null;
+        }
         for (let m of [
             "otp-verify",
             "sign-in",
@@ -95,6 +116,17 @@ export class LoginPage extends CustomComponent {
             
             this.els[m].classList.toggle("hide", mode !== m)
         }
+    }
+
+
+    showOverlayError(error, action, actionpast) {
+        let help = new RouteQuery("contact-page", {
+            firstName: this.els.firstName.value || "",
+            lastName: this.els.lastName.value || "",
+            email: this.els.email.value,
+            message: `I tried to ${actionpast}, but received the following error: \n"${error}".\nPlease assist.`
+        });
+        this.overlayText = `<span style="font-size:0.5em">An unexpected error occurred whilst ${action}.<br>"${error}"<br>Please contact <a href = "${window.origin + "/" + help}">support</a> or <a onclick = "window.location.reload();"> try again.</a></span>`;
     }
    
     resetOTPCountDown() {
@@ -119,49 +151,89 @@ export class LoginPage extends CustomComponent {
         }, 1000);
     }
 
+
     async verifyOTP() {
         this.loading = true;
         let otp = this.els.otpInput.value;
-        console.log("OPT:", otp);
-        
         let error = await verifyOTP(this.els.email.value, otp);
+        let hide = true;
         if (error) {
-            this.els.otpError.innerText = error;
+            if (error.startsWith("OPT:")) {
+                this.els.otpError.innerText = error.replace("OPT:", "").trim();
+            } else {
+                this.showOverlayError(error, "verifying your code", "verify my code");
+                hide = false;
+            }
+        } else {
+            if (getUser().emailVerified === false) { 
+                await forceAuthStateChange();
+            }
+            await delay(1500)
         }
-        this.loading = false;
+        if (hide) this.loading = false;
     }
+
+
+    set email(email) {
+        this.els.email.value = email;
+    }
+    
 
     async requestOTP(email = this.els.email.value) {
         this.loading = true;
         this.overlayText = `Sending verifcation code`;
-        let [isNewUser, error] = await requestOTP(email);
+        let [isNewUser, _, error] = await requestOTP(email);
         if (isNewUser) {
-            // this.els.otpError.innerText = error;
+            this.mode = "sign-up";
         } else if (error) {
-            this.els.emailError.innerText = error;
+            this.showOverlayError(error, "requesting a verification code", "request a verification code");
         } else {
             this.resetOTPCountDown();
             this.mode = "otp-verify";
+            this.loading = false;
         }
-        this.loading = false;
     } 
+
+    async createAccountWithOTP() {
+        let {firstName, lastName} = this.els;
+        if (firstName.validate() && lastName.validate()) {
+            this.loading = true;
+            this.overlayText = `Creating account...`;
+            let error = await createAccountWithOTP(this.els.email.value, firstName.value, lastName.value);
+            if (error){
+                this.showOverlayError(error, "creating your account", "create an account using email");
+            } else {
+                this.mode = "otp-verify";
+                this.loading = false;
+            }
+        }
+    }
+
+    async signInWithOTP() {
+        let {email} = this.els;
+        if (email.validate()) {
+            await this.requestOTP(email.value);
+        }
+    }
 
     async signInWithGoogle(){
         let provider = new GoogleAuthProvider();
-        console.log("signing in with google");
-        
-        await this.signInWithProvider(provider);
+        await this.signInWithProvider(provider, "Google");
     }
 
-    async signInWithProvider(p) {
+    async signInWithMicrosoft(){
+        let provider = new OAuthProvider('microsoft.com');
+        await this.signInWithProvider(provider, "Microsoft");
+    }
+
+    async signInWithProvider(p, pname = "provider") {
         this.loading = true;
+        let error = null;
+        let res = null
         try {
-            console.log(p);
-            
-            let res = await signInWithPopup(p);
+            res = await signInWithPopup(p);
+            await delay(1500)
         } catch (error) {
-            console.log(error);
-            
             // Users email already exists with a different auth provider.
             if (error.code === "auth/account-exists-with-different-credential") {
 
@@ -176,16 +248,17 @@ export class LoginPage extends CustomComponent {
                 this.els.email.value = email;
                 await this.requestOTP(email);
             } else {
-                console.log(error);
-                
+                console.log(error)
+                error = error.message;
             }
         }
-        this.loading = false;
-    }
-
-    async signInWithMicrosoft(){
-        let provider = new OAuthProvider('microsoft.com');
-        await this.signInWithProvider(provider);
+        if (error) {
+            this.showOverlayError(error, `signing you in with your ${pname}`, `sign in with my ${pname}`);
+        } else {
+            await delay(1500)
+            savePendingCred(p.constructor.credentialFromResult(res));
+            this.loading = false;
+        }
     }
 
 }

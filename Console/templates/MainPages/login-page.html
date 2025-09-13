@@ -5,9 +5,9 @@
             <h1>Sign in</h1>
         
             <div class = "col">
-                <input-plus><input type="email" name="email" required><label>Email</label></input-plus>
+                <input-plus name="email"><input type="email" required><label>Email</label></input-plus>
                 <div id="error-message" name = "emailError"></div>
-                <button onclick = "requestOTP" class = "btn">Continue</button>
+                <button onclick = "signInWithOTP" class = "btn">Continue</button>
             </div>
             
             <!-- <span class = "btn-text" name="forgot-password">Forget your password?</span> -->
@@ -24,17 +24,17 @@
 
     <div class="form-container sign-up" name = "sign-up">
         <!-- <form-plus name = "signupForm" class="form col"> -->
-            <h1>Create account</h1>
-    
+            <h1>Create an account</h1>
+            <div class="ctext">Looks like this is your first time signing into Squidly. Please tell us your name so we can get started.</div>
             <div class = "col">
                 <!-- <span>or use your email for registeration</span> -->
                 <div class="row">
-                    <input-plus><input required type="text" name="firstName"><label>First name</label></input-plus>
-                    <input-plus><input required type="text" name="lastName"><label>Last name</label></input-plus>
+                    <input-plus name="firstName"><input required type="text"><label>First name</label></input-plus>
+                    <input-plus name="lastName"><input required type="text"><label>Last name</label></input-plus>
                 </div>
             </div> 
             
-            <button class = "btn" name = "submit">Register</button>
+            <button class = "btn" onclick = "createAccountWithOTP">Get started</button>
         <!-- </form-plus> -->
         <div class ="terms">By creating an account, you agree to the
         <a target="_blank" href ="https://policies.squidly.com.au/terms-of-use/">Terms of Service</a> and <a target="_blank" href = "https://policies.squidly.com.au/privacy/">Privacy Policy</a>.</div>
@@ -66,6 +66,11 @@
     <div class = "overlay">
         <div class = "ctext" name = "overlayText">
 
+        </div>
+        <div class="simple-loader">
+            <b></b>
+            <b></b>
+            <b></b>
         </div>
     </div>
 </div>

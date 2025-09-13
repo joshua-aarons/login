@@ -1,6 +1,7 @@
 
 export class RouteQuery {
-    constructor(location, params) {
+    constructor(location, params, origin) {
+        this.origin = origin || window.origin;
         this.location = typeof location === "string" ? location : location.toString();
         if (!params || !Array.isArray(params)) {
             this.params = typeof params === "string" ? [params] : [];
@@ -26,7 +27,7 @@ export class RouteQuery {
 
 
     getFullURL(urlPath) {
-        let url = `${window.origin}/${urlPath}/${this}`;
+        let url = urlPath ? `${this.origin}/${urlPath}/${this}` : `${this.origin}/${this}`;
         return url;
     }
 

@@ -2,6 +2,7 @@ import { SvgPlus, UserDataComponent } from "../../../Utilities/CustomComponent.j
 import { getHTMLTemplate, useCSSStyle } from "../../Utilities/template.js";
 import {} from "../../../Utilities/templates/input-plus.js";
 import { push, ref, set } from "../../Firebase/firebase-client.js";
+import { RouteQuery } from "../../Utilities/router.js";
 
 useCSSStyle("input-plus");
 export class ContactPage extends UserDataComponent {
@@ -28,6 +29,11 @@ export class ContactPage extends UserDataComponent {
                 showNotification(`Thanks ${formData.firstName} for reaching out!\nOur team will be in contact shortly.`, 3000, "success");
             }
         })
+
+        let params = RouteQuery.fromWindow().params || {};
+        console.log(params);
+        
+        form.value = params;
     }
 
     gotoLicenses() {

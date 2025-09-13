@@ -139,7 +139,8 @@ class InputPlus extends SvgPlus {
         this.toggleAttribute(`invalid`, typeof error == 'string');
         if (typeof error != 'string')
             error = ''
-        this.errormessage.innerHTML = error
+        if (this.errormessage)        
+            this.errormessage.innerHTML = error
     }
 
     validate(){
