@@ -154,23 +154,28 @@ export class LoginPage extends CustomComponent {
 
     async verifyOTP() {
         this.loading = true;
-        let otp = this.els.otpInput.value;
-        let error = await verifyOTP(this.els.email.value, otp);
-        let hide = true;
-        if (error) {
-            if (error.startsWith("OPT:")) {
-                this.els.otpError.innerText = error.replace("OPT:", "").trim();
+        if (this.els.otpInput.validate()) {
+            let otp = this.els.otpInput.value;
+            let error = await verifyOTP(this.els.email.value, otp);
+            let hide = true;
+            if (error) {
+                if (error.startsWith("OPT:")) {
+                    this.els.otpError.innerText = error.replace("OPT:", "").trim();
+                } else {
+                    this.showOverlayError(error, "verifying your code", "verify my code");
+                    hide = false;
+                }
             } else {
-                this.showOverlayError(error, "verifying your code", "verify my code");
-                hide = false;
+                if (getUser().emailVerified === false) { 
+                    await forceAuthStateChange();
+                }
+                await delay(1500)
             }
+            if (hide) this.loading = false;
         } else {
-            if (getUser().emailVerified === false) { 
-                await forceAuthStateChange();
-            }
-            await delay(1500)
+            this.els.otpError.innerText = "Invalid code";
+            this.loading = false;
         }
-        if (hide) this.loading = false;
     }
 
 
@@ -220,11 +225,17 @@ export class LoginPage extends CustomComponent {
 
     async signInWithGoogle(){
         let provider = new GoogleAuthProvider();
+        provider.setCustomParameters({
+            prompt: "select_account"   // tells Microsoft to always show account chooser
+        });
         await this.signInWithProvider(provider, "Google");
     }
 
     async signInWithMicrosoft(){
         let provider = new OAuthProvider('microsoft.com');
+        provider.setCustomParameters({
+            prompt: "select_account"   // tells Microsoft to always show account chooser
+        });
         await this.signInWithProvider(provider, "Microsoft");
     }
 

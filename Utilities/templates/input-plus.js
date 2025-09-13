@@ -407,6 +407,11 @@ class OtpInput extends SvgPlus {
         }
     }
 
+    validate() {
+        let valid = this.value.length == this.inputs.length;
+        return valid;
+    }
+
     get value() {
         return this.inputs.map(input => input.value).join("");
     }
