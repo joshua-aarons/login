@@ -181,10 +181,11 @@ export class LoginPage extends CustomComponent {
 
     async requestOTP(email = this.els.email.value) {
         this.loading = true;
-        this.overlayText = `Sending verifcation code`;
+        this.overlayText = `Sending verification code`;
         let [isNewUser, _, error] = await requestOTP(email);
         if (isNewUser) {
             this.mode = "sign-up";
+            this.loading = false;
         } else if (error) {
             this.showOverlayError(error, "requesting a verification code", "request a verification code");
         } else {
@@ -234,6 +235,8 @@ export class LoginPage extends CustomComponent {
             res = await signInWithPopup(p);
             await delay(1500)
         } catch (error) {
+            console.log(error);
+            
             // Users email already exists with a different auth provider.
             if (error.code === "auth/account-exists-with-different-credential") {
 
@@ -247,13 +250,20 @@ export class LoginPage extends CustomComponent {
                 
                 this.els.email.value = email;
                 await this.requestOTP(email);
+            } else if (error.code === "auth/cancelled-popup-request" || error.code === "auth/popup-closed-by-user") {
+                error = true;
+                this.overlayText = "Authentication cancelled";
+                await delay(1500)
+                this.loading = false;
             } else {
                 console.log(error)
                 error = error.message;
             }
         }
         if (error) {
-            this.showOverlayError(error, `signing you in with your ${pname}`, `sign in with my ${pname}`);
+            if (typeof error === "string") {
+                this.showOverlayError(error, `signing you in with your ${pname}`, `sign in with my ${pname}`);
+            } 
         } else {
             await delay(1500)
             savePendingCred(p.constructor.credentialFromResult(res));
