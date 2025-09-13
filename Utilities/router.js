@@ -2,7 +2,7 @@
 export class RouteQuery {
     constructor(location, params, origin) {
         this.origin = origin || window.origin;
-        this.location = typeof location === "string" ? location : location.toString();
+        this.location = typeof location === "string" ? location : (location + "");
         if (!params || !Array.isArray(params)) {
             this.params = typeof params === "string" ? [params] : [];
         }
