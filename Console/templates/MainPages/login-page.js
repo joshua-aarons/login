@@ -204,6 +204,7 @@ export class LoginPage extends CustomComponent {
             if (error){
                 this.showOverlayError(error, "creating your account", "create an account using email");
             } else {
+                this.resetOTPCountDown();
                 this.mode = "otp-verify";
                 this.loading = false;
             }
