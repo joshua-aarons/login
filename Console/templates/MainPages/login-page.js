@@ -264,8 +264,6 @@ export class LoginPage extends CustomComponent {
                 await this.requestOTP(email);
             } else if (error.code === "auth/cancelled-popup-request" || error.code === "auth/popup-closed-by-user") {
                 error = true;
-                this.overlayText = "Authentication cancelled";
-                await delay(1500)
                 this.loading = false;
             } else {
                 console.log(error)
