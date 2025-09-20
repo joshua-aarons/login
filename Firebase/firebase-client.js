@@ -64,7 +64,7 @@ import { getStorage,
 
 const firebaseConfig = {
     apiKey: "AIzaSyChiEAP1Rp1BDNFn7BQ8d0oGR65N3rXQkE",
-    authDomain: "eyesee-d0a42.firebaseapp.com",
+    authDomain: "verify.squidly.com.au",
     databaseURL: "https://eyesee-d0a42-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "eyesee-d0a42",
     storageBucket: "eyesee-d0a42.appspot.com",
