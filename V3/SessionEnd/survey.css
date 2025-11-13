@@ -1,0 +1,412 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  background-color: #f6f6f9; 
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 72rem;
+  width: min(80vw, 40em);
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 1rem;
+}
+
+.title {
+  text-align: left;
+  font-weight: 600;
+  font-size: 1.5em;
+}
+
+.progress-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 33%;
+}
+
+.progress-bar {
+  height: 0.5em;
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+}
+
+.progress-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0%;
+  background: #66b2b2;
+  border-radius: 10px;
+  transition: width 0.5s ease-in;
+}
+
+.markers {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.marker {
+  position: relative;
+  width: 1.5em;
+  height: 1.5em;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.marker-colour {
+  background-color: #6fc3b3;
+}
+
+.marker-current {
+  position: absolute;
+  top: 0.57em;
+  left: 0.57em;
+  width: 0.36em;
+  height: 0.36em;
+  border-radius: 50%;
+  background: white;
+}
+
+.marker-complete {
+  position: absolute;
+  left: 0.57em;
+  top: 0.3em;
+  width: 0.3em;
+  height: 0.6em;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.exit-survey {
+  cursor: pointer;
+  font-size: 1.2em;
+  color: #8f53c9;
+}
+
+.exit-survey:hover {
+  color: #843ac9;
+  text-decoration: underline;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.button {
+  width: fit-content;
+  height: 6rem;
+  font: inherit;
+  font-size: 1.2em;
+  color: white;
+  border: none;
+  background: #8f53c9;
+  border-radius: 1em;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  transition-property: color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+
+.button:hover {
+  background: #843ac9;
+}
+
+#back-button {
+  background: #8f53c9;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: 1rem;
+  width: 6rem;
+  display: none;
+}
+
+#back-button:hover {
+  background: #843ac9;
+}
+
+#submit-button {
+  display: none;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.main .question {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  min-height: 50vh;
+  background-color: white;
+  border: 2px solid #7f7f8329;
+  border-radius: 2em;
+  padding: 1.8em;
+  display: none;
+}
+
+.emojis {
+  display: flex;
+  margin-top: 1rem;
+  gap: 3rem;
+}
+
+.emoji-text {
+  display: flex;
+  flex: 1 0 calc(20% - 12rem - 3.6em);
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.emoji-text .emoji:hover { 
+  border: 0.75rem solid #9f79c3;
+  scale: 0.9;
+  transition: 0.2s ease-in-out;
+  padding: 0.25rem;
+} 
+
+.selected-emoji {
+  border: 0.75rem solid #8f53c9 !important;
+  scale: 1 !important;
+  transition: 0.1s ease-in-out;
+}
+
+.emoji {
+  width: 100%;
+  height: auto;
+  border-radius: calc(infinity * 1px);
+  border: 0.75rem solid transparent;
+  padding: 0.25rem;
+}
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 2em;
+  padding-bottom: 0.5em;
+  margin-top: 1rem;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1.5em;
+  width: 1.5em;
+  background-color: #f6f6f9;
+}
+
+.container input[type="radio"] ~ .checkmark {
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #e4e1e1;
+}
+
+/* When the radio button is checked, add a purple background */
+.container input:checked ~ .checkmark {
+  background-color: #8f53c9;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container input[type="radio"]:checked ~ .checkmark:after {
+  top: 0.54em;
+  left: 0.54em;
+  width: 0.42em;
+  height: 0.42em;
+  border-radius: 50%;
+  background: white;
+}
+
+.container input[type="checkbox"]:checked ~ .checkmark:after {
+  left: 0.57em;
+  top: 0.3em;
+  width: 0.3em;
+  height: 0.6em;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.nps-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.nps-container div {
+  flex: 1;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 0.6rem;
+  border: 0.25rem solid white;
+  box-shadow: 0.3rem 0.3rem rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.nps-container div:hover {
+  scale: 0.9;
+  opacity: 0.8;
+  transition: scale 0.2s ease-in-out;
+}
+
+.nps-selected {
+  outline: 0.7rem solid #8f53c9;
+  opacity: 1 !important;
+  scale: 1 !important;
+  transition: 0.2s ease-in-out;
+}
+
+.labels-container {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr); 
+  gap: 2rem;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+.label-vunlikely {
+  grid-column: 2 / 4;
+  color: #fa554cff;
+}
+
+.label-unlikely {
+  grid-column: 6;   
+  color: #fa554cff;
+}
+
+.label-likely {
+  grid-column: 8 / 10;
+  color: #e9a22f;
+}
+
+.label-vlikely {
+  grid-column: 10 / 12; 
+  color: #4cc732;
+}
+
+textarea {
+  resize: none;
+  background-color: hsla(208, 50%, 50%, 6.5%);
+  padding: 1.2em 1em calc(0.75em - 2px) 1em;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  border-radius: 1.25rem;
+  font-size: 0.95em;
+  border: 2px solid transparent;
+  box-shadow: 0 0 0 0px hsla(208, 92%, 54%, 0.169);
+  transition: 0.3s;
+  color: #363949;
+  margin-top: 2rem;
+}
+    
+textarea:hover {
+  background-color: hsla(208, 50%, 50%, 14%);
+}
+
+textarea:focus {
+  background-color: white;
+  border: 2px solid #7380ec;
+  box-shadow: 0 0 0 5px hsla(208, 50%, 50%, 14%);
+}
+
+@media screen and (max-width: 1270px) {
+    :root {
+        font-size: 1.5vmin;
+    }
+    .marker-complete {
+        border-width: 0 2px 2px 0;
+    }
+    .container input[type="checkbox"]:checked ~ .checkmark:after {
+        border-width: 0 2px 2px 0;
+    }
+    .emojis {
+        font-size: 1.5rem;
+    }
+    .nps-container {
+        font-size: 1.5rem;
+        gap: 1rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .marker-complete {
+        border-width: 0 1px 1px 0;
+    }
+    .container input[type="checkbox"]:checked ~ .checkmark:after {
+        border-width: 0 1px 1px 0;
+    }
+    .main .question {
+        min-height: 40vh;
+    }
+}

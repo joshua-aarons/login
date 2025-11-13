@@ -42,6 +42,10 @@ export const TemplateLibrary = {
 	"dash-board": {
 		"html": "Console/templates/MainPages/dash-board.html"
 	},
+    "feedback": {
+        "css": "Console/templates/Feedback/feedback.css",
+        "html": "Console/templates/Feedback/feedback.html"
+    },
 	"data-and-privacy": {
 		"html": "Console/templates/MainPages/data-and-privacy.html"
 	},
