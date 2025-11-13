@@ -327,24 +327,10 @@ img {
     width: 60%;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-feedback-window .card {
-    animation: fadeInUp 0.8s ease;
-}
-
 .card, .insights, .popup > * {
     background: var(--color-white);
     border-radius: var(--card-border-radius);
+    /* transition: all 300ms ease; */
 }
 .card, .insights {
     margin-top: 1em;

@@ -231,8 +231,6 @@ class DataComponent extends CustomComponent {
                     case "background-image": 
                         el.style.setProperty("background-image", `url("${sub}")`);
                         break;
-                    case "textContent": el.textContent = sub;
-                        break;
                     default: el[fieldtype] = sub;
                         break;
                 }
