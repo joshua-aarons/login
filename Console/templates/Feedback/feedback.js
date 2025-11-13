@@ -505,7 +505,7 @@ class FeedBack extends DataComponent {
     setFilter(filterType, graph, title) {
         if (this.demoToggled) return;
         
-        const filteredResponses = this.filterResponsesByDate(this.data.responses.responses, filterType);
+        const filteredResponses = this.filterResponsesByDate(this.data.responses, filterType);
         if (graph === 'nps') {
             this.charts.nps.options.plugins.title.text = title;
             this.charts.nps.data.datasets[0].data = getNpsData(filteredResponses);
