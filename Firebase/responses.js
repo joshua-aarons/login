@@ -289,7 +289,7 @@ export const demoChartData = {
 };
 
 export const demoComments = [
-    {date: 1760499479990, comments: 'Not 100% since I had some issues using it.', experience: 'Very poor', technicalDifficulties: ['waiting room', 'connectivity' ,'unable'], npsScore: 3},
+    {date: 1760499479990, comments: 'Not 100% since I had some issues using it.', experience: 'Very poor', technicalDifficulties: ['waiting room', 'connectivity' ,'unresolved'], npsScore: 3},
     {date: 1760499451732, comments: 'Better than I expected and easy to use.', experience: 'Very good', npsScore: 10},
     {date: 1759813079487, comments: 'The platform was slow to load, but it worked eventually.', experience: 'Neutral', technicalDifficulties: ['connectivity'], npsScore: 5},
     {date: 1759810884840, comments: 'No issues encountered, everything was smooth.', experience: 'Very good', npsScore: 9},

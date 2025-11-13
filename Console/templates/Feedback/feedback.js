@@ -527,7 +527,11 @@ class FeedBack extends DataComponent {
         }
     }
     onvalue(data) {
-        console.log(data)
+        if (isSameObj(this.data, data)) {
+            return;
+        }
+        
+        this.data = data;
         this.updateCharts(data.charts);
         const stats = data.stats;
         Object.entries(this.statsChange).forEach(([statType, statChangeDiv]) => {
@@ -542,6 +546,25 @@ class FeedBack extends DataComponent {
 
 SvgPlus.defineHTMLElement(FeedBack);
 
+function isSameObj(o1, o2) {
+    if (typeof o1 === typeof o2) {
+        if (typeof o1 === "object" && o1 !== null) {
+            if (Object.keys(o1).length !== Object.keys(o2).length) {
+                return false;
+            }
+            for (let key in o1) {
+                if (!isSameObj(o1[key], o2[key])) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return o1 === o2;
+        }
+    }
+    return false;
+}
+
 class FeedbackWindow extends UserDataComponent {
     onconnect() {
         this.template = getHTMLTemplate("feedback");
@@ -550,6 +573,7 @@ class FeedbackWindow extends UserDataComponent {
             this.demoToggled = !this.demoToggled;
             this.value = this.data;
         })
+        this.initialised = false;
     }
 
     set demoToggled(value) {
@@ -563,9 +587,11 @@ class FeedbackWindow extends UserDataComponent {
 
     onvalue(data) {
         if (!data || !data.responses) return;
-        // if (data.responses.responses.length === 0) {
-        //     this.demoToggled = true;
-        // }
+    
+        if (!this.initialised && data.responses.responses.length === 0) {
+            this.demoToggled = true;
+        }
+        this.initialised = true;
         let responses = this.demoToggled ? { stats: demoStats, charts: demoChartData, responses: demoComments } : data.responses;
         this.userResponses = data.responses;
         this.els.root.value = responses;
