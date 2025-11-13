@@ -20,8 +20,8 @@ function getStatData(responses) {
     const lastMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
     const currentMonthResponses = responses.filter(r => new Date(r.date).getMonth() === currentMonth);
     const lastMonthResponses = responses.filter(r => new Date(r.date).getMonth() === lastMonth);
-
-    const totalResponsesChange = currentMonthResponses.length === 0
+    console.log(currentMonthResponses)
+    const totalResponsesChange = lastMonthResponses.length === 0
         ? 0
         : (currentMonthResponses.length - lastMonthResponses.length) / lastMonthResponses.length * 100
 
@@ -47,7 +47,7 @@ function getStatData(responses) {
     const lastAvgNps = lastMonthResponses.reduce(sumNPS, 0) > 0
         ? lastMonthResponses.reduce(sumNPS, 0) / lastMonthResponses.filter(r => r.npsScore !== - 1).length
         : 0;
-    const npsChange = currAvgNps === 0
+    const npsChange = lastAvgNps === 0
         ? 0
         : (currAvgNps - lastAvgNps) / lastAvgNps * 100;
 
@@ -74,7 +74,7 @@ function getStatData(responses) {
         ? lastMonthResponses.reduce(sumExp, 0) / (lastMonthResponses.filter(r => r.experience !== '').length * 5) * 100
         : 0;
 
-    const expChange = currAvgExp === 0
+    const expChange = lastAvgExp === 0
         ? 0
         : (currAvgExp - lastAvgExp) / lastAvgExp * 100;
 
@@ -180,7 +180,15 @@ function getChartData(data) {
     return chartData;
 }
 
-function parseData(responses) {
+function parseData(data) {
+    data = data || {};
+    const responses = Object.entries(data).map(([key, value]) => {
+        if (!value.date) {
+            return {date: parseInt(key), ...value}
+        } else {
+            return value;
+        }
+    });
     const stats = getStatData(responses);
     const charts = getChartData(responses);
     return { responses, stats, charts };
@@ -189,14 +197,7 @@ function parseData(responses) {
 export function watch(uid, allData, updateCallback) {
     let end = onValue(ref(`users/${uid}/responses`), (snapshot) => {
         let responses = snapshot.val();
-        const data = Object.entries(responses).map(([key, value]) => {
-            if (!value.date) {
-                return {date: parseInt(key), ...value}
-            } else {
-                return value;
-            }
-        });
-        allData.responses = parseData(data);
+        allData.responses = parseData(responses);
         updateCallback();
     })
     watchers.push(end);

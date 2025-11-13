@@ -168,12 +168,12 @@ submitButton.addEventListener("click", async (e) => {
   e.preventDefault();
 
   let data = {
-    "experience": "",
-    "experiencedDifficulties": null,
-    "technicalDifficulties": [],
-    "npsScore": -1,
-    "comments": "",
-    "date": Date.now()
+    experience: "",
+    experiencedDifficulties: null,
+    technicalDifficulties: [],
+    npsScore: -1,
+    comments: "",
+    date: Date.now()
   }
 
   emojis.forEach(emoji => {
@@ -197,6 +197,10 @@ submitButton.addEventListener("click", async (e) => {
   const comment = document.getElementById("comments").value.trim();
   data["comments"] = comment;
 
+  if (data.experience === "" && !bool && !document.getElementById("opt-no").querySelector("input").checked && data.technicalDifficulties.length === 0 && data.npsScore === -1 && data.comments === "") {
+    window.location.replace("index.html");
+    return;
+  }
   await set(ref(`users/${host}/responses/${sid}`), data);
   window.location.replace("index.html");
 });

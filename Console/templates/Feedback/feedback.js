@@ -552,22 +552,25 @@ class FeedbackWindow extends UserDataComponent {
 
     onvalue(data) {
         this.data = data;
-
-        const dataExists = this.filterResponsesByMonth(data.responses.responses).length > 0;
-        // Toggle dashboard after paint
-        if (!dataExists) {
-            requestAnimationFrame(() => {
-                this.dispatchEvent(new CustomEvent('after-onvalue'));
+        if (data && data.responses) {
+            const dataExists = this.filterResponsesByMonth(data.responses.responses).length > 0;
+            // Toggle dashboard after paint
+            if (!dataExists) {
+                requestAnimationFrame(() => {
+                    this.dispatchEvent(new CustomEvent('after-onvalue'));
+                })
+                return;
+            }
+            const stats = data.responses.stats;
+            Object.entries(this.statsChange).forEach(([statType, statChangeDiv]) => {
+                this.updateStatsChange(stats, statType, this.els[statChangeDiv]);
             })
-            return;
-        }
+            this.updateCharts(data.responses.charts);
+            this.updateComments(data.responses.responses);
+        } 
+       
 
-        const stats = data.responses.stats;
-        Object.entries(this.statsChange).forEach(([statType, statChangeDiv]) => {
-            this.updateStatsChange(stats, statType, this.els[statChangeDiv]);
-        })
-        this.updateCharts(data.responses.charts);
-        this.updateComments(data.responses.responses);
+
     }
 }
 
