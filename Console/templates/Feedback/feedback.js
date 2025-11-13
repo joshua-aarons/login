@@ -1,4 +1,4 @@
-import { SvgPlus, UserDataComponent } from "../../../Utilities/CustomComponent.js";
+import { CustomComponent, DataComponent, SvgPlus, UserDataComponent } from "../../../Utilities/CustomComponent.js";
 import { getHTMLTemplate, useCSSStyle } from "../../../Utilities/template.js"
 import { } from "../../../Utilities/templates/table-plus.js"
 import { getNpsData, getExperienceData, getTechnicalData, demoStats, demoChartData, demoComments } from "../../../Firebase/responses.js";
@@ -27,10 +27,9 @@ class ChartWrapper extends SvgPlus {
 
 SvgPlus.defineHTMLElement(ChartWrapper);
 
-class FeedbackWindow extends UserDataComponent {
+class FeedBack extends DataComponent {
     onconnect() {
-        this.template = getHTMLTemplate("feedback");
-        let { } = this.els;
+        this.els = this.getElementLibrary();
         this.charts = {};
         this.data = null;
 
@@ -51,13 +50,6 @@ class FeedbackWindow extends UserDataComponent {
             0: "Jan", 1: "Feb", 2: "Mar", 3: "Apr", 4: "May", 5: "Jun", 
             6: "Jul", 7: "Aug", 8: "Sep", 9: "Oct", 10: "Nov", 11: "Dec"
         }
-
-        this.demoToggled = false;
-        this.els.demoButton.addEventListener('click', () => {
-            this.demoToggled = !this.demoToggled;
-            this.els.demoButton.textContent = this.demoToggled ? 'Hide demo' : 'Show demo';
-            this.toggleDashboardDemo();
-        })
 
         this.commentsToggled = false;
         this.els.commentsButton.addEventListener('click', () => {
@@ -164,22 +156,7 @@ class FeedbackWindow extends UserDataComponent {
             comp.els.demoButton.click(); 
         });
     }
-
-    toggleDashboardDemo() {
-        const statsData = this.demoToggled ? demoStats : this.data.responses.stats;
-        const chartData = this.demoToggled ? demoChartData : this.data.responses.charts;
-        const commentsData = this.demoToggled ? demoComments : this.data.responses.responses;
-        Object.entries(this.statsChange).forEach(([statType, statChangeDiv]) => {
-            this.updateStatsChange(statsData, statType, this.els[statChangeDiv]);
-        })
-        this.updateStatsItem(statsData);
-        this.updateExperienceLegend(chartData.experience);
-        this.updateTechnicalLegend(chartData.technical);
-        this.updateCharts(chartData);
-        this.updateComments(commentsData);
-    }
-
-    updateStatsItem(stats) {
+     updateStatsItem(stats) {
         const statTypes = ['totalResponses', 'nps', 'experience'];
         statTypes.forEach(stat => {
             let value = `responses/stats/${stat}/statValue`;
@@ -549,28 +526,52 @@ class FeedbackWindow extends UserDataComponent {
             this.charts.technical.update();
         }
     }
+    onvalue(data) {
+        console.log(data)
+        this.updateCharts(data.charts);
+        const stats = data.stats;
+        Object.entries(this.statsChange).forEach(([statType, statChangeDiv]) => {
+            this.updateStatsChange(stats, statType, this.els[statChangeDiv]);
+        })
+        this.updateComments(data.responses);
+        this.updateStatsItem(stats);
+        this.updateExperienceLegend(data.charts.experience);
+        this.updateTechnicalLegend(data.charts.technical);
+    }
+}
+
+SvgPlus.defineHTMLElement(FeedBack);
+
+class FeedbackWindow extends UserDataComponent {
+    onconnect() {
+        this.template = getHTMLTemplate("feedback");
+        this.demoToggled = false;
+        this.els.demoButton.addEventListener('click', () => {
+            this.demoToggled = !this.demoToggled;
+            this.value = this.data;
+        })
+    }
+
+    set demoToggled(value) {
+        this._demoToggled = value;
+        this.els.demoButton.textContent = this.demoToggled ? 'Hide demo' : 'Show demo';
+    }
+
+    get demoToggled() {
+        return this._demoToggled;
+    }
 
     onvalue(data) {
+        if (!data || !data.responses) return;
+        console.log(data.responses.length)
+        if (data.responses.responses.length === 0) {
+            this.demoToggled = true;
+        }
+        let responses = this.demoToggled ? { stats: demoStats, charts: demoChartData, responses: demoComments } : data.responses;
+        this.userResponses = data.responses;
+        this.els.root.value = responses;
+
         this.data = data;
-        if (data && data.responses) {
-            const dataExists = this.filterResponsesByMonth(data.responses.responses).length > 0;
-            // Toggle dashboard after paint
-            if (!dataExists) {
-                requestAnimationFrame(() => {
-                    this.dispatchEvent(new CustomEvent('after-onvalue'));
-                })
-                return;
-            }
-            const stats = data.responses.stats;
-            Object.entries(this.statsChange).forEach(([statType, statChangeDiv]) => {
-                this.updateStatsChange(stats, statType, this.els[statChangeDiv]);
-            })
-            this.updateCharts(data.responses.charts);
-            this.updateComments(data.responses.responses);
-        } 
-       
-
-
     }
 }
 
