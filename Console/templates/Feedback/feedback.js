@@ -545,7 +545,7 @@ SvgPlus.defineHTMLElement(FeedBack);
 class FeedbackWindow extends UserDataComponent {
     onconnect() {
         this.template = getHTMLTemplate("feedback");
-        this.demoToggled = false;
+        this.demoToggled = true;
         this.els.demoButton.addEventListener('click', () => {
             this.demoToggled = !this.demoToggled;
             this.value = this.data;
@@ -563,10 +563,9 @@ class FeedbackWindow extends UserDataComponent {
 
     onvalue(data) {
         if (!data || !data.responses) return;
-        console.log(data.responses.length)
-        if (data.responses.responses.length === 0) {
-            this.demoToggled = true;
-        }
+        // if (data.responses.responses.length === 0) {
+        //     this.demoToggled = true;
+        // }
         let responses = this.demoToggled ? { stats: demoStats, charts: demoChartData, responses: demoComments } : data.responses;
         this.userResponses = data.responses;
         this.els.root.value = responses;
