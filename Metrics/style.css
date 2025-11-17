@@ -1,0 +1,58 @@
+metrics-view { 
+    display: block;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 0.1em 0.5em;
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+th {
+    padding: 0.1em 0.5em;
+    border-bottom: 2px solid black;
+    padding-bottom: 0.5em;
+}
+tbody tr:first-of-type td {
+    padding-top: 0.5em;
+}
+
+th[sortable] {
+    cursor: pointer;
+}
+
+th > div {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2em;
+}
+th[sortable] > div::after {
+    content: ' ';
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27.37 47.98"><polygon opacity="0.5" points="13.68 47.98 27.37 26.28 0 26.28 13.68 47.98"/><polygon opacity="0.5" points="13.68 0 0 21.7 27.37 21.7 13.68 0"/></svg>');
+    width: 15px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+th[sortable][descending=true] > div::after {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27.37 47.98"><polygon opacity="0.5" points="13.68 47.98 27.37 26.28 0 26.28 13.68 47.98"/><polygon points="13.68 0 0 21.7 27.37 21.7 13.68 0"/></svg>');
+}
+th[sortable][descending=false] > div::after {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27.37 47.98"><polygon points="13.68 47.98 27.37 26.28 0 26.28 13.68 47.98"/><polygon opacity="0.5" points="13.68 0 0 21.7 27.37 21.7 13.68 0"/></svg>');
+}
+
+td[clickable] {
+    cursor: pointer;
+}
+td[copyable] {
+    cursor: url('data:image/svg+xml,<svg width = "18px" height = "18px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.3 48.86"><path class="cls-1" d="M37.3,0h-18.2c-2.75,0-5,2.25-5,5v2.88h9.1c4.41,0,8,3.59,8,8v22.09h6.1c2.75,0,5-2.25,5-5V5c0-2.75-2.25-5-5-5Z"/><path class="cls-1" d="M23.2,10.88H5c-2.75,0-5,2.25-5,5v27.97c0,2.75,2.25,5,5,5h18.2c2.75,0,5-2.25,5-5V15.88c0-2.75-2.25-5-5-5ZM22.66,29.82H5.53c-.86,0-1.56-.7-1.56-1.56s.7-1.56,1.56-1.56h17.13c.86,0,1.56.7,1.56,1.56s-.7,1.56-1.56,1.56ZM22.66,23.7H5.53c-.86,0-1.56-.7-1.56-1.56s.7-1.56,1.56-1.56h17.13c.86,0,1.56.7,1.56,1.56s-.7,1.56-1.56,1.56ZM22.66,17.59H5.53c-.86,0-1.56-.7-1.56-1.56s.7-1.56,1.56-1.56h17.13c.86,0,1.56.7,1.56,1.56s-.7,1.56-1.56,1.56Z"/></svg>') 12 12, auto;
+}
+
+h1.top-margin{
+    margin-top: 3em;
+}

@@ -1,16 +1,25 @@
-import {AppView} from "./templates/app-view.js"
-import {LoginPage} from "./templates/MainPages/login-page.js"
+import {LoginPage} from "../Console/templates/MainPages/login-page.js"
 
 import * as F from '../Firebase/firebase-client.js'
 import { updateUserDataComponents } from "../Utilities/CustomComponent.js"
-import { watch } from "../Firebase/main.js";
 import { loadTemplates } from "../Utilities/template.js";
+import { MetricsView } from "./metrics.js";
+
+import * as M from "../Firebase/admin-metrics.js";
+
+
+async function watch(uid, callback) {
+    let data = {};
+    return await M.watch(uid, data, () => {
+        callback(data);
+    });
+}
 
 
 async function start() {
     await loadTemplates();
     let loginPage = new LoginPage();
-    let appView = new AppView();
+    let appView = new MetricsView();
     
     let Type = null;
     function showScreen(type) {
@@ -40,10 +49,13 @@ async function start() {
             F.updateMetrics(user.uid);
             if (user.emailVerified) {
                 noUser = false;
-                 await watch(user?.uid, (allData, type) => {
+                if (await watch(user.uid, (allData) => {
                     updateUserDataComponents(allData);
-                });
-                showScreen("appView");
+                })) {
+                    showScreen("appView");
+                } else {
+                    document.body.innerHTML = "<h3>Access Denied</h3><p>You do not have permission to access the Metrics Dashboard.</p>";
+                }
             } else {
                 // loginPage.mode = "sign-in";
                 loginPage.email = user.email;
@@ -55,9 +67,7 @@ async function start() {
             showScreen("loginPage")
             noUser = true;
         }
-        
     });
-    
     
     await F.initialise();
 }

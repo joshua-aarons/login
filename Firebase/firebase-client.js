@@ -61,7 +61,6 @@ import { getStorage,
          getMetadata } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js'
 
 
-
 const firebaseConfig = {
     apiKey: "AIzaSyChiEAP1Rp1BDNFn7BQ8d0oGR65N3rXQkE",
     authDomain: "verify.squidly.com.au",
@@ -71,6 +70,7 @@ const firebaseConfig = {
     messagingSenderId: "56834287411",
     appId: "1:56834287411:web:999340ed2fd5165fa68046"
 };
+
 const storageURL = "gs://eyesee-d0a42.appspot.com"
 
 let initialised = false;
@@ -143,12 +143,11 @@ export async function initialise(config = firebaseConfig) {
   for (let key in Functions) Functions[key] = getFunctions(App, key);
   waitForUserProm = new Promise((r) => {
     onAuthStateChanged(Auth, async (userData) => {
-      authChangeHandler(userData);
-      console.log(userData);
-      
-      initialising = false;
-      initialised = true;
-      r(userData);
+        authChangeHandler(userData);
+
+        initialising = false;
+        initialised = true;
+        r(userData);
     });
   });
   return await waitForUserProm;
@@ -312,6 +311,13 @@ export async function uploadFileToCloud(file, path, statusCallback, metadata, ge
 
 export async function getFile(path) {
   return await getBlob(storageRef(path));
+}
+
+export async function updateMetrics(uid) {
+    let time = Date.now();
+    console.log(`set  users/${uid}/metrics/lastSignInTime  =  ${time}`);
+    
+    return await set(ref(`users/${uid}/metrics/lastSignInTime`), time);
 }
 
 export {

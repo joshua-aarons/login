@@ -39,7 +39,7 @@ const SessionInfoKeys = {
 
 const oldMode = false;
     
-class Session {
+export class Session {
     /**
      * @type {number} timestamp in milliseconds 
      **/
@@ -85,11 +85,30 @@ class Session {
      **/
     active = false;
 
-    constructor(sid, session, isHistory = false) {
+    /**
+     * @type {string} host user ID optional
+     */
+    hostUID = null;
+
+    /**
+     * Creates a new Session instance.
+     * @param {string} sid - The session ID.
+     * @param {Object} session - The session data object.
+     * @param {boolean} isHistory - Whether the session is from history.
+     * @throws Will throw an error if the session ID is not a non-empty string,
+     *         if the session data is not a non-null object,
+     *         or if the session data does not contain a valid 'info' object.
+     */
+    constructor(sid, session, isHistory = false, hostUID = null) {
+        this.hostUID = hostUID;
         if (oldMode) {
             if (!session.info) {
                 session.info = {duration: 5, description: "My Meeting", startTime: Date.now(), startDate: new Date().toISOString()};
             }
+        }
+
+        if (session.info && session.info.scheduledTime) {
+            session.info.startTime = session.info.scheduledTime;
         }
         
         if (typeof sid !== "string" || sid.length === 0) {
