@@ -1,3 +1,8 @@
+body{
+    width: calc(100vw - 2em);
+    margin: 1em;
+}
+
 metrics-view { 
     display: block;
 }

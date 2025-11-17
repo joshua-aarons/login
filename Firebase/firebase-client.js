@@ -315,7 +315,7 @@ export async function getFile(path) {
 
 export async function updateMetrics(uid) {
     let time = Date.now();
-    console.log(`set  users/${uid}/metrics/lastSignInTime  =  ${time}`);
+    // console.log(`set  users/${uid}/metrics/lastSignInTime  =  ${time}`);
     
     return await set(ref(`users/${uid}/metrics/lastSignInTime`), time);
 }
