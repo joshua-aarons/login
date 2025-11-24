@@ -17,7 +17,12 @@ class UserObject {
                 return null;
             }
         }).filter(s => s !== null);
-        this.sessionHistory = userSessions;
+        
+        this._sessionHistory = userSessions;
+    }
+
+    get sessionHistory() {
+        return [...this._sessionHistory];
     }
 
     get name() {
@@ -45,6 +50,7 @@ class MetricData {
                 return null;
             }
         }).filter(s => s !== null);
+        
         this.__sessions = sessionsList;
     }
 
@@ -121,12 +127,11 @@ class MetricData {
         }
         return sessionsByUser;
     }
-
 }
 
-async function onValueInitial(path, callback) {
+async function onValueInitial(rpath, callback) {
     return new Promise(async (resolve) => {
-        onValue(ref(path), (snapshot) => {
+        onValue(rpath, (snapshot) => {
             callback(snapshot);
             resolve();
         });
@@ -142,24 +147,23 @@ export async function watch(uid, allData, updateCallback) {
 
     if (isSuperAdmin) {
         await Promise.all([
-            onValue(ref(`sessions-v3`), (snapshot) => {
+            onValueInitial(ref(`sessions-v3`), (snapshot) => {
                 let sessionsData = snapshot.val() || {};
                 allData.metrics._sessions = sessionsData;
                 if (isReady) updateCallback(allData, "metricData");
             }),
-            onValue(ref("licences"), (snapshot) => {
+            onValueInitial(ref("licences"), (snapshot) => {
                 let licencesData = snapshot.val() || {};
                 allData.metrics._licences = licencesData;
                 if (isReady) updateCallback(allData, "metricData");
             })
         ]);
-        onValue(ref("users"), (snapshot) => {
+        await onValueInitial(ref("users"), (snapshot) => {
             let usersData = snapshot.val() || {};
             allData.metrics._users = usersData;
             isReady = true;
             updateCallback(allData, "metricData");
         })
-
     
     } else {
         console.warn("Access denied: User is not a super-admin");

@@ -50,14 +50,16 @@ class TD extends SvgPlus {
             cellContent = header.format(data, rowData);
         }
 
-        this.props = {
-            content: cellContent
-        }
+        if (typeof cellContent === "string" || typeof cellContent === "number") {
+            this.innerHTML = cellContent;
+        } else if (cellContent instanceof Element) {
+            this.appendChild(cellContent);
+        } 
 
         if (header.cellOnClick instanceof Function) {
             this.events = {
                 click: (e) => {
-                    header.cellOnClick(e, data, rowData);
+                    header.cellOnClick(e, data, rowData, this);
                 }
             }
             this.toggleAttribute("clickable", true);
@@ -145,9 +147,18 @@ export class Table extends SvgPlus {
         return this._data;
     }
 
+    filterRows(filterFunc) {
+        this._rows.forEach(row => {
+            if (filterFunc(row.rowData)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+        this._filterFunc = filterFunc;
+    }
 
-
-    sortColumn(header) {
+    sortColumn(header, toggleAscending=true) {
         if (!header.dataKey || !header.sortable) return;
 
         // Toggle descending on the header and remove it from all other headers
@@ -159,7 +170,10 @@ export class Table extends SvgPlus {
                 }
             }
         });
-        header.descending = !header.descending;
+
+        if (toggleAscending) {
+            header.descending = !header.descending;
+        }
         if (header.th) {
             header.th.descending = header.descending;
         }
@@ -199,8 +213,11 @@ export class Table extends SvgPlus {
         // Sort by any previously sorted columns
         this.headers.forEach(h => {
             if (h.descending !== undefined) {
-                this.sortColumn(h);
+                this.sortColumn(h, false);
             }
         });
+        if (this._filterFunc instanceof Function) {
+            this.filterRows(this._filterFunc);
+        }
     }
 }

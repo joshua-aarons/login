@@ -51,13 +51,39 @@ const TIER_NAMES = {
     3: "Pro"
 }
 
+class FilterIcon extends SvgPlus {
+    constructor(isFiltered=false) {
+        super("span");
+        this.class = "filter"
+        this.innerHTML = ""
+        this.filtered = isFiltered;
+    }
+
+    get filtered() {
+        return this.hasAttribute("filtered");
+    }
+    set filtered(v) {
+        if (v) {
+            this.setAttribute("filtered", "");
+        } else {
+            this.removeAttribute("filtered");
+        }
+    }
+}
+
 export class MetricsView extends UserDataComponent {
     constructor() {
         super("metrics-view");
         this.template = ""
 
-        this.createChild("h1", {innerHTML: "User Metrics"});
+        this.createChild("h1", {innerHTML: "Licence Metrics"});
+        this.licenceTable = this.createChild(Table);
+
+        this.createChild("h1", {innerHTML: "User Metrics", class: "top-margin"});
         this.table = this.createChild(Table);
+
+
+        this.filterByLicence = new Set();
 
         this.table.headers = [
             {name: "User ID", dataKey: "uidShort", sortable: true, cellOnClick: (e, data, rowData) => {
@@ -77,8 +103,7 @@ export class MetricsView extends UserDataComponent {
             {name: "Tier", dataKey: "userMaxTier", sortable: true, format: (tier, row) => (row.hasPaidLicence ? star : "") + (TIER_NAMES[tier] || "N/A")},
         ];
 
-        this.createChild("h1", {innerHTML: "Licence Metrics", class: "top-margin"});
-        this.licenceTable = this.createChild(Table);
+        
 
         this.licenceTable.headers = [
             {name: "Licence ID", dataKey: "lid", sortable: true, format: shortUID, cellOnClick: (e, data, rowData) => {
@@ -94,23 +119,45 @@ export class MetricsView extends UserDataComponent {
             {name: "Active", dataKey: "disabled", sortable: true, format: (v) => !v ? tick : cross},
             {name: "Seats", dataKey: "seats", sortable: true, format: (s, r) => `${r.activeUsers + r.addedUsers}/${s}`},
             {name: "Active Users", dataKey: "activeUsers", sortable: true},
+            {name: "Filter", format: (_, rowData) => new FilterIcon(rowData.isFiltered), cellOnClick: (e, data, rowData, el) => {
+                el.children[0].filtered = !el.children[0].filtered;
+                if (el.children[0].filtered) {
+                    this.filterByLicence.add(rowData.lid);
+                } else {
+                    this.filterByLicence.delete(rowData.lid);
+                }
+
+                this.table.filterRows(userData => {
+                    let userLids = Object.keys(userData.licences || {});
+                    for (let lid of userLids) {
+                        if (this.filterByLicence.has(lid)) {
+                            return true;
+                        }
+                    }
+                    return this.filterByLicence.size === 0;
+                });
+            }}
         ];
     }
 
-
+ 
 
     onvalue(data) {
         const sessionsByUser = data.metrics.sessionsByUser;
         const licences = data.metrics.licencesById;
 
-        const now = Date.now();        
+        const now = Date.now();    
+        
+        // Create user data for table
         let tableData = []
         for (let user of data.metrics.users) {
             let sessions = sessionsByUser[user.uid] || [];
+            
             let history = sessions.filter(s => s.isHistory);
             let scheduled = sessions.filter(s => !s.isHistory);
             let upcoming = scheduled.filter(s => s.startTime > now);
             let expired = scheduled.filter(s => s.startTime <= now);
+            
             let lastSession = Math.max(...history.map(s => s.startTime || 0), 0);
             let userMaxTier = "max-tier" in user ? user["max-tier"] : -1;
             
@@ -140,15 +187,18 @@ export class MetricsView extends UserDataComponent {
                 userMaxTier,
                 userCreated,
                 lastSignIn,
-                hasPaidLicence
+                hasPaidLicence,
+                licences: user.licences || {},
             });
         }
+
+        // Populate table
         this.table.value = tableData;
 
+        // Process licence data
         let usersById= data.metrics.usersById;
-        
-        data.metrics.licences.forEach(l => {
-
+        let licenceMetrics = data.metrics.licences.map(licence => {
+            let l = {...licence};
             l.isPaid = !l.isTest && !l.disabled;
             let users = Object.keys(l.users);
              let joined = 0;
@@ -163,12 +213,13 @@ export class MetricsView extends UserDataComponent {
             l.sortTier = Math.max(l.oldTier || 0, l.tier) - (l.disabled ? 0.5 : 0);
             l.activeUsers = joined;
             l.addedUsers = added;
+            l.isFiltered = this.filterByLicence.has(l.lid);
+            return l
         });
-        
-        this.licenceTable.value = data.metrics.licences;
+
+        // Populate licence table
+        this.licenceTable.value = licenceMetrics
         
     }
-
-
 
 }
