@@ -171,44 +171,46 @@
                     </div>
                 </div>
             </div>
-            <div class="chart-wrapper">
-                <div class="legend">
-                    <div class="legend-item" name="connectivity">
-                        <span class="legend-color"></span> 
-                        <div class="legend-data">
-                            <div class="legend-category" vfield="innerHTML" name="responses/charts/technical/legend/Connectivity/percent"></div>
-                            <div class="legend-count" vfield="innerHTML" name="responses/charts/technical/legend/Connectivity/count"></div>
-                        </div>
-                    </div>
 
-                    <div class="legend-item" name="audio">
-                        <span class="legend-color"></span> 
-                        <div class="legend-data">
-                            <div class="legend-category" vfield="innerHTML" name="responses/charts/technical/legend/Audio/percent"></div>
-                            <div class="legend-count" vfield="innerHTML" name="responses/charts/technical/legend/Audio/count"></div>
-                        </div>
-                    </div>
-
-                    <div class="legend-item" name="platform">
-                        <span class="legend-color"></span> 
-                        <div class="legend-data">
-                            <div class="legend-category" vfield="innerHTML" name="responses/charts/technical/legend/Platform/percent"></div>
-                            <div class="legend-count" vfield="innerHTML" name="responses/charts/technical/legend/Platform/count"></div>
-                        </div>
-                    </div>
-
-                    <div class="legend-item" name="unable">
-                        <span class="legend-color"></span> 
-                        <div class="legend-data">
-                            <div class="legend-category" vfield="innerHTML" name="responses/charts/technical/legend/Unable to resolve/percent"></div>
-                            <div class="legend-count" vfield="innerHTML" name="responses/charts/technical/legend/Unable to resolve/count"></div>
-                        </div>
+            <div class="custom-legend" style="margin-top: 1rem;">
+                <div class="legend-item" name="connectivity">
+                    <span class="legend-color"></span> 
+                    <div class="legend-data">
+                        <div class="legend-category" vfield="innerHTML" name="responses/charts/technical/legend/Connectivity/percent"></div>
+                        <div class="legend-count" vfield="innerHTML" name="responses/charts/technical/legend/Connectivity/count"></div>
                     </div>
                 </div>
+
+                <div class="legend-item" name="audio">
+                    <span class="legend-color"></span> 
+                    <div class="legend-data">
+                        <div class="legend-category" vfield="innerHTML" name="responses/charts/technical/legend/Audio/percent"></div>
+                        <div class="legend-count" vfield="innerHTML" name="responses/charts/technical/legend/Audio/count"></div>
+                    </div>
+                </div>
+
+                <div class="legend-item" name="platform">
+                    <span class="legend-color"></span> 
+                    <div class="legend-data">
+                        <div class="legend-category" vfield="innerHTML" name="responses/charts/technical/legend/Platform/percent"></div>
+                        <div class="legend-count" vfield="innerHTML" name="responses/charts/technical/legend/Platform/count"></div>
+                    </div>
+                </div>
+
+                <div class="legend-item" name="unable">
+                    <span class="legend-color"></span> 
+                    <div class="legend-data">
+                        <div class="legend-category" vfield="innerHTML" name="responses/charts/technical/legend/Unable to resolve/percent"></div>
+                        <div class="legend-count" vfield="innerHTML" name="responses/charts/technical/legend/Unable to resolve/count"></div>
+                    </div>
+                </div>
+            </div>
+           
+            <chart-wrapper>
                 <div class="chart-container" graph="technical">
                     <canvas name="technicalChart"></canvas>
                 </div>
-            </div>
+            </chart-wrapper>
         </div>
     </div>
     
