@@ -476,7 +476,7 @@ feedback-page thead th {
         display: none;
     }
 
-    feedback-page h1 {
+    feedback-page .card h1 {
         font-size: 1.3rem !important;
     }
 }
