@@ -1,0 +1,241 @@
+<div class="heading">
+    <h1>Feedback</h1>
+    <div class="button-container">
+        <button class="btn" name="demoButton">Show demo</button>
+    </div>
+</div>
+
+<feed-back name="root">
+    <div class="stats-bar">
+        <div class="stat-item card">
+            <h3>Total <br/> Responses</h3>
+            <div class="stats-graph-container">
+                <h1 class="stat-number" vfield="innerHTML" name="responses/stats/totalResponses/statValue"></h1>
+                <img vfield="src" name="responses/stats/totalResponses/imageSrc"/>
+            </div>
+            <div class="stat-change-container">
+                <div class="stat-change" name="stat-change-responses"></div>
+                <div class="stat-compare">Compared to last month</div>
+            </div>
+        </div> 
+
+        <div class="stat-item card">
+            <h3>Average <br/> NPS Score</h3>
+            <div class="stats-graph-container">
+                <h1 class="stat-number" vfield="innerHTML" name="responses/stats/nps/statValue"></h1>
+                <img vfield="src" name="responses/stats/nps/imageSrc"/>
+            </div>
+            <div class="stat-change-container">
+                <div class="stat-change" name="stat-change-nps"></div>
+                <div class="stat-compare">Compared to last month</div>
+            </div>
+        </div>
+        
+        <div class="stat-item card">
+            <h3>Average <br/> Experience</h3>
+            <div class="stats-graph-container">
+                <h1 class="stat-number" vfield="innerHTML" name="responses/stats/experience/statValue"></h1>
+                <img vfield="src" name="responses/stats/experience/imageSrc"/>
+            </div>
+            <div class="stat-change-container">
+                <div class="stat-change" name="stat-change-experience"></div>
+                <div class="stat-compare">Compared to last month</div>
+            </div>   
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="card-title">
+                <h1>NPS Score Over Time</h1>
+            </div>
+            <chart-wrapper>
+                <div class="chart-container" graph="timeline">
+                    <canvas name="timelineChart"canvas>
+                </div>
+            </chart-wrapper>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <h1>NPS Score Distribution</h1>
+                <div class="dropdown">
+                    <div class="dropbtn">
+                        <span class="fa-sharp fa-regular fa-clock"></span>
+                        <span class="dropbtn-text">Time</span>
+                        <span class="fa-solid fa-angle-down"></span>
+                    </div>
+                    <div class="dropdown-content" graph="nps">
+                        <div class="dropdown-item" filter="all">All</div>
+                        <div class="dropdown-item" filter="today">Today</div>
+                        <div class="dropdown-item" filter="week">Last 7 Days</div>
+                        <div class="dropdown-item" filter="month">Last 30 Days</div>
+                        <div class="dropdown-item" filter="quarter">Last 90 Days</div>
+                    </div>
+                </div>
+            </div>
+            <chart-wrapper>
+                <div class="chart-container" graph="nps">
+                    <canvas name="npsChart"></canvas>
+                </div>
+            </chart-wrapper>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card" id="experience-card">
+            <div class="card-title">
+                <h1>Experience Rating</h1>
+                <div class="dropdown">
+                    <div class="dropbtn">
+                        <span class="fa-sharp fa-regular fa-clock"></span>
+                        <span class="dropbtn-text">Time</span>
+                        <span class="fa-solid fa-angle-down"></span>
+                    </div>
+                    <div class="dropdown-content" graph="experience">
+                        <div class="dropdown-item" filter="all">All</div>
+                        <div class="dropdown-item" filter="today">Today</div>
+                        <div class="dropdown-item" filter="week">Last 7 Days</div>
+                        <div class="dropdown-item" filter="month">Last 30 Days</div>
+                        <div class="dropdown-item" filter="quarter">Last 90 Days</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="custom-legend">
+                <div class="category-container" name="very-poor">
+                    <div class="legend-container">
+                        <img src="../../../images/feedback/crying.png" alt="sad" class="emoji"/>
+                        Very Poor
+                    </div>
+                    <div class="experience-count" vfield="innerHTML" name="responses/charts/experience/legend/Very poor"></div>
+                </div>
+
+                <div class="category-container" name="poor">
+                    <div class="legend-container">
+                        <img src="../../../images/feedback/sad.png" alt="sad" class="emoji"/>
+                        Poor
+                    </div>
+                    <div class="experience-count" vfield="innerHTML" name="responses/charts/experience/legend/Poor"></div>
+                </div>
+
+                <div class="category-container" name="neutral">
+                    <div class="legend-container">
+                        <img src="../../../images/feedback/neutral.png" alt="sad" class="emoji"/>
+                        Neutral
+                    </div>
+                    <div class="experience-count" vfield="innerHTML" name="responses/charts/experience/legend/Neutral"></div>
+                </div>
+
+                <div class="category-container" name="good">
+                    <div class="legend-container">
+                        <img src="../../../images/feedback/smile.png" alt="sad" class="emoji"/>
+                        Good
+                    </div>
+                    <div class="experience-count" vfield="innerHTML" name="responses/charts/experience/legend/Good"></div>
+                </div>
+
+                <div class="category-container" name="very-good">
+                    <div class="legend-container">
+                        <img src="../../../images/feedback/happy.png" alt="sad" class="emoji"/>
+                        Very Good
+                    </div>
+                    <div class="experience-count" vfield="innerHTML" name="responses/charts/experience/legend/Very good"></div>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <chart-wrapper>
+                    <div class="chart-container" chart="experience">
+                        <canvas name="experienceChart"></canvas>
+                    </div>
+                </chart-wrapper>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <h1>Technical Issues Breakdown</h1>
+                <div class="dropdown">
+                    <div class="dropbtn">
+                        <span class="fa-sharp fa-regular fa-clock"></span>
+                        <span class="dropbtn-text">Time</span>
+                        <span class="fa-solid fa-angle-down"></span>
+                    </div>
+                    <div class="dropdown-content" graph="technical">
+                        <div class="dropdown-item" filter="all">All</div>
+                        <div class="dropdown-item" filter="today">Today</div>
+                        <div class="dropdown-item" filter="week">Last 7 Days</div>
+                        <div class="dropdown-item" filter="month">Last 30 Days</div>
+                        <div class="dropdown-item" filter="quarter">Last 90 Days</div>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-wrapper">
+                <div class="legend">
+                    <div class="legend-item" name="connectivity">
+                        <span class="legend-color"></span> 
+                        <div class="legend-data">
+                            <div class="legend-category" vfield="innerHTML" name="responses/charts/technical/legend/Connectivity/percent"></div>
+                            <div class="legend-count" vfield="innerHTML" name="responses/charts/technical/legend/Connectivity/count"></div>
+                        </div>
+                    </div>
+
+                    <div class="legend-item" name="audio">
+                        <span class="legend-color"></span> 
+                        <div class="legend-data">
+                            <div class="legend-category" vfield="innerHTML" name="responses/charts/technical/legend/Audio/percent"></div>
+                            <div class="legend-count" vfield="innerHTML" name="responses/charts/technical/legend/Audio/count"></div>
+                        </div>
+                    </div>
+
+                    <div class="legend-item" name="platform">
+                        <span class="legend-color"></span> 
+                        <div class="legend-data">
+                            <div class="legend-category" vfield="innerHTML" name="responses/charts/technical/legend/Platform/percent"></div>
+                            <div class="legend-count" vfield="innerHTML" name="responses/charts/technical/legend/Platform/count"></div>
+                        </div>
+                    </div>
+
+                    <div class="legend-item" name="unable">
+                        <span class="legend-color"></span> 
+                        <div class="legend-data">
+                            <div class="legend-category" vfield="innerHTML" name="responses/charts/technical/legend/Unable to resolve/percent"></div>
+                            <div class="legend-count" vfield="innerHTML" name="responses/charts/technical/legend/Unable to resolve/count"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container" graph="technical">
+                    <canvas name="technicalChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card wide-card bottom-margin" name="comments">
+        <div class="table-header">
+            <h1>Comments</h1>
+            <div class="search-bar">
+                <input autoComplete="on" type="search" name="default-search" placeholder="Search..." required />
+                <img src="../../../images/search.png">
+            </div>
+
+        </div>
+
+        <div class="table-container">
+            <table id="commentsTable">
+                <thead>
+                    <tr>
+                        <th>NO<span class="fa-solid fa-caret-down"></span></th>
+                        <th>Date<span class="fa-solid fa-caret-down"></span></th>
+                        <th>Experience<span class="fa-solid fa-caret-down"></span></th>
+                        <th>Reported Issues<span class="fa-solid fa-caret-down"></span></th>
+                        <th>NPS Score<span class="fa-solid fa-caret-down"></span></th>
+                        <th>Comments<span class="fa-solid fa-caret-down"></span></th>
+                    </tr>
+                </thead>
+                <tbody name="commentsBody"></tbody>
+            </table>
+        </div>
+    </div>
+</feed-back>
