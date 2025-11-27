@@ -16,6 +16,8 @@ feedback-page .card {
     display: flex;
     flex-direction: column;
     padding: 1em;
+    min-width: 0;
+    flex: 1;
 }
 
 .heading {
@@ -106,7 +108,7 @@ feedback-page .card {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(40em, 1fr));
+    grid-template-columns: repeat(2, 1fr); 
     column-gap: 1.3em;
 }
 
@@ -259,17 +261,15 @@ chart-wrapper {
     font-weight: 500;
 }
 
-.legend {
+.experience-legend {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     margin-top: 1rem;
-    flex-shrink: 0;
-    width: fit-content;
 }
 
 .legend-item {
     display: flex;
-    margin-bottom: 1rem;
+    flex: 1 0 calc(25% - 6em);
     padding: 0.5em;
     border-radius: 0.5em;
     cursor: pointer;
@@ -293,13 +293,13 @@ chart-wrapper {
 }
 
 .legend-category {
-    font-size: 1em;
+    font-size: 0.9em;
     font-weight: 500;
     color: #363949;
 }
 
 .legend-count {
-    font-size: 0.9em;
+    font-size: 0.85em;
     color: #7d8da1;
 }
 
@@ -453,5 +453,36 @@ feedback-page thead th {
     }
     .chart-container[graph] {
         height: 200px !important;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1800px) {
+    .legend-item {
+        flex: 1 1 calc(50% - 4em);
+    }
+}
+
+@media (max-width: 1200px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    .legend-item {
+        flex: 1 1 calc(25% - 6em);
+    }
+}
+
+@media (max-width: 1800px) {
+    .experience-category {
+        display: none;
+    }
+
+    feedback-page h1 {
+        font-size: 1.3rem !important;
+    }
+}
+
+@media (min-width: 1800px) {
+    .experience-category {
+        display: block;
     }
 }

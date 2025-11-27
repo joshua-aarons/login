@@ -106,7 +106,7 @@
                 <div class="category-container" name="very-poor">
                     <div class="legend-container">
                         <img src="../../../images/feedback/crying.png" alt="sad" class="emoji"/>
-                        Very Poor
+                        <span class="experience-category">Very Poor</span>
                     </div>
                     <div class="experience-count" vfield="innerHTML" name="responses/charts/experience/legend/Very poor"></div>
                 </div>
@@ -114,7 +114,7 @@
                 <div class="category-container" name="poor">
                     <div class="legend-container">
                         <img src="../../../images/feedback/sad.png" alt="sad" class="emoji"/>
-                        Poor
+                          <span class="experience-category">Poor</span>
                     </div>
                     <div class="experience-count" vfield="innerHTML" name="responses/charts/experience/legend/Poor"></div>
                 </div>
@@ -122,7 +122,7 @@
                 <div class="category-container" name="neutral">
                     <div class="legend-container">
                         <img src="../../../images/feedback/neutral.png" alt="sad" class="emoji"/>
-                        Neutral
+                        <span class="experience-category">Neutral</span>
                     </div>
                     <div class="experience-count" vfield="innerHTML" name="responses/charts/experience/legend/Neutral"></div>
                 </div>
@@ -130,7 +130,7 @@
                 <div class="category-container" name="good">
                     <div class="legend-container">
                         <img src="../../../images/feedback/smile.png" alt="sad" class="emoji"/>
-                        Good
+                        <span class="experience-category">Good</span>
                     </div>
                     <div class="experience-count" vfield="innerHTML" name="responses/charts/experience/legend/Good"></div>
                 </div>
@@ -138,7 +138,7 @@
                 <div class="category-container" name="very-good">
                     <div class="legend-container">
                         <img src="../../../images/feedback/happy.png" alt="sad" class="emoji"/>
-                        Very Good
+                        <span class="experience-category">Very Good</span>
                     </div>
                     <div class="experience-count" vfield="innerHTML" name="responses/charts/experience/legend/Very good"></div>
                 </div>
@@ -155,7 +155,7 @@
 
         <div class="card">
             <div class="card-title">
-                <h1>Technical Issues Breakdown</h1>
+                <h1>Technical Issues</h1>
                 <div class="dropdown">
                     <div class="dropbtn">
                         <span class="fa-sharp fa-regular fa-clock"></span>
@@ -171,8 +171,14 @@
                     </div>
                 </div>
             </div>
-
-            <div class="custom-legend" style="margin-top: 1rem;">
+            
+            <chart-wrapper>
+                <div class="chart-container" graph="technical">
+                    <canvas name="technicalChart"></canvas>
+                </div>
+            </chart-wrapper>
+            
+            <div class="experience-legend" style="margin-top: 1rem;">
                 <div class="legend-item" name="connectivity">
                     <span class="legend-color"></span> 
                     <div class="legend-data">
@@ -205,12 +211,6 @@
                     </div>
                 </div>
             </div>
-           
-            <chart-wrapper>
-                <div class="chart-container" graph="technical">
-                    <canvas name="technicalChart"></canvas>
-                </div>
-            </chart-wrapper>
         </div>
     </div>
     

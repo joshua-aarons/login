@@ -252,17 +252,16 @@ class FeedBack extends DataComponent {
                 }
             }
         });
-    
 
         this.charts.nps = new Chart(this.els.npsChart, {
             type: 'pie',
             data: {
                 labels: ['Detractors', 'Passives', 'Promoters'],
                 datasets: [{
-                data: chartData.nps,
-                backgroundColor: ['rgba(115, 128, 236, 0.4)', 'rgba(115, 128, 236, 0.75)', 'rgba(115, 128, 236, 1)'],
-                borderWidth: 0,
-                hoverOffset: 8
+                    data: chartData.nps,
+                    backgroundColor: ['rgba(115, 128, 236, 0.4)', 'rgba(115, 128, 236, 0.75)', 'rgba(115, 128, 236, 1)'],
+                    borderWidth: 0,
+                    hoverOffset: 8,
                 }]
             },
             options: {
