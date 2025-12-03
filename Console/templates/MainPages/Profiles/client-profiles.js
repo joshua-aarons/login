@@ -1,9 +1,6 @@
-import {SettingsDescriptor} from "https://v3.squidly.com.au/src/Features/Settings/settings-base.js"
 import { SvgPlus, Vector } from "../../../../SvgPlus/4.js";
 import { useCSSStyle } from "../../../../Utilities/template.js";
 import * as AllSettings from "./settings.js";
-// import { FirebaseFrame } from "../../../../Firebase/firebase-frame.js";
-// import { addAuthChangeListener, onChildAdded, ref, set } from "../../../../Firebase/firebase-client.js";
 useCSSStyle("client-profiles");
 
 class NumberInput extends SvgPlus {
@@ -50,8 +47,6 @@ class Selection extends SvgPlus {
         
         if (options instanceof Function) {
             settings.addChangeListener(() => {
-                console.log("updating selection");
-                
                 this.update(settings.getSelection(path));
             })
         }
@@ -130,18 +125,6 @@ class UploadIcon extends SvgPlus {
         return this._progress;
     }
 
-    onclick(e) {
-        console.log(e);
-        e.stopPropagation();
-        this.progress = 0;
-        let i = setInterval(() => {
-            this.progress += 0.05;
-            if (this.progress >= 1) {
-                clearInterval(i);
-            }
-        }, 100);
-    }
-
 }
    
 class FileUploader extends SvgPlus {
@@ -164,7 +147,6 @@ class FileUploader extends SvgPlus {
             let progress = Math.floor(status.bytesTransferred / status.totalBytes * 100);
             this.styles = { "--progress": `${progress}` }
             this.icon.progress = status.bytesTransferred / status.totalBytes;
-            console.log("Upload is " + progress + "% done");
         });
         this._value = url;
         this.dispatchEvent(new Event("change"));
@@ -193,7 +175,6 @@ class FileUploader extends SvgPlus {
     }
 
     set value(v) {
-        console.log("setting value", v);
         this.icon.progress = typeof v === "string" && v !== "" ? 1 : 0;
         this._value = v;
     }
@@ -270,7 +251,7 @@ class SettingsCategory extends SvgPlus {
         this.subElements = this.createChild("div", {class: isSub ?  "category-list" : "settings-list" });
         for (let key in category) {
             let value = category[key];
-            if (value instanceof SettingsDescriptor) {
+            if (value instanceof AllSettings.SettingsDescriptor) {
                 this.subElements.createChild(SettingOptionInput, {}, value, key, settings);
             } else {
                 let title = key.replace(/([a-z])([A-Z])/g, '$1 $2');
@@ -340,7 +321,6 @@ class ProfileCard extends SvgPlus {
         }
 
         this.SettingCategories = this.createChild(SettingsCategory, {}, settingsDescriptor, null, Settings);
-
         this.Settings = Settings;
     }
 
@@ -405,3 +385,7 @@ class ProfileSettings extends SvgPlus {
 }
 
 SvgPlus.defineHTMLElement(ProfileSettings);
+
+/**
+ * Error when deleting
+ */

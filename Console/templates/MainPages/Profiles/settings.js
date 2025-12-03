@@ -1,8 +1,7 @@
-import {SettingOptions, SettingsFrame} from "https://v3.squidly.com.au/src/Features/Settings/settings-base.js"
+// import {SettingOptions, SettingsFrame, SettingsDescriptor} from "https://v3.squidly.com.au/src/Features/Settings/settings-base.js"
+import {SettingOptions, SettingsFrame, SettingsDescriptor} from "http://127.0.0.1:37374/src/Features/Settings/settings-base.js"
 import { FirebaseFrame } from "../../../../Firebase/firebase-frame.js";
 import { ref, set, addAuthChangeListener } from "../../../../Firebase/firebase-client.js";
-
-
 
 
 const sessionSettings = SettingOptions.map(option => {
@@ -10,6 +9,7 @@ const sessionSettings = SettingOptions.map(option => {
     newOption.key = newOption.key.slice(1);
     return newOption;
 })
+
 const profileSettings = [
     {
         key: ["profileSettings", "name"],
@@ -24,7 +24,7 @@ const profileSettings = [
         default: null,
     }
 ];
-const allSettings = [...sessionSettings, ...profileSettings];
+const allSettings = [ ...profileSettings, ...sessionSettings];
 
 
 
@@ -60,11 +60,17 @@ function createSettingsFrame(framePath, settingsOptions=allSettings) {
     if (framePath in settingsFrames) {
         return;
     }
+    settingsFrames[framePath] = true;;
+    
+    
     const frame = new SettingsFrame(new FirebaseFrame(framePath), settingsOptions);
     settingsFrames[framePath] = frame
-    frame.delete = () => {
-        detachSettingsFrame(framePath);
-        set(ref(framePath), null);
+    frame.delete = async () => {
+        detachSettingsFrame(framePath, false);
+        
+        await set(ref(framePath), null);
+        
+        callUpdate();
     }
     frame.framePath = framePath;
     frame.isDefault = framePath.endsWith("/default");
@@ -87,13 +93,13 @@ addAuthChangeListener((user) => {
             rootFrame = new FirebaseFrame(path);
             rootFrame.profilesUID = uid;
 
-            // createSettingsFrame(path + "/host");
             createSettingsFrame(path + "/default", sessionSettings);
 
             rootFrame.onChildAdded("profiles", (childSnap, key) => {
                 let framePath = path + "/profiles/" + key;
                 createSettingsFrame(framePath);
             });
+
             rootFrame.onChildRemoved("profiles", (childSnap, key) => {
                 detachSettingsFrame(path + "/profiles/" + key)
             });
@@ -121,7 +127,7 @@ export function addSettingsFrame() {
     if (rootFrame) {
         let sfid = rootFrame.push("profiles");
         let path = rootFrame.rootPath + "/profiles/" + sfid;
-        createSettingsFrame(path);
+        set(ref(path), true);
     }
 }
 
@@ -135,3 +141,5 @@ export function getSettingsFrame(path) {
 export function getAllSettingsFrames() {
     return Object.keys(settingsFrames);
 }
+
+export {SettingsDescriptor}
