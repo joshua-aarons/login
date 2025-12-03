@@ -18,6 +18,9 @@ export const TemplateLibrary = {
 	"theme": {
 		"css": "Console/templates/theme.css"
 	},
+	"client-profiles": {
+		"css": "Console/templates/MainPages/Profiles/client-profile.css",
+	},
 	"features-page": {
 		"css": "HomePage/templates/features-page.css",
 		"html": "HomePage/templates/features-page.html"

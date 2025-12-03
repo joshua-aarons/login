@@ -254,10 +254,11 @@ img {
     gap: 1.7em;
 }
 
-.row, .row-center, .row-stretch, .row-slider {
+.row, .row-center, .row-stretch, .row-slider, .row-space {
     gap: 1.3em;
     display: flex;
 }
+
 
 .row {
     align-items: center;
@@ -275,6 +276,10 @@ img {
 .row-slider {
     justify-content: space-between;
     align-items: flex-start;
+}
+.row-space {
+    justify-content: space-between;
+    align-items: center;
 }
 
 .no-gap {

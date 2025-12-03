@@ -1,6 +1,6 @@
 import { SvgPlus, UserDataComponent } from "../../../Utilities/CustomComponent.js";
 import { getHTMLTemplate, useCSSStyle } from "../../../Utilities/template.js"
-
+import {} from "./Profiles/client-profiles.js"
 useCSSStyle("theme");
 
 class SettingsPanel extends UserDataComponent {
