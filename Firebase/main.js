@@ -1,6 +1,7 @@
 import * as sessions from "./sessions.js";
 import * as licences from "./licences.js";
 import * as user from "./user.js";
+import * as responses from "./responses.js"
 
 /**
  * Watches the user's sessions and licences, and calls the callback with the updated data.
@@ -17,7 +18,9 @@ export async function watch(uid, callback) {
          // Watch licences
         licences.watch(uid, allData, () => callback(allData, "licences")),
 
-        user.watch(uid, allData, () => callback(allData, "user"))
+        user.watch(uid, allData, () => callback(allData, "user")),
+
+        responses.watch(uid, allData, () => callback(allData, "responses"))
     ])
 
 
@@ -25,5 +28,6 @@ export async function watch(uid, callback) {
         // Stop watching sessions and licences
         sessions.stopWatch();
         licences.stopWatch();
+        responses.stopWatch();
     }
 }

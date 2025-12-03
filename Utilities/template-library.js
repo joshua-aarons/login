@@ -60,6 +60,10 @@ export const TemplateLibrary = {
 	"support-panel": {
 		"html": "Console/templates/MainPages/support-panel.html"
 	},
+    "feedback-page": {
+        "css": "Console/templates/MainPages/feedback-page.css",
+        "html": "Console/templates/MainPages/feedback-page.html"
+    },
 	"meeting-scheduler": {
 		"html": "Console/templates/MeetingTools/meeting-scheduler.html"
 	},
