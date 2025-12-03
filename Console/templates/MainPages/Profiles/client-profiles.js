@@ -1,4 +1,4 @@
-import {SettingsDescriptor} from "http://127.0.0.1:37374/src/Features/Settings/settings-base.js"
+import {SettingsDescriptor} from "https://v3.squidly.com.au/src/Features/Settings/settings-base.js"
 import { SvgPlus, Vector } from "../../../../SvgPlus/4.js";
 import { useCSSStyle } from "../../../../Utilities/template.js";
 import * as AllSettings from "./settings.js";
