@@ -1,6 +1,8 @@
-import {SettingOptions, SettingsFrame} from "http://127.0.0.1:37374/src/Features/Settings/settings-base.js"
+import {SettingOptions, SettingsFrame} from "https://v3.squidly.com.au/src/Features/Settings/settings-base.js"
 import { FirebaseFrame } from "../../../../Firebase/firebase-frame.js";
 import { ref, set, addAuthChangeListener } from "../../../../Firebase/firebase-client.js";
+
+
 
 
 const sessionSettings = SettingOptions.map(option => {
@@ -106,7 +108,6 @@ function callUpdate() {
         callback();
     }
 }
-
 
 
 
