@@ -12,7 +12,6 @@ useCSSStyle("login-page");
 useCSSStyle("theme");
 
 
-
 const OTP_RESEND_INTERVAL = 120; // seconds
 
 let credential = null;
@@ -26,6 +25,14 @@ function savePendingCred(pendingCred) {
     // localStorage.setItem("pendingCred", JSON.stringify(pendingCred));
 }
 
+/**
+ * Requests an OTP for the given email. If the email is new, returns isNewUser = true.
+ * In this case, the user should be prompted to create an account.
+ * If an error occurs, then the error string is returned.
+ * 
+ * @param {string} email 
+ * @returns {Promise<[boolean, string]>} isNewUser, error
+ */
 async function requestOTP(email) {
     let res = (await callFunction("otp-getOTP", {email} )).data;
     let isNewUser = false;
@@ -43,6 +50,14 @@ async function requestOTP(email) {
     return [isNewUser, error];
 }
 
+/**
+ * Verifies the given OTP for the given email. If successful, signs in the user.
+ * If an error occurs, then the error string is returned.
+ * 
+ * @param {string} email
+ * @param {string} otp
+ * @returns {Promise<string>} error
+ */
 async function verifyOTP(email, otp) {
     let res = (await callFunction("otp-checkOTP", {email, otp} )).data;
     
@@ -67,6 +82,15 @@ async function verifyOTP(email, otp) {
     return error
 }
 
+/**
+ * Creates an account with the given email, first name, and last name.
+ * If an error occurs, then the error string is returned.
+ * 
+ * @param {string} email
+ * @param {string} firstName
+ * @param {string} lastName
+ * @returns {Promise<string>} error
+ */
 async function createAccountWithOTP(email, firstName, lastName) {
     let res = (await callFunction("otp-createAccountWithOTP", {
         email,
@@ -96,6 +120,7 @@ export class LoginPage extends CustomComponent {
         this.toggleAttribute("loading", value);
         if (!value) this.els.overlayText.innerHTML = "";
     }
+
     set overlayText(text) {
         this.els.overlayText.innerHTML = text;
     }
