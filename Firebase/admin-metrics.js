@@ -8,6 +8,10 @@ class UserObject {
             this[key] = data[key];
         }
 
+        if (!this.info) {
+            this.info = {};
+        }
+
         let sessionHistory = data["session-history"];
         let userSessions = Object.keys(sessionHistory || {}).map(sid => {
             let sessionData = sessionHistory[sid];
