@@ -1,5 +1,6 @@
 import { getHTMLTemplate, useCSSStyle } from "../../../Utilities/template.js";
 import { UserDataComponent, SvgPlus } from "../../../Utilities/CustomComponent.js";
+import { RouteQuery } from "../../../Utilities/router.js";
 
 useCSSStyle("theme");
 useCSSStyle("dashboard-welcome");
@@ -16,61 +17,32 @@ class DashboardWelcome extends UserDataComponent {
 
     onconnect() {
         this.template = getHTMLTemplate("dashboard-welcome");
-        // Use event delegation to ensure clicks work even if component initialization has issues
         this.setupEventListeners();
         
-        // Also set up a global click handler as fallback
-        this.setupGlobalClickHandler();
+        // Simple check: Dashboard window has 'dashboard-window' class on body
+        this.isDashboardWindow = document.body.classList.contains('dashboard-window');
         
-        // Test API availability on connect
-        setTimeout(() => {
-            console.log('=== Testing API availability ===');
-            console.log('window.api:', window.api);
-            console.log('window.api.openConsole:', window.api && window.api.openConsole);
-            console.log('window.api.openConsole type:', typeof (window.api && window.api.openConsole));
-            if (window.api) {
-                console.log('Available API methods:', Object.keys(window.api));
-            }
-        }, 500);
-    }
-
-
-    setupGlobalClickHandler() {
-        // Use event delegation on the component itself
-        this.addEventListener('click', (e) => {
-            const target = e.target.closest('.action-card');
-            if (target) {
-                const action = target.dataset.action;
-                if (action) {
-                    console.log('Global click handler: Action card clicked:', action);
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.handleAction(action);
-                    return;
-                }
-            }
+        // Only set active and handle navigation if in Dashboard window
+        if (this.isDashboardWindow) {
+            // Set active by default (dashboard is the default page)
+            this.active = true;
             
-            const navItem = e.target.closest('.nav-item');
-            if (navItem) {
-                const route = navItem.dataset.route;
-                if (route) {
-                    console.log('Global click handler: Nav item clicked:', route);
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.handleNavigation(route);
-                    return;
-                }
-            }
+            // Handle hash changes
+            window.addEventListener('hashchange', () => {
+                const hash = window.location.hash.slice(1) || 'dashboard';
+                this.handleNavigation(hash);
+            });
             
-            const userAvatar = e.target.closest('.user-avatar');
-            if (userAvatar) {
-                console.log('Global click handler: User avatar clicked');
-                e.preventDefault();
-                e.stopPropagation();
-                this.handleNavigation('profile');
+            // Handle initial hash
+            const initialHash = window.location.hash.slice(1) || 'dashboard';
+            if (initialHash !== 'dashboard') {
+                this.handleNavigation(initialHash);
             }
-        }, true); // Use capture phase to catch events early
+        }
     }
+    
+    // Removed handleDirectNavigation, waitForAppView, setupGlobalClickHandler - using simple handleNavigation instead
+    
 
     setupEventListeners() {
         // Navigation items - use event delegation
@@ -90,7 +62,6 @@ class DashboardWelcome extends UserDataComponent {
             if (actionCard) {
                 const action = actionCard.dataset.action;
                 if (action) {
-                    console.log('Event delegation: Action card clicked:', action);
                     this.handleAction(action);
                 }
             }
@@ -106,7 +77,14 @@ class DashboardWelcome extends UserDataComponent {
     }
 
     handleNavigation(route) {
-        console.log('Navigate to:', route);
+        // Only handle navigation in Dashboard window
+        if (!this.isDashboardWindow) {
+            // In Console window, let app-view handle it
+            if (window.appView) {
+                window.appView.panel = route;
+            }
+            return;
+        }
         
         // Update active nav item
         const navItems = this.querySelectorAll('.nav-item');
@@ -118,84 +96,77 @@ class DashboardWelcome extends UserDataComponent {
             }
         });
 
-        // Handle different routes
-        switch (route) {
-            case 'dashboard':
-                // Already on dashboard
-                break;
-            case 'calendar':
-                // Navigate to meetings panel
-                if (window.appView) {
-                    window.appView.showPanel('meetings');
-                }
-                break;
-            case 'settings':
-                // Navigate to settings panel
-                if (window.appView) {
-                    window.appView.showPanel('settings');
-                }
-                break;
-            case 'profile':
-                // Navigate to profile panel
-                if (window.appView) {
-                    window.appView.showPanel('profile');
-                }
-                break;
+        // Simple page switching - same logic as Console app-view.js
+        // Get all Dashboard pages (direct children of body)
+        const dashboardPages = Array.from(document.body.children).filter(
+            el => el.tagName.toLowerCase() === 'dashboard-welcome' || 
+                  el.tagName.toLowerCase() === 'calendar-page'
+        );
+        
+        let foundMatch = false;
+        
+        // First, try to find existing page
+        for (let page of dashboardPages) {
+            const tagName = page.tagName.toLowerCase();
+            const nameAttr = page.getAttribute("name");
+            const matches = tagName === route || nameAttr === route ||
+                          (route === 'dashboard' && tagName === 'dashboard-welcome') ||
+                          (route === 'dashboard-welcome' && tagName === 'dashboard-welcome');
+            
+            if (matches) {
+                foundMatch = true;
+                page.active = true;
+            } else {
+                page.active = false;
+            }
+        }
+        
+        // If no match found, create calendar-page if needed
+        if (!foundMatch && route === 'calendar') {
+            const calendarPage = document.createElement('calendar-page');
+            calendarPage.setAttribute('name', 'calendar');
+            document.body.appendChild(calendarPage);
+            
+            // Wait for component to initialize (onconnect will be called automatically)
+            // Then set active after a short delay to ensure template is loaded
+            setTimeout(() => {
+                calendarPage.active = true;
+            }, 100);
+            foundMatch = true;
+        }
+        
+        // Set URL hash
+        if (route !== 'dashboard' && route !== 'dashboard-welcome') {
+            window.location.hash = `#${route}`;
         }
     }
 
     handleAction(action) {
-        console.log('Action triggered:', action);
-        console.log('window.api:', window.api);
-        console.log('window.api type:', typeof window.api);
-        
         switch (action) {
             case 'console':
                 // Open console window
-                console.log('=== Console button clicked ===');
-                console.log('window.api exists:', !!window.api);
-                console.log('window.api.openConsole exists:', !!(window.api && window.api.openConsole));
-                console.log('window.api.openConsole type:', typeof (window.api && window.api.openConsole));
-                
-                // Direct call attempt
                 if (window.api && typeof window.api.openConsole === 'function') {
-                    console.log('Calling window.api.openConsole() directly...');
                     try {
                         window.api.openConsole();
-                        console.log('✓ openConsole called successfully');
                     } catch (error) {
-                        console.error('✗ Error calling openConsole:', error);
-                        console.error('Error stack:', error.stack);
-                        alert('无法打开 Console 窗口: ' + error.message);
+                        alert('Error opening Console window: ' + error.message);
                     }
                 } else {
-                    console.warn('window.api.openConsole not available, waiting...');
-                    console.log('window.api keys:', window.api ? Object.keys(window.api) : 'window.api is null/undefined');
-                    
                     // Wait for API to be ready (with timeout)
                     let attempts = 0;
                     const maxAttempts = 50; // 5 seconds max
                     const checkApi = () => {
                         attempts++;
-                        console.log(`[Attempt ${attempts}/${maxAttempts}] Checking API...`);
-                        console.log('window.api:', window.api);
-                        console.log('window.api.openConsole:', window.api && window.api.openConsole);
-                        
                         if (window.api && typeof window.api.openConsole === 'function') {
-                            console.log('✓ API now available, calling openConsole');
                             try {
-                    window.api.openConsole();
-                                console.log('✓ openConsole called successfully');
+                                window.api.openConsole();
                             } catch (error) {
-                                console.error('✗ Error calling openConsole:', error);
-                                alert('无法打开 Console 窗口: ' + error.message);
+                                alert('Error opening Console window: ' + error.message);
                             }
                         } else if (attempts < maxAttempts) {
                             setTimeout(checkApi, 100);
                         } else {
-                            console.error('✗ API not available after maximum attempts');
-                            console.error('Final window.api:', window.api);
-                            alert('无法打开 Console 窗口: API 初始化超时。请检查控制台日志。');
+                            alert('Error opening Console window: API initialization timeout.');
                         }
                     };
                     setTimeout(checkApi, 100);

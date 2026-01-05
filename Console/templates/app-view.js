@@ -1,6 +1,7 @@
 import { getHTMLTemplate, useCSSStyle } from "../../Utilities/template.js"
 import {} from "./MainPages/dash-board.js"
 import {} from "./MainPages/dashboard-welcome.js"
+import {} from "./MainPages/calendar-page.js"
 import {} from "./MainPages/data-and-privacy.js"
 import {} from "./MainPages/meetings-panel.js"
 import {} from "./MainPages/profile-panel.js"
@@ -28,8 +29,17 @@ useCSSStyle("app-view");
 export class AppView extends UserDataComponent {
     constructor(el = "app-view"){
         super(el)
+        
+        // Expose to window for global access IMMEDIATELY
+        window.appView = this;
+        
         this.template = getHTMLTemplate("app-view");
+        
+        // Ensure window.appView is set after template is loaded
+        window.appView = this;
+        
         this.dark = false;
+        
         let els = this.els;
         let sideBar = els.sideBar;
         for (let child of sideBar.children) {
@@ -41,28 +51,58 @@ export class AppView extends UserDataComponent {
         onLocationChange((location) => {
             this.panel = location;
         }, "dash-board");
+        
+        // Final check - ensure window.appView is set
+        window.appView = this;
+    }
+    
+    onconnect() {
+        // Ensure window.appView is set when component connects
+        window.appView = this;
     }
 
 
     set panel(type) {
         const query = RouteQuery.parse(type, "dash-board");
+        
         if (query.location == "logout") {
             this.userLogout();
         } else {
+            // Update sidebar active state
+            let foundSidebarMatch = false;
             for (let child of this.els.sideBar.children) {
                 const childType = child.getAttribute("type");
-                child.classList.toggle("active", childType == query.location || 
-                    (query.location == "dashboard-welcome" && childType == "dash-board"));
+                const isActive = childType == query.location;
+                child.classList.toggle("active", isActive);
+                if (isActive) {
+                    foundSidebarMatch = true;
+                }
             }
+            
+            // If no sidebar match found, activate the first sidebar item (dash-board)
+            if (!foundSidebarMatch && this.els.sideBar.children.length > 0) {
+                const firstSidebarItem = this.els.sideBar.children[0];
+                firstSidebarItem.classList.add("active");
+                // Update query location to match first sidebar item
+                query.location = firstSidebarItem.getAttribute("type") || "dash-board";
+            }
+            
+            // Update main content panels
             for (let child of this.els.main.children) {
-                if (child.tagName.toLowerCase() == query.location) {
+                const tagName = child.tagName.toLowerCase();
+                const nameAttr = child.getAttribute("name");
+                const matches = tagName == query.location || nameAttr == query.location;
+                
+                if (matches) {
                     child.active = true;
                     child.params = query.params;
                 } else {
                     child.active = false;
                 }
             }
+            
             query.setLocation();
+            this._panel = query.location;
         } 
     }
 

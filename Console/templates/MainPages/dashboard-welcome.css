@@ -1,10 +1,25 @@
 /* Dashboard Welcome Page Styles */
 
-dashboard-welcome {
+/* Page switching - only for Dashboard window */
+/* Dashboard window: body has class 'dashboard-window', pages are direct children of body */
+/* Console window: body has no 'dashboard-window' class, pages are inside app-view > main */
+body.dashboard-window > dashboard-welcome,
+body.dashboard-window > calendar-page {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+body.dashboard-window > dashboard-welcome.active,
+body.dashboard-window > calendar-page.active {
     display: flex;
+}
+
+dashboard-welcome {
     flex-direction: column;
-    height: 100%;
-    width: 100%;
     background-color: #fff;
     color: #1e293b;
     font-family: 'Poppins', sans-serif;

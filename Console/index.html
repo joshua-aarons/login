@@ -22,6 +22,31 @@
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0">
+<!-- FullCalendar: Use local JS file for faster loading, CSS from CDN (FullCalendar 6.x global bundle doesn't include separate CSS) -->
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css' rel='stylesheet' />
+<script src='../lib/fullcalendar/index.global.min.js'></script>
+<script>
+    // Ensure FullCalendar is available on window after script loads
+    (function() {
+        if (typeof FullCalendar !== 'undefined') {
+            window.FullCalendar = FullCalendar;
+            console.log('[FullCalendar] ✓ Loaded from local file');
+        } else {
+            // Fallback to CDN if local file fails
+            console.warn('[FullCalendar] Local file not found, falling back to CDN...');
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js';
+            script.async = false;
+            script.onload = function() {
+                if (typeof FullCalendar !== 'undefined') {
+                    window.FullCalendar = FullCalendar;
+                    console.log('[FullCalendar] ✓ Loaded from CDN fallback');
+                }
+            };
+            document.head.appendChild(script);
+        }
+    })();
+</script>
 <script type = "module" src = "./app.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 

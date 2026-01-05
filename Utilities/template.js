@@ -5,6 +5,10 @@ let finishedLoading = null;
 let Loading = new Promise((r) => {
     finishedLoading = r;
 }); // Placeholder for loading state
+
+// Export Loading and TemplateData for debugging
+export { Loading };
+export { TemplateData };
 // let CSSStyles = {};
 export async function loadTemplates(loadAll = true) {
     console.log("%cLoading templates", "color: blue; font-weight: bold;");

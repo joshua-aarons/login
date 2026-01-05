@@ -1,16 +1,19 @@
 import {AppView} from "./templates/app-view.js"
 import {LoginPage} from "./templates/MainPages/login-page.js"
-
 import * as F from '../Firebase/firebase-client.js'
 import { updateUserDataComponents } from "../Utilities/CustomComponent.js"
 import { watch } from "../Firebase/main.js";
 import { loadTemplates } from "../Utilities/template.js";
 
-
 async function start() {
     await loadTemplates();
     let loginPage = new LoginPage();
     let appView = new AppView();
+    
+    // Ensure window.appView is set
+    if (!window.appView) {
+        window.appView = appView;
+    }
     
     let Type = null;
     function showScreen(type) {
@@ -28,6 +31,10 @@ async function start() {
             let pages = {loginPage, appView};
             for (let key in pages) pages[key].remove();
             document.body.appendChild(pages[type]);
+            // Ensure window.appView is set after appending to DOM
+            if (type === 'appView' && !window.appView) {
+                window.appView = appView;
+            }
         }
     }
     
@@ -78,7 +85,10 @@ async function start() {
     await F.initialise();
 }
 
-start();
+start().catch(err => {
+    console.error('[app.js] ERROR in start():', err);
+    console.error('[app.js] Error stack:', err.stack);
+});
 
 
 
