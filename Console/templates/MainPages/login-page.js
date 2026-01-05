@@ -113,7 +113,12 @@ export class LoginPage extends CustomComponent {
         this.innerHTML = t;
         this.els = this.getElementLibrary();
         this.attachEvents();
+        this._mode = "sign-in"; // Store mode value
         this.mode = "sign-in";
+    }
+
+    get mode() {
+        return this._mode;
     }
 
     set loading(value) {
@@ -126,6 +131,7 @@ export class LoginPage extends CustomComponent {
     }
 
     set mode(mode) {
+        this._mode = mode; // Store mode value
         this.els.otpError.innerText = "";
         this.els.emailError.innerText = "";
         this.els.otpInput.value = "";

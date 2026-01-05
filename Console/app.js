@@ -16,7 +16,11 @@ async function start() {
     function showScreen(type) {
         if (Type == null) {
             setTimeout(() => {
-                document.querySelector("squidly-loader[full]").hide(0.5);
+                // Remove loader if it exists (now loader is in separate logo window)
+                const loader = document.querySelector("squidly-loader[full]");
+                if (loader) {
+                    loader.hide(0.5);
+                }
             },500);
         }
         if (type !== Type) {
@@ -44,16 +48,28 @@ async function start() {
                     updateUserDataComponents(allData);
                 });
                 showScreen("appView");
+                // Notify Electron to adjust window for app mode
+                if (window.api?.notifyLoginSuccess) {
+                    window.api.notifyLoginSuccess();
+                }
             } else {
                 // loginPage.mode = "sign-in";
                 loginPage.email = user.email;
                 loginPage.requestOTP(user.email);
                 showScreen("loginPage")
+                // Notify Electron to adjust window for login mode
+                if (window.api?.notifyShowLogin) {
+                    window.api.notifyShowLogin();
+                }
             }
         } else {
             loginPage.mode = "sign-in";
             showScreen("loginPage")
             noUser = true;
+            // Notify Electron to adjust window for login mode
+            if (window.api?.notifyShowLogin) {
+                window.api.notifyShowLogin();
+            }
         }
         
     });

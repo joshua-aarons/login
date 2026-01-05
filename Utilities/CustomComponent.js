@@ -261,7 +261,12 @@ class UserDataComponent extends DataComponent {
         setUserInfo(userData)
     }
 
-    userLogout(){signout()}
+    userLogout(){
+        if (window.api?.notifyLogout) {
+            window.api.notifyLogout();
+        }
+        signout();
+    }
 
     updateDisplayPhoto(file, callback){
         updateDisplayPhoto(file, callback)

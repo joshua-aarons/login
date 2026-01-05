@@ -1,5 +1,6 @@
 import { getHTMLTemplate, useCSSStyle } from "../../Utilities/template.js"
 import {} from "./MainPages/dash-board.js"
+import {} from "./MainPages/dashboard-welcome.js"
 import {} from "./MainPages/data-and-privacy.js"
 import {} from "./MainPages/meetings-panel.js"
 import {} from "./MainPages/profile-panel.js"
@@ -49,7 +50,9 @@ export class AppView extends UserDataComponent {
             this.userLogout();
         } else {
             for (let child of this.els.sideBar.children) {
-                child.classList.toggle("active", child.getAttribute("type") == query.location);
+                const childType = child.getAttribute("type");
+                child.classList.toggle("active", childType == query.location || 
+                    (query.location == "dashboard-welcome" && childType == "dash-board"));
             }
             for (let child of this.els.main.children) {
                 if (child.tagName.toLowerCase() == query.location) {
