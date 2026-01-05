@@ -175,10 +175,17 @@ class CalendarPage extends UserDataComponent {
         if (miniCalendarEl) {
             this.miniCalendar = new FullCalendar.Calendar(miniCalendarEl, {
                 initialView: 'dayGridMonth',
-                headerToolbar: false,
+                headerToolbar: {
+                    left: 'prev',
+                    center: 'title',
+                    right: 'next'
+                },
                 height: 'auto',
-                fixedWeekCount: false,
+                fixedWeekCount: true, // Fixed 6 weeks to keep square shape
                 dayMaxEvents: false,
+                dayHeaderFormat: { weekday: 'narrow' }, // Use single letter (S, M, T, W, T, F, S)
+                aspectRatio: 1.0, // Force square aspect ratio (width:height = 1:1)
+                contentHeight: 'auto',
                 dateClick: (info) => {
                     // When clicking a date in mini calendar, navigate week calendar to that week
                     if (this.weekCalendar) {
@@ -200,10 +207,13 @@ class CalendarPage extends UserDataComponent {
                 initialView: 'timeGridWeek',
                 headerToolbar: false,
                 allDaySlot: false,
-                slotMinTime: '09:00:00',
-                slotMaxTime: '17:00:00',
-                slotDuration: '00:15:00',
-                height: 'auto',
+                slotMinTime: '00:00:00', // Full 24-hour range
+                slotMaxTime: '24:00:00', // Full 24-hour range
+                slotDuration: '00:30:00',
+                height: 'auto', // Let CSS control height
+                contentHeight: 'auto', // Auto height based on container
+                scrollTime: '09:00:00', // Scroll to 9 AM initially
+                slotLabelInterval: '01:00:00', // Show hour labels
                 events: this.getSampleEvents(),
                 dateClick: (info) => {
                     // Handle date/time click - could open add event modal
