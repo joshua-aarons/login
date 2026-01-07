@@ -178,7 +178,15 @@ class FeedBack extends DataComponent {
         this.charts.timeline = new Chart(this.els.timelineChart, {
             type: 'bar',
             data: {
-                labels: Object.keys(chartData.timeline).map(i => this.monthsLabel[chartData.timeline[i].x]),
+                labels: this.demoToggled
+                    ? Object.keys(chartData.timeline).map(
+                          i => this.monthsLabel[chartData.timeline[i].x]
+                      )
+                    : Array.from({ length: 10 }, (_, i) => {
+                        const d = new Date();
+                        d.setMonth(d.getMonth() - (9 - i));
+                        return this.monthsLabel[d.getMonth()];
+                    }),
                 datasets: [
                     {
                         data: chartData.timeline,
