@@ -17,7 +17,8 @@
             const blob = new Blob([text], {
                 type: "text/calendar;charset=utf-8"
             });
-    
+            
+            console.log("again")
             const url = URL.createObjectURL(blob);
     
             window.open(url);
