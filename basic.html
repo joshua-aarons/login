@@ -28,6 +28,7 @@
         const test = document.querySelector(".test");
         test.addEventListener("click", async () => {
             let text = await (await fetch("test.ics")).text();
+            text = text.split("\n").join("\r\n");
             openICS(text);
         });
 
