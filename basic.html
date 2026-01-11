@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a class = "test">Add to Callender</a>
+
+    <script>
+        function formatDateUTC(date) {
+            return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+        }
+
+        function openICS(text) {
+            const blob = new Blob([text], {
+                type: "text/calendar;charset=utf-8"
+            });
+    
+            const url = URL.createObjectURL(blob);
+    
+            window.open(url);
+
+            URL.revokeObjectURL(url);
+        }
+
+        const test = document.querySelector(".test");
+        test.addEventListener("click", async () => {
+            let text = await (await fetch("test.ics")).text();
+            openICS(text);
+        });
+
+        
+    </script>
+</body>
+</html>
