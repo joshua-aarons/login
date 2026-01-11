@@ -105,7 +105,7 @@ function getTimelineData(data) {
         const currentMonthResponses = data.filter(r => new Date(r.date).getMonth() === filterMonth)
 
         const monthData = {}
-        monthData.x = filterMonth;
+        monthData.x = 10 - i;
         if (currentMonthResponses.length > 0) {
             const avgNPS = currentMonthResponses.reduce(sumNPS, 0) / currentMonthResponses.filter(r => r.npsScore !== -1).length;
             monthData.y = avgNPS.toFixed(2);
