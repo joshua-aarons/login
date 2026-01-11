@@ -1,4 +1,4 @@
-import { CustomForm, SvgPlus } from "../../../Utilities/CustomComponent.js";
+import { addUserDataListener, CustomForm, SvgPlus } from "../../../Utilities/CustomComponent.js";
 import { createSession, updateSession } from "../../../Firebase/sessions.js";
 import { getHTMLTemplate, useCSSStyle } from "../../../Utilities/template.js"
 import {} from "../../../Utilities/templates/input-plus.js"
@@ -25,6 +25,25 @@ class MeetingScheduler extends CustomForm {
             } 
             return true;
         }
+        addUserDataListener( (userData) => {
+            let name = userData?.info?.displayName || userData?.info?.name || "";
+            name = name.trim();
+
+            let description = "My Meeting";
+            if (name.length > 0) {
+                description = name[name.length -1] === "s" ? name + "' Meeting" : name + "'s Meeting";
+            }
+            this.defaultDescription = description;
+
+            if (!this.isOpen) {
+                this._resetForm();
+            }
+        } );
+
+    }
+
+    get isOpen() {
+        return this.parentNode.classList.contains("open");
     }
 
 
@@ -47,6 +66,7 @@ class MeetingScheduler extends CustomForm {
 
         // Reset form values
         const datetime = `${time.year}-${time.month}-${time.day}T${time.hour}:${time.minute}`
+        this.setInputValue("description", this.defaultDescription || "My Meeting");
         this.setInputValue("duration", 30);
         this.setInputValue("startTime", datetime);
         this.setInputValue("timezone", time.timeZoneName);

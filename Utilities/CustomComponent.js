@@ -345,9 +345,19 @@ class Notification extends SvgPlus {
 }
 
 
+export function addUserDataListener(component) {
+    if (component instanceof Function) {
+        DATA_COMPONENTS.push(component);
+    }
+}
+
 function updateUserDataComponents(value) {
     for (let el of DATA_COMPONENTS) {
-        el.value = value;
+        if (el instanceof Function) {
+            el(value);
+        } else {
+            el.value = value;
+        }
     }
 }
 
