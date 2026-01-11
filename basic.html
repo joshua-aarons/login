@@ -13,12 +13,14 @@
             return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
         }
 
+            console.log("again");
+
         function openICS(text) {
             const blob = new Blob([text], {
                 type: "text/calendar;charset=utf-8"
             });
             
-            console.log("again")
+            console.log("again");
             const url = URL.createObjectURL(blob);
     
             window.open(url);
