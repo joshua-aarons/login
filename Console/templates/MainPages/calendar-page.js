@@ -1,5 +1,6 @@
 import { getHTMLTemplate, useCSSStyle } from "../../../Utilities/template.js";
 import { UserDataComponent, SvgPlus } from "../../../Utilities/CustomComponent.js";
+import { Session } from "../../../Firebase/sessions.js";
 
 useCSSStyle("theme");
 useCSSStyle("calendar-page");
@@ -14,6 +15,7 @@ class CalendarPage extends UserDataComponent {
         this.miniCalendar = null;
         this.weekCalendar = null;
         this.currentView = 'timeGridWeek';
+        this._meetingsMap = new Map(); // Store meetings by sid for quick lookup
     }
 
     async onconnect() {
@@ -45,78 +47,23 @@ class CalendarPage extends UserDataComponent {
     }
 
     async waitForFullCalendar() {
-        // With local files, FullCalendar should be available immediately
-        // Just check a few times with minimal delay
+        // Wait for FullCalendar to be loaded (from script tag)
         let attempts = 0;
-        const maxAttempts = 10; // 1 second max (should be instant with local files)
+        const maxAttempts = 50; // 5 seconds max wait
         
         while (attempts < maxAttempts) {
-            // Check for FullCalendar
             if (typeof FullCalendar !== 'undefined') {
                 window.FullCalendar = FullCalendar;
-                console.log('[CalendarPage] ✓ FullCalendar found');
                 return true;
             }
             if (typeof window.FullCalendar !== 'undefined') {
-                console.log('[CalendarPage] ✓ FullCalendar found on window');
                 return true;
             }
-            
             await new Promise(resolve => setTimeout(resolve, 100));
             attempts++;
         }
         
-        // If still not found, try CDN fallback
-        console.warn('[CalendarPage] FullCalendar not found locally, trying CDN fallback...');
-        try {
-            await this.loadFullCalendarFallback();
-            if (typeof FullCalendar !== 'undefined' || typeof window.FullCalendar !== 'undefined') {
-                console.log('[CalendarPage] ✓ FullCalendar loaded via CDN fallback');
-                return true;
-            }
-        } catch (error) {
-            console.error('[CalendarPage] CDN fallback failed:', error);
-        }
-        
-        console.error('[CalendarPage] ✗ FullCalendar not available');
         return false;
-    }
-
-    async loadFullCalendarFallback() {
-        return new Promise((resolve, reject) => {
-            // Check if already exists
-            const existing = document.querySelector('script[src*="fullcalendar"]');
-            if (existing && existing.complete) {
-                setTimeout(() => {
-                    if (typeof FullCalendar !== 'undefined') {
-                        window.FullCalendar = FullCalendar;
-                        resolve();
-                    } else {
-                        reject(new Error('Script loaded but FullCalendar not available'));
-                    }
-                }, 100);
-                return;
-            }
-            
-            // Try CDN as fallback
-            const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js';
-            script.async = false;
-            
-            script.onload = () => {
-                setTimeout(() => {
-                    if (typeof FullCalendar !== 'undefined') {
-                        window.FullCalendar = FullCalendar;
-                        resolve();
-                    } else {
-                        reject(new Error('FullCalendar not available after script load'));
-                    }
-                }, 200);
-            };
-            
-            script.onerror = () => reject(new Error('Script failed to load'));
-            document.head.appendChild(script);
-        });
     }
 
     setupEventListeners() {
@@ -203,6 +150,8 @@ class CalendarPage extends UserDataComponent {
         // Initialize week calendar (main content)
         const weekCalendarEl = this.querySelector('#week-calendar');
         if (weekCalendarEl) {
+            // Store reference to this for use in callbacks
+            const self = this;
             this.weekCalendar = new FullCalendar.Calendar(weekCalendarEl, {
                 initialView: 'timeGridWeek',
                 headerToolbar: false,
@@ -214,14 +163,48 @@ class CalendarPage extends UserDataComponent {
                 contentHeight: 'auto', // Auto height based on container
                 scrollTime: '09:00:00', // Scroll to 9 AM initially
                 slotLabelInterval: '01:00:00', // Show hour labels
-                events: this.getSampleEvents(),
+                events: [],
                 dateClick: (info) => {
                     // Handle date/time click - could open add event modal
                     console.log('Date clicked:', info.dateStr, info.timeStr);
                 },
                 eventClick: (info) => {
-                    // Handle event click - could open event details modal
-                    console.log('Event clicked:', info.event.title);
+                    // Handle event click - navigate to meeting details page
+                    console.log('[CalendarPage] Event clicked:', info.event);
+                    console.log('[CalendarPage] Event title:', info.event.title);
+                    console.log('[CalendarPage] Event extendedProps:', info.event.extendedProps);
+                    console.log('[CalendarPage] Event id:', info.event.id);
+                    
+                    // Try multiple ways to get sid
+                    const sid = info.event.extendedProps?.sid || 
+                               info.event.id || 
+                               (info.event.extendedProps && info.event.extendedProps.sid);
+                    
+                    console.log('[CalendarPage] Extracted sid:', sid);
+                    console.log('[CalendarPage] self object:', self);
+                    console.log('[CalendarPage] self.navigateToMeeting:', typeof self.navigateToMeeting);
+                    
+                    if (sid) {
+                        console.log('[CalendarPage] Calling navigateToMeeting with sid:', sid);
+                        try {
+                            self.navigateToMeeting(sid);
+                        } catch (error) {
+                            console.error('[CalendarPage] Error calling navigateToMeeting:', error);
+                        }
+                    } else {
+                        console.error('[CalendarPage] No sid found in event!');
+                        console.error('[CalendarPage] Trying to find sid in meetingsMap...');
+                        // Try to find by title
+                        const meeting = Array.from(self._meetingsMap.values()).find(m => 
+                            (m.description || m.title) === info.event.title
+                        );
+                        if (meeting && meeting.sid) {
+                            console.log('[CalendarPage] Found meeting by title, sid:', meeting.sid);
+                            self.navigateToMeeting(meeting.sid);
+                        } else {
+                            console.error('[CalendarPage] Could not find meeting');
+                        }
+                    }
                 },
                 datesSet: (dateInfo) => {
                     // Update date range display and sync mini calendar
@@ -232,6 +215,12 @@ class CalendarPage extends UserDataComponent {
                 }
             });
             this.weekCalendar.render();
+            
+            if (this._pendingMeetings && this._pendingMeetings.length > 0) {
+                const value = { meetings: this._pendingMeetings };
+                this._pendingMeetings = null;
+                this.onvalue(value);
+            }
         }
     }
 
@@ -296,106 +285,6 @@ class CalendarPage extends UserDataComponent {
         }
     }
 
-    getSampleEvents() {
-        // Sample events matching the prototype
-        const today = new Date();
-        const events = [];
-        
-        // Monday events
-        const monday = new Date(today);
-        monday.setDate(today.getDate() - today.getDay() + 1); // Get Monday of current week
-        
-        events.push({
-            title: 'Brief internship',
-            start: new Date(monday.getFullYear(), monday.getMonth(), monday.getDate(), 9, 0),
-            end: new Date(monday.getFullYear(), monday.getMonth(), monday.getDate(), 10, 15),
-            backgroundColor: '#10b981',
-            borderColor: '#10b981'
-        });
-        
-        events.push({
-            title: 'Meeting with Saban K.',
-            start: new Date(monday.getFullYear(), monday.getMonth(), monday.getDate(), 12, 0),
-            end: new Date(monday.getFullYear(), monday.getMonth(), monday.getDate(), 13, 15),
-            backgroundColor: '#8b5cf6',
-            borderColor: '#8b5cf6'
-        });
-        
-        events.push({
-            title: 'Consultation Reesearch',
-            start: new Date(monday.getFullYear(), monday.getMonth(), monday.getDate(), 14, 0),
-            end: new Date(monday.getFullYear(), monday.getMonth(), monday.getDate(), 15, 15),
-            backgroundColor: '#f59e0b',
-            borderColor: '#f59e0b'
-        });
-        
-        // Tuesday events
-        const tuesday = new Date(monday);
-        tuesday.setDate(monday.getDate() + 1);
-        
-        events.push({
-            title: '(No Title)',
-            start: new Date(tuesday.getFullYear(), tuesday.getMonth(), tuesday.getDate(), 9, 0),
-            end: new Date(tuesday.getFullYear(), tuesday.getMonth(), tuesday.getDate(), 10, 0),
-            backgroundColor: '#3b82f6',
-            borderColor: '#3b82f6'
-        });
-        
-        // Wednesday events
-        const wednesday = new Date(monday);
-        wednesday.setDate(monday.getDate() + 2);
-        
-        events.push({
-            title: 'Video Conference',
-            start: new Date(wednesday.getFullYear(), wednesday.getMonth(), wednesday.getDate(), 11, 0),
-            end: new Date(wednesday.getFullYear(), wednesday.getMonth(), wednesday.getDate(), 12, 15),
-            backgroundColor: '#14b8a6',
-            borderColor: '#14b8a6'
-        });
-        
-        events.push({
-            title: 'Analysis Project Mint',
-            start: new Date(wednesday.getFullYear(), wednesday.getMonth(), wednesday.getDate(), 15, 0),
-            end: new Date(wednesday.getFullYear(), wednesday.getMonth(), wednesday.getDate(), 16, 15),
-            backgroundColor: '#14b8a6',
-            borderColor: '#14b8a6'
-        });
-        
-        // Thursday events
-        const thursday = new Date(monday);
-        thursday.setDate(monday.getDate() + 3);
-        
-        events.push({
-            title: 'Bootcamp UX Writing',
-            start: new Date(thursday.getFullYear(), thursday.getMonth(), thursday.getDate(), 13, 0),
-            end: new Date(thursday.getFullYear(), thursday.getMonth(), thursday.getDate(), 14, 15),
-            backgroundColor: '#10b981',
-            borderColor: '#10b981'
-        });
-        
-        events.push({
-            title: 'Conduct Research',
-            start: new Date(thursday.getFullYear(), thursday.getMonth(), thursday.getDate(), 14, 45),
-            end: new Date(thursday.getFullYear(), thursday.getMonth(), thursday.getDate(), 15, 40),
-            backgroundColor: '#10b981',
-            borderColor: '#10b981'
-        });
-        
-        // Friday events
-        const friday = new Date(monday);
-        friday.setDate(monday.getDate() + 4);
-        
-        events.push({
-            title: 'Meeting',
-            start: new Date(friday.getFullYear(), friday.getMonth(), friday.getDate(), 16, 0),
-            end: new Date(friday.getFullYear(), friday.getMonth(), friday.getDate(), 17, 0),
-            backgroundColor: '#f59e0b',
-            borderColor: '#f59e0b'
-        });
-        
-        return events;
-    }
-
     handleNavigation(route) {
         // Check if we're in Dashboard window (not inside app-view)
         const isDashboardWindow = document.body.classList.contains('dashboard-window');
@@ -425,19 +314,209 @@ class CalendarPage extends UserDataComponent {
     }
 
     onvalue(value) {
-        // Update calendar with real events from user data
-        if (value && value.meetings && this.weekCalendar) {
-            // Convert meetings data to FullCalendar events format
-            const events = value.meetings.map(meeting => ({
-                title: meeting.title || meeting.description || 'Meeting',
-                start: meeting.date || meeting.time,
-                end: meeting.endTime || new Date(new Date(meeting.date || meeting.time).getTime() + (meeting.duration || 60) * 60000),
-                backgroundColor: meeting.color || '#3b82f6',
-                borderColor: meeting.color || '#3b82f6'
-            }));
+        if (value && value.meetings && Array.isArray(value.meetings) && value.meetings.length > 0) {
+            if (!this.weekCalendar) {
+                this._pendingMeetings = value.meetings;
+                return;
+            }
+            
+            // Store meetings in map for quick lookup
+            this._meetingsMap.clear();
+            value.meetings.forEach(meeting => {
+                if (meeting.sid) {
+                    this._meetingsMap.set(meeting.sid, meeting);
+                }
+            });
+            
+            const events = value.meetings.map(meeting => {
+                if (!meeting.sid) {
+                    console.warn('[CalendarPage] Meeting without sid:', meeting);
+                }
+                
+                let durationMinutes = meeting.duration;
+                if (typeof durationMinutes === 'string') {
+                    const match = durationMinutes.match(/(\d+)/);
+                    durationMinutes = match ? parseInt(match[1]) : 30;
+                } else if (typeof durationMinutes === 'number') {
+                    durationMinutes = durationMinutes;
+                } else {
+                    durationMinutes = 30;
+                }
+                
+                const startTimeRaw = meeting.startTime !== undefined ? meeting.startTime : 
+                                    (meeting.time !== undefined ? meeting.time : null);
+                let startDate;
+                
+                if (startTimeRaw instanceof Date) {
+                    startDate = startTimeRaw;
+                } else if (typeof startTimeRaw === 'number' && !isNaN(startTimeRaw)) {
+                    startDate = new Date(startTimeRaw);
+                } else if (typeof startTimeRaw === 'string') {
+                    startDate = new Date(startTimeRaw);
+                } else {
+                    startDate = new Date();
+                }
+                
+                if (isNaN(startDate.getTime())) {
+                    startDate = new Date();
+                }
+                
+                const endTime = meeting.endTime instanceof Date 
+                    ? meeting.endTime 
+                    : (meeting.endTime ? new Date(meeting.endTime) : new Date(startDate.getTime() + durationMinutes * 60000));
+                
+                const eventObj = {
+                    title: meeting.title || meeting.description || 'Meeting',
+                    start: startDate,
+                    end: endTime,
+                    backgroundColor: meeting.color || '#3b82f6',
+                    borderColor: meeting.color || '#3b82f6',
+                    extendedProps: {
+                        sid: meeting.sid || '',
+                        description: meeting.description || ''
+                    }
+                };
+                
+                if (!meeting.sid) {
+                    console.warn('[CalendarPage] Meeting without sid:', meeting);
+                } else {
+                    console.log('[CalendarPage] Event created with sid:', meeting.sid, 'title:', eventObj.title);
+                }
+                
+                return eventObj;
+            });
+            
+            console.log('[CalendarPage] Created', events.length, 'events with extendedProps');
+            events.forEach((event, index) => {
+                console.log(`[CalendarPage] Event ${index}:`, {
+                    title: event.title,
+                    sid: event.extendedProps?.sid,
+                    extendedProps: event.extendedProps
+                });
+            });
+            
             this.weekCalendar.removeAllEvents();
-            this.weekCalendar.addEventSource(events);
+            events.forEach(event => {
+                this.weekCalendar.addEvent(event);
+            });
+        } else if (value && value.meetings && value.meetings.length === 0) {
+            if (this.weekCalendar) {
+                this.weekCalendar.removeAllEvents();
+            }
+            this._meetingsMap.clear();
         }
+    }
+
+    /**
+     * Navigate to meeting details page
+     * @param {string} sid - The session ID
+     */
+    navigateToMeeting(sid) {
+        const isDashboardWindow = document.body.classList.contains('dashboard-window');
+        
+        // Find meeting from current data
+        const meeting = this._meetingsMap.get(sid);
+        if (!meeting) {
+            console.warn('[CalendarPage] Meeting not found for sid:', sid);
+            return;
+        }
+        
+        const sessionData = this.convertMeetingToSession(meeting);
+        
+        if (isDashboardWindow) {
+            // In Dashboard window, use displayMeeting method (same as Console)
+            const dashboardWelcome = document.querySelector('dashboard-welcome');
+            if (dashboardWelcome && typeof dashboardWelcome.displayMeeting === 'function') {
+                dashboardWelcome.displayMeeting(sessionData);
+            } else {
+                console.error('[CalendarPage] dashboard-welcome.displayMeeting not found');
+            }
+        } else {
+            // In Console window, use app-view displayMeeting method
+            if (window.appView && typeof window.appView.displayMeeting === 'function') {
+                window.appView.displayMeeting(sessionData);
+            }
+        }
+    }
+
+    /**
+     * Convert meeting object to Session-like object for meeting-display component
+     * @param {Object} meeting - The meeting object
+     * @returns {Object} Session-like object
+     */
+    convertMeetingToSession(meeting) {
+        // Parse duration
+        let durationMinutes = meeting.duration;
+        if (typeof durationMinutes === 'string') {
+            const match = durationMinutes.match(/(\d+)/);
+            durationMinutes = match ? parseInt(match[1]) : 30;
+        } else if (typeof durationMinutes === 'number') {
+            durationMinutes = durationMinutes;
+        } else {
+            durationMinutes = 30;
+        }
+        
+        // Parse start time
+        const startTimeRaw = meeting.startTime !== undefined ? meeting.startTime : 
+                            (meeting.time !== undefined ? meeting.time : 
+                            (meeting.date instanceof Date ? meeting.date.getTime() : 
+                            (meeting.date ? new Date(meeting.date).getTime() : null)));
+        let startTime;
+        
+        if (startTimeRaw instanceof Date) {
+            startTime = startTimeRaw.getTime();
+        } else if (typeof startTimeRaw === 'number' && !isNaN(startTimeRaw)) {
+            startTime = startTimeRaw;
+        } else if (typeof startTimeRaw === 'string') {
+            startTime = new Date(startTimeRaw).getTime();
+        } else {
+            startTime = Date.now();
+        }
+        
+        if (isNaN(startTime)) {
+            startTime = Date.now();
+        }
+        
+        const startDate = new Date(startTime);
+        
+        // Format date string (DD/MM/YYYY HH:MM AM/PM)
+        const day = String(startDate.getDate()).padStart(2, '0');
+        const month = String(startDate.getMonth() + 1).padStart(2, '0');
+        const year = startDate.getFullYear();
+        const timeStr = startDate.toLocaleTimeString("en", { timeStyle: "short" });
+        const dateStr = `${day}/${month}/${year} ${timeStr}`;
+        
+        // Create Session-like object
+        const sessionData = {
+            sid: meeting.sid || '',
+            description: meeting.description || meeting.title || 'My Meeting',
+            date: dateStr,
+            duration: durationMinutes,
+            time: startTime,
+            startTime: startTime,
+            timezone: meeting.timezone || '-',
+            status: meeting.status || (meeting.isHistory ? 'complete' : 'upcoming'),
+            isHistory: meeting.isHistory || false,
+            active: meeting.active || false,
+            link: Session.sid2link(meeting.sid || ''),
+            // Add delete method
+            delete: async function() {
+                // Import deleteSession dynamically to avoid circular dependency
+                const { deleteSession } = await import("../../../Firebase/sessions.js");
+                if (this.isHistory) {
+                    const { getUser } = await import("../../../Firebase/firebase-client.js");
+                    const { ref, set } = await import("../../../Firebase/firebase-client.js");
+                    const uid = getUser().uid;
+                    const r = ref(`users/${uid}/session-history/${this.sid}`);
+                    await set(r, null);
+                } else {
+                    await deleteSession(this.sid);
+                }
+                return true;
+            }
+        };
+        
+        return sessionData;
     }
 }
 

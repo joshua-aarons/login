@@ -96,11 +96,19 @@ class DashboardWelcome extends UserDataComponent {
             }
         });
 
+        // Parse route query params
+        const query = RouteQuery.parse(route, 'dashboard');
+        const routeName = query.location;
+        const routeParams = query.params;
+        
         // Simple page switching - same logic as Console app-view.js
         // Get all Dashboard pages (direct children of body)
         const dashboardPages = Array.from(document.body.children).filter(
             el => el.tagName.toLowerCase() === 'dashboard-welcome' || 
-                  el.tagName.toLowerCase() === 'calendar-page'
+                  el.tagName.toLowerCase() === 'calendar-page' ||
+                  el.tagName.toLowerCase() === 'settings-panel' ||
+                  el.tagName.toLowerCase() === 'profile-panel' ||
+                  el.tagName.toLowerCase() === 'meeting-display'
         );
         
         let foundMatch = false;
@@ -109,35 +117,86 @@ class DashboardWelcome extends UserDataComponent {
         for (let page of dashboardPages) {
             const tagName = page.tagName.toLowerCase();
             const nameAttr = page.getAttribute("name");
-            const matches = tagName === route || nameAttr === route ||
-                          (route === 'dashboard' && tagName === 'dashboard-welcome') ||
-                          (route === 'dashboard-welcome' && tagName === 'dashboard-welcome');
+            const matches = tagName === routeName || nameAttr === routeName ||
+                          (routeName === 'dashboard' && tagName === 'dashboard-welcome') ||
+                          (routeName === 'dashboard-welcome' && tagName === 'dashboard-welcome') ||
+                          (routeName === 'settings' && tagName === 'settings-panel') ||
+                          (routeName === 'profile' && tagName === 'profile-panel');
             
             if (matches) {
                 foundMatch = true;
                 page.active = true;
+                // Set params if component supports it
+                if (typeof page.setParams === 'function') {
+                    page.setParams(routeParams);
+                } else if (page.params !== undefined) {
+                    page.params = routeParams;
+                }
             } else {
                 page.active = false;
             }
         }
         
-        // If no match found, create calendar-page if needed
-        if (!foundMatch && route === 'calendar') {
-            const calendarPage = document.createElement('calendar-page');
-            calendarPage.setAttribute('name', 'calendar');
-            document.body.appendChild(calendarPage);
+        // Handle meeting-display separately (it's in a popup, not a page)
+        // This is handled by displayMeeting method instead (like Console)
+        if (routeName === 'meeting-display') {
+            // Close popup if navigating away
+            const popup = document.querySelector('[name="meetingDisplayPopup"]');
+            if (popup) {
+                popup.classList.remove('open');
+            }
+        }
+        
+        // If no match found, create page if needed
+        if (!foundMatch) {
+            let newPage = null;
+            if (routeName === 'calendar') {
+                newPage = document.createElement('calendar-page');
+                newPage.setAttribute('name', 'calendar');
+            } else if (routeName === 'settings') {
+                newPage = document.createElement('settings-panel');
+                newPage.setAttribute('name', 'settings');
+            } else if (routeName === 'profile') {
+                newPage = document.createElement('profile-panel');
+                newPage.setAttribute('name', 'profile');
+            }
             
-            // Wait for component to initialize (onconnect will be called automatically)
-            // Then set active after a short delay to ensure template is loaded
-            setTimeout(() => {
-                calendarPage.active = true;
-            }, 100);
-            foundMatch = true;
+            if (newPage) {
+                // For meeting-display, we don't append to body directly (it's in popup)
+                if (routeName !== 'meeting-display') {
+                    document.body.appendChild(newPage);
+                }
+                console.log('[DashboardWelcome] Page created:', newPage.tagName);
+                // Set params before setting active
+                if (routeParams && Object.keys(routeParams).length > 0) {
+                    console.log('[DashboardWelcome] Setting params:', routeParams);
+                    if (typeof newPage.setParams === 'function') {
+                        newPage.setParams(routeParams);
+                    } else if (newPage.params !== undefined) {
+                        newPage.params = routeParams;
+                    } else {
+                        console.warn('[DashboardWelcome] Component does not support params:', newPage.tagName);
+                    }
+                }
+                // Wait for component to initialize (onconnect will be called automatically)
+                // Then set active after a short delay to ensure template is loaded
+                setTimeout(() => {
+                    newPage.active = true;
+                    // Update all components (including newly created one) with current user data
+                    if (window.updateNewComponentWithUserData) {
+                        window.updateNewComponentWithUserData();
+                    }
+                }, 150);
+                foundMatch = true;
+            } else {
+                console.warn('[DashboardWelcome] No page created for route:', routeName);
+            }
         }
         
         // Set URL hash
-        if (route !== 'dashboard' && route !== 'dashboard-welcome') {
-            window.location.hash = `#${route}`;
+        if (routeName !== 'dashboard' && routeName !== 'dashboard-welcome') {
+            const routeQuery = new RouteQuery(routeName, routeParams);
+            window.location.hash = routeQuery.toString();
         }
     }
 
@@ -196,7 +255,72 @@ class DashboardWelcome extends UserDataComponent {
         }
     }
 
+    /**
+     * Display meeting in popup (same as Console's app-view.displayMeeting)
+     * @param {Object} meeting - The meeting/session object
+     */
+    displayMeeting(meeting) {
+        // Ensure popup exists (like Console)
+        let popup = document.querySelector('[name="meetingDisplayPopup"]');
+        if (!popup) {
+            popup = document.createElement('div');
+            popup.className = 'popup';
+            popup.setAttribute('name', 'meetingDisplayPopup');
+            document.body.appendChild(popup);
+        }
+        
+        // Ensure meeting-display component exists
+        let meetingDisplay = popup.querySelector('meeting-display[name="meetingDisplay"]');
+        if (!meetingDisplay) {
+            meetingDisplay = document.createElement('meeting-display');
+            meetingDisplay.setAttribute('name', 'meetingDisplay');
+            popup.appendChild(meetingDisplay);
+        }
+        
+        // Set meeting value directly (same as Console)
+        meetingDisplay.value = meeting;
+        
+        // Open popup
+        popup.classList.add('open');
+        
+        // Add click handler to close popup when clicking outside (like Console)
+        const handlePopupClick = (e) => {
+            if (e.target === popup) {
+                this.closeMeetingDisplay();
+                popup.removeEventListener('click', handlePopupClick);
+            }
+        };
+        // Remove old listener if exists
+        popup.removeEventListener('click', handlePopupClick);
+        popup.addEventListener('click', handlePopupClick);
+    }
+    
+    /**
+     * Close meeting display popup
+     */
+    closeMeetingDisplay() {
+        const popup = document.querySelector('[name="meetingDisplayPopup"]');
+        if (popup) {
+            popup.classList.remove('open');
+        }
+    }
+
     onvalue(value) {
+        // Update user avatar with first letter of firstName
+        if (value && value.info && value.info.firstName) {
+            const firstName = value.info.firstName;
+            const firstLetter = firstName.charAt(0).toUpperCase();
+            const userAvatar = this.querySelector('.user-avatar');
+            if (userAvatar) {
+                const span = userAvatar.querySelector('span');
+                if (span) {
+                    span.textContent = firstLetter;
+                } else {
+                    userAvatar.textContent = firstLetter;
+                }
+            }
+        }
+        
         // Update today's meetings if available
         if (value.meetings && Array.isArray(value.meetings)) {
             const today = new Date();

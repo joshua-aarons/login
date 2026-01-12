@@ -39,7 +39,8 @@
 
 .link-copy p {
     padding-right: 1.5rem;
-    white-space: nowrap;
+    word-break: break-all;
+    overflow-wrap: break-word;
 }
 
 .link-copy {
@@ -114,6 +115,13 @@
 }
 
 meeting-display {
+    position: relative;
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+/* Console window: popup mode */
+body:not(.dashboard-window) .popup > meeting-display {
     position: relative;
 }
 

@@ -1,5 +1,5 @@
-import { DataComponent, SvgPlus } from "../../../Utilities/CustomComponent.js";
-import { deleteSession } from "../../../Firebase/sessions.js"
+import { DataComponent, SvgPlus, UserDataComponent } from "../../../Utilities/CustomComponent.js";
+import { deleteSession, Session } from "../../../Firebase/sessions.js"
 import { getUserInfo } from "../../../Firebase/user.js"
 import { getHTMLTemplate, useCSSStyle } from "../../../Utilities/template.js"
 
@@ -85,10 +85,110 @@ const LINK_FORMAT_TOKENS = {
 /**
  * @extends HTMLElement
  */
-class MeetingDisplay extends DataComponent {
+class MeetingDisplay extends UserDataComponent {
+    
+    constructor(el) {
+        if (!el) {
+            el = document.createElement('div');
+        }
+        super(el);
+    }
     
     onconnect() {
         this.template = getHTMLTemplate("meeting-display")
+        
+        // Setup close button handler
+        const closeBtn = this.querySelector('.close-i');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => this.close());
+        }
+    }
+    
+    
+    /**
+     * Convert meeting object to Session-like object
+     * @param {Object} meeting - The meeting object
+     * @returns {Object} Session-like object
+     */
+    convertMeetingToSession(meeting) {
+        // Parse duration
+        let durationMinutes = meeting.duration;
+        if (typeof durationMinutes === 'string') {
+            const match = durationMinutes.match(/(\d+)/);
+            durationMinutes = match ? parseInt(match[1]) : 30;
+        } else if (typeof durationMinutes === 'number') {
+            durationMinutes = durationMinutes;
+        } else {
+            durationMinutes = 30;
+        }
+        
+        // Parse start time
+        const startTimeRaw = meeting.startTime !== undefined ? meeting.startTime : 
+                            (meeting.time !== undefined ? meeting.time : 
+                            (meeting.date instanceof Date ? meeting.date.getTime() : 
+                            (meeting.date ? new Date(meeting.date).getTime() : null)));
+        let startTime;
+        
+        if (startTimeRaw instanceof Date) {
+            startTime = startTimeRaw.getTime();
+        } else if (typeof startTimeRaw === 'number' && !isNaN(startTimeRaw)) {
+            startTime = startTimeRaw;
+        } else if (typeof startTimeRaw === 'string') {
+            startTime = new Date(startTimeRaw).getTime();
+        } else {
+            startTime = Date.now();
+        }
+        
+        if (isNaN(startTime)) {
+            startTime = Date.now();
+        }
+        
+        const startDate = new Date(startTime);
+        
+        // Format date string (DD/MM/YYYY HH:MM AM/PM)
+        const day = String(startDate.getDate()).padStart(2, '0');
+        const month = String(startDate.getMonth() + 1).padStart(2, '0');
+        const year = startDate.getFullYear();
+        const timeStr = startDate.toLocaleTimeString("en", { timeStyle: "short" });
+        const dateStr = `${day}/${month}/${year} ${timeStr}`;
+        
+        // Create Session-like object
+        const sessionData = {
+            sid: meeting.sid || '',
+            description: meeting.description || meeting.title || 'My Meeting',
+            date: dateStr,
+            duration: durationMinutes,
+            time: startTime,
+            startTime: startTime,
+            timezone: meeting.timezone || '-',
+            status: meeting.status || (meeting.isHistory ? 'complete' : 'upcoming'),
+            isHistory: meeting.isHistory || false,
+            active: meeting.active || false,
+            link: Session.sid2link(meeting.sid || ''),
+            // Add delete method
+            delete: async function() {
+                const { deleteSession } = await import("../../../Firebase/sessions.js");
+                if (this.isHistory) {
+                    const { getUser } = await import("../../../Firebase/firebase-client.js");
+                    const { ref, set } = await import("../../../Firebase/firebase-client.js");
+                    const uid = getUser().uid;
+                    const r = ref(`users/${uid}/session-history/${this.sid}`);
+                    await set(r, null);
+                } else {
+                    await deleteSession(this.sid);
+                }
+                return true;
+            }
+        };
+        
+        return sessionData;
+    }
+    
+    onvalue(value) {
+        // Update complete attribute
+        if (value && value.status) {
+            this.toggleAttribute("complete", value.status === "complete");
+        }
     }
 
     /**
@@ -133,13 +233,27 @@ class MeetingDisplay extends DataComponent {
         }
     }
 
-
-    onvalue(value) {
-        this.toggleAttribute("complete", value.status === "complete");
-    }
-
     close() {
-        this.parentNode.classList.remove('open')
+        const isDashboardWindow = document.body.classList.contains('dashboard-window');
+        
+        if (isDashboardWindow) {
+            // In Dashboard window, use dashboard-welcome's closeMeetingDisplay method
+            const dashboardWelcome = document.querySelector('dashboard-welcome');
+            if (dashboardWelcome && typeof dashboardWelcome.closeMeetingDisplay === 'function') {
+                dashboardWelcome.closeMeetingDisplay();
+            } else {
+                // Fallback: close popup directly
+                const popup = document.querySelector('[name="meetingDisplayPopup"]');
+                if (popup) {
+                    popup.classList.remove('open');
+                }
+            }
+        } else {
+            // In Console window, close popup (same as before)
+            if (this.parentNode && this.parentNode.classList) {
+                this.parentNode.classList.remove('open');
+            }
+        }
     }
 
     async deleteMeeting(){
@@ -159,7 +273,23 @@ class MeetingDisplay extends DataComponent {
 
     edit(){
         this.close()
-        document.querySelector("app-view").scheduleMeeting(this.value)
+        // Support both Console (app-view) and Dashboard windows
+        const isDashboardWindow = document.body.classList.contains('dashboard-window');
+        if (isDashboardWindow) {
+            // In Dashboard, we might not have meeting scheduler yet
+            // For now, just show a notification or open console
+            if (window.api && typeof window.api.openConsole === 'function') {
+                window.api.openConsole();
+            } else {
+                showNotification("Please use Console to edit meetings.", 3000, "info");
+            }
+        } else {
+            // In Console, use app-view
+            const appView = document.querySelector("app-view");
+            if (appView && typeof appView.scheduleMeeting === 'function') {
+                appView.scheduleMeeting(this.value);
+            }
+        }
     }
 
     

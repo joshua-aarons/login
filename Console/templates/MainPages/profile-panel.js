@@ -28,7 +28,8 @@ class ProfilePanel extends UserDataComponent {
         })
 
         els.uploadDP.onclick = () => this.openimage()
-
+        
+        this.setupEventListeners();
 
         // passwordReset.attachEvents()
         // passwordReset.getInput("oldpasscode").validater = validate_password;
@@ -44,7 +45,56 @@ class ProfilePanel extends UserDataComponent {
         //     this.updatePasscode()
         // });
     }
-  
+
+    setupEventListeners() {
+        // Navigation items
+        this.addEventListener('click', (e) => {
+            const navItem = e.target.closest('.nav-item');
+            if (navItem) {
+                const route = navItem.dataset.route;
+                if (route) {
+                    this.handleNavigation(route);
+                }
+            }
+        });
+
+        // User avatar click
+        this.addEventListener('click', (e) => {
+            const userAvatar = e.target.closest('.user-avatar');
+            if (userAvatar) {
+                this.handleNavigation('profile');
+            }
+        });
+    }
+
+    handleNavigation(route) {
+        // Check if we're in Dashboard window (not inside app-view)
+        const isDashboardWindow = document.body.classList.contains('dashboard-window');
+        
+        if (isDashboardWindow) {
+            // In Dashboard window, find dashboard-welcome and call its handleNavigation
+            const dashboardWelcome = document.querySelector('dashboard-welcome');
+            if (dashboardWelcome && typeof dashboardWelcome.handleNavigation === 'function') {
+                dashboardWelcome.handleNavigation(route);
+            }
+        } else {
+            // In Console window, use app-view
+            if (window.appView) {
+                window.appView.panel = route === 'dashboard' ? 'dashboard-welcome' : route;
+            }
+        }
+        
+        // Update active nav item in profile-panel
+        const navItems = this.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            if (item.dataset.route === route) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    }
+
     async openimage() {
         let input = new SvgPlus("input")
         input.props = {type:"file",accept:"image/*"}

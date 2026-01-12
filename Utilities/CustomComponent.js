@@ -351,6 +351,47 @@ class Notification extends SvgPlus {
 
 
 function updateUserDataComponents(value) {
+    // Convert sessions to meetings format for dashboard compatibility
+    if (value && value.sessions && Array.isArray(value.sessions)) {
+        value.meetings = value.sessions.map(session => {
+            const timeValue = session.time !== undefined ? session.time : session.startTime;
+            let startTime;
+            
+            if (timeValue instanceof Date) {
+                startTime = timeValue;
+            } else if (typeof timeValue === 'number' && !isNaN(timeValue)) {
+                startTime = new Date(timeValue);
+            } else if (typeof timeValue === 'string') {
+                startTime = new Date(timeValue);
+            } else {
+                startTime = new Date();
+            }
+            
+            if (isNaN(startTime.getTime())) {
+                startTime = new Date();
+            }
+            
+            const durationMinutes = typeof session.duration === 'number' ? session.duration : 30;
+            const endTime = new Date(startTime);
+            endTime.setMinutes(endTime.getMinutes() + durationMinutes);
+            const status = session.status || (session.isHistory ? 'complete' : 'upcoming');
+            
+            return {
+                description: session.description || 'My Meeting',
+                date: startTime,
+                time: startTime,
+                startTime: session.startTime,
+                duration: durationMinutes + ' mins',
+                endTime: endTime,
+                sid: session.sid,
+                status: status,
+                ...session
+            };
+        });
+    } else if (value && !value.meetings) {
+        value.meetings = [];
+    }
+    
     for (let el of DATA_COMPONENTS) {
         el.value = value;
     }
