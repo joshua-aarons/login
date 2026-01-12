@@ -205,7 +205,7 @@ class MeetingDisplay extends UserDataComponent {
                 await navigator.clipboard.write([copyItems])
                 showNotification("Link copied to clipboard.", 3000, "success");
             } catch (err) {
-                showNotification("Failed to copy link.", 5000, "success");
+                showNotification("Failed to copy link.", 5000, "error");
             }
         }
     }

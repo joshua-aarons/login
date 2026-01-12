@@ -17,9 +17,13 @@ async function start() {
     // Mark this as Dashboard window (not Console window)
     document.body.classList.add('dashboard-window');
     
-    // Add notifications-list component (same as Console) for showNotification to work
-    const notificationsList = document.createElement('notifications-list');
-    document.body.appendChild(notificationsList);
+    // notifications-list is already in HTML (same as Console)
+    // Just ensure it exists
+    let notificationsList = document.querySelector('notifications-list');
+    if (!notificationsList) {
+        notificationsList = document.createElement('notifications-list');
+        document.body.appendChild(notificationsList);
+    }
     
     const dashboardWelcome = document.createElement('dashboard-welcome');
     document.body.appendChild(dashboardWelcome);
