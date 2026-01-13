@@ -164,7 +164,7 @@ class DashboardWelcome extends UserDataComponent {
             if (newPage) {
                 // For meeting-display, we don't append to body directly (it's in popup)
                 if (routeName !== 'meeting-display') {
-                    document.body.appendChild(newPage);
+                document.body.appendChild(newPage);
                 }
                 console.log('[DashboardWelcome] Page created:', newPage.tagName);
                 // Set params before setting active

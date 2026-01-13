@@ -129,10 +129,11 @@ class CalendarPage extends UserDataComponent {
                 },
                 height: 'auto',
                 fixedWeekCount: true, // Fixed 6 weeks to keep square shape
-                dayMaxEvents: false,
+                dayMaxEvents: true, // Show event indicators (FullCalendar default)
                 dayHeaderFormat: { weekday: 'narrow' }, // Use single letter (S, M, T, W, T, F, S)
                 aspectRatio: 1.0, // Force square aspect ratio (width:height = 1:1)
                 contentHeight: 'auto',
+                events: [], // Will be populated in onvalue
                 dateClick: (info) => {
                     // When clicking a date in mini calendar, navigate week calendar to that week
                     if (this.weekCalendar) {
@@ -270,16 +271,40 @@ class CalendarPage extends UserDataComponent {
             const start = view.activeStart;
             const end = view.activeEnd;
             
-            const startMonth = start.toLocaleDateString('en-US', { month: 'short' });
-            const endMonth = end.toLocaleDateString('en-US', { month: 'short' });
-            const year = start.getFullYear();
-            
             const dateRangeEl = this.querySelector('[name="dateRange"]');
             if (dateRangeEl) {
-                if (startMonth === endMonth) {
-                    dateRangeEl.textContent = `${startMonth} ${year}`;
+                const viewType = view.type;
+                
+                if (viewType === 'timeGridDay') {
+                    // Day view: Show specific date, e.g., "Jan 13, 2024"
+                    const day = start.getDate();
+                    const month = start.toLocaleDateString('en-US', { month: 'short' });
+                    const year = start.getFullYear();
+                    dateRangeEl.textContent = `${month} ${day}, ${year}`;
+                } else if (viewType === 'timeGridWeek') {
+                    // Week view: Show week range, e.g., "Jan 13 - 19, 2024"
+                    const startDay = start.getDate();
+                    const endDay = end.getDate() - 1; // end is exclusive, so subtract 1
+                    const startMonth = start.toLocaleDateString('en-US', { month: 'short' });
+                    const endMonth = end.toLocaleDateString('en-US', { month: 'short' });
+                    const year = start.getFullYear();
+                    
+                    if (startMonth === endMonth) {
+                        dateRangeEl.textContent = `${startMonth} ${startDay} - ${endDay}, ${year}`;
+                    } else {
+                        dateRangeEl.textContent = `${startMonth} ${startDay} - ${endMonth} ${endDay}, ${year}`;
+                    }
                 } else {
-                    dateRangeEl.textContent = `${startMonth} - ${endMonth} ${year}`;
+                    // Month view: Show month and year, e.g., "Jan 2024"
+                    const startMonth = start.toLocaleDateString('en-US', { month: 'short' });
+                    const endMonth = end.toLocaleDateString('en-US', { month: 'short' });
+                    const year = start.getFullYear();
+                    
+                    if (startMonth === endMonth) {
+                        dateRangeEl.textContent = `${startMonth} ${year}`;
+                    } else {
+                        dateRangeEl.textContent = `${startMonth} - ${endMonth} ${year}`;
+                    }
                 }
             }
         }
@@ -366,10 +391,10 @@ class CalendarPage extends UserDataComponent {
                     : (meeting.endTime ? new Date(meeting.endTime) : new Date(startDate.getTime() + durationMinutes * 60000));
                 
                 const eventObj = {
-                    title: meeting.title || meeting.description || 'Meeting',
+                title: meeting.title || meeting.description || 'Meeting',
                     start: startDate,
                     end: endTime,
-                    backgroundColor: meeting.color || '#3b82f6',
+                backgroundColor: meeting.color || '#3b82f6',
                     borderColor: meeting.color || '#3b82f6',
                     extendedProps: {
                         sid: meeting.sid || '',
@@ -395,13 +420,27 @@ class CalendarPage extends UserDataComponent {
                 });
             });
             
-            this.weekCalendar.removeAllEvents();
-            events.forEach(event => {
-                this.weekCalendar.addEvent(event);
-            });
-        } else if (value && value.meetings && value.meetings.length === 0) {
+            // Update week calendar with events
             if (this.weekCalendar) {
                 this.weekCalendar.removeAllEvents();
+                events.forEach(event => {
+                    this.weekCalendar.addEvent(event);
+                });
+            }
+            
+            // Update mini calendar with events (for dot indicators)
+            if (this.miniCalendar) {
+                this.miniCalendar.removeAllEvents();
+                events.forEach(event => {
+                    this.miniCalendar.addEvent(event);
+                });
+            }
+        } else if (value && value.meetings && value.meetings.length === 0) {
+            if (this.weekCalendar) {
+            this.weekCalendar.removeAllEvents();
+            }
+            if (this.miniCalendar) {
+                this.miniCalendar.removeAllEvents();
             }
             this._meetingsMap.clear();
         }
