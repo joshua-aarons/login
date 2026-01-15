@@ -1,0 +1,12 @@
+<div style="display: flex; gap: 2em;">
+  <div id="profiles" class = "card" style="width: 30%; display: flex; flex-direction: column; height: calc(100vh - 3.8em);">
+    <div class = "row-space" style="margin-bottom: 1.5em; padding: 1.8em 1.8em 0 1.8em;">
+        <h1>Profiles</h1>
+        <i onclick = "document.querySelector('profile-settings').add()" class="fa-solid fa-user-plus" style="font-size:1.5em; cursor: pointer;"></i>
+    </div>
+    <profile-settings></profile-settings>
+  </div>
+  <div id="settings" class = "card" style="width: 70%; min-height: calc(100vh - 3.8em);">
+    <settings-card></settings-card>
+  </div>
+</div>

@@ -1,7 +1,17 @@
-import { SvgPlus, Vector } from "../../../../SvgPlus/4.js";
-import { useCSSStyle } from "../../../../Utilities/template.js";
+import { set } from "../../../Firebase/firebase-client.js";
+import { SvgPlus, Vector } from "../../../SvgPlus/4.js";
+import { DataComponent } from "../../../Utilities/CustomComponent.js";
+import { getHTMLTemplate, useCSSStyle } from "../../../Utilities/template.js";
 import * as AllSettings from "./settings.js";
-useCSSStyle("client-profiles");
+useCSSStyle("clients-page");
+
+class ClientsPage extends DataComponent {
+    onconnect() {
+        this.template = getHTMLTemplate("clients-page");
+    }
+}
+
+SvgPlus.defineHTMLElement(ClientsPage);
 
 class NumberInput extends SvgPlus {
     constructor(option) {
@@ -184,11 +194,22 @@ class SettingOptionInput extends SvgPlus {
     constructor(option, name, settings) {
         super("div");
         this.class = "setting-option-input";
-        this.createChild("span", {innerHTML: settings.getName(option.path)});
+        let settingName = settings.getName(option.path)
+        if (option.path.split("/")[0] === "calibration") {
+          settingName = "Calibration " + settingName.charAt(0).toUpperCase() + settingName.slice(1);
+        } else {
+          settingName = settingName.charAt(0).toUpperCase() + settingName.slice(1);
+        }
+
+        this.createChild("span", {innerHTML: settingName});
 
         switch(option.type) {
             case "boolean":
-                this.input = this.createChild("input", {type: "checkbox"});
+                const props = option.path === "eye-gaze-enabled" ? {for: settingName, class: "switch"} : {for: settingName};
+                const spanClass = option.path === "eye-gaze-enabled" ? {class: "slider round"} : {class: "checkmark"};
+                let label = this.createChild("label", props);
+                this.input = label.createChild("input", {type: "checkbox", id: settingName});
+                label.createChild("span", spanClass);
                 break;
             case "number":
                 this.input = this.createChild(NumberInput, {}, option);
@@ -241,36 +262,109 @@ class SettingOptionInput extends SvgPlus {
     }
 }
 
-class SettingsCategory extends SvgPlus {
-    constructor(category, name, settings) {
-        let isSub = typeof name === "string"
-        super(isSub ? "details" : "div");
-        if (isSub){ 
-            this.createChild("summary", {content: name || "Settings"});
-        }
-        this.subElements = this.createChild("div", {class: isSub ?  "category-list" : "settings-list" });
-        for (let key in category) {
-            let value = category[key];
-            if (value instanceof AllSettings.SettingsDescriptor) {
-                this.subElements.createChild(SettingOptionInput, {}, value, key, settings);
-            } else {
-                let title = key.replace(/([a-z])([A-Z])/g, '$1 $2');
-                title = title.charAt(0).toUpperCase() + title.slice(1);
-                this.subElements.createChild(SettingsCategory, {}, value, title, settings);
-            }
-        }
+class SettingsTab extends SvgPlus {
+    constructor(icon, category, sections) {
+      super("div");
+      this.createChild("div", {class: "material-symbols-outlined icon", innerHTML: icon});
+      let description = category.replace(/([a-z])([A-Z])/g, '$1 $2');
+      description = description.charAt(0).toUpperCase() + description.slice(1);
+      this.setAttribute("title", description);
+      this.sections = sections;
+      this.category = category;
+      if (this.category === "display") {
+          this.sections[this.category].toggleAttribute("hidden");
+      }
+      this.addEventListener("click", this.onTabClicked);
     }
 
-    dispose() {
-        for (let child of this.subElements.children) {
-            if (child instanceof SettingOptionInput) {
-                child._removeListener();
-            } else if (child instanceof SettingsCategory) {
-                child.dispose();
+    onTabClicked() {
+      for (let key in this.sections) {
+        let section = this.sections[key];
+        section.hidden = true;
+      }
+      this.sections[this.category].toggleAttribute("hidden");
+      document.querySelectorAll(".tab").forEach((tab) => {
+        tab.classList.remove("active");
+      })
+      this.classList.add("active");
+    }
+}
+
+class SettingsCard extends SvgPlus {
+    constructor(el) {
+      super(el);
+      this.icons = {
+        display: "desktop_windows",
+        access: "accessibility_new",
+        keyboardShortcuts: "keyboard",
+        languages: "language",
+        cursors: "arrow_selector_tool"
+      }
+    }
+
+    loadSettings(Settings, path) {
+        this.innerHTML = "";
+        let header = this.createChild("div", {class: "row-space header", style: {"margin-bottom": "0.5em"}});
+        let name = header.createChild("h2", {innerHTML: Settings.getValue("profileSettings/name") || "Default Profile"});
+    
+        Settings.addChangeListener((path, value) => {
+            if (path === "profileSettings/name") {
+                name.innerHTML = value;
             }
+        });
+
+        let row = header.createChild("div", {class: "button-row"});
+        row.createChild("button", {innerHTML: "Reset", events: {
+            click: ()=> Settings.resetAllToDefault()}, 
+            class: "btn"
+        });
+
+        if (!Settings.isDefault) {
+            row.createChild("button", {innerHTML: "Delete", events: {
+                click: () => {
+                  Settings.delete();
+                  this.innerHTML = "";
+                }}, 
+                class: "btn"
+            });
+        }
+        
+        this.settingsContainer = this.createChild("div", {class: "settings-container"});
+        let settingsHeader = this.settingsContainer.createChild("div", {class: "settings-header"});
+        settingsHeader.createChild("i", {class: "fa-solid fa-gear"});
+        settingsHeader.createChild("span", {innerHTML: "Settings"});
+
+        let content = this.settingsContainer.createChild("div", {class: "settings-content"});
+        this.tabsContainer = content.createChild("div", {class: "tabs-container"});
+        this.settingsOptions = content.createChild("div", {class: "settings-options"});
+
+        let settingsDescriptor = Settings.settingsAsObject;
+        const newSettingsDescriptor = {
+            ...(settingsDescriptor["profileSettings"] && !Settings.isDefault 
+                ? { display: { ...settingsDescriptor["profileSettings"], ...settingsDescriptor["display"] }}
+                : { display: { ...settingsDescriptor["display"] }}
+            ),
+            access: { ...settingsDescriptor["access"], "Eye-gaze enabled": settingsDescriptor["eye-gaze-enabled"], ...settingsDescriptor["volume"], ...settingsDescriptor["calibration"]
+            },
+            keyboardShortcuts: { ...settingsDescriptor["keyboardShortcuts"] },
+            languages: { ...settingsDescriptor["languages"] },
+            cursors: { ...settingsDescriptor["cursors"] }
+        };
+        
+        let sections = {}
+        for (let category in newSettingsDescriptor) {
+          let section = this.settingsOptions.createChild("section", {name: category, hidden: true});
+          for (let key in newSettingsDescriptor[category]) {
+              let value = newSettingsDescriptor[category][key];
+              section.createChild(SettingOptionInput, {}, value, key, Settings);
+          }
+          sections[category] = section;
+          this.tabsContainer.createChild(SettingsTab, {class: "tab"}, this.icons[category], category, sections)
         }
     }
 }
+
+SvgPlus.defineHTMLElement(SettingsCard);
 
 class BGImg extends SvgPlus {
     constructor(src) {
@@ -290,14 +384,14 @@ class BGImg extends SvgPlus {
     }
 }
 
-
 class ProfileCard extends SvgPlus {
     constructor(Settings, path) {
-        super("details");
+        super("div");
         this.class = "profile-card";
-        const header = this.createChild("summary", {class: "profile-header"});
-        this.profileName = header.createChild("h2", {innerHTML: Settings.getValue("profileSettings/name") || "Default Profile"});
+        const header = this.createChild("div", {class: "profile-header"});
         this.profileImage = header.createChild(BGImg, {}, Settings.getValue("profileSettings/image"));
+        this.profileName = header.createChild("span", {innerHTML: Settings.getValue("profileSettings/name") || "Default Profile"});
+
         Settings.addChangeListener((path, value) => {
             if (path === "profileSettings/name") {
                 this.profileName.innerHTML = value;
@@ -305,22 +399,6 @@ class ProfileCard extends SvgPlus {
                 this.profileImage.src = value;
             }
         });
-
-        let row = this.createChild("div", {class: "button-row"});
-        row.createChild("button", {innerHTML: "Reset", events: {
-            click: ()=> Settings.resetAllToDefault()}, 
-            class: "btn"
-        });
-
-        let settingsDescriptor = Settings.settingsAsObject;
-        if (!Settings.isDefault) {
-            row.createChild("button", {innerHTML: "Delete", events: {
-                click: ()=> Settings.delete()}, 
-                class: "btn"
-            });
-        }
-
-        this.SettingCategories = this.createChild(SettingsCategory, {}, settingsDescriptor, null, Settings);
         this.Settings = Settings;
     }
 
@@ -329,12 +407,12 @@ class ProfileCard extends SvgPlus {
     }
 }
 
-
 const ProfileSettingsElements = []
 class ProfileSettings extends SvgPlus {
     constructor(el) {
         super(el);
         this._profileCards = {};
+        this.settingsCard = document.querySelector('settings-card');
         ProfileSettingsElements.push(this);
 
         for (let path of AllSettings.getAllSettingsFrames()) {
@@ -346,11 +424,19 @@ class ProfileSettings extends SvgPlus {
         });
     }
 
+    onCardClick(Settings, path) {
+        this.settingsCard.loadSettings(Settings, path);
+        for (let profileCard of Object.values(this._profileCards)) {
+          profileCard.classList.remove("highlighted");
+        }
+        this._profileCards[path].classList.add("highlighted");
+    }
+
     _addProfileCard(path) {
         if (!(path in this._profileCards)) {
             let Settings = AllSettings.getSettingsFrame(path);
-
             let profileCard = new ProfileCard(Settings, path);
+            profileCard.addEventListener("click", () => this.onCardClick(Settings, path));
             this._profileCards[path] = profileCard;
             this.appendChild(profileCard);
         }

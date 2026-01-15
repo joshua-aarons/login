@@ -18,9 +18,6 @@ export const TemplateLibrary = {
 	"theme": {
 		"css": "Console/templates/theme.css"
 	},
-	"client-profiles": {
-		"css": "Console/templates/MainPages/Profiles/client-profile.css",
-	},
 	"features-page": {
 		"css": "HomePage/templates/features-page.css",
 		"html": "HomePage/templates/features-page.html"
@@ -60,10 +57,14 @@ export const TemplateLibrary = {
 	"support-panel": {
 		"html": "Console/templates/MainPages/support-panel.html"
 	},
-    "feedback-page": {
-        "css": "Console/templates/MainPages/feedback-page.css",
-        "html": "Console/templates/MainPages/feedback-page.html"
-    },
+  "feedback-page": {
+    "css": "Console/templates/MainPages/feedback-page.css",
+    "html": "Console/templates/MainPages/feedback-page.html"
+  },
+  "clients-page": {
+    "css": "Console/templates/MainPages/clients-page.css",
+    "html": "Console/templates/MainPages/clients-page.html"
+  },
 	"meeting-scheduler": {
 		"html": "Console/templates/MeetingTools/meeting-scheduler.html"
 	},

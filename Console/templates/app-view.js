@@ -8,6 +8,7 @@ import {} from "./MainPages/admin-control.js"
 import {} from "./MainPages/settings-panel.js"
 import {} from "./MainPages/licences-page.js"
 import {} from "./MainPages/feedback-page.js"
+import {} from "./MainPages/clients-page.js"
 import {} from "../../Utilities/hover.js"
 
 import {} from "./MeetingTools/meeting-display.js"
