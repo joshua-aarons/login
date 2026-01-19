@@ -3,6 +3,7 @@ import {} from "../Console/templates/MainPages/calendar-page.js"; // Import to r
 import {} from "../Console/templates/MainPages/settings-panel.js"; // Import to register settings-panel component
 import {} from "../Console/templates/MainPages/profile-panel.js"; // Import to register profile-panel component
 import {} from "../Console/templates/MeetingTools/meeting-display.js"; // Import to register meeting-display component
+import {} from "../Console/templates/MeetingTools/meeting-scheduler.js"; // Import to register meeting-scheduler component
 import * as F from '../Firebase/firebase-client.js'
 import { updateUserDataComponents } from "../Utilities/CustomComponent.js";
 import { watch } from "../Firebase/main.js";

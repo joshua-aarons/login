@@ -20,12 +20,12 @@
     </nav>
 
     <div class="user-avatar">
-        <span>K</span>
+        <div class="avatar-photo" name="info/displayPhoto" vfield="background-image"></div>
     </div>
 </header>
 
 <main class="dashboard-main">
-    <h1 class="welcome-title">Welcome back, <span name="info/firstName" vfield="textContent">Kevin</span></h1>
+    <h1 class="welcome-title">Welcome back, <span name="info/firstName" vfield="textContent"></span></h1>
 
     <div class="action-grid">
         <div class="action-card bg-purple" data-action="console">
@@ -47,17 +47,13 @@
     </div>
 
     <div class="schedule-section">
-        <div class="section-title">Today's Schedule</div>
+        <div class="section-title">Schedule</div>
         
-        <div class="meeting-card" name="todayMeetings" vfield="innerHTML">
-            <div class="meeting-info">
-                <h3>Meeting Description</h3>
-                <div class="meeting-meta">
-                    <svg width="14" height="14" viewBox="0 0 24 24" class="icon"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    <span>30 mins</span>
-                </div>
-            </div>
-            <div class="meeting-time">10:00AM</div>
-        </div>
+        <div name="todayMeetings" vfield="innerHTML"></div>
     </div>
 </main>
+
+<!-- Meeting Scheduler Popup (reused from Console) -->
+<div class="popup" name="meetingSchedulerPopup">
+    <meeting-scheduler name="meetingScheduler"></meeting-scheduler>
+</div>

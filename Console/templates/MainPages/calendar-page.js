@@ -16,6 +16,9 @@ class CalendarPage extends UserDataComponent {
         this.weekCalendar = null;
         this.currentView = 'timeGridWeek';
         this._meetingsMap = new Map(); // Store meetings by sid for quick lookup
+        this._allMeetings = []; // Store all meetings for search
+        this._searchQuery = ''; // Current search query
+        this._colorMap = new Map(); // Map sid to color for consistent coloring
     }
 
     async onconnect() {
@@ -109,6 +112,213 @@ class CalendarPage extends UserDataComponent {
                 this.handleNavigation('profile');
             }
         });
+
+        // Search functionality
+        this.addEventListener('click', (e) => {
+            const action = e.target.closest('[data-action]')?.dataset.action;
+            if (action === 'toggle-search') {
+                this.toggleSearchBox();
+            } else if (action === 'close-search') {
+                this.closeSearchBox();
+            }
+        });
+
+        // Search input event
+        const searchInput = this.querySelector('[name="searchInput"]');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                this._searchQuery = e.target.value.trim().toLowerCase();
+                this.applySearchFilter();
+            });
+
+            // Close search on Escape key
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    this.closeSearchBox();
+                }
+            });
+        }
+    }
+
+    toggleSearchBox() {
+        const searchBox = this.querySelector('.search-box');
+        const searchInput = this.querySelector('[name="searchInput"]');
+        if (searchBox && searchInput) {
+            searchBox.classList.toggle('active');
+            if (searchBox.classList.contains('active')) {
+                searchInput.focus();
+            } else {
+                this.closeSearchBox();
+            }
+        }
+    }
+
+    closeSearchBox() {
+        const searchBox = this.querySelector('.search-box');
+        const searchInput = this.querySelector('[name="searchInput"]');
+        if (searchBox && searchInput) {
+            searchBox.classList.remove('active');
+            searchInput.value = '';
+            this._searchQuery = '';
+            this.applySearchFilter();
+        }
+    }
+
+    applySearchFilter() {
+        if (!this.weekCalendar || !this._allMeetings.length) {
+            return;
+        }
+
+        let filteredMeetings = this._allMeetings;
+
+        if (this._searchQuery) {
+            filteredMeetings = this._allMeetings.filter(meeting => {
+                // Search in title, description, sid
+                const title = (meeting.title || '').toLowerCase();
+                const description = (meeting.description || '').toLowerCase();
+                const sid = (meeting.sid || '').toLowerCase();
+                
+                return title.includes(this._searchQuery) ||
+                       description.includes(this._searchQuery) ||
+                       sid.includes(this._searchQuery);
+            });
+        }
+
+        // Update calendar with filtered events
+        this.updateCalendarEvents(filteredMeetings);
+    }
+
+    /**
+     * Generate a consistent color for a meeting based on its sid
+     * Uses a theme-based color palette matching Squidly's purple/indigo theme
+     */
+    getEventColor(meeting) {
+        // If meeting has a color, use it
+        if (meeting.color) {
+            return meeting.color;
+        }
+        
+        // Use sid to generate consistent color
+        const sid = meeting.sid || '';
+        if (!sid) {
+            return '#7c3aed'; // Default purple (theme color)
+        }
+        
+        // Check if we already have a color for this sid
+        if (this._colorMap.has(sid)) {
+            return this._colorMap.get(sid);
+        }
+        
+        // Theme-based color palette (purple/indigo theme matching Squidly)
+        const themeColors = [
+            '#7c3aed', // Purple (primary)
+            '#6366f1', // Indigo
+            '#8b5cf6', // Purple variant
+            '#5b21b6', // Deep purple
+            '#4f46e5', // Indigo variant
+            '#a855f7', // Light purple
+            '#3b82f6', // Blue
+            '#2563eb', // Deep blue
+            '#06b6d4', // Cyan
+            '#10b981', // Green
+            '#f59e0b', // Amber
+            '#ef4444', // Red
+            '#ec4899', // Pink
+            '#14b8a6', // Teal
+            '#f97316', // Orange
+        ];
+        
+        // Generate hash from sid to get consistent color
+        let hash = 0;
+        for (let i = 0; i < sid.length; i++) {
+            hash = sid.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const colorIndex = Math.abs(hash) % themeColors.length;
+        const color = themeColors[colorIndex];
+        
+        // Store color for this sid
+        this._colorMap.set(sid, color);
+        
+        return color;
+    }
+
+    updateCalendarEvents(meetings) {
+        if (!this.weekCalendar) {
+            return;
+        }
+
+        // Store filtered meetings in map
+        this._meetingsMap.clear();
+        meetings.forEach(meeting => {
+            if (meeting.sid) {
+                this._meetingsMap.set(meeting.sid, meeting);
+            }
+        });
+
+        // Convert meetings to events
+        const events = meetings.map(meeting => {
+            let durationMinutes = meeting.duration;
+            if (typeof durationMinutes === 'string') {
+                const match = durationMinutes.match(/(\d+)/);
+                durationMinutes = match ? parseInt(match[1]) : 30;
+            } else if (typeof durationMinutes === 'number') {
+                durationMinutes = durationMinutes;
+            } else {
+                durationMinutes = 30;
+            }
+            
+            const startTimeRaw = meeting.startTime !== undefined ? meeting.startTime : 
+                                (meeting.time !== undefined ? meeting.time : null);
+            let startDate;
+            
+            if (startTimeRaw instanceof Date) {
+                startDate = startTimeRaw;
+            } else if (typeof startTimeRaw === 'number' && !isNaN(startTimeRaw)) {
+                startDate = new Date(startTimeRaw);
+            } else if (typeof startTimeRaw === 'string') {
+                startDate = new Date(startTimeRaw);
+            } else {
+                startDate = new Date();
+            }
+            
+            if (isNaN(startDate.getTime())) {
+                startDate = new Date();
+            }
+            
+            const endTime = meeting.endTime instanceof Date 
+                ? meeting.endTime 
+                : (meeting.endTime ? new Date(meeting.endTime) : new Date(startDate.getTime() + durationMinutes * 60000));
+            
+            // Generate or retrieve color for this session
+            const eventColor = this.getEventColor(meeting);
+            
+            return {
+                title: meeting.title || meeting.description || 'Meeting',
+                start: startDate,
+                end: endTime,
+                backgroundColor: eventColor,
+                borderColor: eventColor,
+                borderWidth: 2,
+                extendedProps: {
+                    sid: meeting.sid || '',
+                    description: meeting.description || ''
+                }
+            };
+        });
+
+        // Update week calendar
+        this.weekCalendar.removeAllEvents();
+        events.forEach(event => {
+            this.weekCalendar.addEvent(event);
+        });
+
+        // Update mini calendar
+        if (this.miniCalendar) {
+            this.miniCalendar.removeAllEvents();
+            events.forEach(event => {
+                this.miniCalendar.addEvent(event);
+            });
+        }
     }
 
     initCalendars() {
@@ -164,6 +374,13 @@ class CalendarPage extends UserDataComponent {
                 contentHeight: 'auto', // Auto height based on container
                 scrollTime: '09:00:00', // Scroll to 9 AM initially
                 slotLabelInterval: '01:00:00', // Show hour labels
+                displayEventTime: true, // Show event time
+                eventTimeFormat: {
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    omitZeroMinute: false,
+                    meridiem: 'short'
+                },
                 events: [],
                 dateClick: (info) => {
                     // Handle date/time click - could open add event modal
@@ -300,14 +517,14 @@ class CalendarPage extends UserDataComponent {
                     const endMonth = end.toLocaleDateString('en-US', { month: 'short' });
                     const year = start.getFullYear();
                     
-                    if (startMonth === endMonth) {
-                        dateRangeEl.textContent = `${startMonth} ${year}`;
-                    } else {
-                        dateRangeEl.textContent = `${startMonth} - ${endMonth} ${year}`;
-                    }
+                if (startMonth === endMonth) {
+                    dateRangeEl.textContent = `${startMonth} ${year}`;
+                } else {
+                    dateRangeEl.textContent = `${startMonth} - ${endMonth} ${year}`;
                 }
             }
         }
+    }
     }
 
     handleNavigation(route) {
@@ -345,97 +562,19 @@ class CalendarPage extends UserDataComponent {
                 return;
             }
             
-            // Store meetings in map for quick lookup
-            this._meetingsMap.clear();
-            value.meetings.forEach(meeting => {
-                if (meeting.sid) {
-                    this._meetingsMap.set(meeting.sid, meeting);
-                }
-            });
+            // Store all meetings for search
+            this._allMeetings = value.meetings;
             
-            const events = value.meetings.map(meeting => {
-                if (!meeting.sid) {
-                    console.warn('[CalendarPage] Meeting without sid:', meeting);
-                }
-                
-                let durationMinutes = meeting.duration;
-                if (typeof durationMinutes === 'string') {
-                    const match = durationMinutes.match(/(\d+)/);
-                    durationMinutes = match ? parseInt(match[1]) : 30;
-                } else if (typeof durationMinutes === 'number') {
-                    durationMinutes = durationMinutes;
-                } else {
-                    durationMinutes = 30;
-                }
-                
-                const startTimeRaw = meeting.startTime !== undefined ? meeting.startTime : 
-                                    (meeting.time !== undefined ? meeting.time : null);
-                let startDate;
-                
-                if (startTimeRaw instanceof Date) {
-                    startDate = startTimeRaw;
-                } else if (typeof startTimeRaw === 'number' && !isNaN(startTimeRaw)) {
-                    startDate = new Date(startTimeRaw);
-                } else if (typeof startTimeRaw === 'string') {
-                    startDate = new Date(startTimeRaw);
-                } else {
-                    startDate = new Date();
-                }
-                
-                if (isNaN(startDate.getTime())) {
-                    startDate = new Date();
-                }
-                
-                const endTime = meeting.endTime instanceof Date 
-                    ? meeting.endTime 
-                    : (meeting.endTime ? new Date(meeting.endTime) : new Date(startDate.getTime() + durationMinutes * 60000));
-                
-                const eventObj = {
-                title: meeting.title || meeting.description || 'Meeting',
-                    start: startDate,
-                    end: endTime,
-                backgroundColor: meeting.color || '#3b82f6',
-                    borderColor: meeting.color || '#3b82f6',
-                    extendedProps: {
-                        sid: meeting.sid || '',
-                        description: meeting.description || ''
-                    }
-                };
-                
-                if (!meeting.sid) {
-                    console.warn('[CalendarPage] Meeting without sid:', meeting);
-                } else {
-                    console.log('[CalendarPage] Event created with sid:', meeting.sid, 'title:', eventObj.title);
-                }
-                
-                return eventObj;
-            });
-            
-            console.log('[CalendarPage] Created', events.length, 'events with extendedProps');
-            events.forEach((event, index) => {
-                console.log(`[CalendarPage] Event ${index}:`, {
-                    title: event.title,
-                    sid: event.extendedProps?.sid,
-                    extendedProps: event.extendedProps
-                });
-            });
-            
-            // Update week calendar with events
-            if (this.weekCalendar) {
-                this.weekCalendar.removeAllEvents();
-                events.forEach(event => {
-                    this.weekCalendar.addEvent(event);
-                });
-            }
-            
-            // Update mini calendar with events (for dot indicators)
-            if (this.miniCalendar) {
-                this.miniCalendar.removeAllEvents();
-                events.forEach(event => {
-                    this.miniCalendar.addEvent(event);
-                });
+            // Apply search filter if there's an active search query
+            if (this._searchQuery) {
+                this.applySearchFilter();
+            } else {
+                // No search filter, show all meetings
+                this.updateCalendarEvents(value.meetings);
             }
         } else if (value && value.meetings && value.meetings.length === 0) {
+            // No meetings
+            this._allMeetings = [];
             if (this.weekCalendar) {
             this.weekCalendar.removeAllEvents();
             }
@@ -445,6 +584,7 @@ class CalendarPage extends UserDataComponent {
             this._meetingsMap.clear();
         }
     }
+
 
     /**
      * Navigate to meeting details page

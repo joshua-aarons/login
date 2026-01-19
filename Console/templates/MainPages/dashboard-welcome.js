@@ -1,6 +1,7 @@
 import { getHTMLTemplate, useCSSStyle } from "../../../Utilities/template.js";
 import { UserDataComponent, SvgPlus } from "../../../Utilities/CustomComponent.js";
 import { RouteQuery } from "../../../Utilities/router.js";
+import { createSession } from "../../../Firebase/sessions.js";
 
 useCSSStyle("theme");
 useCSSStyle("dashboard-welcome");
@@ -232,26 +233,50 @@ class DashboardWelcome extends UserDataComponent {
                 }
                 break;
             case 'host':
-                // Create a new meeting/session
-                if (window.appView && window.appView.createSession) {
-                    window.appView.createSession();
-                } else {
-                    // Fallback: navigate to meetings panel
-                    this.handleNavigation('calendar');
-                }
+                // Host a new meeting (reuse Console's hostMeeting logic)
+                this.hostMeeting();
                 break;
             case 'join':
-                // Show join meeting dialog or navigate
-                if (window.appView && window.appView.showJoinDialog) {
-                    window.appView.showJoinDialog();
-                } else {
-                    this.handleNavigation('calendar');
-                }
-                break;
-            case 'schedule':
-                // Navigate to schedule/meetings
+                // Join meeting - navigate to calendar for now
+                // TODO: Implement join dialog if needed
                 this.handleNavigation('calendar');
                 break;
+            case 'schedule':
+                // Schedule a meeting (reuse Console's scheduleMeeting logic)
+                this.scheduleMeeting();
+                break;
+        }
+    }
+
+    /**
+     * Host a new meeting (reuse Console's hostMeeting logic)
+     */
+    async hostMeeting() {
+        try {
+            let session = await createSession("empty");
+            window.open(window.location.origin + `/V3/?${session.sid}`);
+        } catch (e) {
+            console.warn("Failed to create session: ", e);
+            if (window.showNotification) {
+                window.showNotification("You will need a licence to host meetings.", 5000, "error");
+            }
+        }
+    }
+
+    /**
+     * Schedule a meeting (reuse Console's scheduleMeeting logic)
+     */
+    scheduleMeeting(meeting) {
+        const schedulerPopup = this.querySelector('[name="meetingSchedulerPopup"]');
+        const scheduler = this.querySelector('[name="meetingScheduler"]');
+        
+        if (schedulerPopup && scheduler) {
+            if (meeting) {
+                scheduler.value = meeting;
+            }
+            schedulerPopup.classList.add('open');
+        } else {
+            console.warn('[DashboardWelcome] Meeting scheduler popup or component not found');
         }
     }
 
@@ -306,21 +331,6 @@ class DashboardWelcome extends UserDataComponent {
     }
 
     onvalue(value) {
-        // Update user avatar with first letter of firstName
-        if (value && value.info && value.info.firstName) {
-            const firstName = value.info.firstName;
-            const firstLetter = firstName.charAt(0).toUpperCase();
-            const userAvatar = this.querySelector('.user-avatar');
-            if (userAvatar) {
-                const span = userAvatar.querySelector('span');
-                if (span) {
-                    span.textContent = firstLetter;
-                } else {
-                    userAvatar.textContent = firstLetter;
-                }
-            }
-        }
-        
         // Update today's meetings if available
         if (value.meetings && Array.isArray(value.meetings)) {
             const today = new Date();

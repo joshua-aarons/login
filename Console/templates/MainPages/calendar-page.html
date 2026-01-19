@@ -19,8 +19,8 @@
         </div>
     </nav>
 
-    <div class="user-avatar" name="info/firstName" vfield="textContent">
-        <span name="info/firstName" vfield="textContent">K</span>
+    <div class="user-avatar">
+        <div class="avatar-photo" name="info/displayPhoto" vfield="background-image"></div>
     </div>
 </header>
 
@@ -40,9 +40,17 @@
                 <svg viewBox="0 0 24 24" class="icon"><polyline points="9 18 15 12 9 6"/></svg>
             </button>
         </div>
-            <button class="search-btn">
-                <svg viewBox="0 0 24 24" class="icon"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-            </button>
+            <div class="search-container">
+                <button class="search-btn" data-action="toggle-search">
+                    <svg viewBox="0 0 24 24" class="icon"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                </button>
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="Search meetings..." name="searchInput">
+                    <button class="search-close" data-action="close-search">
+                        <svg viewBox="0 0 24 24" class="icon"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+            </div>
             <button class="today-btn" data-action="today">Today</button>
             <div class="date-range" name="dateRange" vfield="textContent">Sep - Oct 2022</div>
         </div>

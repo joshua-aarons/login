@@ -95,9 +95,11 @@ class MeetingScheduler extends CustomForm {
                 // Create or update the session
                 let session = await (sid == null ? createSession(sessionInfo) : updateSession(sid, sessionInfo));
                 
-                // Display the meeting in the app view
-                this.appView.displayMeeting(session);
-
+                if (this.appView != null) {
+                    // Display the meeting in the app view
+                    this.appView.displayMeeting(session);
+                }
+                
                 // Close the scheduler
                 this.close();
             } catch (e) {

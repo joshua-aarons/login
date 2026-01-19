@@ -163,11 +163,25 @@ app-view:not([admin]) aside .sidebar > *[type="admin-control"] {
 
 
 /* MAIN */
-main > * {
+.row-main > main > * {
     display: none;
 }
 
-main > *.active {
+/* Override dashboard-welcome.css shared styles for Console View */
+.row-main > main > settings-panel,
+.row-main > main > profile-panel {
+    background-color: transparent;
+}
+
+.row-main > main > *.active {
+    display: block;
+}
+
+app-view > main > dashboard-welcome {
+    position: static;
+}
+
+app-view > main > dashboard-welcome.active {
     display: block;
 }
 
@@ -225,15 +239,18 @@ app-view:not(.dark-theme-variables) .right .theme-toggler span:first-child{
 }
 
 /* ================= HOST MEETINGS ================= */
-.right .meeting {
-    margin-top: 2rem;
+.dashboard-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 1.8rem;
+    margin-bottom: 1.8rem;
 }
 
-.right .meeting h2 {
+.meeting h2 {
     margin-bottom: 0.8rem;
 }
 
-.right .meeting .item {
+.meeting .item {
     background: var(--color-white);
     display: flex;
     align-items: center;
@@ -246,19 +263,20 @@ app-view:not(.dark-theme-variables) .right .theme-toggler span:first-child{
     transition: all 300ms ease;
 }
 
-.right .meeting .item:hover {
+.meeting .item:hover {
     box-shadow: none;
 }
 
-.right .meeting .item .right {
+.meeting .item .right {
     display: flex;
     justify-content: space-between;
     align-items: start;
     margin: 0;
     width: 100%;
+    min-width: 0;
 }
 
-.right .meeting .item .icon {
+.meeting .item .icon {
     padding: 0.6rem;
     color: var(--color-white);
     border-radius: 50%;
@@ -266,10 +284,10 @@ app-view:not(.dark-theme-variables) .right .theme-toggler span:first-child{
     display: flex;
 }
 
-.right .meeting .item.schedule .icon {
+.meeting .item.schedule .icon {
     background: var(--color-danger);
 }
-.right .meeting .item.grid-editor .icon {
+.meeting .item.grid-editor .icon {
     background: var(--color-great);
 }
 
