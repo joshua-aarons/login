@@ -271,10 +271,11 @@ class SettingsTab extends SvgPlus {
       this.setAttribute("title", description);
       this.sections = sections;
       this.category = category;
+      this.addEventListener("click", this.onTabClicked);
       if (this.category === "display") {
           this.sections[this.category].toggleAttribute("hidden");
+          this.toggleAttribute("active");
       }
-      this.addEventListener("click", this.onTabClicked);
     }
 
     onTabClicked() {
@@ -284,9 +285,11 @@ class SettingsTab extends SvgPlus {
       }
       this.sections[this.category].toggleAttribute("hidden");
       document.querySelectorAll(".tab").forEach((tab) => {
-        tab.classList.remove("active");
+        if (tab.getAttribute("active") !== null) {
+          tab.toggleAttribute("active");
+        }
       })
-      this.classList.add("active");
+      this.toggleAttribute("active");
     }
 }
 
@@ -415,9 +418,11 @@ class ProfileSettings extends SvgPlus {
         this.settingsCard = document.querySelector('settings-card');
         ProfileSettingsElements.push(this);
 
-        for (let path of AllSettings.getAllSettingsFrames()) {
-            this._addProfileCard(path);
-        }
+        setTimeout(() => {
+            for (let path of AllSettings.getAllSettingsFrames()) {
+                this._addProfileCard(path);
+            }
+        }, 0);
 
         AllSettings.onSettingsUpdate(() => {
             this._updateAll();
@@ -439,6 +444,9 @@ class ProfileSettings extends SvgPlus {
             profileCard.addEventListener("click", () => this.onCardClick(Settings, path));
             this._profileCards[path] = profileCard;
             this.appendChild(profileCard);
+            if (Settings.isDefault) {
+              this.onCardClick(Settings, path);
+            }
         }
     }
 

@@ -78,6 +78,12 @@ summary {
     background-color: rgba(64, 132, 191, 0.07);
 }
 
+.profile-header span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .file-uploader svg {
     width: 1.5em;
     height: 1.5em;
@@ -109,13 +115,13 @@ summary {
     display: flex;
     align-items: center;
     gap: 2em;
-    /* justify-content: space-between; */
 }
 
 .profile-header .img {
     width: 3em;
     height: 3em;
     border-radius: 50%;
+    flex-shrink: 0;
     object-fit: cover;
     background-color: #eaeaf1;
     background-position: center;
@@ -282,7 +288,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
   margin-top: 0.2em;
 }
 
-.tabs-container .tab.active {
+.tabs-container .tab[active] {
     background-color: #D2E5FF;
 }
 
@@ -295,7 +301,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
   width: 4px;
 }
 
-.tabs-container .tab.active::before {
+.tabs-container .tab[active]::before {
   background-color: #7e80ec;
 }
 
