@@ -1,4 +1,5 @@
 import { DashboardWelcome } from "../Console/templates/MainPages/dashboard-welcome.js";
+import {} from "../Console/templates/MainPages/dashboard-header.js"; // Import to register dashboard-header component
 import {} from "../Console/templates/MainPages/calendar-page.js"; // Import to register calendar-page component
 import {} from "../Console/templates/MainPages/settings-panel.js"; // Import to register settings-panel component
 import {} from "../Console/templates/MainPages/profile-panel.js"; // Import to register profile-panel component
@@ -13,22 +14,10 @@ import { loadTemplates } from "../Utilities/template.js";
 let currentUserData = null;
 
 async function start() {
-    await loadTemplates();
+    // Start loading templates immediately
+    const templatesPromise = loadTemplates();
     
-    // Mark this as Dashboard window (not Console window)
-    document.body.classList.add('dashboard-window');
-    
-    // notifications-list is already in HTML (same as Console)
-    // Just ensure it exists
-    let notificationsList = document.querySelector('notifications-list');
-    if (!notificationsList) {
-        notificationsList = document.createElement('notifications-list');
-        document.body.appendChild(notificationsList);
-    }
-    
-    const dashboardWelcome = document.createElement('dashboard-welcome');
-    document.body.appendChild(dashboardWelcome);
-    
+    // Setup auth listener and start Firebase initialization in parallel
     let stopWatch = null;
     
     F.addAuthChangeListener(async (user) => {
@@ -51,7 +40,30 @@ async function start() {
         }
     });
     
-    await F.initialise();
+    const firebaseInitPromise = F.initialise();
+
+    // Wait for templates to be ready before creating UI components
+    await templatesPromise;
+    
+    // Mark this as Dashboard window (not Console window)
+    document.body.classList.add('dashboard-window');
+    
+    // notifications-list is already in HTML (same as Console)
+    // Just ensure it exists
+    let notificationsList = document.querySelector('notifications-list');
+    if (!notificationsList) {
+        notificationsList = document.createElement('notifications-list');
+        document.body.appendChild(notificationsList);
+    }
+    
+    const dashboardHeader = document.createElement('dashboard-header');
+    document.body.appendChild(dashboardHeader);
+
+    const dashboardWelcome = document.createElement('dashboard-welcome');
+    document.body.appendChild(dashboardWelcome);
+    
+    // Ensure Firebase initialization is complete
+    await firebaseInitPromise;
 }
 
 // Export function to update newly created components with current data

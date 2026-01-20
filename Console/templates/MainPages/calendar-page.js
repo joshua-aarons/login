@@ -21,6 +21,17 @@ class CalendarPage extends UserDataComponent {
         this._colorMap = new Map(); // Map sid to color for consistent coloring
     }
 
+    onshow() {
+        requestAnimationFrame(() => {
+            if (this.miniCalendar) {
+                this.miniCalendar.updateSize();
+            }
+            if (this.weekCalendar) {
+                this.weekCalendar.updateSize();
+            }
+        });
+    }
+
     async onconnect() {
         // Get template from TemplateData
         let template = getHTMLTemplate("calendar-page");
@@ -544,15 +555,7 @@ class CalendarPage extends UserDataComponent {
             }
         }
         
-        // Update active nav item in calendar-page
-        const navItems = this.querySelectorAll('.nav-item');
-        navItems.forEach(item => {
-            if (item.dataset.route === route) {
-                item.classList.add('active');
-            } else {
-                item.classList.remove('active');
-            }
-        });
+
     }
 
     onvalue(value) {

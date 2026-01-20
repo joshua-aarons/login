@@ -46,17 +46,6 @@ class DashboardWelcome extends UserDataComponent {
     
 
     setupEventListeners() {
-        // Navigation items - use event delegation
-        this.addEventListener('click', (e) => {
-            const navItem = e.target.closest('.nav-item');
-            if (navItem) {
-                const route = navItem.dataset.route;
-                if (route) {
-                    this.handleNavigation(route);
-                }
-            }
-        });
-
         // Action cards - use event delegation
         this.addEventListener('click', (e) => {
             const actionCard = e.target.closest('.action-card');
@@ -67,14 +56,6 @@ class DashboardWelcome extends UserDataComponent {
                 }
             }
         });
-
-        // User avatar click
-        this.addEventListener('click', (e) => {
-            const userAvatar = e.target.closest('.user-avatar');
-        if (userAvatar) {
-                this.handleNavigation('profile');
-            }
-            });
     }
 
     handleNavigation(route) {
@@ -87,15 +68,6 @@ class DashboardWelcome extends UserDataComponent {
             return;
         }
         
-        // Update active nav item
-        const navItems = this.querySelectorAll('.nav-item');
-        navItems.forEach(item => {
-            if (item.dataset.route === route) {
-                item.classList.add('active');
-            } else {
-                item.classList.remove('active');
-            }
-        });
 
         // Parse route query params
         const query = RouteQuery.parse(route, 'dashboard');

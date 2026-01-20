@@ -45,6 +45,9 @@ export const TemplateLibrary = {
 	"dash-board": {
 		"html": "Console/templates/MainPages/dash-board.html"
 	},
+    "dashboard-header": {
+        "html": "Console/templates/MainPages/dashboard-header.html"
+    },
 	"dashboard-welcome": {
 		"css": "Console/templates/MainPages/dashboard-welcome.css",
 		"html": "Console/templates/MainPages/dashboard-welcome.html"

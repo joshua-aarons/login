@@ -27,8 +27,29 @@ export function watch(uid, allData, updateCallback) {
 
     // Watch the user data
     gettingInfo = new Promise((resolve) => {
+        // Try to load from localStorage first for immediate display
+        try {
+            const cachedInfo = localStorage.getItem(`squidly_user_info_${uid}`);
+            if (cachedInfo) {
+                const userData = JSON.parse(cachedInfo);
+                allData.info = userData;
+                userInfo = userData;
+                updateCallback();
+            }
+        } catch (e) {
+            console.warn("Failed to load user info from cache", e);
+        }
+
         watchers[`user-${uid}-info`] = onValue(ref(`users/${uid}/info`), (snapshot) => {
             let userData = snapshot.val() || {};
+            
+            // Cache the new data
+            try {
+                localStorage.setItem(`squidly_user_info_${uid}`, JSON.stringify(userData));
+            } catch (e) {
+                console.warn("Failed to cache user info", e);
+            }
+
             allData.info = userData;
             if (!userData.firstName) {
                 let user = getUser();
