@@ -158,6 +158,10 @@ summary {
     border-bottom: 1px solid #f1f5f9;
 }
 
+section[border] .setting-option-input:last-child {
+  border-bottom: 1px solid transparent;
+}
+
 .setting-option-input .select-wrapper  {
     border-radius: 1em;
     overflow: hidden;
@@ -269,6 +273,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
   flex-direction: column;
   border-right: 1px solid #f1f5f9;
   background-color: #F8FAFC;
+  border-bottom-left-radius: 1em;
 }
 
 .tabs-container .tab {

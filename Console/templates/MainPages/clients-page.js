@@ -354,16 +354,26 @@ class SettingsCard extends SvgPlus {
             cursors: { ...settingsDescriptor["cursors"] }
         };
         
-        let sections = {}
+        this.sections = {}
         for (let category in newSettingsDescriptor) {
           let section = this.settingsOptions.createChild("section", {name: category, hidden: true});
           for (let key in newSettingsDescriptor[category]) {
               let value = newSettingsDescriptor[category][key];
               section.createChild(SettingOptionInput, {}, value, key, Settings);
           }
-          sections[category] = section;
-          this.tabsContainer.createChild(SettingsTab, {class: "tab"}, this.icons[category], category, sections)
+          this.sections[category] = section;
+          this.tabsContainer.createChild(SettingsTab, {class: "tab"}, this.icons[category], category, this.sections)
         }
+
+        this.sizeObserver = new ResizeObserver(() => {
+            Object.values(this.sections).forEach(section => {
+              let hasBorder = this.settingsOptions.clientHeight === Math.round(section.getBoundingClientRect().height);
+              if (section.hasAttribute("border") !== hasBorder) {
+                section.toggleAttribute("border", hasBorder); 
+              }
+            });
+        })
+        this.sizeObserver.observe(this.settingsOptions);
     }
 }
 
