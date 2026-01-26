@@ -176,6 +176,9 @@ class CalendarPage extends UserDataComponent {
     }
 
     applySearchFilter() {
+        // Update results dropdown
+        this.updateSearchResults();
+
         if (!this.weekCalendar || !this._allMeetings.length) {
             return;
         }
@@ -197,6 +200,65 @@ class CalendarPage extends UserDataComponent {
 
         // Update calendar with filtered events
         this.updateCalendarEvents(filteredMeetings);
+    }
+
+    updateSearchResults() {
+        const resultsContainer = this.querySelector('[name="searchResults"]');
+        if (!resultsContainer) return;
+
+        resultsContainer.innerHTML = '';
+        
+        if (!this._searchQuery) {
+            resultsContainer.classList.remove('active');
+            return;
+        }
+
+        const matches = this._allMeetings.filter(meeting => {
+            const title = (meeting.description || meeting.title || 'Meeting').toLowerCase();
+            const sid = (meeting.sid || '').toLowerCase();
+            return title.includes(this._searchQuery) || sid.includes(this._searchQuery);
+        });
+
+        if (matches.length > 0) {
+            resultsContainer.classList.add('active');
+            // Limit to 10 results
+            matches.slice(0, 10).forEach(meeting => {
+                const div = document.createElement('div');
+                div.className = 'search-result-item';
+                
+                const title = meeting.description || meeting.title || 'Meeting';
+                const startTimeRaw = meeting.startTime !== undefined ? meeting.startTime : 
+                                    (meeting.time !== undefined ? meeting.time : null);
+                let date;
+                if (startTimeRaw instanceof Date) {
+                    date = startTimeRaw;
+                } else if (typeof startTimeRaw === 'number' && !isNaN(startTimeRaw)) {
+                    date = new Date(startTimeRaw);
+                } else if (typeof startTimeRaw === 'string') {
+                    date = new Date(startTimeRaw);
+                } else {
+                    date = new Date();
+                }
+                const timeStr = date.toLocaleString();
+
+                div.innerHTML = `
+                    <div class="result-title">${title}</div>
+                    <div class="result-time">${timeStr}</div>
+                `;
+                
+                div.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.navigateToMeeting(meeting.sid);
+                    // Optional: Close search after selection, or keep it open?
+                    // Usually we close it.
+                    this.closeSearchBox();
+                });
+                
+                resultsContainer.appendChild(div);
+            });
+        } else {
+            resultsContainer.classList.remove('active');
+        }
     }
 
     /**
@@ -309,7 +371,9 @@ class CalendarPage extends UserDataComponent {
                 end: endTime,
                 backgroundColor: eventColor,
                 borderColor: eventColor,
-                borderWidth: 2,
+                textColor: '#ffffff',
+                borderWidth: 0,
+                classNames: ['week-event-item'],
                 extendedProps: {
                     sid: meeting.sid || '',
                     description: meeting.description || ''
@@ -378,14 +442,20 @@ class CalendarPage extends UserDataComponent {
                 initialView: 'timeGridWeek',
                 headerToolbar: false,
                 allDaySlot: false,
+                slotEventOverlap: false,
                 slotMinTime: '00:00:00', // Full 24-hour range
                 slotMaxTime: '24:00:00', // Full 24-hour range
                 slotDuration: '00:30:00',
                 height: 'auto', // Let CSS control height
                 contentHeight: 'auto', // Auto height based on container
-                scrollTime: '09:00:00', // Scroll to 9 AM initially
+                scrollTime: new Date().getHours() + ':00:00', // Scroll to current hour initially
+                scrollTimeReset: false, // Don't reset scroll when changing dates
                 slotLabelInterval: '01:00:00', // Show hour labels
                 displayEventTime: true, // Show event time
+                nowIndicator: true, // Show current time indicator line (red line)
+                navLinks: true, // Allow clicking day names to go to day view
+                dayMaxEvents: true, // Allow "more" link when too many events
+                stickyHeaderDates: true, // Keep headers visible while scrolling
                 eventTimeFormat: {
                     hour: 'numeric',
                     minute: '2-digit',
@@ -511,16 +581,27 @@ class CalendarPage extends UserDataComponent {
                     dateRangeEl.textContent = `${month} ${day}, ${year}`;
                 } else if (viewType === 'timeGridWeek') {
                     // Week view: Show week range, e.g., "Jan 13 - 19, 2024"
+                    // FullCalendar end date is exclusive, so subtract 1 day to get the visual end date
+                    const endDateInclusive = new Date(end);
+                    endDateInclusive.setDate(end.getDate() - 1);
+
                     const startDay = start.getDate();
-                    const endDay = end.getDate() - 1; // end is exclusive, so subtract 1
-                    const startMonth = start.toLocaleDateString('en-US', { month: 'short' });
-                    const endMonth = end.toLocaleDateString('en-US', { month: 'short' });
-                    const year = start.getFullYear();
+                    const endDay = endDateInclusive.getDate();
                     
-                    if (startMonth === endMonth) {
-                        dateRangeEl.textContent = `${startMonth} ${startDay} - ${endDay}, ${year}`;
+                    const startMonth = start.toLocaleDateString('en-US', { month: 'short' });
+                    const endMonth = endDateInclusive.toLocaleDateString('en-US', { month: 'short' });
+                    
+                    const startYear = start.getFullYear();
+                    const endYear = endDateInclusive.getFullYear();
+                    
+                    if (startYear === endYear) {
+                        if (startMonth === endMonth) {
+                            dateRangeEl.textContent = `${startMonth} ${startDay} - ${endDay}, ${startYear}`;
+                        } else {
+                            dateRangeEl.textContent = `${startMonth} ${startDay} - ${endMonth} ${endDay}, ${startYear}`;
+                        }
                     } else {
-                        dateRangeEl.textContent = `${startMonth} ${startDay} - ${endMonth} ${endDay}, ${year}`;
+                        dateRangeEl.textContent = `${startMonth} ${startDay}, ${startYear} - ${endMonth} ${endDay}, ${endYear}`;
                     }
                 } else {
                     // Month view: Show month and year, e.g., "Jan 2024"

@@ -377,6 +377,7 @@ function updateUserDataComponents(value) {
             const status = session.status || (session.isHistory ? 'complete' : 'upcoming');
             
             return {
+                ...session,
                 description: session.description || 'My Meeting',
                 date: startTime,
                 time: startTime,
@@ -385,7 +386,6 @@ function updateUserDataComponents(value) {
                 endTime: endTime,
                 sid: session.sid,
                 status: status,
-                ...session
             };
         });
     } else if (value && !value.meetings) {

@@ -28,7 +28,11 @@ class DashboardHeader extends UserDataComponent {
             if (navItem) {
                 const route = navItem.dataset.route;
                 if (route) {
-                    window.location.hash = route;
+                    // Only update hash if it's different to prevent redundant navigation
+                    const currentHash = window.location.hash.slice(1);
+                    if (currentHash !== route) {
+                        window.location.hash = route;
+                    }
                 }
             }
         });

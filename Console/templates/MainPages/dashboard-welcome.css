@@ -13,14 +13,21 @@ body.dashboard-window > profile-panel {
     left: 0;
     width: 100vw;
     height: calc(100vh - 85px);
-    overflow-y: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+    padding-bottom: 24px;
 }
 
 body.dashboard-window > dashboard-welcome.active,
-body.dashboard-window > calendar-page.active,
+body.dashboard-window > calendar-page.active {
+    display: flex;
+}
+
 body.dashboard-window > settings-panel.active,
 body.dashboard-window > profile-panel.active {
-    display: flex;
+    display: block;
 }
 
 /* Header Component */
@@ -100,6 +107,12 @@ dashboard-header .nav-item:hover {
     color: #7c3aed;
 }
 
+dashboard-header .user-menu-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
 dashboard-header .user-avatar {
     width: 40px;
     height: 40px;
@@ -114,6 +127,73 @@ dashboard-header .user-avatar {
     font-size: 16px;
     position: relative;
     overflow: hidden;
+    transition: box-shadow 0.2s;
+}
+
+dashboard-header .user-menu-container:hover .user-avatar {
+    box-shadow: 0 0 0 2px #e2e8f0;
+}
+
+dashboard-header .avatar-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 160px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 6px;
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+    transform-origin: top right;
+    animation: dropdownScale 0.1s ease-out;
+    margin-top: 8px;
+}
+
+dashboard-header .avatar-dropdown::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+}
+
+@keyframes dropdownScale {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+dashboard-header .user-menu-container:hover .avatar-dropdown {
+    display: flex;
+}
+
+dashboard-header .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+dashboard-header .dropdown-item:hover {
+    background-color: #f8fafc;
+    color: #ef4444; /* Red color for logout */
+}
+
+dashboard-header .dropdown-item svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
 }
 
 dashboard-header .user-avatar .avatar-photo {
@@ -130,7 +210,8 @@ dashboard-header .user-avatar .avatar-initial {
 }
 
 /* Meeting display popup in Dashboard (same style as Console) */
-body.dashboard-window .popup[name="meetingDisplayPopup"] {
+body.dashboard-window .popup[name="meetingDisplayPopup"],
+dashboard-welcome .popup[name="meetingSchedulerPopup"] {
     background-color: rgba(0, 0, 0, 0.2);
     opacity: 0;
     position: fixed;
@@ -148,13 +229,15 @@ body.dashboard-window .popup[name="meetingDisplayPopup"] {
     pointer-events: none;
 }
 
-body.dashboard-window .popup[name="meetingDisplayPopup"].open {
+body.dashboard-window .popup[name="meetingDisplayPopup"].open,
+dashboard-welcome .popup[name="meetingSchedulerPopup"].open {
     opacity: 1;
     /* Enable pointer events when open */
     pointer-events: auto;
 }
 
-body.dashboard-window .popup[name="meetingDisplayPopup"] > meeting-display {
+body.dashboard-window .popup[name="meetingDisplayPopup"] > meeting-display,
+dashboard-welcome .popup[name="meetingSchedulerPopup"] > meeting-scheduler {
     padding: var(--popup-padding, 2rem);
     text-align: left;
     justify-content: center;
@@ -164,10 +247,14 @@ body.dashboard-window .popup[name="meetingDisplayPopup"] > meeting-display {
     max-height: 90vh;
     overflow-y: auto;
     overflow-x: hidden;
-    /* Ensure the content itself captures pointer events */
-    pointer-events: auto;
     /* Add shadow for better visibility */
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+body.dashboard-window .popup[name="meetingDisplayPopup"].open > meeting-display,
+dashboard-welcome .popup[name="meetingSchedulerPopup"].open > meeting-scheduler {
+    /* Ensure the content itself captures pointer events only when open */
+    pointer-events: auto;
 }
 
 dashboard-welcome {
@@ -198,10 +285,11 @@ dashboard-welcome .welcome-title {
 /* --- Action Grid --- */
 dashboard-welcome .action-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
-    margin-bottom: 60px;
+    margin: 0 auto 60px;
     padding: 0 20px;
+    max-width: 700px;
 }
 
 dashboard-welcome .action-card {
@@ -249,9 +337,7 @@ dashboard-welcome .bg-indigo {
     background-color: #6366f1;
 }
 
-dashboard-welcome .bg-light-indigo {
-    background-color: #818cf8;
-}
+
 
 dashboard-welcome .bg-blue {
     background-color: #60a5fa;
@@ -282,6 +368,14 @@ dashboard-welcome .meeting-card {
     align-items: flex-start;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+dashboard-welcome .meeting-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
 }
 
 dashboard-welcome .meeting-info h3 {

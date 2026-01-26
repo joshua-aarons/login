@@ -55,6 +55,18 @@ class DashboardWelcome extends UserDataComponent {
                     this.handleAction(action);
                 }
             }
+
+            // Meeting cards
+            const meetingCard = e.target.closest('.meeting-card');
+            if (meetingCard && meetingCard.dataset.sid) {
+                const sid = meetingCard.dataset.sid;
+                if (this.value.meetings && Array.isArray(this.value.meetings)) {
+                    const meeting = this.value.meetings.find(m => m.sid === sid);
+                    if (meeting) {
+                        this.displayMeeting(meeting);
+                    }
+                }
+            }
         });
     }
 
@@ -169,7 +181,13 @@ class DashboardWelcome extends UserDataComponent {
         // Set URL hash
         if (routeName !== 'dashboard' && routeName !== 'dashboard-welcome') {
             const routeQuery = new RouteQuery(routeName, routeParams);
-            window.location.hash = routeQuery.toString();
+            const newHash = routeQuery.toString();
+            const currentHash = window.location.hash.slice(1);
+            
+            // Only update hash if it's different
+            if (currentHash !== newHash) {
+                window.location.hash = newHash;
+            }
         }
     }
 
@@ -208,11 +226,7 @@ class DashboardWelcome extends UserDataComponent {
                 // Host a new meeting (reuse Console's hostMeeting logic)
                 this.hostMeeting();
                 break;
-            case 'join':
-                // Join meeting - navigate to calendar for now
-                // TODO: Implement join dialog if needed
-                this.handleNavigation('calendar');
-                break;
+
             case 'schedule':
                 // Schedule a meeting (reuse Console's scheduleMeeting logic)
                 this.scheduleMeeting();
@@ -275,7 +289,12 @@ class DashboardWelcome extends UserDataComponent {
         }
         
         // Set meeting value directly (same as Console)
-        meetingDisplay.value = meeting;
+        // Ensure meeting object has delete method by converting it if possible
+        if (typeof meetingDisplay.convertMeetingToSession === 'function') {
+            meetingDisplay.value = meetingDisplay.convertMeetingToSession(meeting);
+        } else {
+            meetingDisplay.value = meeting;
+        }
         
         // Open popup
         popup.classList.add('open');
@@ -305,29 +324,58 @@ class DashboardWelcome extends UserDataComponent {
     onvalue(value) {
         // Update today's meetings if available
         if (value.meetings && Array.isArray(value.meetings)) {
+            const now = new Date();
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             
-            const todayMeetings = value.meetings.filter(meeting => {
-                const meetingDate = new Date(meeting.date || meeting.time);
-                meetingDate.setHours(0, 0, 0, 0);
-                return meetingDate.getTime() === today.getTime();
-            });
+            const todayMeetings = value.meetings
+                .filter(meeting => {
+                    const meetingDate = new Date(meeting.date || meeting.time);
+                    const isToday = meetingDate.getDate() === today.getDate() && 
+                                  meetingDate.getMonth() === today.getMonth() && 
+                                  meetingDate.getFullYear() === today.getFullYear();
+                    // Keep if today AND start time is in future (or very recent past if desired, but user asked for upcoming)
+                    // Strict upcoming: meetingDate > now
+                    return isToday && meetingDate > now;
+                })
+                .sort((a, b) => {
+                    // Sort by time ascending (nearest first)
+                    return new Date(a.date || a.time) - new Date(b.date || b.time);
+                });
 
             const meetingsContainer = this.querySelector('[name="todayMeetings"]');
             if (meetingsContainer && todayMeetings.length > 0) {
                 meetingsContainer.innerHTML = todayMeetings.map(meeting => {
                     const time = this.formatMeetingTime(meeting.time || meeting.date);
-                    const duration = meeting.duration || '30 mins';
                     const description = meeting.description || 'Meeting';
                     
+                    // Calculate remaining time
+                    const meetingTime = new Date(meeting.time || meeting.date);
+                    const diffMs = meetingTime - now;
+                    const diffMins = Math.floor(diffMs / 60000);
+                    
+                    let timeRemaining;
+                    if (diffMins < 1) {
+                        timeRemaining = 'Starting now';
+                    } else if (diffMins < 60) {
+                        timeRemaining = `in ${diffMins} mins`;
+                    } else {
+                        const hours = Math.floor(diffMins / 60);
+                        const mins = diffMins % 60;
+                        if (mins === 0) {
+                            timeRemaining = `in ${hours} hr${hours > 1 ? 's' : ''}`;
+                        } else {
+                            timeRemaining = `in ${hours} hr${hours > 1 ? 's' : ''} ${mins} min${mins > 1 ? 's' : ''}`;
+                        }
+                    }
+                    
                     return `
-                        <div class="meeting-card">
+                        <div class="meeting-card" data-sid="${meeting.sid}">
                             <div class="meeting-info">
                                 <h3>${description}</h3>
                                 <div class="meeting-meta">
                                     <svg width="14" height="14" viewBox="0 0 24 24" class="icon"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                                    <span>${duration}</span>
+                                    <span>${timeRemaining}</span>
                                 </div>
                             </div>
                             <div class="meeting-time">${time}</div>
@@ -335,10 +383,18 @@ class DashboardWelcome extends UserDataComponent {
                     `;
                 }).join('');
             } else if (meetingsContainer && todayMeetings.length === 0) {
+                // Check if there were meetings today that are already passed
+                const hasMeetingsToday = value.meetings.some(meeting => {
+                    const meetingDate = new Date(meeting.date || meeting.time);
+                    return meetingDate.getDate() === today.getDate() && 
+                           meetingDate.getMonth() === today.getMonth() && 
+                           meetingDate.getFullYear() === today.getFullYear();
+                });
+
                 meetingsContainer.innerHTML = `
-                    <div class="meeting-card">
+                    <div class="meeting-card" style="cursor: default;">
                         <div class="meeting-info">
-                            <h3>No meetings scheduled for today</h3>
+                            <h3>${hasMeetingsToday ? 'No more meetings today' : 'No meetings scheduled for today'}</h3>
                             <div class="meeting-meta">
                                 <span>Schedule a meeting to get started</span>
                             </div>

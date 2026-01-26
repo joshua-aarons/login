@@ -1,20 +1,21 @@
 
 <main class="calendar-main">
     <div class="calendar-header">
-        <div class="header-right">
-        <div class="calendar-nav">
-            <button class="nav-btn prev-week" data-action="prev">
-                <svg viewBox="0 0 24 24" class="icon"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <div class="view-toggle">
-                <button class="view-btn" data-view="day">Day</button>
-                <button class="view-btn active" data-view="week">Week</button>
-                <button class="view-btn" data-view="month">Month</button>
+        <div class="header-left">
+            <div class="calendar-nav">
+                <button class="nav-btn prev-week" data-action="prev">
+                    <svg viewBox="0 0 24 24" class="icon"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <div class="view-toggle">
+                    <button class="view-btn" data-view="day">Day</button>
+                    <button class="view-btn active" data-view="week">Week</button>
+                    <button class="view-btn" data-view="month">Month</button>
+                </div>
+                <button class="nav-btn next-week" data-action="next">
+                    <svg viewBox="0 0 24 24" class="icon"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
             </div>
-            <button class="nav-btn next-week" data-action="next">
-                <svg viewBox="0 0 24 24" class="icon"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-        </div>
+            <button class="today-btn" data-action="today">Today</button>
             <div class="search-container">
                 <button class="search-btn" data-action="toggle-search">
                     <svg viewBox="0 0 24 24" class="icon"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -24,9 +25,11 @@
                     <button class="search-close" data-action="close-search">
                         <svg viewBox="0 0 24 24" class="icon"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                     </button>
+                    <div class="search-results" name="searchResults"></div>
                 </div>
             </div>
-            <button class="today-btn" data-action="today">Today</button>
+        </div>
+        <div class="header-right">
             <div class="date-range" name="dateRange" vfield="textContent">Sep - Oct 2022</div>
         </div>
     </div>
@@ -40,4 +43,3 @@
         </div>
     </div>
 </main>
-
