@@ -73,5 +73,190 @@
                 <button class="copy-btn">Copy</button>
             </div>
         </section>
+
+        <section id="api-reference">
+            <h2>API Reference</h2>
+            <p>The <code>window.SquidlyAPI</code> object allows your application to interact with the Squidly platform. Note that all database paths are sandboxed under <code>appdata/</code>.</p>
+
+            <h3>Database (Firebase)</h3>
+            <p><strong>SquidlyAPI.firebaseSet(path, value)</strong><br>
+            Writes data to the specified path within your app's namespace.</p>
+            <div class="code-block card">
+                <code>SquidlyAPI.firebaseSet("game/score", 100);</code>
+                <button class="copy-btn">Copy</button>
+            </div>
+
+            <p><strong>SquidlyAPI.firebaseOnValue(path, callback)</strong><br>
+            Listens for changes at the specified path.</p>
+            <div class="code-block card">
+                <pre>
+SquidlyAPI.firebaseOnValue("game/score", (val) => {
+    console.log("Score:", val);
+});
+                </pre>
+                <button class="copy-btn">Copy</button>
+            </div>
+
+            <h3>UI & Interaction</h3>
+<p>
+    <strong>SquidlyAPI.setIcon(x, y, options, callback)</strong><br>
+    Places an interactive icon on the overlay grid at the specified coordinates.
+</p>
+
+<h4>Parameters</h4>
+<ul>
+    <li><strong>x</strong> <code>(Number)</code>: Grid row index (0-based).</li>
+    <li><strong>y</strong> <code>(Number)</code>: Grid column index (0-based).</li>
+    <li><strong>options</strong> <code>(Object)</code>: Configuration object for the icon's appearance and behavior.</li>
+    <li><strong>callback</strong> <code>(Function)</code>: Function to execute when the icon is clicked.</li>
+</ul>
+
+<h4>Options Object</h4>
+<div class="table-container">
+    <table class="api-table">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Required</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>symbol</code></td>
+                <td>String | Object</td>
+                <td>Name of the icon (e.g., <code>"add"</code>, <code>"close"</code>) or an image object <code>{url: "path/to/img.png"}</code>. Find out the available icons in <a href="https://v3.squidly.com.au/src/Utilities/Icons/icons-library.js">icons-library.js</a>.</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td><code>displayValue</code></td>
+                <td>String</td>
+                <td>The text label displayed below the icon.</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td><code>type</code></td>
+                <td>String</td>
+                <td>Color theme. Common values: <code>"action"</code> (Red), <code>"normal"</code> (Blue), <code>"white"</code>, <code>"lightGreen"</code>. Find out more in <a href="https://v3.squidly.com.au/src/Utilities/Buttons/color-themes.js">color-themes.js</a>.</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td><code>hidden</code></td>
+                <td>Boolean</td>
+                <td>If <code>true</code>, the icon is invisible but preserves grid spacing.</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td><code>disabled</code></td>
+                <td>Boolean</td>
+                <td>If <code>true</code>, the icon is visible but non-interactive (dimmed).</td>
+                <td>No</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Return a key -->
+<h4>Return Value</h4>
+<p><code>key</code> <code>(String)</code>: Unique identifier for the icon.</p>
+
+<div class="code-block card">
+    <pre>
+let iconKey = SquidlyAPI.setIcon(1, 0, {
+    symbol: "add",               // Icon name or {url: "..."}
+    displayValue: "Increase",    // Label text
+    type: "action",              // Theme: "action" | "normal" ...
+    disabled: false              // Optional
+}, (event) => {
+    console.log("Icon clicked!");
+});
+// The form of iconKey is: "setIcon_{random-string}"
+    </pre>
+    <button class="copy-btn">Copy</button>
+</div>
+
+            <p><strong>SquidlyAPI.removeIcon(iconKey)</strong><br>
+            Removes an icon by the icon key.</p>
+            <div class="code-block card">
+                <code>SquidlyAPI.removeIcon(iconKey);</code>
+                <button class="copy-btn">Copy</button>
+            </div>
+
+            <p><strong>SquidlyAPI.addCursorListener(callback)</strong><br>
+            Receives real-time cursor/gaze updates from all users.</p>
+            <div class="code-block card">
+                 <pre>
+SquidlyAPI.addCursorListener((data) => {
+    const isParticipant = data.user.includes("participant");
+    console.log(`User ${data.user} is at ${data.x}, ${data.y}`);
+});
+                 </pre>
+                <button class="copy-btn">Copy</button>
+            </div>
+
+            <h3>App Settings</h3>
+            <p><strong>SquidlyAPI.setSettings(path, value)</strong><br>
+            Updates the global application settings.</p>
+            <div class="code-block card">
+                <code>SquidlyAPI.setSettings("theme", "dark");</code>
+                <button class="copy-btn">Copy</button>
+            </div>
+
+            <p><strong>SquidlyAPI.getSettings(path, callback)</strong><br>
+            Retrieves a value from settings once.</p>
+            <div class="code-block card">
+                <pre>
+SquidlyAPI.getSettings("theme", (val) => {
+    console.log("Current theme:", val);
+});
+                </pre>
+                <button class="copy-btn">Copy</button>
+            </div>
+
+            <p><strong>SquidlyAPI.addSettingsListener(path, callback)</strong><br>
+            Listens for changes to a specific settings path.</p>
+            <div class="code-block card">
+                <pre>
+SquidlyAPI.addSettingsListener("theme", (val) => {
+    console.log("Theme changed to:", val);
+});
+                </pre>
+                <button class="copy-btn">Copy</button>
+            </div>
+
+            <h3>Session</h3>
+            <p><strong>SquidlyAPI.addSessionInfoListener(callback)</strong><br>
+            Receives updates about the session context (user identity, active participants).</p>
+            <div class="code-block card">
+                <pre>
+SquidlyAPI.addSessionInfoListener((info) => {
+    if (info.participantActive) {
+        console.log("A participant is currently active.");
+    }
+    console.log("My user ID:", info.user);
+});
+                </pre>
+                <button class="copy-btn">Copy</button>
+            </div>
+            
+            <h3>Access Buttons</h3>
+            <p><strong>SquidlyAPI.registerAccessButton(element, group, order)</strong><br>
+            Registers a DOM element within your iframe to be "seen" by the parent app's eye-tracking system.</p>
+            <div class="code-block card">
+                <code>SquidlyAPI.registerAccessButton(document.getElementById("my-btn"), "menu", 1);</code>
+                <button class="copy-btn">Copy</button>
+            </div>
+        </section>
+
+        <section id="troubleshooting">
+            <h2>Troubleshooting</h2>
+            <p>Encountering issues? Here are some common solutions:</p>
+            
+            <h3>App not loading</h3>
+            <p>Ensure your project is hosted on a web server and accessible at <code>http://localhost:5500</code>.</p>
+            
+            <h3>API requests failing</h3>
+            <p>Check that the backend server is running and that your API endpoints are correctly configured.</p>
+        </section>
     </div>
 </div>

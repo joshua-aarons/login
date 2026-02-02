@@ -145,6 +145,74 @@ hr {
     margin: 4em 0;
 }
 
+.doc-content h3 {
+    font-size: 1.4em;
+    margin: 1.5em 0 0.8em 0;
+    color: var(--color-dark);
+}
+
+.doc-content h4 {
+    font-size: 1.1em;
+    margin: 1.2em 0 0.6em 0;
+    color: var(--color-info-dark);
+    font-weight: 600;
+}
+
+.doc-content ul {
+    padding-left: 1.5em;
+    margin: 0.5em 0 1.5em 0;
+}
+
+.doc-content li {
+    margin-bottom: 0.5em;
+    line-height: 1.6;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin: 1em 0 2em 0;
+    border-radius: var(--border-radius-2);
+    box-shadow: var(--box-shadow);
+    border: var(--card-outline);
+}
+
+.api-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--color-white);
+    font-size: 0.95em;
+    min-width: 600px; /* Ensure it doesn't squish too much */
+}
+
+.api-table th,
+.api-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-light);
+}
+
+.api-table th {
+    background-color: var(--color-background);
+    color: var(--color-dark);
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+}
+
+.api-table tr:last-child td {
+    border-bottom: none;
+}
+
+.api-table code {
+    background: var(--color-background);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+    color: var(--color-danger);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
 @media (max-width: 900px) {
     .doc-layout {
         flex-direction: column;
