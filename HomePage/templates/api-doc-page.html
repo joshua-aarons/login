@@ -1,0 +1,368 @@
+<div class="doc-layout">
+    <aside class="doc-sidebar">
+        <ul>
+            <li><a href="javascript:void(0)" data-target="introduction" class="active">Introduction</a></li>
+            <li><a href="javascript:void(0)" data-target="quick-start">Quick Start</a></li>
+            <li><a href="javascript:void(0)" data-target="configuration">Configuration</a></li>
+            <li><a href="javascript:void(0)" data-target="api-reference">API Reference</a></li>
+            <!-- <li><a href="javascript:void(0)" data-target="troubleshooting">Troubleshooting</a></li> -->
+        </ul>
+    </aside>
+
+    <div class="doc-content">
+        <section id="introduction">
+            <h1>Introduction</h1>
+                <p>Welcome to the <strong>Squidly API</strong> guide. This framework is designed to help you build your own app in Squidly platform with minimal overhead.</p>
+                <blockquote>Note: This documentation is currently in beta. Some features may change.</blockquote>
+        </section>
+
+        <hr>
+
+        <section id="quick-start">
+            <h2>Quick Start</h2>
+            <p>Squidly makes it easy to build your app locally. However, there are some steps you cannot skip, otherwise your app will not work on the platform.</p>
+            <p>To start building your app locally, you need to host your project folder to a web server.</p>
+            <strong>Python:</strong>
+            <div class="code-block card">
+                <code>python -m http.server 5500</code>
+                <button class="copy-btn">Copy</button>
+            </div>
+            <strong>Node.js:</strong>
+            <div class="code-block card">
+                <code>npx http-server -p 5500</code>
+                <button class="copy-btn">Copy</button>
+            </div>
+            <p>Or use any IDE's live server plugin to host your project at port 5500.</p>
+        </section>
+
+        <section id="configuration">
+            <h2>Configuration</h2>
+            <!-- <p>Define your primary settings in the <code>config.json</code> file located at the root of your project.</p> -->
+             <p>In your project, you must include a <code>index.html</code> file and a <code>info.json</code> file.</p>
+             <p><strong>index.html</strong>: The main HTML file of your app. All the necessary plugins will be included when running the app on Squidly platform, so the html file could be as simple as the following example:</p>
+             <div class="code-block card">
+                <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;{Your App Name}&lt;/title&gt;
+    &lt;!-- Your main stylesheets here --&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body shadow&gt;
+    &lt;!-- Your main app logic here --&gt;
+    &lt;script type="module" src="app.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                </pre>
+                <button class="copy-btn">Copy</button>
+             </div>
+             <p><strong>info.json</strong>: A JSON file that contains information about your app.</p>
+            <div class="code-block card">
+<pre>
+{
+    "name": "{your-app-name}",
+    "title": "{your-app-title}",
+    "subtitle": "{your-app-subtitle}",
+    "version": "{your-app-version}",
+    "description": "{your-app-description}",
+    "author": "{your-app-author}",
+    "icon": "{your-app-icon-url}"
+}
+</pre>
+                <button class="copy-btn">Copy</button>
+            </div>
+        </section>
+
+        <section id="api-reference">
+            <h2>API Reference</h2>
+            <p>The <code>window.SquidlyAPI</code> object allows your application to interact with the Squidly platform. Note that all database paths are sandboxed under <code>appdata/</code>.</p>
+
+            <h3>Database (Firebase)</h3>
+            <p><strong>SquidlyAPI.firebaseSet(path, value)</strong><br>
+            Writes data to the specified path within your app's namespace.</p>
+            <div class="code-block card">
+                <code>SquidlyAPI.firebaseSet("game/score", 100);</code>
+                <button class="copy-btn">Copy</button>
+            </div>
+
+            <p><strong>SquidlyAPI.firebaseOnValue(path, callback)</strong><br>
+            Listens for changes at the specified path.</p>
+            <div class="code-block card">
+                <pre>
+SquidlyAPI.firebaseOnValue("game/score", (val) => {
+    console.log("Score:", val);
+});
+                </pre>
+                <button class="copy-btn">Copy</button>
+            </div>
+
+            <h3>UI & Interaction</h3>
+<p>Squidly API provides a set of functions for you to create and manage Squidly-style buttons called <strong>Icons</strong>. These icon buttons allow for Squidly-specific accessibility features, such as dwell-to-click, and switch control.</p>
+<!-- icon buttons image -->
+<img src="../images/api/icon-buttons.png" alt="Icon Buttons">
+<p>Below are the functions you can use:</p>
+<p>
+    <strong>SquidlyAPI.setIcon(x, y, options, callback)</strong><br>
+    Places an interactive icon on the overlay grid at the specified coordinates. The grid size is 4x5.
+</p>
+
+<h4>Parameters</h4>
+<ul>
+    <li><strong>x</strong> <code>(Number)</code>: Grid row index (0-based).</li>
+    <li><strong>y</strong> <code>(Number)</code>: Grid column index (0-based).</li>
+    <li><strong>options</strong> <code>(Object)</code>: Configuration object for the icon's appearance and behavior.</li>
+    <li><strong>callback</strong> <code>(Function)</code>: Function to execute when the icon is clicked.</li>
+</ul>
+
+<h4>Options Object</h4>
+<div class="table-container">
+    <table class="api-table">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Required</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>symbol</code></td>
+                <td>String | Object</td>
+                <td>Name of the icon (e.g., <code>"add"</code>, <code>"close"</code>) or an image object <code>{url: "path/to/img.png"}</code>. Find out the available icons in <a href="https://v3.squidly.com.au/src/Utilities/Icons/icons-library.js">icons-library.js</a>.</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td><code>displayValue</code></td>
+                <td>String</td>
+                <td>The text label displayed below the icon.</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td><code>type</code></td>
+                <td>String</td>
+                <td>Color theme. Common values: <code>"action"</code> (Red), <code>"normal"</code> (Blue), <code>"white"</code>, <code>"lightGreen"</code>. Find out more in <a href="https://v3.squidly.com.au/src/Utilities/Buttons/color-themes.js">color-themes.js</a>.</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td><code>hidden</code></td>
+                <td>Boolean</td>
+                <td>If <code>true</code>, the icon is invisible but preserves grid spacing.</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td><code>disabled</code></td>
+                <td>Boolean</td>
+                <td>If <code>true</code>, the icon is visible but non-interactive (dimmed).</td>
+                <td>No</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Return a key -->
+<h4>Return Value</h4>
+<p><code>iconKey</code> <code>(String)</code>: Unique identifier for the icon.</p>
+<div class="code-block card">
+    <pre>
+let iconKey = SquidlyAPI.setIcon(1, 0, {
+    symbol: "add",               // Icon name or {url: "..."}
+    displayValue: "Increase Grid",    // Label text
+    type: "action",              // Theme: "action" | "normal" ...
+    disabled: false              // Optional
+}, (event) => {
+    console.log("Icon clicked!");
+});
+// The format of iconKey return value is: "setIcon_{random-string}"
+    </pre>
+    <button class="copy-btn">Copy</button>
+</div>
+<blockquote>Note: The Exit button at button coordinates (0, 0) is rendered automatically by the platform.</blockquote>
+
+            <p><strong>SquidlyAPI.removeIcon(iconKey)</strong><br>
+
+            Removes an icon by the icon key.</p>
+            <div class="code-block card">
+                <code>SquidlyAPI.removeIcon(iconKey);</code>
+                <button class="copy-btn">Copy</button>
+            </div>
+<h3>Customize access buttons</h3>
+<p>Apart from using <strong>SquidlyAPI.setIcon</strong>, you can also create your own access buttons.</p>
+<img src="../images/api/access-buttons.png" alt="Access Buttons">
+<p>To enable your custom buttons to be detected by the system, you need to wrap your button with <strong>access-button</strong> element.</p>
+<h4>Attributes</h4>
+<ul>
+    <li><strong>access-group</strong> <code>(String)</code>: Group name for the button. When in switch control mode, the system will cycle through buttons by groups first.</li>
+    <li><strong>access-order</strong> <code>(Number)</code>: Order of the button in the group. After the group is selected, the system will cycle through buttons in the group by order.</li>
+</ul>
+<h4>Events</h4>
+<ul>
+    <li><strong>access-click</strong> <code>(Event)</code>: Triggered when the button is activated.</li>
+</ul>
+<div class="code-block card">
+    <pre>
+// 1. Create your content
+const myButton = document.createElement("button");
+myButton.textContent = "Click Me";
+
+// 2. Create the wrapper
+const wrapper = document.createElement("access-button");
+wrapper.setAttribute("access-group", "my-group");
+wrapper.setAttribute("access-order", "1");
+
+// 3. Put content inside wrapper
+wrapper.appendChild(myButton);
+
+// 4. Add valid event listener (MUST use "access-click" instead of "click")
+wrapper.addEventListener("access-click", (e) => {
+    console.log("Button activated via eye/mouse/switch!");
+});
+
+// 5. Add to page
+document.body.appendChild(wrapper);
+
+// 6. To remove the button
+wrapper.remove();
+    </pre>
+    <button class="copy-btn">Copy</button>
+</div>
+<h3>Access cursor/gaze</h3>
+<p><strong>SquidlyAPI.addCursorListener(callback)</strong><br>
+Receives real-time cursor/gaze updates from all users.</p>
+
+<h4>Callback Data Object</h4>
+<ul>
+    <li><strong>user</strong> <code>(String)</code>: The identifier of the user (e.g., <code>"host"</code>, <code>"participant"</code>).</li>
+    <li><strong>x</strong> <code>(Number)</code>: Absolute horizontal window coordinate.</li>
+    <li><strong>y</strong> <code>(Number)</code>: Absolute vertical window coordinate.</li>
+    <li><strong>source</strong> <code>(String)</code>: Origin of the input (<code>"local"</code> or <code>"remote"</code>).</li>
+</ul>
+
+<div class="code-block card">
+    <pre>
+SquidlyAPI.addCursorListener((data) => {
+    // data.user: "host" | "participant"
+    // data.source: "local" | "remote"
+    if (data.source === "remote") {
+        console.log(`Remote user ${data.user} is at ${data.x}, ${data.y}`);
+    }
+});
+    </pre>
+    <button class="copy-btn">Copy</button>
+</div>
+
+<!-- App Settings -->
+<h3>App Settings</h3>
+            <p><strong>SquidlyAPI.setSettings(path, value)</strong><br>
+            Updates the global application settings.</p>
+            <div class="code-block card">
+                <code>SquidlyAPI.setSettings("host/access/dwellTime", 1.5);</code>
+                <button class="copy-btn">Copy</button>
+            </div>
+
+            <p><strong>SquidlyAPI.getSettings(path, callback)</strong><br>
+            Retrieves a value from settings once.</p>
+            <div class="code-block card">
+                <pre>
+SquidlyAPI.getSettings("host/access/dwellTime", (val) => {
+    console.log("Current dwell time:", val);
+});
+                </pre>
+                <button class="copy-btn">Copy</button>
+            </div>
+
+            <p><strong>SquidlyAPI.addSettingsListener(path, callback)</strong><br>
+            Listens for changes to a specific settings path.</p>
+            <div class="code-block card">
+                <pre>
+SquidlyAPI.addSettingsListener("host/access/dwellTime", (val) => {
+    console.log("Dwell time changed to:", val);
+});
+                </pre>
+                <button class="copy-btn">Copy</button>
+            </div>
+
+            <h4>Common Settings Paths</h4>
+            <p>These settings keys follow the pattern <code>{user}/{category}/{setting}</code>, where <code>{user}</code> is either <code>host</code> or <code>participant</code>.</p>
+            <div class="table-container">
+                <table class="api-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Path Pattern</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Access</td>
+                            <td><code>access/dwellTime</code></td>
+                            <td>Dwell time in seconds (e.g., 1.5).</td>
+                        </tr>
+                        <tr>
+                            <td>Access</td>
+                            <td><code>access/switchTime</code></td>
+                            <td>Switch hold time in seconds.</td>
+                        </tr>
+                        <tr>
+                            <td>Volume</td>
+                            <td><code>volume/level</code></td>
+                            <td>Audio volume level (0-100).</td>
+                        </tr>
+                        <tr>
+                            <td>Cursors</td>
+                            <td><code>cursors/cursorSize</code></td>
+                            <td>Size of the cursor.</td>
+                        </tr>
+                        <tr>
+                            <td>Cursors</td>
+                            <td><code>cursors/cursorStyle</code></td>
+                            <td>Style index/name of the cursor.</td>
+                        </tr>
+                        <tr>
+                            <td>Cursors</td>
+                            <td><code>cursors/cursorColour</code></td>
+                            <td>Color of the cursor.</td>
+                        </tr>
+                        <tr>
+                            <td>Display</td>
+                            <td><code>display/layout</code></td>
+                            <td>UI layout configuration.</td>
+                        </tr>
+                        <tr>
+                            <td>Display</td>
+                            <td><code>display/font</code></td>
+                            <td>Font size/style setting.</td>
+                        </tr>
+                        <tr>
+                            <td>Display</td>
+                            <td><code>display/effect</code></td>
+                            <td>Visual effects setting.</td>
+                        </tr>
+                        <tr>
+                            <td>Keyboard</td>
+                            <td><code>keyboardShortcuts/{key}</code></td>
+                            <td>Toggle specific shortcuts (e.g., 'v', 'e', 'g').</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Session</h3>
+            <p><strong>SquidlyAPI.addSessionInfoListener(callback)</strong><br>
+            Receives updates about the session context (user identity, active participants).</p>
+            <div class="code-block card">
+                <pre>
+SquidlyAPI.addSessionInfoListener((info) => {
+    if (info.participantActive) {
+        console.log("A participant is currently active.");
+    }
+    console.log("My user ID:", info.user);
+});
+                </pre>
+                <button class="copy-btn">Copy</button>
+            </div>
+        </section>
+
+    </div>
+</div>
