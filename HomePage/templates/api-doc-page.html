@@ -5,6 +5,7 @@
             <li><a href="javascript:void(0)" data-target="quick-start">Quick Start</a></li>
             <li><a href="javascript:void(0)" data-target="configuration">Configuration</a></li>
             <li><a href="javascript:void(0)" data-target="api-reference">API Reference</a></li>
+            <li><a href="javascript:void(0)" data-target="deployment">Deployment</a></li>
             <!-- <li><a href="javascript:void(0)" data-target="troubleshooting">Troubleshooting</a></li> -->
         </ul>
     </aside>
@@ -232,7 +233,7 @@ Receives real-time cursor/gaze updates from all users.</p>
 
 <h4>Callback Data Object</h4>
 <ul>
-    <li><strong>user</strong> <code>(String)</code>: The identifier of the user (e.g., <code>"host"</code>, <code>"participant"</code>).</li>
+    <li><strong>user</strong> <code>(String)</code>: The identifier of the user (e.g., <code>"host-mouse"</code>, <code>"host-eyes"</code>, <code>"participant-mouse"</code>, <code>"participant-eyes"</code>).</li>
     <li><strong>x</strong> <code>(Number)</code>: X coordinate relative to the app's viewport.</li>
     <li><strong>y</strong> <code>(Number)</code>: Y coordinate relative to the app's viewport.</li>
     <li><strong>source</strong> <code>(String)</code>: Origin of the input (<code>"local"</code> or <code>"remote"</code>).</li>
@@ -241,7 +242,7 @@ Receives real-time cursor/gaze updates from all users.</p>
 <div class="code-block card">
     <pre>
 SquidlyAPI.addCursorListener((data) => {
-    // data.user: "host" | "participant"
+    // data.user: "host-mouse" | "host-eyes" | "participant-mouse" | "participant-eyes"
     // data.source: "local" | "remote"
     if (data.source === "remote") {
         console.log(`Remote user ${data.user} is at ${data.x}, ${data.y}`);
@@ -362,6 +363,13 @@ SquidlyAPI.addSessionInfoListener((info) => {
                 </pre>
                 <button class="copy-btn">Copy</button>
             </div>
+        </section>
+
+        <section id="deployment">
+            <h2>Deployment</h2>
+            <p>To deploy your app to the Squidly platform, please contact us for the assistance.</p>
+            <p>After getting the deployment URL from Squidly team, you can host your app on Github Pages.</p>
+            <img src="../images/api/deployment.png" alt="Deployment">
         </section>
 
     </div>
