@@ -233,8 +233,8 @@ Receives real-time cursor/gaze updates from all users.</p>
 <h4>Callback Data Object</h4>
 <ul>
     <li><strong>user</strong> <code>(String)</code>: The identifier of the user (e.g., <code>"host"</code>, <code>"participant"</code>).</li>
-    <li><strong>x</strong> <code>(Number)</code>: Absolute horizontal window coordinate.</li>
-    <li><strong>y</strong> <code>(Number)</code>: Absolute vertical window coordinate.</li>
+    <li><strong>x</strong> <code>(Number)</code>: X coordinate relative to the app's viewport.</li>
+    <li><strong>y</strong> <code>(Number)</code>: Y coordinate relative to the app's viewport.</li>
     <li><strong>source</strong> <code>(String)</code>: Origin of the input (<code>"local"</code> or <code>"remote"</code>).</li>
 </ul>
 
