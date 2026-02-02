@@ -73,5 +73,9 @@ export const TemplateLibrary = {
 	},
 	"home-page": {
 		"html": "HomePage/templates/home-page.html"
+	},
+	"api-doc-page": {
+		"css": "HomePage/templates/api-doc-page.css",
+		"html": "HomePage/templates/api-doc-page.html"
 	}
 };

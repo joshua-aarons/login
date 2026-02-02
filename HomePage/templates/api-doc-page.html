@@ -1,0 +1,77 @@
+<div class="doc-layout">
+    <aside class="doc-sidebar">
+        <ul>
+            <li><a href="javascript:void(0)" data-target="introduction" class="active">Introduction</a></li>
+            <li><a href="javascript:void(0)" data-target="quick-start">Quick Start</a></li>
+            <li><a href="javascript:void(0)" data-target="configuration">Configuration</a></li>
+            <li><a href="javascript:void(0)" data-target="api-reference">API Reference</a></li>
+            <li><a href="javascript:void(0)" data-target="troubleshooting">Troubleshooting</a></li>
+        </ul>
+    </aside>
+
+    <div class="doc-content">
+        <section id="introduction">
+            <h1>Introduction</h1>
+                <p>Welcome to the <strong>Squidly API</strong> guide. This framework is designed to help you build your own app in Squidly platform with minimal overhead.</p>
+                <blockquote>Note: This documentation is currently in beta. Some features may change.</blockquote>
+        </section>
+
+        <hr>
+
+        <section id="quick-start">
+            <h2>Quick Start</h2>
+            <p>Squidly makes it easy to build your app locally. However, there are some steps you cannot skip, otherwise your app will not work on the platform.</p>
+            <p>To start building your app, you need to host your project folder to a web server.</p>
+            <strong>Python:</strong>
+            <div class="code-block card">
+                <code>python -m http.server 5500</code>
+                <button class="copy-btn">Copy</button>
+            </div>
+            <strong>Node.js:</strong>
+            <div class="code-block card">
+                <code>npx http-server -p 5500</code>
+                <button class="copy-btn">Copy</button>
+            </div>
+            <p>Or use any IDE's live server plugin to host your project at port 5500.</p>
+        </section>
+
+        <section id="configuration">
+            <h2>Configuration</h2>
+            <!-- <p>Define your primary settings in the <code>config.json</code> file located at the root of your project.</p> -->
+             <p>In your project, you must include a <code>index.html</code> file and a <code>info.js</code> file.</p>
+             <p><strong>index.html</strong>: The main HTML file of your app. All the necessary plugins will be included when running the app on Squidly platform, so the html file could be as simple as the following example:</p>
+             <div class="code-block card">
+                <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;{Your App Name}&lt;/title&gt;
+    &lt;!-- Your main stylesheets here --&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body shadow&gt;
+    &lt;!-- Your main app logic here --&gt;
+    &lt;script type="module" src="app.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                </pre>
+                <button class="copy-btn">Copy</button>
+             </div>
+             <p><strong>info.json</strong>: A JSON file that contains information about your app.</p>
+            <div class="code-block card">
+<pre>
+{
+    "name": "{your-app-name}",
+    "title": "{your-app-title}",
+    "subtitle": "{your-app-subtitle}",
+    "version": "{your-app-version}",
+    "description": "{your-app-description}",
+    "author": "{your-app-author}",
+    "icon": "{your-app-icon-url}"
+}
+</pre>
+                <button class="copy-btn">Copy</button>
+            </div>
+        </section>
+    </div>
+</div>
