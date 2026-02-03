@@ -82,6 +82,10 @@
             <h3>Database (Firebase)</h3>
             <p><strong>SquidlyAPI.firebaseSet(path, value)</strong><br>
             Writes data to the specified path within your app's namespace.</p>
+             <ul>
+                <li><strong>value</strong> can only be primitive types: string, number, boolean</li>
+                <li>Each value input size is limited to 5 KB</li>
+             </ul>
             <div class="code-block card">
                 <code>SquidlyAPI.firebaseSet("game/score", 100);</code>
                 <button class="copy-btn">Copy</button>
