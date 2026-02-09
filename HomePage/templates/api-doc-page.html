@@ -109,7 +109,7 @@ SquidlyAPI.firebaseOnValue("game/score", (val) => {
 <p>Below are the functions you can use:</p>
 <p>
     <strong>SquidlyAPI.setIcon(x, y, options, callback)</strong><br>
-    Places an interactive icon on the overlay grid at the specified coordinates. The grid size is 4x5.
+    Places an interactive icon on the overlay grid at the specified coordinates. The grid size is default to 4x5.
 </p>
 
 <h4>Parameters</h4>
@@ -191,6 +191,15 @@ let iconKey = SquidlyAPI.setIcon(1, 0, {
                 <code>SquidlyAPI.removeIcon(iconKey);</code>
                 <button class="copy-btn">Copy</button>
             </div>
+
+<h3>Set Grid Sizes</h3>
+<p>Instead of using the default 4x5 grid, you can set your own grid sizes using <strong>SquidlyAPI.setGridSize(rows, cols)</strong>.</p>
+<div class="code-block card">
+    <pre>
+SquidlyAPI.setGridSize(6, 8);</pre>
+    <button class="copy-btn">Copy</button>
+</div>
+
 <h3>Customize access buttons</h3>
 <p>Apart from using <strong>SquidlyAPI.setIcon</strong>, you can also create your own access buttons.</p>
 <img src="../images/api/access-buttons.png" alt="Access Buttons">
