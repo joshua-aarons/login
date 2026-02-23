@@ -12,6 +12,7 @@ import { HomePage } from "./templates/home-page.js";
 import { FeaturesPage } from "./templates/features-page.js";
 import { onLocationChange, RouteQuery } from "../Utilities/router.js";
 import { PricesPage } from "./templates/prices-page.js";
+import { ApiDocPage } from "./templates/api-doc-page.js";
 import {} from "./templates/trusted-companies.js"
 import { getProductInfo } from "../Firebase/licences.js";
 useCSSStyle("theme");
@@ -35,6 +36,7 @@ class MainPage extends UserDataComponent {
             "home-page": new HomePage(),
             "prices-page": new PricesPage(),
             "features-page": new FeaturesPage(),
+            "api-doc-page": new ApiDocPage(),
         }
 
         onLocationChange((location) => {
