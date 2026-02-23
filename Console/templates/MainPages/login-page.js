@@ -105,6 +105,9 @@ async function createAccountWithOTP(email, firstName, lastName) {
 }
 
 
+const ForceSignInWithMicrosoftEmails = [
+    "@cerebralpalsy.org.au"
+]
 
 export class LoginPage extends CustomComponent {
     constructor(el = "login-page"){
@@ -210,27 +213,32 @@ export class LoginPage extends CustomComponent {
     
 
     async requestOTP(email = this.els.email.value) {
-        this.loading = true;
-        this.overlayText = `Sending verification code`;
-        let [isNewUser, error] = await requestOTP(email);
-        // console.log(isNewUser, error)
-        if (isNewUser) {
-            this.mode = "sign-up";
-            this.loading = false;
-        } else if (error) {
-            switch (error) {
-                case "opt-FF: Email domain is not allowed.":
-                    this.signInWithMicrosoft();
-                    break;
-
-                default:
-                    this.showOverlayError(error, "requesting a verification code", "request a verification code");
-                    break;
-            }
+        if (ForceSignInWithMicrosoftEmails.some(domain => email.endsWith(domain))) {
+            await this.signInWithMicrosoft();
         } else {
-            this.resetOTPCountDown();
-            this.mode = "otp-verify";
-            this.loading = false;
+            this.loading = true;
+            this.overlayText = `Sending verification code`;
+            let [isNewUser, error] = await requestOTP(email);
+            // console.log(isNewUser, error)
+            if (isNewUser) {
+                this.mode = "sign-up";
+                this.loading = false;
+            } else if (error) {
+                switch (error) {
+                    case "opt-FF: Email domain is not allowed.":
+                        this.overlayText = "";
+                        this.signInWithMicrosoft();
+                        break;
+    
+                    default:
+                        this.showOverlayError(error, "requesting a verification code", "request a verification code");
+                        break;
+                }
+            } else {
+                this.resetOTPCountDown();
+                this.mode = "otp-verify";
+                this.loading = false;
+            }
         }
     } 
 
@@ -274,6 +282,7 @@ export class LoginPage extends CustomComponent {
     }
 
     async signInWithProvider(p, pname = "provider") {
+        this.overlayText = "";
         this.loading = true;
         let error = null;
         let res = null
