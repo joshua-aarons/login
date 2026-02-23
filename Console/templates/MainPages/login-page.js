@@ -212,12 +212,21 @@ export class LoginPage extends CustomComponent {
     async requestOTP(email = this.els.email.value) {
         this.loading = true;
         this.overlayText = `Sending verification code`;
-        let [isNewUser, _, error] = await requestOTP(email);
+        let [isNewUser, error] = await requestOTP(email);
+        // console.log(isNewUser, error)
         if (isNewUser) {
             this.mode = "sign-up";
             this.loading = false;
         } else if (error) {
-            this.showOverlayError(error, "requesting a verification code", "request a verification code");
+            switch (error) {
+                case "opt-FF: Email domain is not allowed.":
+                    this.signInWithMicrosoft();
+                    break;
+
+                default:
+                    this.showOverlayError(error, "requesting a verification code", "request a verification code");
+                    break;
+            }
         } else {
             this.resetOTPCountDown();
             this.mode = "otp-verify";
