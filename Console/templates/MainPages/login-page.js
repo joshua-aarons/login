@@ -213,13 +213,13 @@ export class LoginPage extends CustomComponent {
     
 
     async requestOTP(email = this.els.email.value) {
-        if (ForceSignInWithMicrosoftEmails.some(domain => email.endsWith(domain))) {
+        if (ForceSignInWithMicrosoftEmails.some(domain => email.toLowerCase().trim().endsWith(domain))) {
             await this.signInWithMicrosoft();
         } else {
             this.loading = true;
             this.overlayText = `Sending verification code`;
             let [isNewUser, error] = await requestOTP(email);
-            // console.log(isNewUser, error)
+            console.log(isNewUser, error)
             if (isNewUser) {
                 this.mode = "sign-up";
                 this.loading = false;
