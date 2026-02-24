@@ -179,7 +179,6 @@ export class LoginPage extends CustomComponent {
         }
     }
 
-
     showOverlayError(error, action, actionpast) {
         let help = new RouteQuery("contact-page", {
             firstName: this.els.firstName.value || "",
@@ -327,6 +326,7 @@ export class LoginPage extends CustomComponent {
         let res;
         let userEmail;
         try {
+            console.log("Attempting to sign in with provider: ", pname)
             res = await signInWithPopup(p);
         } catch (error) {
             
@@ -345,7 +345,7 @@ export class LoginPage extends CustomComponent {
                 // show an error message instead of requesting OTP.
                 if (isEmailFromDomains(userEmail, ForceSignInWithMicrosoftEmails)) {
                     providerError = `It looks like your ${pname} account is registered with a provider that is now blocked for your email.`;
-                
+                    console.warn(`It looks like your ${pname} account is registered with a provider that is now blocked for your email.`)
                 // Otherwise, request OTP for the email so they can link their provider account to their existing account.
                 } else {
                     this.els.email.value = userEmail;
@@ -379,8 +379,10 @@ export class LoginPage extends CustomComponent {
 
 
     async onEmailNeedsVerification({email}) {
+        console.log("Email needs verification for email: ", email)
         if (isEmailFromDomains(email, ForceSignInWithMicrosoftEmails)) {
             this.loading = true;
+            console.log("Forcing email verification for email: ", email)
             let res = await forceEmailVerification(email);
             console.log("force email verification result: ", res)
             if (res) {
