@@ -45,9 +45,7 @@ async function start() {
                 });
                 showScreen("appView");
             } else {
-                // loginPage.mode = "sign-in";
-                loginPage.email = user.email;
-                loginPage.requestOTP(user.email);
+                loginPage.onEmailNeedsVerification(user);
                 showScreen("loginPage")
             }
         } else {

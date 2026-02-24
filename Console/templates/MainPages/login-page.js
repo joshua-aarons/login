@@ -59,14 +59,20 @@ async function requestOTP(email) {
  * @returns {Promise<string>} error
  */
 async function verifyOTP(email, otp) {
+    // Call firebase function to verify OTP and get custom token
     let res = (await callFunction("otp-checkOTP", {email, otp} )).data;
     
     let error = null
+    // If the results from the function contains errors
     if (res.errors && res.errors.length > 0){
+        // return the first error
         error = res.errors[0];
     } else {
         try {
+            // Sign in with the custom token from the function result
             let result = await signInWithCustomToken(res.token);
+
+            // If there is a pending credential from a provider sign in, link it to the user's account
             let cred = retrievePendingCred();
             if (cred) {
                 try {
@@ -75,6 +81,8 @@ async function verifyOTP(email, otp) {
                     console.log("Error linking credential: ", e);
                 }
             }
+
+        // Catch any errors that occur during sign in or linking and return them
         } catch (e) {
             error = "sign in with token + link: " + e.message;
         }
@@ -104,10 +112,35 @@ async function createAccountWithOTP(email, firstName, lastName) {
     return error
 }
 
+/**
+ * Verify specified email.
+ * 
+ */
+async function forceEmailVerification(email) {
+    let res = (await callFunction("otp-verifyEmail")).data
+
+    let error = null
+    if (res.errors && res.errors.length > 0){
+        error = "otp-FF: "+res.errors[0];
+    }
+    return error
+}
+
 
 const ForceSignInWithMicrosoftEmails = [
-    "@cerebralpalsy.org.au"
+    "cerebralpalsy.org.au"
 ]
+function checkEmailIsFromDomain(email, domain) {
+    if (typeof email !== "string" || typeof domain !== "string") return false;
+
+    const e = email.trim().toLowerCase().replace(/\.+$/, "");
+    const d = domain.trim().toLowerCase().replace(/^\@+/, "").replace(/\.+$/, "");
+
+    return e.endsWith(d)
+}
+function isEmailFromDomains(email, domains) {
+    return domains.some(domain => checkEmailIsFromDomain(email, domain));
+}
 
 export class LoginPage extends CustomComponent {
     constructor(el = "login-page"){
@@ -179,14 +212,18 @@ export class LoginPage extends CustomComponent {
         }, 1000);
     }
 
-
     async verifyOTP() {
         this.loading = true;
+        // Validate the OTP input
         if (this.els.otpInput.validate()) {
+
+            // Get the OTP value from the input and call the verifyOTP function
             let otp = this.els.otpInput.value;
             let error = await verifyOTP(this.els.email.value, otp);
+
             let hide = true;
             if (error) {
+                // If there was an error verifying the OTP, show it on the overlay
                 if (error.startsWith("OPT:")) {
                     this.els.otpError.innerText = error.replace("OPT:", "").trim();
                 } else {
@@ -194,11 +231,14 @@ export class LoginPage extends CustomComponent {
                     hide = false;
                 }
             } else {
+                // If the users email is not verified, force a refresh of 
+                // the auth state to update the emailVerified property
                 if (getUser().emailVerified === false) { 
                     await forceAuthStateChange();
                 }
                 await delay(1500)
             }
+        
             if (hide) this.loading = false;
         } else {
             this.els.otpError.innerText = "Invalid code";
@@ -206,14 +246,12 @@ export class LoginPage extends CustomComponent {
         }
     }
 
-
     set email(email) {
         this.els.email.value = email;
     }
-    
 
     async requestOTP(email = this.els.email.value) {
-        if (ForceSignInWithMicrosoftEmails.some(domain => email.toLowerCase().trim().endsWith(domain))) {
+        if (isEmailFromDomains(email, ForceSignInWithMicrosoftEmails)) {
             await this.signInWithMicrosoft();
         } else {
             this.loading = true;
@@ -284,44 +322,75 @@ export class LoginPage extends CustomComponent {
     async signInWithProvider(p, pname = "provider") {
         this.overlayText = "";
         this.loading = true;
-        let error = null;
-        let res = null
+
+        let providerError = null;
+        let res;
+        let userEmail;
         try {
             res = await signInWithPopup(p);
-            await delay(1500)
         } catch (error) {
-            console.log(error);
             
             // Users email already exists with a different auth provider.
             if (error.code === "auth/account-exists-with-different-credential") {
+                console.warn("User has signed in with a different provider.");
 
-                console.log("User has signed in with a different provider.");
-                
-                const email = error.customData.email;
+                // Save the credential they used to sign in
                 const pendingCred = p.constructor.credentialFromError(error);
-                
-                // Step 3: Save the pending credential in temporary storage,
                 savePendingCred(pendingCred);
                 
-                this.els.email.value = email;
-                await this.requestOTP(email);
+                // Request the user to sign in with a one time password
+                userEmail = error.customData.email;
+
+                // If the email is from a domain that we force to sign in with Microsoft, 
+                // show an error message instead of requesting OTP.
+                if (isEmailFromDomains(userEmail, ForceSignInWithMicrosoftEmails)) {
+                    providerError = `It looks like your ${pname} account is registered with a provider that is now blocked for your email.`;
+                
+                // Otherwise, request OTP for the email so they can link their provider account to their existing account.
+                } else {
+                    this.els.email.value = userEmail;
+                    await this.requestOTP(userEmail);
+                }
             } else if (error.code === "auth/cancelled-popup-request" || error.code === "auth/popup-closed-by-user") {
-                error = true;
+                // User cancelled the sign in process.
+                console.warn("User cancelled the popup.");
+                providerError = true;
                 this.loading = false;
+
             } else {
-                console.log(error)
-                error = error.message;
+                // Some other error occurred.
+                console.warn("Some unforseen sign in with provider error", error)
+                providerError = error.message;
             }
         }
-        if (error) {
-            if (typeof error === "string") {
-                this.showOverlayError(error, `signing you in with your ${pname}`, `sign in with my ${pname}`);
-            } 
-        } else {
+
+        // If there was an error with the provider sign in, show it on the overlay. 
+        if (providerError && typeof error === "string") {
+            this.showOverlayError(error, `signing you in with your ${pname}`, `sign in with my ${pname}`);
+
+        // Otherwise, if sign in was successful, save the credential for later linking and hide the overlay.
+        } else if (!providerError) {
+            // If the users email is not verified and is from a domain that we force to sign in with Microsoft.
             await delay(1500)
             savePendingCred(p.constructor.credentialFromResult(res));
             this.loading = false;
         }
     }
 
+
+    async onEmailNeedsVerification({email}) {
+        if (isEmailFromDomains(email, ForceSignInWithMicrosoftEmails)) {
+            this.loading = true;
+            let res = await forceEmailVerification(email);
+            if (res) {
+                this.showOverlayError(res, "verifying your email", "verify my email");
+            } else {
+                await forceAuthStateChange();
+            }
+            this.loading = false;
+        } else {
+            this.email = email;
+            await this.requestOTP(email);
+        }
+    }
 }
