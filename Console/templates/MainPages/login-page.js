@@ -373,7 +373,7 @@ export class LoginPage extends CustomComponent {
             // If the users email is not verified and is from a domain that we force to sign in with Microsoft.
             await delay(1500)
             savePendingCred(p.constructor.credentialFromResult(res));
-            this.loading = false;
+            this.loading = !res.user.emailVerified;
         }
     }
 

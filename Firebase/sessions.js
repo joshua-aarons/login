@@ -211,7 +211,7 @@ export class Session {
     }
 
     static sid2link(sid) {
-        return `${window.location.origin}/V3/?${sid}`;
+        return `${window.location.origin}/Session/?${sid}`;
     }
 
     static gettimezoneOffset(date) {
