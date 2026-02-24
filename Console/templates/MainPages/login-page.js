@@ -382,6 +382,7 @@ export class LoginPage extends CustomComponent {
         if (isEmailFromDomains(email, ForceSignInWithMicrosoftEmails)) {
             this.loading = true;
             let res = await forceEmailVerification(email);
+            console.log("force email verification result: ", res)
             if (res) {
                 this.showOverlayError(res, "verifying your email", "verify my email");
             } else {
