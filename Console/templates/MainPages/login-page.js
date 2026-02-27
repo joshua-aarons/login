@@ -2,7 +2,7 @@ import { getHTMLTemplate, useCSSStyle } from "../../../Utilities/template.js"
 import { CustomComponent } from "../../../Utilities/CustomComponent.js";
 import { loadTemplates } from "../../../Utilities/template.js";
 import {} from "../../../Utilities/templates/input-plus.js"
-import { callFunction, forceAuthStateChange, getUser, GoogleAuthProvider, linkWithCredential, OAuthProvider, set, signInWithCustomToken, signInWithPopup } from "../../../Firebase/firebase-client.js";
+import { callFunction, forceAuthStateChange, getUser, GoogleAuthProvider, linkWithCredential, OAuthProvider, signInWithCustomToken, signInWithPopup } from "../../../Firebase/firebase-client.js";
 import { delay } from "../../../Utilities/utils.js";
 import { RouteQuery } from "../../../Utilities/router.js";
 

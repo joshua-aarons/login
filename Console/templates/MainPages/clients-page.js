@@ -1,4 +1,3 @@
-import { set } from "../../../Firebase/firebase-client.js";
 import { SvgPlus, Vector } from "../../../SvgPlus/4.js";
 import { DataComponent } from "../../../Utilities/CustomComponent.js";
 import { getHTMLTemplate, useCSSStyle } from "../../../Utilities/template.js";

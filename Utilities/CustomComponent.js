@@ -1,6 +1,6 @@
 import { SvgPlus, Vector } from "../SvgPlus/4.js";
 import { setUserInfo, updateDisplayPhoto} from "../Firebase/user.js";
-import { signout } from "../Firebase/accounts.js";
+import { signOut } from "../Firebase/firebase-client.js";
 let DATA_COMPONENTS = [];
 
 function isNested(el, root){
@@ -261,7 +261,7 @@ class UserDataComponent extends DataComponent {
         setUserInfo(userData)
     }
 
-    userLogout(){signout()}
+    userLogout(){signOut()}
 
     updateDisplayPhoto(file, callback){
         updateDisplayPhoto(file, callback)

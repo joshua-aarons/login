@@ -1,86 +1,15 @@
 import { DataComponent, SvgPlus } from "../../../Utilities/CustomComponent.js";
-import { deleteSession } from "../../../Firebase/sessions.js"
 import { getUserInfo } from "../../../Firebase/user.js"
 import { getHTMLTemplate, useCSSStyle } from "../../../Utilities/template.js"
 
 useCSSStyle("meeting-display")
 useCSSStyle("theme")
 
-// let charSizes = []
-// function computeCharacterWidths(ref){
-//     let style = window.getComputedStyle(ref);
-//     let els = [];
-//     for (let i = 0; i < 255; i++) {
-//         let text = new SvgPlus("div");
-//         text.innerHTML = String.fromCharCode(i);
-//         text.styles = {
-//             "font-family": style.fontFamily, 
-//             "font-size": style.fontSize, 
-//             "font-weight": style.fontWeight, 
-//             "display": "inline-block",
-//              position: "fixed", 
-//              "opacity": "0"
-//         };
-//         document.body.prepend(text);
-//         els.push(text);
-//     }
-    
-//     window.requestAnimationFrame(() => {
-//         charSizes = []
-//         for (let el of els) {
-//             charSizes.push(el.bbox[1].x);
-//             el.remove();
-//         }
-//     })
-// }
-
-// function cropToLength(string, length) {
-//     let result = "";
-//     let l = 0;
-//     if (charSizes.length > 0) {
-//         for (let char of string) {
-//             let wchar = charSizes[char.charCodeAt(0)]
-//             if (l + wchar < length) {
-//                 result += char;
-//                 l += wchar;
-//             } else {
-//                 break;
-//             }
-//         }
-//     }
-//     return result;
-// }
-
-// function getStringLength(string) {
-//     let l = 0;
-//     if (charSizes.length > 0) 
-//         for (let i = 0; i < string.length; i++) 
-//             l += charSizes[string.charCodeAt(i)];
-//     return l;
-// }
-
-
-const TimeZones = {
-    "(UTC+08:00) Perth": 8,
-    "(UTC+09:30) Darwin": 9.5,
-    "(UTC+10:00) Brisbane": 10,
-    "(UTC+10:30) Adelaide": 10.5,
-    "(UTC+11:00) Canberra, Melbourne, Sydney": 11,
-    "(UTC+11:00) Hobart": 11,
-    "(GMT+8:00) Perth": 8,
-    "(GMT+9:30) Darwin": 9.5,
-    "(GMT+10:00) Brisbane": 10,
-    "(GMT+10:30) Adelaide": 10.5,
-    "(GMT+11:00) Canberra, Melbourne, Sydney": 11,
-    "(GMT+11:00) Hobart": 11
-}
-
 const LINK_FORMAT_TOKENS = {
     ":": "%3A",
     "/": "%2F",
     "?": "%3F"
 }
-
 
 /**
  * @extends HTMLElement
