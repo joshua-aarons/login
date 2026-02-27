@@ -123,6 +123,7 @@ function authChangeHandler(user, force = false){
 
 export async function forceAuthStateChange() {
     await User.reload();
+    await User.getIdToken(true); // Force token refresh so updated claims (e.g. email_verified) are reflected in the JWT
     authChangeHandler(User, true);
 }
 
