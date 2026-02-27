@@ -7,6 +7,7 @@ import * as responses from "./responses.js"
  * Watches the user's sessions and licences, and calls the callback with the updated data.
  * @param {string} uid - The user ID to watch sessions and licences for.
  * @param {Function} callback - The callback function to call when data is updated.
+ * @return {Promise<Function>} A function to call to stop watching sessions and licences.
  */
 export async function watch(uid, callback) {
     let allData = {};
