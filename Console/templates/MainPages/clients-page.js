@@ -361,7 +361,7 @@ class SessionsSection extends SvgPlus {
     if (sessionLogs) {
       const profile = path.split("/").at(-1);
       const profileSessionLogs = sessionLogs[profile];
-      Object.keys(profileSessionLogs).forEach((session) => {
+      Object.keys(profileSessionLogs || {}).forEach((session) => {
         if (!this.sessions.has(session)) {
           this.createChild(SessionCard, {}, sessionLogs[profile][session])
         }
