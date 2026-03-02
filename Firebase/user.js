@@ -32,6 +32,7 @@ export function watch(uid, allData, updateCallback) {
             allData.info = userData;
             if (!userData.firstName) {
                 let user = getUser();
+                console.log("No first name found, populating from user impel data", user);
                 let name = user.displayName || "User";
                 let names = name.split(" ");
                 userData.firstName = names[0];
@@ -45,6 +46,7 @@ export function watch(uid, allData, updateCallback) {
                     email: user.email,
                 });
             } else if (!userData.displayName) {
+                console.log("No display name found, populating from first and last name", userData.firstName, userData.lastName);
                 let name = userData.firstName + " " + userData.lastName;
                 userData.displayName = name;
                 setUserInfo({

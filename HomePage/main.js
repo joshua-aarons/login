@@ -1,11 +1,11 @@
-import { CustomComponent, DataComponent, SvgPlus, updateUserDataComponents, UserDataComponent } from "../Utilities/CustomComponent.js";
+import { updateUserDataComponents, UserDataComponent } from "../Utilities/CustomComponent.js";
 import { getHTMLTemplate, loadTemplates, useCSSStyle } from "../Utilities/template.js";
 import {} from "../Utilities/gradient-background.js"
 import { } from "../Utilities/hamburger-icon.js";
 import { } from "../Utilities/gradient-model.js";
 import { } from "../Utilities/carousel.js";
 import { } from "../Utilities/hover.js";
-import { addAuthChangeListener, get, initialise, update } from "../Firebase/firebase-client.js";
+import { addAuthChangeListener, initialise, } from "../Firebase/firebase-client.js";
 import { stopWatch, watch } from "../Firebase/user.js";
 import { ContactPage } from "./templates/contact-page.js";
 import { HomePage } from "./templates/home-page.js";

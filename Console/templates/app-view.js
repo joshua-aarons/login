@@ -120,7 +120,7 @@ export class AppView extends UserDataComponent {
     async hostMeeting(){
         try {
             let session = await createSession("empty");
-            window.open(window.location.origin + `/V3/?${session.sid}`);
+            window.open(window.location.origin + `/Session/?${session.sid}`);
         } catch (e) {
             console.warn("Failed to create session: ", e);
             window.showNotification("You will need a licence to host meetings.", 5000, "error");

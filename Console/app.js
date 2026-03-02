@@ -28,32 +28,40 @@ async function start() {
     }
     
     // Sometimes user may already be authenticated before siging in to the app
-    let noUser = true;
+    let endWatchers = () => {};
     F.addAuthChangeListener(async (user) => {
         if (user && user.isAnonymous) {
+            console.log("Signing out anonymous user");
             F.signOut();
             user = null;
         } 
-    
+
+        endWatchers();
+        endWatchers = () => {};
     
         if (user) {
             F.updateMetrics(user.uid);
             if (user.emailVerified) {
-                noUser = false;
-                 await watch(user?.uid, (allData, type) => {
+                // Start watching user data and update
+                // the app view when it changes
+                console.log("Watching user data for user:", user.uid);
+                endWatchers = await watch(user?.uid, (allData, type) => {
                     updateUserDataComponents(allData);
                 });
                 showScreen("appView");
             } else {
-                // loginPage.mode = "sign-in";
-                loginPage.email = user.email;
-                loginPage.requestOTP(user.email);
+                console.log("User requires email verification:", user.uid);
+
+                // If the user's email is not verified, 
+                // show the login page and prompt them to verify their email
+                loginPage.onEmailNeedsVerification(user);
                 showScreen("loginPage")
             }
         } else {
+            console.log("No user signed in");
+            // If there is no user, show the login page
             loginPage.mode = "sign-in";
             showScreen("loginPage")
-            noUser = true;
         }
         
     });

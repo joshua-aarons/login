@@ -1,4 +1,4 @@
-import { SvgPlus, UserDataComponent } from "../../../Utilities/CustomComponent.js";
+import { UserDataComponent } from "../../../Utilities/CustomComponent.js";
 import { getHTMLTemplate, useCSSStyle } from "../../Utilities/template.js";
 import {} from "../../../Utilities/templates/input-plus.js";
 import { push, ref, set } from "../../Firebase/firebase-client.js";
