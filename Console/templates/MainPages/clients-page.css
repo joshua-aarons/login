@@ -334,13 +334,240 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
   display: none !important;
 }
 
+.toggle-button {
+  position: relative;
+  display: flex;
+  width: fit-content;
+  background-color: #F8FAFC;
+  padding: 0.3em;
+  border-radius: 1em;
+  margin-bottom: 1.5em;
+}
+
+.toggle-indicator {
+  position: absolute;
+  width: calc(50% - 0.3em);
+  height: calc(100% - 0.6em);
+  border-radius: 1em;
+  background: #ffffff;
+  transform: translateX(0);
+  transition: transform 200ms ease;
+}
+
+.toggle-button[toggle="sessions"] .toggle-indicator {
+  transform: translateX(100%);
+}
+
+.toggle-button span {
+  z-index: 1;
+  text-align: center;
+  padding: 0.3em 1em;
+  min-width: 10em;
+  border-radius: 1em;
+  cursor: pointer;
+}
+
+.toggle-button span[active] {
+  font-weight: 500
+}
+
+.toggle-button span:not([active]) {
+  font-weight: 400;
+}
+
+#settings {
+  display: flex;
+}
+
+#settings > profile-section {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+} 
+
+.sessions-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  overflow-y: auto;
+  min-width: 0;
+  padding: 0.25em 0 0.25em 0.1em;
+  box-sizing: border-box;
+}
+
+.sessions-section::-webkit-scrollbar{
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.sessions-section::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+.sessions-section:hover::-webkit-scrollbar-thumb{ 
+    visibility: visible;
+}
+
+.session-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #f1f5f9;
+  background-color: #ffffff;
+  border-radius: 1em;
+  box-shadow: 0 0.15em 0.5em rgba(132, 139, 200, 0.2);
+}
+
+.sessions-section .session-card:last-child {
+  margin-bottom: 0.2em;
+}
+
+.session {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5em;
+  padding: 1.5em 1.5em 0.5em 1.5em;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+  cursor: pointer;
+}
+
+.session-card[open] .session {
+  border-bottom-color: #f1f5f9;
+}
+
+.session-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+
+.session-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.session-container span:first-child {
+  background-color: #7380ec;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 0.9em;
+  padding: 0.3em 0.5em;
+  border-radius: 0.5em;
+}
+
+.session-container span[name="arrow"] {
+    transform: rotate(0deg);
+    transition: transform 0.2s linear;
+}
+
+.session-container span[name="arrow"][active] {
+  transform: rotate(180deg);
+}
+
+.session-date {
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.session-time {
+  color: #6B7280;
+  font-size: 0.95em;
+}
+
+.panel {
+  display: grid;
+  grid-template-columns: 40% 1fr;
+  gap: 1px;
+  background: #f1f5f9;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.panel:nth-child(n-1) {
+  border-bottom-left-radius: 1em;
+}
+
+.panel:last-child {
+  border-bottom-right-radius: 1em;
+}
+
+.section {
+  background: #ffffff;
+  padding: 1.25em 1.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+}
+
+.section-label {
+  font-size: 0.8em;
+  font-weight: 600;
+  letter-spacing: 1.05px;
+  color: #a0a5b5;
+}
+
+.section-content {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9em;
+  gap: 0.5em;
+  flex: 1;
+}
+
+.row-data {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-content-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.8em;
+  gap: 0.6em;
+}
+
+.data-div {
+  width: fit-content;
+  text-align: center;
+  padding: 0.3em 0.6em;
+  border-radius: 1em;
+}
+
+.aac-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  justify-content: center;
+}
+
+.aac-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  font-size: 0.8em;
+}
+
+.aac-legend-box {
+  width: 1.6em;
+  height: 0.95em;
+  border-radius: 0.2em;
+  box-sizing: border-box;
+}
+
 @media (max-width: 500px) {
   #profiles {
-    height: 50vh !important;
+    height: 70vh !important;
   }
 
   #settings {
-    min-height: 50vh !important;
+    height: 70vh !important;
+    min-height: 70vh !important;
   }
 }
 
