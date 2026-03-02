@@ -551,7 +551,6 @@ class ProfileSection extends UserDataComponent {
     }
 
     onvalue(data) {
-      console.log(data)
       if (!data) return;
       this.sessionLogs = data.sessionLogs;
       if (this.sessionsSection) {
