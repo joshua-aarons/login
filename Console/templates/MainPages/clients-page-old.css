@@ -1,70 +1,123 @@
-clients-page {
-  
-}
-clients-page > div {
-  display: flex;
-  gap: 1em;
-  align-items: stretch;
-  height: calc(100vh - 2.8em);
-  margin-bottom: 1.4em;
+clients-page .card:first-child {
+    padding: 0;
 }
 
-
-/* Profile list */
-
-.profiles.card {
-  width: 35%;
-  margin-top: 0em;
-
-}
-.profiles.card i {
-  font-size: 1.5em;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-.profiles.card i:hover {
-  transform: scale(1.1);
+profile-settings::-webkit-scrollbar{
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 0.5rem;
 }
 
-profile-list {
+profile-settings::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+profile-settings:hover::-webkit-scrollbar-thumb{ 
+    visibility: visible;
+}
+
+profile-settings {
     display: flex;
     flex-direction: column;
-    margin-bottom: 0.5em;
-    gap: 0.5em;
+    gap: 1.5em;
+    overflow-y: scroll;
+    min-height: 0;
+}
+
+profile-settings h2 {
+    font-size: 1.3em;
+    margin: 0;
+}
+profile-settings span {
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+summary {
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.file-uploader.btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
 }
 
 .profile-card {
     padding: 0.5em;
+    padding-left: 1.2em;
     border-radius: 0.5em;
     cursor: pointer;
-    border-radius: 2em;
+    margin-left: 0.5rem;
+}
+
+.profile-card > *:nth-child(n+2) {
+    margin-left: 0.5em;
+}
+
+.profile-card .file-uploader.btn {
+    border-radius: 1em;
+    padding: 0.1em 0.6em;
+    overflow: hidden;
+    cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 2em;
-    transition: transform 0.2s ease;
+    padding-right: 0.1em;
+    gap: 0.5em;
 }
 
 .profile-card:hover {
     background-color: rgba(64, 132, 191, 0.07);
 }
 
-.profile-card:active {
-  transform: scale(0.98);
-  background-color: rgba(64, 132, 191, 0.15);
+.highlighted {
+    background-color: rgba(64, 132, 191, 0.07);
 }
 
-.profile-card[selected] {
-    background-color: rgba(64, 132, 191, 0.15);
-}
-
-.profile-card span {
+.profile-header span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 1.3em;
 }
 
-.profile-card .img {
+.file-uploader svg {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.file-uploader svg .main-graphic {
+    fill: white;
+}
+
+.file-uploader[uploading] {
+    pointer-events: none;
+}
+.file-uploader[uploading] span{
+    opacity: 0.6;
+}
+
+.button-row {
+    display: flex;
+    gap: 0.5em;
+    margin: 0.5em 0;
+}
+
+.button-row .btn,
+.setting-option-input .btn {
+    padding: 0.7em 1.3em;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 2em;
+}
+
+.profile-header .img {
     width: 3em;
     height: 3em;
     border-radius: 50%;
@@ -78,100 +131,23 @@ profile-list {
     box-shadow: 1px 1px 6px 1px #82848761;
 }
 
-/* Main section */
- 
-.main-head {
-  margin-top: 0;
-  padding-top: var(--card-padding);
-  display: flex;
-  flex-direction: column;
-  gap: 0.5em;
-}
-
-.profile-panel {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5em;
-}
-
-.profile-panel[mode="sessions"] .profile-settings-panel {
-  display: none;
-}
-
-.profile-panel:not([mode="sessions"]) .profile-session-history {
-  display: none;
-}
-
-
-/* Profile settings */
-.main {
-  filter: drop-shadow(0 0.15em 0.5em rgba(132, 139, 200, 0.2));
-  height: 100%;
-  overflow-y: auto;
-  border-radius: 1em;
-  scrollbar-color: #0004 transparent;
-  scrollbar-width: thin;
-}
-/* 
-
-.main::-webkit-scrollbar{
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 0.5rem;
-}
-
-.main::-webkit-scrollbar-thumb{
-    border-radius: .5rem;
-    background-color: #0004;
-    visibility: hidden;
-}
-
-.main:hover::-webkit-scrollbar-thumb{ 
-    visibility: visible;
-} */
-
-
-/* File Uploader Button */
-.file-uploader.btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-}
-
-.file-uploader svg {
-    width: 1.5em;
-    height: 1.5em;
-}
-.file-uploader svg .main-graphic {
-    fill: white;
-}
-.file-uploader[uploading] {
-    pointer-events: none;
-}
-.file-uploader[uploading] span{
-    opacity: 0.6;
-}
-
-
-
-.button-row {
+.category-list {
     display: flex;
-    gap: 0.5em;
+    flex-direction: column;
+    margin-left: 1.5em;
+    padding-left: 0.75em;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #3e3d4269;
+    border-left: 1px solid #3e3d4269;
+    border-radius: 0 0 0 1em;
 }
 
-.button-row .btn,
-.setting-option-input .btn {
-    padding: 0.6em 1.3em;
+.category-list .setting-option-input:nth-of-type(n+2) {
+    margin-top: 0.25em;
+    padding-top: 0.25em;
+    border-top: 1px solid #3e3d4239;
 }
-
-
-.profile-settings-panel {
-  background-color: #ffffff;
-  border-radius: 1em;
-  overflow: hidden;
-}
-
 
 .setting-option-input {
     display: flex;
@@ -180,6 +156,10 @@ profile-list {
     align-items: center;
     padding: 1.2em 2em;
     border-bottom: 1px solid #f1f5f9;
+}
+
+section[border] .setting-option-input:last-child {
+  border-bottom: 1px solid transparent;
 }
 
 .setting-option-input .select-wrapper  {
@@ -263,8 +243,6 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
     background-color: var(--color-primary);
 }
 
-
-
 .settings-container {
   display: flex;
   flex-direction: column;
@@ -280,34 +258,15 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 0.5em;
+  padding: 1.2em 1em;
   font-size: 1em;
   font-weight: 500;
-  overflow: hidden;
-}
-.settings-header > div {
-  padding: 1.2em 1em;
-  display: flex;
-  gap: 0.5em;
-  align-items: center;
 }
 
 .settings-header i {
   font-size: 1.1em;
 }
-
-.clickable {
-  cursor: pointer;
-  transition: transform 0.1s ease;
-}
-.clickable:hover {
-  transform: scale(1.05);
-}
-.clickable:active {
-  transform: scale(0.95);
-}
-
 
 .tabs-container {
   display: flex;
@@ -379,9 +338,10 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
   position: relative;
   display: flex;
   width: fit-content;
-  background-color: #dde0e4;
+  background-color: #F8FAFC;
   padding: 0.3em;
-  border-radius: 1.3em;
+  border-radius: 1em;
+  margin-bottom: 1.5em;
 }
 
 .toggle-indicator {
@@ -433,20 +393,35 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
   box-sizing: border-box;
 }
 
-.profile-session-history > span {
-  font-size: 1.2em;
-  text-align: center;
-  padding: 1em;
+
+.profile-session-history::-webkit-scrollbar{
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 0.5rem;
 }
-.profile-session-history > span, 
+
+.profile-session-history::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+.profile-session-history:hover::-webkit-scrollbar-thumb{ 
+    visibility: visible;
+}
+
 .session-card {
   display: flex;
   flex-direction: column;
-  background-color: white;
   border: 1px solid #f1f5f9;
+  background-color: #ffffff;
   border-radius: 1em;
+  box-shadow: 0 0.15em 0.5em rgba(132, 139, 200, 0.2);
 }
 
+.profile-session-history .session-card:last-child {
+  margin-bottom: 0.2em;
+}
 
 .session {
   display: flex;

@@ -207,32 +207,34 @@ class DataComponent extends CustomComponent {
     set value(value) {
         this._value = value
 
-        if (!this.els)
-            return
-
+        if (this.els === undefined) 
+            return;
+    
         if (this.onvalue instanceof Function)
             this.onvalue(value)
 
-        let flat = flattern(value);
-        for (let key in flat) {
-            if (key in this.els) {
-                let el = this.els[key];
-                let fieldtype = el.getAttribute('vfield')
-                let sub = flat[key];
-                switch (fieldtype) {
-                    case "innerHTML": el.innerHTML = sub;
-                        break;
-                    case "html": el.innerHTML = sub;
-                        break;
-                    case "src": el.setAttribute('src', sub);
-                        break;
-                    case "value": el.value = sub;
-                        break;
-                    case "background-image": 
-                        el.style.setProperty("background-image", `url("${sub}")`);
-                        break;
-                    default: el[fieldtype] = sub;
-                        break;
+        if (this.els) {
+            let flat = flattern(value);
+            for (let key in flat) {
+                if (key in this.els) {
+                    let el = this.els[key];
+                    let fieldtype = el.getAttribute('vfield')
+                    let sub = flat[key];
+                    switch (fieldtype) {
+                        case "innerHTML": el.innerHTML = sub;
+                            break;
+                        case "html": el.innerHTML = sub;
+                            break;
+                        case "src": el.setAttribute('src', sub);
+                            break;
+                        case "value": el.value = sub;
+                            break;
+                        case "background-image": 
+                            el.style.setProperty("background-image", `url("${sub}")`);
+                            break;
+                        default: el[fieldtype] = sub;
+                            break;
+                    }
                 }
             }
         }

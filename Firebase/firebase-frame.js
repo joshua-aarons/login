@@ -106,16 +106,16 @@ export class FirebaseFrame {
      *                                                        and for every change made.
      */
     onValue(path, cb) {
-        let close = null;
+        let endListener = null;
         if (cb instanceof Function) {
-            close = onValue(this.appRef(path), (sc) => cb(sc.val()));
-            this.listeners.add(close)
+            endListener = onValue(this.appRef(path), (sc) => cb(sc.val()));
+            this.listeners.add(endListener)
         } else {
             throw "The callback must be a function"
         }
         return () => {
-            this.listeners.delete(close);
-            close();
+            this.listeners.delete(endListener);
+            endListener();
         };
     
     }
@@ -130,16 +130,16 @@ export class FirebaseFrame {
      * @param {(value: DataValue, key: String, previousKey: String) => void} callback 
      */
     onChildAdded(path, cb) {
-        let close = null;
+        let endListener = null;
         if (cb instanceof Function) {
-            close = onChildAdded(this.appRef(path), (sc, key) => cb(sc.val(), sc.key, key));
-            this.listeners.add(close)
+            endListener = onChildAdded(this.appRef(path), (sc, key) => cb(sc.val(), sc.key, key));
+            this.listeners.add(endListener)
         } else {
             throw "The callback must be a function"
         }
         return () => {
-            this.listeners.delete(close);
-            close();
+            this.listeners.delete(endListener);
+            endListener();
         };
     }
   
@@ -152,16 +152,16 @@ export class FirebaseFrame {
      * @param {(value: DataValue, key: String) => void} callback
      */
     onChildRemoved(path, cb) {
-        let close = null;
+        let endListener = null;
         if (cb instanceof Function) {
-            close = onChildRemoved(this.appRef(path), (sc) => cb(sc.val(), sc.key));
+            endListener = onChildRemoved(this.appRef(path), (sc) => cb(sc.val(), sc.key));
             this.listeners.add()
         } else {
             throw "The callback must be a function"
         }
         return () => {
-            this.listeners.delete(close);
-            close();
+            this.listeners.delete(endListener);
+            endListener();
         };
     }
   
@@ -175,16 +175,16 @@ export class FirebaseFrame {
      * @param {(value: DataValue, key: String, previousKey: String) => void} callback
      */
     onChildChanged(path, cb) {
-        let close = null;
+        let endListener = null;
         if (cb instanceof Function) {
-          close = onChildChanged(this.appRef(path), (sc, key) => cb(sc.val(), sc.key, key));
-          this.listeners.add(close)
+          endListener = onChildChanged(this.appRef(path), (sc, key) => cb(sc.val(), sc.key, key));
+          this.listeners.add(endListener)
         } else {
           throw "The callback must be a function"
         }
         return () => {
-          this.listeners.delete(close);
-          close();
+          this.listeners.delete(endListener);
+          endListener();
         };
     }
 

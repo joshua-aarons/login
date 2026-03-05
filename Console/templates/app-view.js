@@ -8,7 +8,7 @@ import {} from "./MainPages/admin-control.js"
 import {} from "./MainPages/settings-panel.js"
 import {} from "./MainPages/licences-page.js"
 import {} from "./MainPages/feedback-page.js"
-import {} from "./MainPages/clients-page.js"
+import {} from "./MainPages/clients-page/clients-page.js"
 import {} from "../../Utilities/hover.js"
 
 import {} from "./MeetingTools/meeting-display.js"
@@ -70,8 +70,6 @@ export class AppView extends UserDataComponent {
 
     onvalue(e) {
         if (e) {
-            console.log("All Data: %O ", e);
-            
             const {isAdmin} = e;
             this.dark = e?.info?.dark === true;
             if (!isAdmin && this.panel == "admin-control") this.panel = "dash-board";
