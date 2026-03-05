@@ -75,6 +75,8 @@ addAuthChangeListener((user) => {
         if (rootFrame && uid !== rootFrame.profilesUID) {
             rootFrame.close(false); // DO NOT DELETE DATA
             rootFrame = null;
+            detachAll();
+            console.log(settingsFrames)
         }
 
         if (!rootFrame) {

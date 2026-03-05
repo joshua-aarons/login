@@ -95,6 +95,7 @@ class ClientsPage extends DataComponent {
             let row = this.createChild("div");
             let profileListCard = row.createChild("div", {class: "profiles card"})
             let profilePanel = row.createChild(ProfilePanel)
+            this.profilePanel = profilePanel;
 
             // Create profile list panel
             let profileListHeader = profileListCard.createChild("div", {class: "row-space"});
@@ -108,8 +109,10 @@ class ClientsPage extends DataComponent {
             });
             this.profilesList = profileListCard.createChild(ProfileList, {events: {
                 "profile-selected": (e) => {
-                    console.log("Profile selected with ID:", e.detail);
-                    const frame = AllSettings.getSettingsFrame(e.detail);
+                    const pid = e.detail;
+                    const frame = AllSettings.getSettingsFrame(pid);
+                    this.lastPID = pid;
+                    this.lastFrame = frame;
                     profilePanel.settings = frame;
                 }
             }})
@@ -121,7 +124,12 @@ class ClientsPage extends DataComponent {
 
 
     onSettingsUpdate() {
+        console.log("Settings updated, refreshing profile list");
         this.profilesList.profiles = AllSettings.getAllSettingsFrames();
+        if (!this.lastFrame && this.lastPID) {
+            this.profilePanel.settings = AllSettings.getSettingsFrame(this.lastPID);
+        }
+
     }
 }
 
