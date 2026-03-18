@@ -6,6 +6,7 @@ clients-page {
   --tabs-active: #D2E5FF;
   --toggle-bg: #dde0e4;
   --toggle-select: white;
+  --shadow-color: rgba(132, 139, 200, 0.2);
 }
 .dark-theme-variables clients-page {
 
@@ -16,6 +17,7 @@ clients-page {
   --tabs-active: #373e43;
   --toggle-bg: var(--color-white);
   --toggle-select: var(--tab-color);
+  --shadow-color: rgba(8, 9, 17, 0.2);
 }
 
 clients-page > div {
@@ -133,7 +135,7 @@ profile-list {
 
 /* Profile settings */
 .main {
-  filter: drop-shadow(0 0.15em 0.5em rgba(132, 139, 200, 0.2));
+  filter: drop-shadow(0 0.15em 0.5em var(--shadow-color));
   height: 100%;
   overflow-y: auto;
   border-radius: 1em;
