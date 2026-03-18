@@ -1,6 +1,23 @@
 clients-page {
-  
+  --border-color: #f1f5f9;
+
+  --tab-color: #F8FAFC;
+  --gray-text: #a0a5b5;
+  --tabs-active: #D2E5FF;
+  --toggle-bg: #dde0e4;
+  --toggle-select: white;
 }
+.dark-theme-variables clients-page {
+
+  --border-color: #131517;
+  --slider-color: #7e80ec;
+  --tab-color: #2a3034;
+  --gray-text: #b3b6bc;
+  --tabs-active: #373e43;
+  --toggle-bg: var(--color-white);
+  --toggle-select: var(--tab-color);
+}
+
 clients-page > div {
   display: flex;
   gap: 1em;
@@ -15,7 +32,10 @@ clients-page > div {
 .profiles.card {
   width: 35%;
   margin-top: 0em;
-
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
 .profiles.card i {
   font-size: 1.5em;
@@ -26,11 +46,18 @@ clients-page > div {
   transform: scale(1.1);
 }
 
+.profiles.card > .row-space {
+  padding: var(--card-padding);
+  padding-bottom: 0;
+}
+
 profile-list {
     display: flex;
     flex-direction: column;
-    margin-bottom: 0.5em;
     gap: 0.5em;
+    overflow-y: scroll;
+    padding: var(--card-padding);
+    padding-top: 0;
 }
 
 .profile-card {
@@ -167,7 +194,7 @@ profile-list {
 
 
 .profile-settings-panel {
-  background-color: #ffffff;
+  background-color: var(--color-white);
   border-radius: 1em;
   overflow: hidden;
 }
@@ -179,23 +206,24 @@ profile-list {
     justify-content: space-between;
     align-items: center;
     padding: 1.2em 2em;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .setting-option-input .select-wrapper  {
     border-radius: 1em;
     overflow: hidden;
     position: relative;
-    border: 1.5px solid var(--color-primary);
+    border: 1.5px solid var(--slider-color);
     background-color: var(--input-bg);
     display: flex;
 }
 
 .setting-option-input input {
     padding: 0.2em 0.5em;
-    border: 1.5px solid var(--color-primary);
+    border: 1.5px solid var(--slider-color);
     background-color: var(--input-bg);
     border-radius: 1em;
+    color: var(--color-dark);
 }
 
 section[name="keyboardShortcuts"] input,
@@ -206,11 +234,11 @@ section[name="access"] input[type="checkbox"] {
 }
 
 section[name="access"] input:checked + .slider {
-    background-color: #7e80ec;
+    background-color: var(--slider-color);
 }
 
 section[name="access"] input:focus + .slider {
-    filter: drop-shadow(0px 0px 1px #7e80ec);
+    filter: drop-shadow(0px 0px 1px var(--slider-color));
 }
 
 .checkmark {
@@ -225,7 +253,7 @@ section[name="access"] input:focus + .slider {
 }
 
 section[name="keyboardShortcuts"] input:checked ~ .checkmark {
-  background-color: #7e80ec;
+  background-color: var(--slider-color);
 }
 
 section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
@@ -236,7 +264,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
   left: 0.5em;
   width: 0.3em;
   height: 0.6em;
-  border: solid white;
+  border: solid var(--border-color);
   border-width: 0 3px 3px 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
@@ -249,6 +277,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
     padding-right: 2em;
     overflow: hidden;
     font-size: 1em;
+    color: var(--color-dark);
 }
 
 .setting-option-input .select-wrapper::after {
@@ -260,7 +289,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
     bottom: 0;
     padding: 0.2em 0.5em;
     color: white;
-    background-color: var(--color-primary);
+    background-color: var(--slider-color);
 }
 
 
@@ -268,15 +297,15 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 .settings-container {
   display: flex;
   flex-direction: column;
-  border: 1px solid #f1f5f9;
+  border: 1px solid var(--border-color);
   border-radius: 1em;
 }
 
 .settings-header {
-  background-color: #F8FAFC;
+  background-color: var(--tab-color);
   border-top-left-radius: 1em;
   border-top-right-radius: 1em;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border-color);
   width: 100%;
   display: flex;
   align-items: center;
@@ -312,8 +341,8 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 .tabs-container {
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #f1f5f9;
-  background-color: #F8FAFC;
+  border-right: 1px solid var(--border-color);
+  background-color: var(--tab-color);
   border-bottom-left-radius: 1em;
 }
 
@@ -335,7 +364,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 }
 
 .tabs-container .tab[active] {
-    background-color: #D2E5FF;
+    background-color: var(--tabs-active);
 }
 
 .tabs-container .tab::before {
@@ -348,7 +377,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 }
 
 .tabs-container .tab[active]::before {
-  background-color: #7e80ec;
+  background-color: var(--slider-color);
 }
 
 .tabs-container .icon {
@@ -379,7 +408,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
   position: relative;
   display: flex;
   width: fit-content;
-  background-color: #dde0e4;
+  background-color: var(--toggle-bg);
   padding: 0.3em;
   border-radius: 1.3em;
 }
@@ -389,7 +418,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
   width: calc(50% - 0.3em);
   height: calc(100% - 0.6em);
   border-radius: 1em;
-  background: #ffffff;
+  background: var(--toggle-select);
   transform: translateX(0);
   transition: transform 200ms ease;
 }
@@ -442,8 +471,8 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 .session-card {
   display: flex;
   flex-direction: column;
-  background-color: white;
-  border: 1px solid #f1f5f9;
+  background-color: var(--color-white);
+  border: 1px solid var(--border-color);
   border-radius: 1em;
 }
 
@@ -451,7 +480,6 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 .session {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.5em;
   padding: 1.5em 1.5em 0.5em 1.5em;
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s ease;
@@ -459,7 +487,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 }
 
 .session-card[open] .session {
-  border-bottom-color: #f1f5f9;
+  border-bottom-color: var(--border-color);
 }
 
 .session-info {
@@ -474,7 +502,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 }
 
 .session-container span:first-child {
-  background-color: #7380ec;
+  background-color: var(--slider-color);
   color: #ffffff;
   font-weight: 500;
   font-size: 0.9em;
@@ -497,7 +525,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 }
 
 .session-time {
-  color: #6B7280;
+  color: var(--gray-text);
   font-size: 0.95em;
 }
 
@@ -505,7 +533,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
   display: grid;
   grid-template-columns: 40% 1fr;
   gap: 1px;
-  background: #f1f5f9;
+  background: var(--border-color);
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -520,7 +548,6 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 }
 
 .section {
-  background: #ffffff;
   padding: 1.25em 1.5em;
   display: flex;
   flex-direction: column;
@@ -531,7 +558,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
   font-size: 0.8em;
   font-weight: 600;
   letter-spacing: 1.05px;
-  color: #a0a5b5;
+  color: var(--gray-text);
 }
 
 .section-content {
