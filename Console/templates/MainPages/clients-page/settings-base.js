@@ -682,7 +682,7 @@ export const SettingOptions = [
     {
         key: [["host", "participant"], "cursors", "cursorSize"],
         type: "option",
-        default: "none",
+        default: "medium",
         options: ["none", "small", "medium", "large"],
         toIcon({value, sideDots}) {
             let upperCase = value[0].toUpperCase() + value.slice(1);
