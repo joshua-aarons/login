@@ -6,6 +6,16 @@ import { updateUserDataComponents } from "../Utilities/CustomComponent.js"
 import { watch } from "../Firebase/main.js";
 import { loadTemplates } from "../Utilities/template.js";
 
+const SquidlyLoader = document.querySelector("squidly-loader[full]");
+
+
+window.showSquidlyLoader = () => {
+    document.body.appendChild(SquidlyLoader);
+    SquidlyLoader.style.opacity = "1";
+}
+window.hideSquidlyLoader = (delay = 0.5) => {
+    SquidlyLoader.hide(delay);
+}
 
 async function start() {
     await loadTemplates();
@@ -16,7 +26,7 @@ async function start() {
     function showScreen(type) {
         if (Type == null) {
             setTimeout(() => {
-                document.querySelector("squidly-loader[full]").hide(0.5);
+                hideSquidlyLoader();
             },500);
         }
         if (type !== Type) {

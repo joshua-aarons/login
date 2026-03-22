@@ -117,6 +117,7 @@ export class AppView extends UserDataComponent {
 
     async hostMeeting(){
         try {
+            showSquidlyLoader();
             let session = await createSession("empty");
             window.location = window.location.origin + `/Session/?${session.sid}`;
         } catch (e) {
