@@ -77,5 +77,9 @@ export const TemplateLibrary = {
 	"api-doc-page": {
 		"css": "HomePage/templates/api-doc-page.css",
 		"html": "HomePage/templates/api-doc-page.html"
+	},
+	"agent-page": {
+		"css": "Console/templates/agent/agent-page.css",
+		"html": "Console/templates/agent/agent-page.html"
 	}
 };

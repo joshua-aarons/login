@@ -1,0 +1,473 @@
+[2026-03-14T10:21:33.358Z] [ROUTER] matched QUESTION pattern → question
+[2026-03-14T10:21:33.359Z] [pid 5351] intent = question | text = "How do I schedule a meeting?"
+[2026-03-14T10:21:33.359Z] [pid 5351] branch: question (RAG + no tools)
+[2026-03-14T10:23:17.883Z] [ROUTER] matched QUESTION pattern → question
+[2026-03-14T10:23:17.883Z] [pid 5351] intent = question | text = "Where do i host a meeting?"
+[2026-03-14T10:23:17.883Z] [pid 5351] branch: question (RAG + no tools)
+[2026-03-14T10:23:53.133Z] [ROUTER] matched ACTION pattern → action
+[2026-03-14T10:23:53.133Z] [pid 5351] intent = action | text = "Open the panel for host a meeting?"
+[2026-03-14T10:23:53.133Z] [pid 5351] branch: action (LLM with tools)
+[2026-03-14T10:23:53.323Z] [pid 5351] toolCalls: valid = 1 invalid = 0 [{"name":"open_panel","arguments":{"panel":"admin-control"}}]
+[2026-03-14T10:24:51.850Z] [ROUTER] matched QUESTION pattern → question
+[2026-03-14T10:24:51.851Z] [pid 5351] intent = question | text = "Where do i host a meeting?"
+[2026-03-14T10:24:51.851Z] [pid 5351] branch: question (RAG + no tools)
+[2026-03-14T10:25:07.565Z] [ROUTER] matched QUESTION pattern → question
+[2026-03-14T10:25:07.565Z] [pid 5351] intent = question | text = "How do i host a meeting?"
+[2026-03-14T10:25:07.566Z] [pid 5351] branch: question (RAG + no tools)
+[2026-03-14T10:26:21.239Z] [ROUTER] matched ACTION pattern → action
+[2026-03-14T10:26:21.239Z] [pid 5351] intent = action | text = "Open settings"
+[2026-03-14T10:26:21.239Z] [pid 5351] branch: action (LLM with tools)
+[2026-03-14T10:26:21.427Z] [pid 5351] toolCalls: valid = 1 invalid = 0 [{"name":"open_panel","arguments":{"panel":"settings-panel"}}]
+[2026-03-14T10:26:39.524Z] [ROUTER] matched CHITCHAT pattern → chitchat
+[2026-03-14T10:26:39.524Z] [pid 5351] intent = chitchat | text = "Hi"
+[2026-03-14T10:26:39.524Z] [pid 5351] branch: chitchat (no tools)
+[2026-03-14T10:26:50.150Z] [ROUTER] matched QUESTION pattern → question
+[2026-03-14T10:26:50.151Z] [pid 5351] intent = question | text = "How do I schedule a meeting?"
+[2026-03-14T10:26:50.151Z] [pid 5351] branch: question (RAG + no tools)
+[2026-03-14T10:33:28.781Z] [ROUTER] matched CHITCHAT pattern → chitchat
+[2026-03-14T10:33:28.784Z] [pid 5351] intent = chitchat | text = "hello"
+[2026-03-14T10:33:28.784Z] [pid 5351] branch: chitchat (no tools)
+[2026-03-14T10:33:28.895Z] [ROUTER] matched CHITCHAT pattern → chitchat
+[2026-03-14T10:33:28.896Z] [pid 5351] intent = chitchat | text = "hello"
+[2026-03-14T10:33:28.896Z] [pid 5351] branch: chitchat (no tools)
+[2026-03-14T10:33:43.097Z] [ROUTER] matched QUESTION pattern → question
+[2026-03-14T10:33:43.098Z] [pid 5351] intent = question | text = "How can I schedule a meeting. Tell me the details"
+[2026-03-14T10:33:43.099Z] [pid 5351] branch: question (RAG + no tools)
+[2026-03-14T10:34:28.744Z] [ROUTER] matched QUESTION pattern → question
+[2026-03-14T10:34:28.746Z] [pid 5351] intent = question | text = "How do I sign in to Squidly?"
+[2026-03-14T10:34:28.746Z] [pid 5351] branch: question (RAG + no tools)
+[2026-03-14T10:37:30.309Z] [ROUTER] matched QUESTION pattern → question
+[2026-03-14T10:37:30.311Z] [pid 5351] intent = question | text = "How do I access the AAC grid editor?"
+[2026-03-14T10:37:30.311Z] [pid 5351] branch: question (RAG + no tools)
+[2026-03-16T23:16:49.330Z] [ROUTER] matched CHITCHAT pattern → chitchat
+[2026-03-16T23:16:49.331Z] [pid 8631] intent = chitchat | text = "hello"
+[2026-03-16T23:16:49.332Z] [pid 8631] branch: chitchat (no tools)
+[2026-03-16T23:16:55.471Z] [ROUTER] matched QUESTION pattern → question
+[2026-03-16T23:16:55.471Z] [pid 8631] intent = question | text = "what is a session"
+[2026-03-16T23:16:55.471Z] [pid 8631] branch: question (RAG + no tools)
+[2026-03-16T23:17:00.538Z] [ROUTER] default → question
+[2026-03-16T23:17:00.538Z] [pid 8631] intent = question | text = "yes"
+[2026-03-16T23:17:00.539Z] [pid 8631] branch: question (RAG + no tools)
+[2026-03-16T23:17:08.071Z] [ROUTER] default → question
+[2026-03-16T23:17:08.072Z] [pid 8631] intent = question | text = "ywa"
+[2026-03-16T23:17:08.073Z] [pid 8631] branch: question (RAG + no tools)
+[2026-03-16T23:17:16.756Z] [ROUTER] default → question
+[2026-03-16T23:17:16.757Z] [pid 8631] intent = question | text = "yes"
+[2026-03-16T23:17:16.757Z] [pid 8631] branch: question (RAG + no tools)
+[2026-03-16T23:17:25.559Z] [ROUTER] default → question
+[2026-03-16T23:17:25.561Z] [pid 8631] intent = question | text = "ello"
+[2026-03-16T23:17:25.561Z] [pid 8631] branch: question (RAG + no tools)
+[2026-03-16T23:17:28.865Z] [ROUTER] default → question
+[2026-03-16T23:17:28.866Z] [pid 8631] intent = question | text = "yes"
+[2026-03-16T23:17:28.866Z] [pid 8631] branch: question (RAG + no tools)
+[2026-03-16T23:26:40.322Z] [ROUTER] matched CHITCHAT pattern → chitchat
+[2026-03-16T23:26:40.322Z] [pid 14822] intent = chitchat | text = "hello"
+[2026-03-16T23:26:40.322Z] [pid 14822] branch: chitchat (no tools)
+[2026-03-16T23:27:01.842Z] [ROUTER] default → question
+[2026-03-16T23:27:01.843Z] [pid 14822] intent = question | text = "advices"
+[2026-03-16T23:27:01.844Z] [pid 14822] branch: question (RAG + no tools)
+[2026-03-16T23:27:14.795Z] [ROUTER] default → question
+[2026-03-16T23:27:14.796Z] [pid 14822] intent = question | text = "give me some advice on how to use squidly"
+[2026-03-16T23:27:14.797Z] [pid 14822] branch: question (RAG + no tools)
+[2026-03-16T23:34:03.703Z] [ROUTER] matched QUESTION pattern → question
+[2026-03-16T23:34:03.706Z] [pid 14822] intent = question | text = "How do I schedule a meeting?"
+[2026-03-16T23:34:03.707Z] [pid 14822] branch: question (RAG + no tools)
+[2026-03-16T23:41:41.260Z] [ROUTER] matched ACTION pattern → action
+[2026-03-16T23:41:41.262Z] [pid 14822] intent = action | text = "Open settings"
+[2026-03-16T23:41:41.262Z] [pid 14822] branch: action (LLM with tools)
+[2026-03-16T23:41:41.440Z] [pid 14822] toolCalls: valid = 1 invalid = 0 [{"name":"open_panel","arguments":{"panel":"settings-panel"}}]
+[2026-03-17T04:02:48.757Z] [ROUTER] matched QUESTION pattern → question
+[2026-03-17T04:02:48.758Z] [pid 85335] intent = question | text = "How do I schedule a meeting?"
+[2026-03-17T04:02:48.758Z] [pid 85335] branch: question (RAG + no tools)
+[2026-03-17T04:07:36.863Z] [ROUTER] default → question
+[2026-03-17T04:07:36.865Z] [pid 85335] intent = question | text = "Hi would you tell me more about squidly"
+[2026-03-17T04:07:36.865Z] [pid 85335] branch: question (RAG + no tools)
+[2026-03-17T04:16:22.828Z] [ROUTER] matched QUESTION pattern → question
+[2026-03-17T04:16:22.829Z] [pid 85335] intent = question | text = "What is the last question I asked"
+[2026-03-17T04:16:22.830Z] [pid 85335] branch: question (RAG + no tools)
+[2026-03-17T04:21:44.384Z] [ROUTER] default → question
+[2026-03-17T04:21:44.385Z] [pid 85335] intent = question | text = "I want to start a Squidly session but before I can, I need to figure out how to "
+[2026-03-17T04:21:44.386Z] [pid 85335] branch: question (RAG + no tools)
+[2026-03-17T04:22:33.901Z] [ROUTER] default → question
+[2026-03-17T04:22:33.903Z] [pid 85335] intent = question | text = "Please provide it"
+[2026-03-17T04:22:33.904Z] [pid 85335] branch: question (RAG + no tools)
+[2026-03-23T23:48:28.403Z] [ROUTER] default → question
+[2026-03-23T23:48:28.404Z] [pid 11717] intent = question | text = "What plan I'm currently on"
+[2026-03-23T23:48:28.404Z] [pid 11717] branch: question (RAG + no tools)
+[2026-03-24T00:04:53.208Z] [ROUTER] matched CHITCHAT pattern → chitchat
+[2026-03-24T00:04:53.209Z] [pid 21718] intent = chitchat | text = "hello"
+[2026-03-24T00:04:53.210Z] [pid 21718] branch: chitchat (no tools)
+[2026-03-24T00:05:00.407Z] [ROUTER] default → question
+[2026-03-24T00:05:00.408Z] [pid 21718] intent = question | text = "What plan I'm currently on"
+[2026-03-24T00:05:00.409Z] [pid 21718] branch: question (RAG + no tools)
+[2026-03-24T00:05:20.028Z] [ROUTER] default → question
+[2026-03-24T00:05:20.029Z] [pid 21718] intent = question | text = "How many one are there available?"
+[2026-03-24T00:05:20.029Z] [pid 21718] branch: question (RAG + no tools)
+[2026-03-24T00:05:50.801Z] [ROUTER] ACTION keywords (short phrase) → action
+[2026-03-24T00:05:50.801Z] [pid 21718] intent = action | text = "How many profiles do i have"
+[2026-03-24T00:05:50.802Z] [pid 21718] branch: action (LLM with tools)
+[2026-03-24T00:05:51.078Z] [pid 21718] toolCalls: valid = 1 invalid = 0 [{"name":"open_panel","arguments":{"panel":"clients-page"}}]
+[2026-03-24T00:06:13.868Z] [ROUTER] default → question
+[2026-03-24T00:06:13.868Z] [pid 21718] intent = question | text = "How many sessions can I create"
+[2026-03-24T00:06:13.869Z] [pid 21718] branch: question (RAG + no tools)
+[2026-03-24T00:08:05.463Z] [ROUTER] default → question
+[2026-03-24T00:08:05.464Z] [pid 21718] intent = question | text = "How many minutes do I have"
+[2026-03-24T00:08:05.464Z] [pid 21718] branch: question (RAG + no tools)
+[2026-03-24T00:10:32.852Z] [ROUTER] default → question
+[2026-03-24T00:10:32.853Z] [pid 24769] intent = question | text = "What plan I'm currently on"
+[2026-03-24T00:10:32.855Z] [pid 24769] branch: question | RAG ~ 2170 chars | accountContext: 276 chars | no LLM tools (Firebase/plan 在浏览器；数据在 body.accountContext)
+[2026-03-24T04:16:22.741Z] [ROUTER] default → question
+[2026-03-24T04:16:22.743Z] [pid 88097] intent = question | text = "Which plan I'm currently on"
+[2026-03-24T04:16:22.745Z] [pid 88097] branch: question | RAG ~ 2170 chars | accountContext: 276 chars | no LLM tools (Firebase/plan 在浏览器；数据在 body.accountContext)
+[2026-03-24T04:16:48.448Z] [ROUTER] default → question
+[2026-03-24T04:16:48.449Z] [pid 88097] intent = question | text = "Which plan I'm currently on"
+[2026-03-24T04:16:48.449Z] [pid 88097] branch: question | RAG ~ 2170 chars | accountContext: 276 chars | no LLM tools (Firebase/plan 在浏览器；数据在 body.accountContext)
+[2026-03-24T04:25:17.245Z] [ROUTER] matched QUESTION pattern → question
+[2026-03-24T04:25:17.246Z] [pid 88097] intent = question | text = "What is my subscription"
+[2026-03-24T04:25:17.246Z] [pid 88097] branch: question | RAG ~ 2170 chars | accountContext: 276 chars | no LLM tools (Firebase/plan 在浏览器；数据在 body.accountContext)
+[2026-03-24T04:26:33.749Z] [ROUTER] ACTION keywords (short phrase) → action
+[2026-03-24T04:26:33.750Z] [pid 88097] intent = action | text = "How many sessions have I hosted"
+[2026-03-24T04:26:33.750Z] [pid 88097] branch: action (LLM with tools)
+[2026-03-24T04:26:33.892Z] [pid 88097] toolCalls: valid = 1 invalid = 0 [{"name":"open_panel","arguments":{"panel":"data-and-privacy"}}]
+[2026-03-24T04:26:57.301Z] [ROUTER] default → question
+[2026-03-24T04:26:57.302Z] [pid 88097] intent = question | text = "How many sessioned I remain"
+[2026-03-24T04:26:57.302Z] [pid 88097] branch: question | RAG ~ 5513 chars | accountContext: 418 chars | no LLM tools (Firebase/plan 在浏览器；数据在 body.accountContext)
+[2026-03-24T04:28:32.715Z] [ROUTER] ACTION keywords (short phrase) → action
+[2026-03-24T04:28:32.716Z] [pid 88097] intent = action | text = "How many profiles I have created"
+[2026-03-24T04:28:32.718Z] [pid 88097] branch: action (LLM with tools)
+[2026-03-24T04:28:33.008Z] [pid 88097] toolCalls: valid = 2 invalid = 0 [{"name":"open_panel","arguments":{"panel":"data-and-privacy"}},{"name":"open_panel","arguments":{"panel":"admin-control"}}]
+[2026-03-30T23:59:31.481Z] [ROUTER] LLM classified as question
+[2026-03-30T23:59:31.483Z] [pid 6684] intent = question | text = "How do I schedule a meeting?"
+[2026-03-30T23:59:31.485Z] [pid 6684] branch: question | RAG ~ 1398 chars | accountContext: (none) | no LLM tools (Firebase/plan 在浏览器；数据在 body.accountContext)
+[2026-03-30T23:59:35.425Z] [ROUTER] LLM classified as chitchat
+[2026-03-30T23:59:35.425Z] [pid 6684] intent = chitchat | text = "Hl lo"
+[2026-03-30T23:59:35.426Z] [pid 6684] branch: chitchat (no tools)
+[2026-03-31T01:05:29.394Z] [ROUTER] LLM classified as question
+[2026-03-31T01:05:29.395Z] [pid 5405] intent = question | text = "How do I host a session?"
+[2026-03-31T01:05:29.396Z] [pid 5405] branch: question | RAG ~ 5890 chars | accountContext: (none) | no LLM tools (Firebase/plan 在浏览器；数据在 body.accountContext)
+[2026-03-31T01:10:02.283Z] [ROUTER] LLM classified as question
+[2026-03-31T01:10:02.286Z] [pid 5405] intent = question | text = "How do I schedule a session?"
+[2026-03-31T01:10:02.287Z] [pid 5405] branch: question | RAG ~ 5513 chars | accountContext: (none) | no LLM tools (Firebase/plan 在浏览器；数据在 body.accountContext)
+[2026-03-31T01:10:33.617Z] [ROUTER] LLM classified as question
+[2026-03-31T01:10:33.618Z] [pid 5405] intent = question | text = "How do I schedule a meeting?"
+[2026-03-31T01:10:33.619Z] [pid 5405] branch: question | RAG ~ 1398 chars | accountContext: (none) | no LLM tools (Firebase/plan 在浏览器；数据在 body.accountContext)
+[2026-03-31T01:10:57.578Z] [ROUTER] LLM classified as action
+[2026-03-31T01:10:57.578Z] [pid 7882] intent = action | text = "How do I schedule a session?"
+[2026-03-31T01:10:57.578Z] [pid 7882] branch: action (LLM with tools)
+[2026-03-31T01:10:57.960Z] [pid 7882] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:11:01.319Z] [ROUTER] LLM classified as action
+[2026-03-31T01:11:01.320Z] [pid 7882] intent = action | text = "Open schedule window"
+[2026-03-31T01:11:01.321Z] [pid 7882] branch: action (LLM with tools)
+[2026-03-31T01:11:01.471Z] [pid 7882] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:11:09.461Z] [ROUTER] LLM classified as action
+[2026-03-31T01:11:09.461Z] [pid 7882] intent = action | text = "Start scheduling a new meeting"
+[2026-03-31T01:11:09.461Z] [pid 7882] branch: action (LLM with tools)
+[2026-03-31T01:11:09.627Z] [pid 7882] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:18:20.991Z] [ROUTER] LLM classified as action
+[2026-03-31T01:18:20.993Z] [pid 7882] intent = action | text = "How do I schedule a meeting?"
+[2026-03-31T01:18:20.994Z] [pid 7882] branch: action (LLM with tools)
+[2026-03-31T01:18:21.195Z] [pid 7882] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:19:12.243Z] [ROUTER] LLM classified as action
+[2026-03-31T01:19:12.243Z] [pid 10091] intent = action | text = "How do I schedule a meeting?"
+[2026-03-31T01:19:12.244Z] [pid 10091] branch: action (LLM with tools)
+[2026-03-31T01:19:12.546Z] [pid 10091] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:19:15.037Z] [ROUTER] LLM classified as action
+[2026-03-31T01:19:15.038Z] [pid 10091] intent = action | text = "Yes, open the scheduling window now"
+[2026-03-31T01:19:15.038Z] [pid 10091] branch: action (LLM with tools)
+[2026-03-31T01:19:15.157Z] [pid 10091] toolCalls: valid = 1 invalid = 0 [{"name":"schedule_meeting","arguments":null}]
+[2026-03-31T01:26:27.614Z] [ROUTER] LLM classified as action
+[2026-03-31T01:26:27.616Z] [pid 10091] intent = action | text = "Schedule a meeting later"
+[2026-03-31T01:26:27.616Z] [pid 10091] branch: action (LLM with tools)
+[2026-03-31T01:26:27.777Z] [pid 10091] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:26:51.116Z] [ROUTER] LLM classified as action
+[2026-03-31T01:26:51.117Z] [pid 10091] intent = action | text = "How do I schedule a meeting?"
+[2026-03-31T01:26:51.118Z] [pid 10091] branch: action (LLM with tools)
+[2026-03-31T01:26:51.374Z] [pid 10091] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:26:57.543Z] [ROUTER] LLM classified as action
+[2026-03-31T01:26:57.544Z] [pid 10091] intent = action | text = "Schedule meeting"
+[2026-03-31T01:26:57.545Z] [pid 10091] branch: action (LLM with tools)
+[2026-03-31T01:26:57.720Z] [pid 10091] toolCalls: valid = 1 invalid = 0 [{"name":"schedule_meeting","arguments":null}]
+[2026-03-31T01:27:00.784Z] [ROUTER] LLM classified as action
+[2026-03-31T01:27:00.785Z] [pid 10091] intent = action | text = "Open schedule meeting"
+[2026-03-31T01:27:00.785Z] [pid 10091] branch: action (LLM with tools)
+[2026-03-31T01:27:04.969Z] [pid 10091] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:30:14.359Z] [ROUTER] LLM classified as action
+[2026-03-31T01:30:14.360Z] [pid 10091] intent = action | text = "Open schedule meeting"
+[2026-03-31T01:30:14.360Z] [pid 10091] branch: action (LLM with tools)
+[2026-03-31T01:30:14.518Z] [pid 10091] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:30:16.177Z] [ROUTER] LLM classified as action
+[2026-03-31T01:30:16.178Z] [pid 10091] intent = action | text = "Schedule meeting"
+[2026-03-31T01:30:16.179Z] [pid 10091] branch: action (LLM with tools)
+[2026-03-31T01:30:16.293Z] [pid 10091] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:30:17.920Z] [ROUTER] LLM classified as action
+[2026-03-31T01:30:17.921Z] [pid 10091] intent = action | text = "Open schedule meeting"
+[2026-03-31T01:30:17.921Z] [pid 10091] branch: action (LLM with tools)
+[2026-03-31T01:30:23.236Z] [ROUTER] LLM classified as chitchat
+[2026-03-31T01:30:23.237Z] [pid 10091] intent = chitchat | text = "he lo"
+[2026-03-31T01:30:23.237Z] [pid 10091] branch: chitchat (no tools)
+[2026-03-31T01:30:23.395Z] [ROUTER] LLM classified as chitchat
+[2026-03-31T01:30:23.396Z] [pid 10091] intent = chitchat | text = "helo"
+[2026-03-31T01:30:23.396Z] [pid 10091] branch: chitchat (no tools)
+[2026-03-31T01:31:38.960Z] [ROUTER] LLM classified as action
+[2026-03-31T01:31:38.961Z] [pid 13117] intent = action | text = "How do I schedule a meeting?"
+[2026-03-31T01:31:38.962Z] [pid 13117] branch: action (LLM with tools)
+[2026-03-31T01:31:39.355Z] [pid 13117] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:31:45.981Z] [ROUTER] LLM classified as action
+[2026-03-31T01:31:45.981Z] [pid 13117] intent = action | text = "Open dashboard"
+[2026-03-31T01:31:45.981Z] [pid 13117] branch: action (LLM with tools)
+[2026-03-31T01:31:46.201Z] [pid 13117] toolCalls: valid = 1 invalid = 0 [{"name":"open_panel","arguments":{"panel":"dash-board"}}]
+[2026-03-31T01:32:02.515Z] [ROUTER] LLM classified as action
+[2026-03-31T01:32:02.517Z] [pid 13117] intent = action | text = "How do I schedule a meeting?"
+[2026-03-31T01:32:02.518Z] [pid 13117] branch: action (LLM with tools)
+[2026-03-31T01:32:02.729Z] [pid 13117] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:32:06.828Z] [ROUTER] LLM classified as action
+[2026-03-31T01:32:06.829Z] [pid 13117] intent = action | text = "Yes, open schedule meeting"
+[2026-03-31T01:32:06.829Z] [pid 13117] branch: action (LLM with tools)
+[2026-03-31T01:32:08.030Z] [pid 13117] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:32:14.331Z] [ROUTER] LLM classified as action
+[2026-03-31T01:32:14.332Z] [pid 13117] intent = action | text = "Yes, schedule it now"
+[2026-03-31T01:32:14.333Z] [pid 13117] branch: action (LLM with tools)
+[2026-03-31T01:32:27.563Z] [pid 13117] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:39:19.451Z] [ROUTER] LLM classified as action
+[2026-03-31T01:39:19.452Z] [pid 15234] intent = action | text = "How do I schedule a meeting?"
+[2026-03-31T01:39:19.453Z] [pid 15234] branch: action (LLM with tools)
+[2026-03-31T01:39:19.694Z] [pid 15234] toolCalls: valid = 1 invalid = 0 [{"name":"schedule_meeting","arguments":{}}]
+[2026-03-31T01:39:25.666Z] [ROUTER] LLM classified as action
+[2026-03-31T01:39:25.666Z] [pid 15234] intent = action | text = "Yes, open it"
+[2026-03-31T01:39:25.666Z] [pid 15234] branch: action (LLM with tools)
+[2026-03-31T01:39:25.869Z] [pid 15234] toolCalls: valid = 1 invalid = 0 [{"name":"schedule_meeting","arguments":null}]
+[2026-03-31T01:39:41.137Z] [ROUTER] LLM classified as action
+[2026-03-31T01:39:41.137Z] [pid 15234] intent = action | text = "How do I schedule a session?"
+[2026-03-31T01:39:41.138Z] [pid 15234] branch: action (LLM with tools)
+[2026-03-31T01:39:41.363Z] [pid 15234] toolCalls: valid = 1 invalid = 0 [{"name":"schedule_meeting","arguments":{}}]
+[2026-03-31T01:39:49.879Z] [ROUTER] LLM classified as action
+[2026-03-31T01:39:49.879Z] [pid 15234] intent = action | text = "Open it"
+[2026-03-31T01:39:49.879Z] [pid 15234] branch: action (LLM with tools)
+[2026-03-31T01:40:01.378Z] [ROUTER] LLM classified as action
+[2026-03-31T01:40:01.379Z] [pid 15234] intent = action | text = "Open it"
+[2026-03-31T01:40:01.380Z] [pid 15234] branch: action (LLM with tools)
+[2026-03-31T01:40:10.177Z] [pid 15234] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:40:15.595Z] [ROUTER] LLM classified as action
+[2026-03-31T01:40:15.595Z] [pid 15234] intent = action | text = "Hi please open"
+[2026-03-31T01:40:15.596Z] [pid 15234] branch: action (LLM with tools)
+[2026-03-31T01:40:21.877Z] [ROUTER] LLM classified as action
+[2026-03-31T01:40:21.878Z] [pid 15234] intent = action | text = "Confirm"
+[2026-03-31T01:40:21.878Z] [pid 15234] branch: action (LLM with tools)
+[2026-03-31T01:40:45.918Z] [pid 15234] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:41:59.186Z] [ROUTER] LLM classified as action
+[2026-03-31T01:41:59.187Z] [pid 15234] intent = action | text = "Which plan am I currently on?"
+[2026-03-31T01:41:59.188Z] [pid 15234] branch: action (LLM with tools)
+[2026-03-31T01:41:59.392Z] [pid 15234] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:42:06.212Z] [ROUTER] LLM classified as action
+[2026-03-31T01:42:06.212Z] [pid 15234] intent = action | text = "Help me check"
+[2026-03-31T01:42:06.212Z] [pid 15234] branch: action (LLM with tools)
+[2026-03-31T01:42:06.456Z] [pid 15234] toolCalls: valid = 1 invalid = 0 [{"name":"open_panel","arguments":{"panel":"licences-page"}}]
+[2026-03-31T01:42:22.680Z] [ROUTER] LLM classified as action
+[2026-03-31T01:42:22.680Z] [pid 15234] intent = action | text = "How many sessions do I have?"
+[2026-03-31T01:42:22.681Z] [pid 15234] branch: action (LLM with tools)
+[2026-03-31T01:42:33.188Z] [pid 15234] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:44:26.860Z] [ROUTER] LLM classified as action
+[2026-03-31T01:44:26.862Z] [pid 15234] intent = action | text = "Which plan I'm currently on?"
+[2026-03-31T01:44:26.863Z] [pid 15234] branch: action (LLM with tools)
+[2026-03-31T01:44:27.107Z] [pid 15234] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:44:45.320Z] [ROUTER] LLM classified as question
+[2026-03-31T01:44:45.321Z] [pid 16939] intent = question | text = "Which plan I'm currently on?"
+[2026-03-31T01:44:45.323Z] [pid 16939] branch: question | RAG ~ 2170 chars | accountContext: 276 chars
+[2026-03-31T01:48:27.188Z] [ROUTER] LLM classified as action
+[2026-03-31T01:48:27.189Z] [pid 17725] intent = action | text = "How do I schedule a meeting?"
+[2026-03-31T01:48:27.189Z] [pid 17725] branch: action (LLM with tools)
+[2026-03-31T01:48:27.451Z] [pid 17725] toolCalls: valid = 1 invalid = 0 [{"name":"schedule_meeting","arguments":{}}]
+[2026-03-31T01:48:33.812Z] [ROUTER] LLM classified as action
+[2026-03-31T01:48:33.812Z] [pid 17725] intent = action | text = "Yes, open it"
+[2026-03-31T01:48:33.813Z] [pid 17725] branch: action (LLM with tools)
+[2026-03-31T01:48:34.076Z] [pid 17725] toolCalls: valid = 1 invalid = 0 [{"name":"schedule_meeting","arguments":{}}]
+[2026-03-31T01:51:26.013Z] [ROUTER] LLM classified as action
+[2026-03-31T01:51:26.014Z] [pid 18612] intent = action | text = "How do I schedule a meeting?"
+[2026-03-31T01:51:26.014Z] [pid 18612] branch: action (LLM with tools)
+[2026-03-31T01:51:26.315Z] [pid 18612] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T01:51:34.655Z] [ROUTER] LLM classified as action
+[2026-03-31T01:51:34.656Z] [pid 18612] intent = action | text = "Open schedule meeting"
+[2026-03-31T01:51:34.656Z] [pid 18612] branch: action (LLM with tools)
+[2026-03-31T01:51:34.845Z] [pid 18612] toolCalls: valid = 1 invalid = 0 [{"name":"schedule_meeting","arguments":null}]
+[2026-03-31T01:58:47.112Z] [ROUTER] LLM classified as question
+[2026-03-31T01:58:47.114Z] [pid 18612] intent = question | text = "How many minutes left on my account"
+[2026-03-31T01:58:47.115Z] [pid 18612] branch: question | RAG ~ 6356 chars | accountContext: 418 chars
+[2026-03-31T01:59:14.508Z] [ROUTER] LLM classified as question
+[2026-03-31T01:59:14.508Z] [pid 18612] intent = question | text = "How many files remaining"
+[2026-03-31T01:59:14.508Z] [pid 18612] branch: question | RAG ~ 1933 chars | accountContext: 418 chars
+[2026-03-31T02:02:22.982Z] [ROUTER] LLM classified as action
+[2026-03-31T02:02:22.984Z] [pid 18612] intent = action | text = "How do I schedule a meeting"
+[2026-03-31T02:02:22.985Z] [pid 18612] branch: action (LLM with tools)
+[2026-03-31T02:02:23.278Z] [pid 18612] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T02:02:28.696Z] [ROUTER] LLM classified as action
+[2026-03-31T02:02:28.697Z] [pid 18612] intent = action | text = "Yes, open it now"
+[2026-03-31T02:02:28.698Z] [pid 18612] branch: action (LLM with tools)
+[2026-03-31T02:02:28.946Z] [pid 18612] toolCalls: valid = 1 invalid = 0 [{"name":"schedule_meeting","arguments":null}]
+[2026-03-31T02:06:25.778Z] [ROUTER] LLM classified as action
+[2026-03-31T02:06:25.780Z] [pid 22302] intent = action | text = "How do I schedule a meeting"
+[2026-03-31T02:06:25.780Z] [pid 22302] branch: action (LLM with tools)
+[2026-03-31T02:06:26.010Z] [pid 22302] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T02:06:30.626Z] [ROUTER] LLM classified as question
+[2026-03-31T02:06:30.628Z] [pid 22302] intent = question | text = "Confirm"
+[2026-03-31T02:06:30.629Z] [pid 22302] branch: question | RAG ~ 6356 chars | accountContext: (none)
+[2026-03-31T02:06:47.771Z] [ROUTER] LLM classified as action
+[2026-03-31T02:06:47.772Z] [pid 22302] intent = action | text = "How do I schedule a meeting"
+[2026-03-31T02:06:47.773Z] [pid 22302] branch: action (LLM with tools)
+[2026-03-31T02:06:48.310Z] [pid 22302] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T02:06:52.899Z] [ROUTER] LLM classified as question
+[2026-03-31T02:06:52.899Z] [pid 22302] intent = question | text = "Confirm"
+[2026-03-31T02:06:52.900Z] [pid 22302] branch: question | RAG ~ 6356 chars | accountContext: (none)
+[2026-03-31T02:07:10.653Z] [ROUTER] LLM classified as action
+[2026-03-31T02:07:10.653Z] [pid 22302] intent = action | text = "How do I schedule a session"
+[2026-03-31T02:07:10.654Z] [pid 22302] branch: action (LLM with tools)
+[2026-03-31T02:07:38.052Z] [pid 22302] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T02:07:44.856Z] [ROUTER] LLM classified as action
+[2026-03-31T02:07:44.856Z] [pid 22302] intent = action | text = "Cancel"
+[2026-03-31T02:07:44.856Z] [pid 22302] branch: action (LLM with tools)
+[2026-03-31T02:08:14.176Z] [pid 22302] toolCalls: valid = 1 invalid = 0 [{"name":"open_panel","arguments":{"panel":"dash-board"}}]
+[2026-03-31T02:13:04.855Z] [ROUTER] LLM classified as action
+[2026-03-31T02:13:04.856Z] [pid 22302] intent = action | text = "How do I schedule a meeting"
+[2026-03-31T02:13:04.857Z] [pid 22302] branch: action (LLM with tools)
+[2026-03-31T02:13:05.136Z] [pid 22302] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T02:13:06.665Z] [ROUTER] LLM classified as question
+[2026-03-31T02:13:06.666Z] [pid 22302] intent = question | text = "Confirm"
+[2026-03-31T02:13:06.667Z] [pid 22302] branch: question | RAG ~ 6356 chars | accountContext: (none)
+[2026-03-31T02:14:46.567Z] [ROUTER] LLM classified as question
+[2026-03-31T02:14:46.568Z] [pid 24483] intent = question | text = "How do I schedule a meeting?"
+[2026-03-31T02:14:46.569Z] [pid 24483] branch: question | RAG ~ 1398 chars | accountContext: (none)
+[2026-03-31T02:15:02.299Z] [ROUTER] LLM classified as question
+[2026-03-31T02:15:02.300Z] [pid 24483] intent = question | text = "Can you show me how to do this"
+[2026-03-31T02:15:02.301Z] [pid 24483] branch: question | RAG ~ 6356 chars | accountContext: (none)
+[2026-03-31T02:33:02.849Z] [ROUTER] Classifying: "hello..."
+[2026-03-31T02:33:02.913Z] [ROUTER] Intent classified as: chitchat
+[2026-03-31T02:33:02.914Z] [pid 29376] intent = chitchat | text = "hello"
+[2026-03-31T02:33:02.914Z] [pid 29376] branch: chitchat (no tools)
+[2026-03-31T02:33:16.124Z] [ROUTER] Classifying: "How do I schedule a meeting?..."
+[2026-03-31T02:33:16.185Z] [ROUTER] Intent classified as: question
+[2026-03-31T02:33:16.186Z] [pid 29376] intent = question | text = "How do I schedule a meeting?"
+[2026-03-31T02:33:16.189Z] [pid 29376] branch: question | RAG ~ 1398 chars | accountContext: (none)
+[2026-03-31T02:33:31.493Z] [ROUTER] Classifying: "Can you guide me do that..."
+[2026-03-31T02:33:31.571Z] [ROUTER] Intent classified as: to classify the user's message into one of the
+[2026-03-31T02:33:31.572Z] [pid 29376] intent = to classify the user's message into one of the | text = "Can you guide me do that"
+[2026-03-31T02:33:31.572Z] [pid 29376] branch: chitchat (no tools)
+[2026-03-31T02:33:39.726Z] [ROUTER] Classifying: "Can you open that for me..."
+[2026-03-31T02:33:39.798Z] [ROUTER] Intent classified as: action
+[2026-03-31T02:33:39.799Z] [pid 29376] intent = action | text = "Can you open that for me"
+[2026-03-31T02:33:39.799Z] [pid 29376] branch: action (LLM with tools)
+[2026-03-31T02:33:39.799Z] [ACTION_AGENT] Calling LLM with history (5 msgs)
+[2026-03-31T02:33:40.007Z] [ACTION_AGENT] LLM Raw Reply: "..."
+[2026-03-31T02:33:40.009Z] [ACTION_AGENT] API Tool Calls: [{"name":"schedule_meeting","arguments":{}}]
+[2026-03-31T02:33:40.010Z] [pid 29376] toolCalls: valid = 1 invalid = 0 [{"name":"schedule_meeting","arguments":{}}]
+[2026-03-31T02:35:43.758Z] [ROUTER] Classifying: "Help me guide through the console..."
+[2026-03-31T02:35:43.814Z] [ROUTER] Intent classified as: question
+[2026-03-31T02:35:43.815Z] [pid 29376] intent = question | text = "Help me guide through the console"
+[2026-03-31T02:35:43.816Z] [pid 29376] branch: question | RAG ~ 2618 chars | accountContext: (none)
+[2026-03-31T04:02:59.717Z] [ROUTER] Classifying: "How do I schedule  a session?..."
+[2026-03-31T04:02:59.766Z] [ROUTER] Intent classified as: question
+[2026-03-31T04:02:59.767Z] [pid 72885] intent = question | text = "How do I schedule  a session?"
+[2026-03-31T04:02:59.769Z] [pid 72885] branch: question | RAG ~ 5513 chars | accountContext: (none)
+[2026-03-31T04:03:08.980Z] [ROUTER] Classifying: "Help me with that..."
+[2026-03-31T04:03:09.031Z] [ROUTER] Intent classified as: question
+[2026-03-31T04:03:09.031Z] [pid 72885] intent = question | text = "Help me with that"
+[2026-03-31T04:03:09.032Z] [pid 72885] branch: question | RAG ~ 6356 chars | accountContext: (none)
+[2026-03-31T04:11:43.333Z] [ROUTER] Classifying: "Can you open the schedule panel for me?..."
+[2026-03-31T04:11:43.394Z] [ROUTER] Intent classified as: action
+[2026-03-31T04:11:43.395Z] [pid 72885] intent = action | text = "Can you open the schedule panel for me?"
+[2026-03-31T04:11:43.395Z] [pid 72885] branch: action (LLM with tools)
+[2026-03-31T04:11:43.397Z] [ACTION_AGENT] Calling LLM with history (5 msgs)
+[2026-03-31T04:11:43.577Z] [ACTION_AGENT] LLM Raw Reply: "Selecting the Schedule Meeting option opens the scheduling window. This is where you can schedule a ..."
+[2026-03-31T04:11:43.579Z] [pid 72885] toolCalls: valid = 0 invalid = 0 
+[2026-03-31T04:11:48.585Z] [ROUTER] Classifying: "Confirm..."
+[2026-03-31T04:11:48.644Z] [ROUTER] Intent classified as: action
+[2026-03-31T04:11:48.644Z] [pid 72885] intent = action | text = "Confirm"
+[2026-03-31T04:11:48.644Z] [pid 72885] branch: action (LLM with tools)
+[2026-03-31T04:11:48.645Z] [ACTION_AGENT] Calling LLM with history (7 msgs)
+[2026-03-31T04:11:48.831Z] [ACTION_AGENT] LLM Raw Reply: "..."
+[2026-03-31T04:11:48.833Z] [ACTION_AGENT] API Tool Calls: [{"name":"schedule_meeting","arguments":null}]
+[2026-03-31T04:11:48.834Z] [pid 72885] toolCalls: valid = 1 invalid = 0 [{"name":"schedule_meeting","arguments":null}]
+[2026-03-31T04:14:25.676Z] [ROUTER] Classifying: "How many sessions left in my account?..."
+[2026-03-31T04:14:25.755Z] [ROUTER] Intent classified as: question
+[2026-03-31T04:14:25.755Z] [pid 72885] intent = question | text = "How many sessions left in my account?"
+[2026-03-31T04:14:25.756Z] [pid 72885] branch: question | RAG ~ 5513 chars | accountContext: 583 chars
+[2026-03-31T04:15:54.705Z] [ROUTER] Classifying: "Can you tell me about the custom profiles I've mad..."
+[2026-03-31T04:15:54.755Z] [ROUTER] Intent classified as: question
+[2026-03-31T04:15:54.757Z] [pid 72885] intent = question | text = "Can you tell me about the custom profiles I've made?"
+[2026-03-31T04:15:54.757Z] [pid 72885] branch: question | RAG ~ 4181 chars | accountContext: 173 chars
+[2026-03-31T04:22:44.880Z] [ROUTER] Classifying: "What is my user name?..."
+[2026-03-31T04:22:44.928Z] [ROUTER] Intent classified as: question
+[2026-03-31T04:22:44.929Z] [pid 72885] intent = question | text = "What is my user name?"
+[2026-03-31T04:22:44.929Z] [pid 72885] branch: question | RAG ~ 6356 chars | accountContext: 173 chars
+[2026-03-31T04:30:16.312Z] [ROUTER] Classifying: "What % for my storge I've left..."
+[2026-03-31T04:30:16.367Z] [ROUTER] Intent classified as: question
+[2026-03-31T04:30:16.368Z] [pid 72885] intent = question | text = "What % for my storge I've left"
+[2026-03-31T04:30:16.369Z] [pid 72885] branch: question | RAG ~ 6356 chars | accountContext: 418 chars
+[2026-04-04T09:16:50.145Z] [LANGCHAIN] Intent: chitchat
+[2026-04-04T09:16:51.093Z] [pid 7616] LangChain Response: {"reply":"Hi there! How can I assist you today? If you need help scheduling a meeting, just let me know!"}
+[2026-04-04T11:57:17.620Z] [LANGCHAIN] Intent: question
+[2026-04-04T11:57:21.001Z] [pid 19009] LangChain Response: {"reply":"AAC stands for Augmentative and Alternative Communication. It refers to methods and tools that help individuals with communication difficulties express themselves. AAC can include a range of
+[2026-04-04T11:57:36.138Z] [LANGCHAIN] Intent: question
+[2026-04-04T11:57:38.876Z] [pid 19009] LangChain Response: {"reply":"You have a total of 5 sessions available, and you have not used any yet. So, you have 5 sessions remaining. If you need help with anything else, just let me know!"}
+[2026-04-04T11:59:18.495Z] [LANGCHAIN] Intent: question
+[2026-04-04T11:59:21.789Z] [pid 19009] LangChain Response: {"reply":"To schedule a meeting in Squidly, follow these steps:\n\n1. Select **Schedule Meeting**. This will open the scheduling window.\n2. Enter a session description, choose the date and time, and 
+[2026-04-04T11:59:35.161Z] [LANGCHAIN] Intent: action
+[2026-04-04T11:59:36.635Z] [pid 19009] LangChain Response: {"reply":null,"toolCalls":[{"name":"open_panel","arguments":{"panel":"settings-panel"}}],"suggestions":[]}
+[2026-04-04T11:59:52.750Z] [LANGCHAIN] Intent: action
+[2026-04-04T11:59:54.606Z] [pid 19009] LangChain Response: {"reply":"To host a meeting, I'll start a session for you immediately. \n\nShall I go ahead and do that?","toolCalls":[],"suggestions":[]}
+[2026-04-04T12:00:01.578Z] [LANGCHAIN] Intent: action
+[2026-04-04T12:00:02.820Z] [pid 19009] LangChain Response: {"reply":null,"toolCalls":[{"name":"host_meeting","arguments":{}}],"suggestions":[]}
+[2026-04-04T12:00:42.385Z] [LANGCHAIN] Intent: action
+[2026-04-04T12:00:43.605Z] [pid 19009] LangChain Response: {"reply":"To host a meeting, I'll create and start a session for you immediately. \n\nShall I go ahead and do that?","toolCalls":[],"suggestions":[]}
+[2026-04-04T12:00:49.521Z] [LANGCHAIN] Intent: chitchat
+[2026-04-04T12:00:50.674Z] [pid 19009] LangChain Response: {"reply":"Great! Please provide me with the meeting details, such as the date, time, and any specific topics you want to cover."}
+[2026-04-04T12:03:00.070Z] [LANGCHAIN] Intent: action
+[2026-04-04T12:03:02.047Z] [pid 20951] LangChain Response: {"reply":null,"toolCalls":[{"name":"host_meeting","arguments":{}}],"suggestions":[]}
+[2026-04-04T12:04:16.651Z] [LANGCHAIN] Intent: action
+[2026-04-04T12:04:19.367Z] [pid 21420] LangChain Response: {"reply":"Hosting a meeting in Squidly allows you to create and start a session immediately. This is useful for engaging with participants in a secure and private environment, as Squidly sessions are 
+[2026-04-04T12:04:23.507Z] [LANGCHAIN] Intent: chitchat
+[2026-04-04T12:04:25.618Z] [pid 21420] LangChain Response: {"reply":"Great! Your meeting is about to be set up. Please provide the details like the meeting title and any specific settings you’d like to configure!"}
+[2026-04-04T12:06:00.238Z] [LANGCHAIN] Intent: action
+[2026-04-04T12:06:01.771Z] [pid 21937] LangChain Response: {"reply":null,"toolCalls":[{"name":"host_meeting","arguments":{}}],"suggestions":[]}
+[2026-04-04T12:08:36.870Z] [LANGCHAIN] Intent: action
+[2026-04-04T12:08:39.483Z] [pid 22537] LangChain Response: {"reply":"Hosting a meeting in Squidly allows you to create and start a session immediately. This is particularly useful for one-on-one therapy or care sessions, ensuring a secure and private environm
+[2026-04-04T12:08:42.445Z] [LANGCHAIN] Intent: action
+[2026-04-04T12:08:44.258Z] [pid 22537] LangChain Response: {"reply":"Great! I will now proceed to host the meeting for you. \n\nStarting the session now...","toolCalls":[],"suggestions":["Yes","Cancel"]}
+[2026-04-04T12:08:47.746Z] [LANGCHAIN] Intent: action
+[2026-04-04T12:08:48.684Z] [pid 22537] LangChain Response: {"reply":"Certainly! I'm performing that action for you now.","toolCalls":[{"name":"host_meeting","arguments":{}}],"suggestions":[]}
+[2026-04-04T12:12:53.367Z] [LANGCHAIN] Intent: action (Hardcoded: false)
+[2026-04-04T12:12:56.589Z] [pid 23709] LangChain Response: {"reply":"Hosting a meeting in Squidly allows you to create and start a session immediately. This is useful for engaging with participants in a secure and private environment, as Squidly sessions are 
+[2026-04-04T12:13:00.037Z] [LANGCHAIN] Intent: action (Hardcoded: true)
+[2026-04-04T12:13:01.046Z] [pid 23709] LangChain Response: {"reply":null,"toolCalls":[{"name":"host_meeting","arguments":{}}],"suggestions":[]}
+[2026-04-04T12:13:24.371Z] [LANGCHAIN] Intent: action (Hardcoded: false)
+[2026-04-04T12:13:26.285Z] [pid 23709] LangChain Response: {"reply":"Hosting a meeting in Squidly allows you to create and start a session immediately. This is ideal for one-on-one therapy or care sessions, ensuring a secure and private environment for partic
+[2026-04-04T12:13:27.862Z] [LANGCHAIN] Intent: action (Hardcoded: true)
+[2026-04-04T12:13:28.092Z] [pid 23709] LangChain Response: {"reply":"Action cancelled.","toolCalls":[],"suggestions":[]}
+[2026-04-04T12:13:37.136Z] [LANGCHAIN] Intent: action (Hardcoded: false)
+[2026-04-04T12:13:38.775Z] [pid 23709] LangChain Response: {"reply":"Could you please specify which panel you would like to open? The options include the dashboard, settings panel, profile panel, licenses page, support panel, feedback page, admin control, cli
+[2026-04-04T12:16:14.567Z] [LANGCHAIN] Intent: chitchat (Hardcoded: false)
+[2026-04-04T12:16:15.969Z] [pid 23709] LangChain Response: {"reply":"Hello! I'm the Squidly Assistant, here to help you navigate the Squidly Console and answer any questions you may have. How can I assist you today?"}
+[2026-04-04T12:16:27.878Z] [LANGCHAIN] Intent: You're welcome! If you have any more questions or need assistance, feel free to ask. (Hardcoded: false)
+[2026-04-04T12:16:29.169Z] [pid 23709] LangChain Response: {"reply":"You're welcome! If you need anything else, just let me know. Enjoy your day!"}
+[2026-04-04T12:16:38.782Z] [LANGCHAIN] Intent: That's a question about your account status. Let me check that for you. (Hardcoded: false)
+[2026-04-04T12:16:40.651Z] [pid 23709] LangChain Response: {"reply":"I can't check your specific role, but you can usually find out by checking the admin control panel or your account settings. If you need help navigating, let me know!"}
+[2026-04-04T12:17:09.897Z] [LANGCHAIN] Intent: It seems like you're asking for information about your account data. Would you like me to assist you with that? (Hardcoded: false)
+[2026-04-04T12:17:11.288Z] [pid 23709] LangChain Response: {"reply":"I can't directly show you your current usage, but you can find this information in the dashboard or usage panel of your account. Would you like help with anything else?"}
+[2026-04-04T12:17:26.034Z] [LANGCHAIN] Intent: Squidly is an Augmentative and Alternative Communication (AAC) platform designed to assist individuals in communicating more effectively. It provides various tools and features to support users in expressing themselves, whether through text, speech, or other means. If you have more specific questions about its features or functionalities, feel free to ask! (Hardcoded: false)
+[2026-04-04T12:17:27.690Z] [pid 23709] LangChain Response: {"reply":"Squidly is a platform designed for virtual therapy and care sessions, providing tools for hosting meetings, managing clients, and ensuring privacy and security. If you have more specific que
+[2026-04-04T12:59:24.548Z] [LANGCHAIN] Intent: Which panel would you like to open? Please specify from the options available, such as the dashboard, settings panel, profile panel, licenses page, support panel, feedback page, admin control, clients page, data and privacy, or meetings panel. (Hardcoded: false)
+[2026-04-04T12:59:26.974Z] [pid 26705] LangChain Response: {"reply":"Please specify which panel you would like to open: dashboard, settings, profile, licenses, support, feedback, admin control, clients, data and privacy, or meetings."}
+[2026-04-04T12:59:55.569Z] [LANGCHAIN] Intent: It seems like you're looking for information about your current usage. You can typically find this in the dashboard or usage panel of your account. Would you like assistance with anything else? (Hardcoded: false)
+[2026-04-04T12:59:57.656Z] [pid 26705] LangChain Response: {"reply":"To view your current usage, please check the dashboard or the usage panel in your Squidly account. If you need help navigating to it, let me know!"}
+[2026-04-04T13:00:25.529Z] [LANGCHAIN] Intent: You can find the number of sessions you have in your account settings or dashboard. If you need assistance with that, just let me know! (Hardcoded: false)
+[2026-04-04T13:00:27.092Z] [pid 26705] LangChain Response: {"reply":"I can't access your session details directly, but you can find the number of sessions in the dashboard or your account settings. If you need assistance with anything else, feel free to ask!"
+[2026-04-04T13:03:12.589Z] [LANGCHAIN] Intent: question (Hardcoded: false)
+[2026-04-04T13:03:15.005Z] [pid 28047] LangChain Response: {"reply":"Here are your current usage quotas:\n\n- **Hours:** Used 0 / Max 1 (Remaining 1)\n- **Files:** Used 0 / Max 1 (Remaining 1)\n- **Grids:** Used 0 / Max 0 (Remaining 0)\n- **Minutes:** Used 0 
+[2026-04-04T13:03:38.173Z] [LANGCHAIN] Intent: question (Hardcoded: false)
+[2026-04-04T13:03:40.529Z] [pid 28047] LangChain Response: {"reply":"You have used 0 out of a maximum of 25 units of storage. This means you have used 0% of your storage. If you have any other questions, feel free to ask!"}
+[2026-04-04T13:16:13.266Z] [LANGCHAIN] Intent: question (Hardcoded: false)
+[2026-04-04T13:16:16.460Z] [pid 28047] LangChain Response: {"reply":"To schedule a meeting in Squidly, follow these steps:\n\n1. Select **Schedule Meeting**. This opens the scheduling window.\n2. Enter a session description, set the date, time, and session du
+[2026-04-04T13:16:37.560Z] [LANGCHAIN] Intent: question (Hardcoded: false)
+[2026-04-04T13:16:39.227Z] [pid 28047] LangChain Response: {"reply":"You have a total of 5 sessions available, and you have not used any yet, so you still have all 5 remaining."}
+[2026-04-04T13:18:47.799Z] [LANGCHAIN] Intent: question (Hardcoded: false)
+[2026-04-04T13:18:50.688Z] [pid 28047] LangChain Response: {"reply":"To schedule a meeting in Squidly, follow these steps:\n\n1. Select **Schedule Meeting**. This opens the scheduling window.\n2. Enter a session description, set the date, time, and session du
+[2026-04-04T13:19:04.066Z] [LANGCHAIN] Intent: question (Hardcoded: false)
+[2026-04-04T13:19:08.676Z] [pid 28047] LangChain Response: {"reply":"Your account usage is as follows:\n\n- **Hours Used**: 0 / Max 1 (Remaining: 1)\n- **Files Used**: 0 / Max 1 (Remaining: 1)\n- **Grids Used**: 0 / Max 0 (Remaining: 0)\n- **Minutes Used**: 0

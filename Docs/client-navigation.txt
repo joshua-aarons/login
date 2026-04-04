@@ -1,0 +1,315 @@
+MAKE SURE YOU USE CONSISTENT TERMS THROUGHOUT THE ENTIRE VIDEO SERIES 
+I.E. DASHBOARD VS CONSOLE, HOST VS CLINICIAN, PARTICIPANT VS CLIENT
+
+I am creating a short demo youtube tutorial of navigating certain Squidly features. Here are the steps for each feature. Turn it into a world-class engaging professional script 
+Here's the first feature:
+
+Sign-in & Navigating the console - general 
+This video shows how to sign in to Squidly and navigate the console
+To sign into Squidly, select sign-in on the homepage. (mouse to sign in button)
+On the sign-in screen, you can enter your email address and select Continue.
+You can also choose to continue using your Google or Microsoft account. 
+After signing in, you’ll be taken to the dashboard, where you can start or manage your sessions.
+After signing in, you’ll arrive at the dashboard. This is your main starting point for managing your sessions.
+On the main dashboard, you’ll see a summary of your recent activity, including total hours and sessions. You can also find and track your recent sessions below.
+On the right, you can start a session by selecting Host Meeting, or plan ahead using Schedule Meeting. You can also open editors, such as the AAC Grid Editor or Quiz Editor, to prepare content before a session.
+On the left-hand menu, you can access feedback, profile details and client profiles, support, settings, and licences. 
+You can return to the dashboard at any time to manage your sessions.
+“In this video, we’ll show you how to sign in to Squidly and navigate the console.”
+“To sign in, select Sign In on the Squidly homepage.”
+“On the sign-in screen, enter your email address and select Continue.”
+“You can also choose to sign in using your Google or Microsoft account.”
+“Once signed in, you’ll be taken to the dashboard.”
+“The dashboard is your main starting point for managing sessions.”
+“Here, you’ll see a summary of your recent activity, including total session hours and the number of sessions run.”
+“Below, you can view and track your recent sessions.”
+“On the right-hand side, you can start a session immediately by selecting Host Meeting, or plan ahead using Schedule Meeting.”
+“You can also open editors — like the AAC Grid Editor or Quiz Editor — to prepare content before a session begins.”
+“Using the left-hand menu, you can access feedback, profile details, client profiles, support, settings, and licences.”
+“You can return to the dashboard at any time to start, review, or manage your sessions.”
+“That’s a quick tour of signing in and navigating the Squidly console.”
+
+Licences and how to pay for a Squidly account
+This video shows how licences work and how to pay for a Squidly account.
+From the console, select Licences in the left-hand menu. This opens the licences page, where you can view available plans.
+Here, you’ll see different licence plans. You can choose between monthly or yearly billing, depending on your preference.
+To continue, select purchase licence and user quantity under the plan you want and follow the on-screen steps to complete payment. 
+Quantity refers to the number of staff or team members that you would like to have access to the Squidly licence account. Clients do not need a Squidly account to join sessions as participants. 
+Once a licence is active, it will appear in the My Licences section below, or you can check your subscription at the Profile page.
+Your licence can be managed or updated from this page at any time.
+Squidly uses Stripe secure payment managing all billing and transactions. 
+“In this video, we’ll show you how Squidly licences work and how to purchase a plan.”
+“From the console, select Licences in the left-hand menu. This opens the licences page, where you can view all available plans.”
+“You’ll see a range of licence options, with the choice of monthly or yearly billing — so you can select what works best for your organisation.”
+“To continue, choose the plan you want, select Purchase Licence, set the user quantity, and follow the on-screen steps to complete payment.”
+“User quantity refers to the number of staff or team members who will have access to the Squidly account.”
+“Clients and participants don’t need a Squidly account to join sessions — they can simply join using a shared link.”
+“Once your licence is active, it will appear in the My Licences section below.”
+“You can also view and manage your subscription at any time from the Profile page.”
+“Licences can be updated, changed, or managed whenever your team’s needs evolve.”
+“All payments and billing are handled securely through Stripe, ensuring a safe and reliable checkout experience.”
+“That’s how Squidly keeps licensing simple, flexible, and transparent.”
+
+Adding team members and setting their role
+This video shows how to add team members and set their roles.
+Select Admin Control in the left-hand menu. This opens the team management page, where you can view all current members and their access status.
+To add a new team member, select the Add User icon.
+Enter their name and email address, then choose their role (staff, admin, owner)  from the list.
+Once you’re ready, select Add User to save. The new member will appear in the list, and their role can be updated later if needed.
+You can also edit or remove existing team members at any time.
+Team access can be managed whenever needed.
+
+“In this video, we’ll show you how to add team members to Squidly and manage their access in just a few clicks.”
+“Start by selecting Admin Control from the left-hand menu. This opens the team management area, where you can see everyone who currently has access and the role assigned to them.”
+“To add a new team member, select the Add User icon.”
+“Enter their name and email address, then choose the appropriate role — Staff, Admin, or Owner — depending on the level of access they need.”
+“When you’re ready, select Add User to save. The new team member will immediately appear in the list.”
+“Roles can be updated at any time, and you can also edit or remove team members whenever needed.”
+“This gives you full control over who has access to Squidly, and ensures the right people have the right permissions — whenever your team changes.”
+
+Scheduling a session 
+​​This video shows how to schedule a session in Squidly.
+Select Schedule Meeting. A scheduling window will open.
+Here, you can enter a session description, set the date, time, and session duration. You can also confirm the correct timezone before saving.
+Once everything is set, select Save. 
+Scheduled sessions appear under Recent Sessions. From here, you can open the session details by selecting this button.
+Here, you can copy the session link, edit the session details, or delete the session if needed.
+When you’re ready to begin, select the Start button to launch the session.
+“In this video, we’ll show you how to schedule a session in Squidly.”
+“To get started, select Schedule Meeting. This opens the scheduling window.”
+“Here, you can add a session description, choose the date and time, and set the session duration.”
+“Before saving, you can also confirm the correct timezone — ensuring everyone joins at the right time.”
+“Once everything is set, select Save.”
+“Your scheduled session will now appear under Recent Sessions.”
+“From here, you can open the session details to copy the session link, edit the session information, or delete the session if needed.”
+“When you’re ready to begin, simply select Start to launch the session.”
+“That’s it — scheduling and starting sessions in Squidly is designed to be simple, flexible, and reliable.”
+Navigating the Squidly session 
+*All buttons are accessible via whatever assistive input you prefer (eye-gaze, switch, touch, direct mouse)
+* Squidly sessions are designed for therapy and care and not for meetings. Because of this Squidly sessions enable 1-on-1 calls and not multi-peer connections to make sure sessions are as secure and as private as possible. 
+*All the features are clinician-led shared control enabling you to interact on session and therapy content together.
+* Make sure you enable camera and microphone access for Squidly sessions.
+* Squidly puts privacy first. All sessions are encrypted and secure, and we do not record or store participant data. We intentionally minimise data collection, retaining only what is strictly necessary to deliver each session.
+This video shows how to navigate a Squidly session.
+You can begin by starting a scheduled session from your dashboard, or by hosting a new meeting. Once the session opens, you’ll be taken into the main session screen.
+Participants can join the session using a shared link, with a single click. There’s no need for them to create an account or sign in. 
+Make sure you enable camera and microphone access for Squidly sessions.
+Squidly runs fully browser-based, no software to install and no additional hardware required. A standard computer or tablet is all you need.
+At the bottom of the session screen, you’ll see the toolbar.
+From the Controls menu, you can manage session tools such as video, audio, locking toolbar, and copying the session key to invite participant.
+The Access menu allows you to use tools including turning eye-gaze on or off, running calibration, opening AAC boards, or enabling switch access.
+All buttons are accessible via whatever assistive input you prefer (eye-gaze, switch, touch, direct mouse)
+The Share menu allows you to share your screen, open quizzes, upload files, or launch interactive apps.
+You can also open Settings to adjust session preferences for host and participant, and use the End button to finish the session when you’re done.
+“In this video, we’ll walk through how to navigate a Squidly session, and what makes sessions purpose-built for therapy and care.”
+“Squidly is designed specifically for one-to-one therapy and care sessions — not meetings. To support privacy and security, sessions are always 1-on-1, with no multi-peer connections.”
+“All session features use clinician-led shared control, so you and your participant can interact with therapy content together, in real time.”
+“Every button in Squidly is fully accessible — whether you’re using eye-gaze, switch access, touch, or a standard mouse.”
+“To begin, you can start a scheduled session from your dashboard, or host a new session.”
+“Once the session opens, you’ll arrive at the main session screen.”
+“Participants join using a shared link with a single click — there’s no account to create and no sign-in required.”
+“Before starting, make sure camera and microphone access are enabled.”
+“Squidly runs entirely in the browser. There’s no software to install and no additional hardware required — a standard computer or tablet is all you need.”
+“At the bottom of the screen, you’ll see the session toolbar.”
+“From the Controls menu, you can manage core session tools like video and audio, lock the toolbar, or copy the session key to invite a participant.”
+“The Access menu lets you enable or disable eye-gaze, run calibration, open AAC boards, or turn on switch access.”
+“All controls remain accessible using your preferred assistive input at every stage.”
+“From the Share menu, you can share your screen, launch quizzes, upload files, or open interactive apps.”
+“You can also open Settings to adjust session preferences for both host and participant.”
+“When you’re finished, select End to close the session.”
+“Squidly puts privacy first. All sessions are encrypted and secure, and we never record or store participant data — collecting only what’s strictly necessary to deliver each session.”
+“That’s how easy it is to run a secure, accessible, clinician-led session in Squidly.”
+
+Editing & using an AAC board 
+This video shows how to create, edit, and use an AAC board in Squidly.
+From the dashboard, open the AAC Grid Editor. On the left, you’ll see a list of available topics. These are your AAC boards. You can search for an existing board or choose to copy, edit, or delete one
+To create a new board, select the “+” button for New Topic. Start by giving your board a topic name, then choose a grid size that best suits the user’s needs. You can also choose whether to set the board to private or public.
+Once the grid is created, you can customise each cell. Select a cell to edit its display value, which is the text shown on the button. 
+You can add an icon by searching the icon library or uploading your own image or PDF.
+Each cell can also be assigned a type, such as normal, noun, verb, adjective, or topic buttons, allowing boards to link together and support sentence building. Colours update automatically to reflect the selected type.
+Topics can be linked to other boards. This makes it easy for users to move between boards during communication.
+Once saved, your board appears in the topic list and can be searched at any time. Squidly also includes default AAC boards named “Voco Chat”. 
+To use an AAC board during a live session, open the Access and select AAC. Search for the board you want, and it will appear instantly for the participant.
+As the participant selects cells, words appear in the message bar and can be spoken aloud using the Speak button.
+“In this video, we’ll show you how to create, edit, and use AAC boards in Squidly.”
+“From the dashboard, open the AAC Grid Editor.”
+“On the left, you’ll see a list of available topics. These are your AAC boards.”
+“You can search for an existing board, or choose to copy, edit, or delete one.”
+“To create a new board, select the plus button for New Topic.”
+“Start by giving your board a topic name, then choose a grid size that best suits the user’s needs.”
+“You can also decide whether the board is private or public.”
+“Once the grid is created, you can customise each cell.”
+“Select a cell to edit its display value — this is the text shown on the button.”
+“You can add an icon by searching the built-in icon library, or by uploading your own image or PDF.”
+“Each cell can also be assigned a type, such as normal, noun, verb, adjective, or topic.”
+“These types allow boards to link together and support sentence building, with colours updating automatically to reflect each type.”
+“Topics can be linked to other boards, making it easy for users to move between boards during communication.”
+“Once saved, your board appears in the topic list and can be searched at any time.”
+“Squidly also includes default AAC boards, including Voco Chat, so you can get started immediately.”
+“To use an AAC board during a live session, open the Access menu and select AAC.”
+“Search for the board you want, and it will appear instantly for the participant.”
+“As the participant selects cells, words appear in the message bar.”
+“These can be spoken aloud at any time using the Speak button.”
+“That’s how Squidly makes AAC flexible, intuitive, and seamlessly integrated into therapy sessions.”
+
+Editing & using a quiz 
+This video shows how to edit a quiz and use it during a Squidly session.
+From the dashboard, open Quizzes to view quizzes that are public, or select the “+” icon to create a new one. Each quiz has a name and a list of questions, which you can edit at any time.
+When creating a new quiz, start by giving your quiz a name. You can then choose whether to set your quiz to private or public.
+You can press the “+” icon to add the number of questions you want. When editing a question, you can type the question text and add an optional utterance, which can be read aloud during the session. You can also add an image to support understanding.
+Below this, you can create multiple answer options. Each answer can have its own label, subtitle, colour, and image. You can mark the correct answer using the toggle on the right.
+You can add, delete, or reorder questions, and save your changes at any time.
+To use the quiz feature during a live session, simply open Share, then select Quiz. From here, you can search for and select the quiz you want to use.
+Once the quiz starts, participants move through each question using the on-screen navigation. Answers can be selected using eye gaze, switch access, touch, or a mouse.
+At the end of the quiz, a summary screen shows the participant’s results. You can also download a report after the session to review responses and progress.
+Quizzes can be used flexibly during sessions, whether for learning, engagement, or assessment.
+“In this video, we’ll show you how to create, edit, and use quizzes in Squidly.”
+“From the dashboard, open Quizzes to view available public quizzes, or select the plus icon to create a new one.”
+“Each quiz has a name and a list of questions, all of which can be edited at any time.”
+“When creating a new quiz, start by giving your quiz a name.”
+“You can then choose whether the quiz is private or public.”
+“Select the plus icon to add as many questions as you need.”
+“When editing a question, enter the question text and, if needed, add an optional utterance that can be read aloud during the session.”
+“You can also add an image to support understanding.”
+“Below the question, create multiple answer options.”
+“Each answer can have its own label, subtitle, colour, and image.”
+“Use the toggle on the right to mark the correct answer.”
+“Questions can be added, deleted, reordered, and saved at any time.”
+“To use a quiz during a live session, open the Share menu and select Quiz.”
+“Search for the quiz you want, then launch it in the session.”
+“Participants move through each question using the on-screen navigation.”
+“Answers can be selected using eye-gaze, switch access, touch, or a mouse.”
+“At the end of the quiz, a summary screen shows the participant’s results.”
+“You can also download a report after the session to review responses and track progress over time.”
+“Quizzes in Squidly are flexible — supporting learning, engagement, and assessment within a single session.”
+
+
+Using the eye-gaze / settings for eye-gaze (calibration / dwell time)
+This video shows how to use Squidly’s webcam eye-gaze and adjust eye-gaze settings.
+Go into settings and make sure the eye-gaze is toggled on.
+In the session, open the Access from the toolbar. 
+To begin using eye-gaze, select ‘Eye-Gaze’. If calibration is needed, choose Calibrate.
+When calibration starts, the user is guided to position their face clearly within the camera view. The temperature bar on the right helps ensure the face is centred and visible before calibration begins. Try and fill-up the temperature bar.
+Then press Calibrate to start calibration. Calibration points then appear on the screen. The user follows each point with their eyes as it moves through the calibration sequence.
+Once calibration is complete, eye-gaze can be tested immediately within the session by pressing Test and interacting with the 9 point layout. Squidly will show your eye-gaze accuracy score. Typically an eye-gaze accuracy above 80% means the eye-gaze can be used effectively.
+Calibration settings can be adjusted if needed.
+Eye-gaze can be toggled on and off simultaneously both host and participant with easy access via the access button on the tool bar or pressing ‘e’ as a shortcut on the keyboard. 
+To adjust eye-gaze and calibration settings for both host and participant, open Settings, then go to Access or Calibration. Here, you can fine-tune calibration settings, and dwell times.
+You can also adjust the size of the calibration targets, calibration speed, and the type of visual guide used in calibration. 
+Calibration and settings can be revisited at any time during the session. Particularly if head movement and a change in position has occurred at any point after calibration. 
+Squidly sessions can also be interacted with using your personal eye-gaze device.
+“In this video, we’ll show you how to use Squidly’s webcam-based eye-gaze and how to adjust eye-gaze settings such as calibration and dwell time.”
+“Before starting a session, open Settings and make sure Eye-Gaze is switched on.”
+“Once you’re in a session, open the Access menu from the toolbar.”
+“To begin using eye-gaze, select Eye-Gaze.”
+“If calibration is needed, choose Calibrate.”
+“When calibration starts, the user is guided to position their face clearly within the camera view.”
+“The temperature bar on the right helps ensure the face is centred and visible. Try to fill the bar before continuing.”
+“Select Calibrate to begin.”
+“Calibration points will appear on the screen.”
+“The user follows each point with their eyes as it moves through the calibration sequence.”
+“Once calibration is complete, eye-gaze can be tested immediately.”
+“Select Test and interact with the nine-point layout.”
+“Squidly will display an eye-gaze accuracy score.”
+“An accuracy score above eighty percent typically indicates eye-gaze is ready to be used effectively.”
+“If needed, calibration can be adjusted or repeated.”
+“Eye-gaze can be turned on or off for both host and participant using the Access button on the toolbar, or by pressing E on the keyboard.”
+“To adjust eye-gaze and calibration settings for both host and participant, open Settings, then go to Access or Calibration.”
+“Here, you can fine-tune dwell time, calibration target size, calibration speed, and the visual guide used during calibration.”
+“Calibration and settings can be revisited at any time during the session — especially if head movement or a change in position occurs after calibration.”
+“Squidly sessions can also be controlled using a personal eye-gaze device, if preferred.”
+“This flexibility helps ensure eye-gaze remains accurate, comfortable, and reliable for every user.”
+
+Selecting and using a game in apps
+This video shows how to select and use a game from the Apps menu during a Squidly session.
+In the session, open the toolbar and select Apps. This opens a list of available interactive games and activities.
+Choose the app you’d like to use. Once selected, the app will launch directly within the session, with no need to leave the call.
+Both the host and participant can interact with the game using their preferred input method (e.g. eye-gaze). 
+To exit the app and return to the session, close the Apps window at any time.
+Squidly is continuing to develop apps and games to make sessions motivating and improve clinical outcomes. 
+“In this video, we’ll show you how to select and use games from the Apps menu during a Squidly session.”
+“While in a session, open the toolbar and select Apps.”
+“This opens a list of available interactive games and activities.”
+“Choose the app you’d like to use.”
+“Once selected, the app launches directly inside the session — there’s no need to leave the call.”
+“Both the host and participant can interact with the game using their preferred input method, including eye-gaze.”
+“At any time, you can close the Apps window to exit the game and return to the session.”
+“Squidly continues to expand its library of apps and games, helping make sessions more engaging and support better clinical outcomes.”
+
+Settings / configuring settings for a participant 
+In this video, we’ll walk through the settings available in Squidly.
+Squidly is designed to enable clinicians to modify and change settings for participants. In settings, select either host or participant to open the settings menu. Within this menu, you’ll see several configuration options.
+You can check your speaker, microphone, and camera under Devices.
+Under Languages, you can adjust your language preference, voice type, and speech speed.
+The Cursor menu allows you to change cursor style, size, and colour.
+In Display, you can customise how content appears on screen. This includes layout options, font styles, and visual effects to suit different visual needs.
+Keyboard Shortcuts shows the available shortcut keys, such as starting eye gaze, opening AAC boards or quizzes, sharing the screen, or opening calibration and settings.
+You adjust volumes in the Volumes menu. 
+Toggle eye-gaze on and off, 
+In access you can change the eye-gaze and switch scanning dwell timing , and
+In calibration settings you can change the calibration speed, size and target guide
+You can also select from client profiles saved back in the console and the session settings will automatically configure for that client. 
+“In this video, we’ll walk through how to configure settings for a participant in Squidly.”
+“Squidly is designed to give clinicians control over participant settings, allowing sessions to be personalised to individual needs.”
+“From Settings, select Participant to open the participant settings menu.”
+“Here, you’ll see a range of configuration options.”
+“Under Devices, you can check the participant’s speaker, microphone, and camera.”
+“In Languages, you can adjust language preference, voice type, and speech speed.”
+“The Cursor menu lets you change cursor style, size, and colour to improve visibility and control.”
+“Under Display, you can customise how content appears on screen.”
+“This includes layout options, font styles, and visual effects to support different visual needs.”
+“The Keyboard Shortcuts section shows available shortcut keys.”
+“These include shortcuts for starting eye-gaze, opening AAC boards or quizzes, sharing the screen, and opening calibration or settings.”
+“In Volumes, you can adjust audio levels for the participant.”
+“From Settings, you can directly turn the eye-gaze on or off as well as enter into Access and adjust dwell timing for eye-gaze and switch scanning.”
+“In Calibration, you can fine-tune calibration speed, target size, and the visual guide used during calibration.”
+“You can also select from client profiles saved in the console.”
+“When a profile is selected, session settings automatically configure to match that client.”
+“This helps ensure every session starts with the right setup, without needing to reconfigure each time.”
+“That’s how Squidly makes participant settings flexible, accessible, and clinician-led.”
+
+Sharing content / file 
+In this video, we’ll show how to share content during a Squidly session.
+Select Share in the toolbar.
+To share your screen, select Screen. Your browser will prompt you to choose what you’d like to share: a browser tab, a window, or your entire screen. Once selected, your screen will be visible to everyone in the session.
+To share a document or file, select File. You can upload items such as PDFs, documents, or images directly from your computer. 
+When content is shared, accessible on-screen controls appear around the content.
+These include zoom in, zoom out, reset, and navigation controls to move around the page which both host and participant can use together.
+A grey border appears around shared content which tells you the aspect ratio of the participants screen and makes sure client’s have the best possible viewing experience of shared content.
+Select Exit to stop sharing. 
+“In this video, we’ll show you how to share content during a Squidly session.”
+“While in a session, select Share from the toolbar.”
+“To share your screen, choose Screen.”
+“Your browser will prompt you to select what you’d like to share — a browser tab, a specific window, or your entire screen.”
+“Once selected, your screen will be visible to everyone in the session.”
+“To share a document or file instead, select File.”
+“You can upload PDFs, documents, or images directly from your computer.”
+“When content is shared, accessible on-screen controls appear around the content.”
+“These include zoom in, zoom out, reset, and navigation controls — which both the host and participant can use together.”
+“A grey border appears around shared content.”
+“This shows the participant’s screen aspect ratio, helping ensure content is displayed clearly and comfortably.”
+“When you’re finished, select Exit to stop sharing.”
+“That’s how Squidly makes content sharing simple, accessible, and collaborative.”
+Client feedback / post-session survey
+This video shows how to end a session, complete the post-session survey, and review feedback in Squidly.
+To end a session, open the toolbar and select ‘End’ Session. Once the session finishes, a post-session feedback survey will automatically appear for the participant.
+The survey allows clients to share quick feedback about the session, including session experience, engagement, and any additional comments.
+The survey is short and optional, and responses are aggregated and saved automatically once submitted.
+After the survey is completed, feedback can be viewed in the Feedback section of the dashboard.
+In the feedback console, you can review session summaries, experience ratings, goals, and trends over time. 
+“In this video, we’ll show you how to end a session, complete the post-session survey, and review feedback in Squidly.”
+“To end a session, open the toolbar and select End Session.”
+“Once the session finishes, a short post-session feedback survey will automatically appear for the participant.”
+“The survey allows clients to share quick feedback on their session experience, engagement, and any additional comments.”
+“The survey is optional, takes only a moment to complete, and responses are saved automatically once submitted.”
+“After the survey is completed, feedback is available in the Feedback section of the dashboard.”
+“From the feedback console, you can review session summaries, experience ratings, goals, and trends over time.”
+“This helps teams reflect on sessions, track outcomes, and continuously improve care delivery.”
+“That’s how Squidly closes the loop — from session to feedback — in a simple and meaningful way.”
+
+
+
+
+
+
+

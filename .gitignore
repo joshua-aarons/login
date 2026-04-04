@@ -1,1 +1,5 @@
 TestingOTP
+server/node_modules
+.env
+node_modules
+.DS_Store
