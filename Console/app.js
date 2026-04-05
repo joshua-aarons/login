@@ -56,6 +56,7 @@ async function start() {
                 // the app view when it changes
                 console.log("Watching user data for user:", user.uid);
                 endWatchers = await watch(user?.uid, (allData, type) => {
+                    console.log("allData updated:", allData);
                     updateUserDataComponents(allData);
                 });
                 showScreen("appView");

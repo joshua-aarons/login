@@ -1,4 +1,5 @@
 import { ChatOpenAI } from "@langchain/openai";
+import { traceable } from "langsmith/traceable";
 import { ChatPromptTemplate, MessagesPlaceholder } from "@langchain/core/prompts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { JsonOutputParser } from "@langchain/core/output_parsers";
@@ -233,8 +234,10 @@ export async function runLangChainAgent(messages, accountContext = "") {
   return { reply };
 }
 
-export async function planAccountDataSlicesLangChain(userMessage) {
+export const planAccountDataSlicesLangChain = traceable(async function(userMessage) {
+  agentLog("PLANNER", `Planning account data slices for: "${userMessage.slice(0, 50)}..."`);
   const dataPlanChain = DATA_PLAN_PROMPT.pipe(getModel(0, "openai/gpt-4o-mini")).pipe(new JsonOutputParser());
   const slices = await dataPlanChain.invoke({ input: userMessage });
+  agentLog("PLANNER", `Selected slices: ${JSON.stringify(slices)}`);
   return { slices };
-}
+}, { name: "Firebase_Query_Planner", run_type: "tool" });
