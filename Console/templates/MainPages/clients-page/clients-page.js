@@ -75,13 +75,30 @@ class ProfilePanel extends UserDataComponent {
                         this.headerText.innerHTML = value || "Untitled Profile";
                     } else if (path === "proxyID") {
                         this.buttons2.innerHTML = "";
-                        this.buttons2.createChild("button", {class: "btn", innerHTML: "Static Link", events: {
-                            click: () => {
-                                const url = `${window.location.origin}/Session/?${value}&proxy`;
-                                navigator.clipboard.writeText(url);
+                        let b = this.buttons2.createChild("button", {class: "btn", innerHTML: "Static Link", events: {
+                            click: async () => {
+                                try {
+                                    const url = `${window.location.origin}/Session/?${value}&proxy`;
+                                    b.styles = {
+                                        opacity: "0.5",
+                                        pointerEvents: "none",
+                                    }
+                                    await navigator.clipboard.writeText(url);
+
+                                    showNotification("Static link copied to clipboard.", 3000, "success");
+                                    setTimeout(() => {
+                                        b.styles = {
+                                            opacity: "1",
+                                            pointerEvents: "auto",
+                                        }
+                                    }, 500);
+                                } catch (e) {
+                                    showNotification("Failed to copy static link.", 3000, "error");
+                                }
+                                
                             }
                         }})
-                        .createChild("i", {class: "fa-solid fa-clipboard", style: {"margin-left": "0.5em"}})
+                        b.createChild("i", {class: "fa-solid fa-clipboard", style: {"margin-left": "0.5em"}})
                     }
                 })
 
