@@ -19,7 +19,8 @@ class ProfilePanel extends UserDataComponent {
         this.buttons = header.createChild("div", {class: "button-row"});
 
         // Create toggle button
-        this.toggleButton = h.createChild("div", {class: "toggle-button"});
+        let row = h.createChild("div", {class: "row-space"});
+        this.toggleButton = row.createChild("div", {class: "toggle-button"});
         this.toggleIndicator = this.toggleButton.createChild("div", {class: "toggle-indicator"});
         this.settingsButton = this.toggleButton.createChild("span", {innerHTML: "Settings", events: {
             click: () => this.setToggleState("settings")
@@ -27,6 +28,8 @@ class ProfilePanel extends UserDataComponent {
         this.sessionsButton = this.toggleButton.createChild("span", {innerHTML: "Session History", events: {
             click: () => this.setToggleState("sessions")
         }});
+
+        this.buttons2 = row.createChild("div", {class: "button-row"});
 
         // Main section        
         this.main = this.createChild("div", {class: "main"});
@@ -70,13 +73,23 @@ class ProfilePanel extends UserDataComponent {
                 this._changeListener = frame.addChangeListener((path, value) => {
                     if (path === "profileSettings/name") {
                         this.headerText.innerHTML = value || "Untitled Profile";
+                    } else if (path === "proxyID") {
+                        this.buttons2.innerHTML = "";
+                        this.buttons2.createChild("button", {class: "btn", innerHTML: "Static Link", events: {
+                            click: () => {
+                                const url = `${window.location.origin}/Session/?${value}&proxy`;
+                                navigator.clipboard.writeText(url);
+                            }
+                        }})
+                        .createChild("i", {class: "fa-solid fa-clipboard", style: {"margin-left": "0.5em"}})
                     }
                 })
 
                 this.buttons.createChild("button", {innerHTML: "Delete", events: {
                     click: () => frame.delete(),
                 }, class: "btn"}).createChild("i", {class: "fa-solid fa-trash", style: {"margin-left": "0.5em"}})
-           
+                
+                
             }
 
             const profileID = frame.id;

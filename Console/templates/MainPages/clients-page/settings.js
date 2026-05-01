@@ -11,6 +11,11 @@ const sessionSettings = SettingOptions.map(option => {
 
 const profileSettings = [
     {
+        key: ["proxyID"],
+        type: "string",
+        default: null,
+    },
+    {
         key: ["profileSettings", "name"],
         type: "string",
         default: "Untitled Profile",
