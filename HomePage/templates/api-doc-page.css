@@ -1,8 +1,10 @@
-
 .doc-layout {
     display: flex;
     color: var(--color-dark);
-    min-height: calc(var(--inner-height) - var(--full-header-height) - 4 * var(--header-margin));
+    min-height: calc(
+        var(--inner-height) - var(--full-header-height) - 4 *
+            var(--header-margin)
+    );
     gap: 5%;
     align-items: flex-start;
     padding-top: 1em;
@@ -47,7 +49,7 @@
     font-size: 0.95em;
 }
 
-.doc-sidebar li a.active, 
+.doc-sidebar li a.active,
 .doc-sidebar li a:hover {
     background: var(--color-white);
     color: var(--color-danger);
@@ -57,7 +59,7 @@
 .doc-content {
     flex: 1;
     max-width: 75%;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 .doc-content section {
@@ -95,8 +97,9 @@
     box-shadow: var(--box-shadow);
 }
 
-.code-block pre, .code-block code {
-    font-family: 'Courier New', Courier, monospace;
+.code-block pre,
+.code-block code {
+    font-family: "Courier New", Courier, monospace;
     margin: 0;
     color: var(--color-dark);
     font-size: 1.1em;
@@ -126,17 +129,40 @@
 }
 
 .doc-content blockquote {
-    border-left: 0.5em solid var(--color-danger);
-    background: var(--color-white);
-    padding: 2em;
+    --callout-accent: var(--color-danger);
+    --callout-background: var(--color-white);
+    border-left: 0.5em solid var(--callout-accent);
+    background: var(--callout-background);
+    padding: 1.5em 1.75em;
     margin: 2.5em 0;
     border-radius: 0 var(--border-radius-3) var(--border-radius-3) 0;
     box-shadow: var(--box-shadow);
-    font-style: italic;
 }
 
-.doc-content blockquote strong {
-    color: var(--color-danger);
+.doc-content blockquote::before {
+    content: attr(data-level);
+    display: block;
+    margin-bottom: 0.6rem;
+    color: var(--callout-accent);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.doc-content blockquote.callout-warning {
+    --callout-accent: var(--color-danger);
+    --callout-background: color-mix(in srgb, var(--color-danger) 8%, white);
+}
+
+.doc-content blockquote.callout-caution {
+    --callout-accent: #b7791f;
+    --callout-background: #fffaf0;
+}
+
+.doc-content blockquote.callout-info {
+    --callout-accent: #2b6cb0;
+    --callout-background: #ebf8ff;
 }
 
 hr {
@@ -207,17 +233,17 @@ hr {
     background: var(--color-background);
     padding: 2px 6px;
     border-radius: 4px;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Courier New", Courier, monospace;
     font-size: 0.9em;
     color: var(--color-danger);
-    border: 1px solid rgba(0,0,0,0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 @media (max-width: 900px) {
     .doc-layout {
         flex-direction: column;
         gap: 3em;
-    margin: 0 5%; /* Ensure margin persists on mobile */
+        margin: 0 5%; /* Ensure margin persists on mobile */
     }
     .doc-sidebar {
         width: 100%;
@@ -257,5 +283,3 @@ hr {
         scroll-margin-top: calc(var(--full-header-height, 80px) + 9em);
     }
 }
-
-
