@@ -1,1 +1,3 @@
 TestingOTP
+node_modules
+.env
