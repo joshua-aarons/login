@@ -1,0 +1,86 @@
+body {
+    margin: 2em;
+    background-color: #484342;
+}
+.main-page {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.add-app svg {
+    height: 2.5em;
+    border: 2px solid white;
+    border-radius: 0.5em;
+}
+.add-app {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    cursor: pointer;
+    padding: 2em;
+    background-color: #1b1b1b;
+}
+
+.app-main {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+
+}
+.app-card {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    border: 1px solid black;
+    border-radius: 1em;
+    padding: 0.5em;
+    justify-content: space-between;
+    align-items: stretch;
+    background-color: white;
+}
+.app-card img {
+    height: 5em;
+    width: 5em;
+    object-fit: contain;
+}
+
+.app-card button {
+    background: #7d0516;
+    padding: 1em;
+    border-radius: 0.5em;
+    color: white;
+}
+
+.apps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    height: 100%;
+    overflow: scroll;
+    padding: 1em 2em;
+    
+}
+
+input {
+    width: 100%;
+    background: #eee;
+    padding: 0.5em;
+    border-radius: 0.5em;
+}
+
+h1 {
+    color: white;
+    background-color: #1b1b1b;
+    padding: 2em 2em 1em 2em;
+}
+
+.main-page[no-admin] .add-app {
+    display: none;
+}
+.main-page[no-admin] .app-card button {
+    display: none;
+}
