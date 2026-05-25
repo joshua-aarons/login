@@ -533,8 +533,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 
 .panel {
   display: grid;
-  grid-template-columns: 40% 1fr;
-  gap: 1px;
+  grid-template-columns: 2fr 3fr;
   background: var(--border-color);
   max-height: 0;
   overflow: hidden;
@@ -550,10 +549,10 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 }
 
 .section {
-  padding: 1.25em 1.5em;
   display: flex;
   flex-direction: column;
   gap: 0.8em;
+  padding: 1em 1.2em;
 }
 
 .section-label {
@@ -575,6 +574,19 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+
+.setting-change {
+  display: flex;
+  flex-direction: column;
+}
+.setting-change span:last-child {
+  padding-left: 1em;
+}
+.setting-change span i {
+  color: var(--gray-text);
+  font-style: normal;
 }
 
 .section-content-wrap {
