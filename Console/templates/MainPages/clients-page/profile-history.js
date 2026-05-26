@@ -13,6 +13,7 @@ const Option2Text = {
 };
 
 
+
 function camelCaseToText(str) {
   str = str.replace(/([a-z])([A-Z])/g, '$1 $2'); // Add space before capital letters
   return str.charAt(0).toUpperCase() + str.slice(1); // Capitalize first letter
@@ -123,8 +124,9 @@ class SessionCard extends SvgPlus {
     
     // Calibration
     const calibrationSection = this.panel.createChild(SHistorySection, {}, "EYE GAZE SCORES");
-    console.log(sessionData); 
-    let calibrationScores = (sessionData.calibrationScores || []).filter(([score, isHost]) => !isHost);
+    let calibrationScores = (sessionData.calibrationScores || [])
+        .map(score => typeof score === "number" ? [score, false] : score)
+        .filter(([score, isHost]) => !isHost);
     if (calibrationScores.length > 0) {
       calibrationScores.forEach(([score], i) => {
         calibrationSection.content.createChild(SHistoryRow, {}, `Calibration ${i + 1}`, `${score}%`);
