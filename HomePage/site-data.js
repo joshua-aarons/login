@@ -132,10 +132,7 @@ export const TrustedCompanieLogos = [
         alt: "Royal Melbourne Institute of Technology",
         src: imgURL("companies/rmit.png")
     },
-    {
-        alt: "Assistive Technology Suppliers Australia",
-        src: imgURL("companies/atsa.png")
-    }
+  
 ];
 export const Features = [
     {
