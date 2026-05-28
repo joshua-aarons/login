@@ -124,14 +124,14 @@ export const TrustedCompanieLogos = [
         alt: "University of Sydney",
         src: imgURL("companies/usyd.png")
     },
-    {
-        alt: "Australian Rehabilitation and Assistive Technology Association",
-        src: imgURL("companies/arata.png")
-    },
-    {
-        alt: "Royal Melbourne Institute of Technology",
-        src: imgURL("companies/rmit.png")
-    },
+    // {
+    //     alt: "Australian Rehabilitation and Assistive Technology Association",
+    //     src: imgURL("companies/arata.png")
+    // },
+    // {
+    //     alt: "Royal Melbourne Institute of Technology",
+    //     src: imgURL("companies/rmit.png")
+    // },
   
 ];
 export const Features = [
