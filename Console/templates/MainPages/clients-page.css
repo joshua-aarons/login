@@ -503,8 +503,18 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
   flex-direction: column;
 }
 
-.session-container span:first-child {
+.session-container .duration{
   background-color: var(--slider-color);
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 0.9em;
+  padding: 0.3em 0.5em;
+  border-radius: 0.5em;
+}
+.session-container .more {
+  background-color: #39713e;
+  border: 2px solid #38c943;
+  cursor: pointer;
   color: #ffffff;
   font-weight: 500;
   font-size: 0.9em;
@@ -655,3 +665,139 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
       max-width: 12em;
     }
 }
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~ APP INFO POPUP STYLEING ~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+.app-info-popup {
+    --dark: #171515;
+    --lighter: #e2dcdc;
+    --light: #beb7b7;
+    
+    border-radius: 1em;
+    /* border: 2px solid var(--dark); */
+    overflow: hidden;
+    background: white;
+
+    aspect-ratio: 1.03;
+    width: min(90vw, 87vh);
+
+}
+.app-info-popup .list {
+    display: flex;
+}
+.app-info-popup .list .list-item {
+    padding: 0.5em;
+    border: 1px solid var(--dark);
+    border-top: none;
+    border-left: none;
+    cursor: pointer;
+}
+.app-info-popup .list .list-item:last-of-type {
+    border-radius: 0 0 1em 0;
+}
+.app-info-popup .list .list-item[selected] {
+    background: var(--dark);
+    color: white;
+}
+.app-info-popup .info-area .app-view {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+.app-info-popup .info-area .app-view .app-title {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    margin: 1em 1em 0.5em 1em;
+}
+.app-info-popup .info-area .app-view .app-title .app-name {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+.app-info-popup .info-area .app-view .app-title .app-duration {
+    padding: 0.2em 0.4em;
+    background: #0367e2;
+    color: white;
+    display: flex;
+    align-items: center;
+    border-radius: 1em;
+}
+.app-info-popup .info-area .app-view .user-data-view {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+.app-info-popup .info-area .app-view .user-data-view .user-type {
+    text-align: center;
+    font-weight: bold;
+}
+.app-info-popup .info-area .app-view .user-data-view section {
+    display: flex;
+    border-top: 1px solid var(--light);
+}
+.app-info-popup .info-area .app-view .user-data-view section .data {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    padding: 1em;
+}
+.app-info-popup .info-area .app-view .user-data-view section .data .key-value {
+    display: flex;
+    gap: 0.5em;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--light);
+}
+.app-info-popup .info-area .app-view .user-data-view section .heatmap-container {
+    width: 40%;
+    padding: 0.5em;
+}
+.app-info-popup .info-area .app-view .user-data-view section .heatmap-container svg{
+    width: 100%;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~ APPS INFO OVERLAY / MODAL ~~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+.apps-info-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+    box-sizing: border-box;
+}
+
+.apps-info-modal {
+    position: relative;
+    max-width: 100vw;
+    max-height: 100vh;
+    box-sizing: border-box;
+  }
+
+.apps-info-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(100%, -100%);
+    background: white;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    line-height: 1;
+    color: #555;
+    padding: 0.2em 0.4em;
+    border-radius: 1em;
+}
+
+.apps-info-close:hover {
+    background: #eee;
+    color: #111;
+}
+

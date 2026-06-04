@@ -1,4 +1,7 @@
 import { SvgPlus } from "../../../../SvgPlus/4.js";
+import { camelCaseToText, snakeCaseToText, formatMinutes } from "../../../../Utilities/utils.js";
+import { AppInfoPopup } from "./apps-info-popup.js";
+
 const Option2Text = {
   "colour-1": "Black/White",
   "colour-2": "White/Black",
@@ -12,18 +15,6 @@ const Option2Text = {
   "circle": "Focus Ring",
 };
 
-
-
-function camelCaseToText(str) {
-  str = str.replace(/([a-z])([A-Z])/g, '$1 $2'); // Add space before capital letters
-  return str.charAt(0).toUpperCase() + str.slice(1); // Capitalize first letter
-}
-function snakeCaseToText(str) {
-  str = str.split(/[_-]/g)
-    .map(s => s.charAt(0).toUpperCase() + s.slice(1))
-    .join(" ");
-  return str;
-}
 function formatSettingValue(value) {
   if (typeof value === "boolean") {
     return value ? "On" : "Off";
@@ -40,34 +31,6 @@ function formatSettingKey(key) {
   key = key.replace(/^(participant|host)\//, "");
   key = key.split("/").map(camelCaseToText).join(" / ");
   return key;
-}
-
-/**
- * @param {number} minutes - The duration in minutes to format.
- */
-function formatMinutes(minutes) {
-  let res = ""
-  if (typeof minutes === "boolean") {
-    res = minutes ? "On" : "Off";
-  } else if (minutes < 1) {
-    res =  `${Math.round(minutes * 60)}s`;
-  } else if (minutes < 60) {
-    const minute1dp = minutes.toFixed(1);
-    if (minute1dp.endsWith(".0")) {
-      res = `${Math.round(minutes)}m`;
-    } else {
-      res = `${minute1dp}m`;
-    }
-  } else {
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = Math.round(minutes % 60);
-    if (remainingMinutes === 0) {
-      res = `${hours}h`;
-    } else {
-      res = `${hours}h ${remainingMinutes}m`;
-    }
-  }
-  return res;
 }
 
 class SHistorySection extends SvgPlus {
@@ -90,9 +53,7 @@ class SHistoryRow extends SvgPlus {
     this.createChild("span", {innerHTML: label});
     this.createChild("span", {innerHTML: value, style: {"font-weight": 600}});
   }
-  
 }
-
 
 
 class SessionCard extends SvgPlus {
@@ -114,7 +75,35 @@ class SessionCard extends SvgPlus {
     timeInfo.createChild("span", {innerHTML: time});
 
     this.container = this.session.createChild("div", {class: "session-container"});
-    this.container.createChild("span", {innerHTML: formatMinutes(sessionData.metadata.duration)});
+    let row = this.container.createChild("div", {class: "row"});
+    if (sessionData.appsInfo) {
+      row.createChild("span", {content: "more", class: "more", events: {
+        click: (e) => {
+          e.stopPropagation();
+          const overlay = document.createElement("div");
+          overlay.className = "apps-info-overlay";
+
+          const modal = document.createElement("div");
+          modal.className = "apps-info-modal";
+
+          const closeBtn = document.createElement("button");
+          closeBtn.className = "apps-info-close";
+          closeBtn.textContent = "✕";
+          closeBtn.addEventListener("click", () => overlay.remove());
+
+          overlay.addEventListener("click", (ev) => {
+            if (ev.target === overlay) overlay.remove();
+          });
+
+          const popup = new AppInfoPopup(sessionData.appsInfo);
+          modal.appendChild(closeBtn);
+          modal.appendChild(popup);
+          overlay.appendChild(modal);
+          document.body.appendChild(overlay);
+        }
+      }});
+    }
+    row.createChild("span", {class: "duration", innerHTML: formatMinutes(sessionData.metadata.duration)});
     this.arrow = this.container.createChild("span", {name: "arrow", innerHTML: "▾", style: {"font-size": "1.6em", "margin-left": "auto"}});
 
     // Expandable section
@@ -192,6 +181,9 @@ class SessionCard extends SvgPlus {
     }
 
     // Apps 
+    if (sessionData.appsInfo) {
+      console.log(sessionData.appsInfo);
+    }
     const appsSection = this.panel.createChild(SHistorySection, {}, "APPS");
     if (sessionData.apps && sessionData.apps.length > 0) {
       for (const [app, duration] of sessionData.apps) {
@@ -240,7 +232,6 @@ export class ProfileSessionHistory extends SvgPlus {
     if (typeof sessionLogs !== "object" || sessionLogs === null) {
         sessionLogs = {};
     }
-
     this.innerHTML = "";
     if (Object.keys(sessionLogs).length === 0) {
         this.createChild("span", {innerHTML: "No session history available."});
