@@ -60,7 +60,6 @@ class SessionCard extends SvgPlus {
   constructor(sessionData) {
     super("div");
     this.class = "session-card";
-    
 
     const d = new Date(sessionData.metadata.time);
     let date = d.toLocaleDateString(undefined, {month: "short", day: "2-digit", year: "numeric"});
@@ -77,7 +76,7 @@ class SessionCard extends SvgPlus {
     this.container = this.session.createChild("div", {class: "session-container"});
     let row = this.container.createChild("div", {class: "row"});
     if (sessionData.appsInfo) {
-      row.createChild("span", {content: "more", class: "more", events: {
+      row.createChild("span", {content: "more details", class: "more", events: {
         click: (e) => {
           e.stopPropagation();
           const overlay = document.createElement("div");
@@ -95,7 +94,7 @@ class SessionCard extends SvgPlus {
             if (ev.target === overlay) overlay.remove();
           });
 
-          const popup = new AppInfoPopup(sessionData.appsInfo);
+          const popup = new AppInfoPopup(sessionData);
           modal.appendChild(closeBtn);
           modal.appendChild(popup);
           overlay.appendChild(modal);
@@ -103,7 +102,7 @@ class SessionCard extends SvgPlus {
         }
       }});
     }
-    row.createChild("span", {class: "duration", innerHTML: formatMinutes(sessionData.metadata.duration)});
+    row.createChild("span", {class: "duration-tag", innerHTML: formatMinutes(sessionData.metadata.duration)});
     this.arrow = this.container.createChild("span", {name: "arrow", innerHTML: "▾", style: {"font-size": "1.6em", "margin-left": "auto"}});
 
     // Expandable section
@@ -181,9 +180,7 @@ class SessionCard extends SvgPlus {
     }
 
     // Apps 
-    if (sessionData.appsInfo) {
-      console.log(sessionData.appsInfo);
-    }
+  
     const appsSection = this.panel.createChild(SHistorySection, {}, "APPS");
     if (sessionData.apps && sessionData.apps.length > 0) {
       for (const [app, duration] of sessionData.apps) {

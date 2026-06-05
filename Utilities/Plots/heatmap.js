@@ -1,11 +1,11 @@
 import { Vector } from "../../SvgPlus/vector.js";
 import { hsl2rgb } from "../utils.js";
-import { Line, LineStyles, Renderable, Axis, Text, Grid, Group, Rect, TextStyles, Tick } from "./plot.js";
+import { Line, LineStyles, Renderable, Axis, Text, Grid, Group, Rect, TextStyles, Tick, ClipPath, Defs } from "./plot.js";
 
 const sinCurve = (t) => Math.sin(Math.PI * t / 2);
 
 const COLORSCALES ={
-    red2green: (value) => hsl2rgb(120 * value, 100, 20 + 30 * sinCurve(Math.min(value*5, 1)) - 5 * sinCurve(Math.max(value*5-4, 0))),
+    red2green: (value) => hsl2rgb(120 * value, 100, 15 + 35 * sinCurve(Math.min(value*5, 1)) - 5 * sinCurve(Math.max(value*5-4, 0))),
     red2greenNormal: (value) => hsl2rgb(120 * value, 100, 50),
 }
 const {PI} = Math;
@@ -39,6 +39,7 @@ class ColorScaleImage extends Renderable {
     width = 256;
     
     height = 20;
+    borderRadius = 0;
 
     imageAttribute = "href"
 
@@ -63,14 +64,25 @@ class ColorScaleImage extends Renderable {
             position: this.position,
             width: this.width,
             height: this.height,
-            styles: this.outlineStyles
+            styles: this.outlineStyles,
+            borderRadius: this.borderRadius
         });
+        this.clipPath = ClipPath.make({
+            children: [Rect.make({
+                position: this.position,
+                width: this.width,
+                height: this.height,
+                borderRadius: this.borderRadius
+            })]
+        })
+        this.defs = Defs.make({ children: [this.clipPath] }) 
     }
 
     render() {
         const {width, height, position: {x, y}, dataURL, rect} = this;
-        let img = `<image ${this.imageAttribute}="${dataURL}" width="${width}" height="${height}" x="${x}" y="${y}" />`;
-        return this.outlineStyles.strokeWidth > 0 ? `<g>${img}${rect}</g>` : img;
+        let r = this.outlineStyles.strokeWidth > 0 ? `${rect}` : "";
+        let img = `<g>${r} ${this.defs}  <image clip-path="${this.clipPath.link}" ${this.imageAttribute}="${dataURL}" width="${width}" height="${height}" x="${x}" y="${y}" /> </g>`;
+        return img;
     }
 }
 
@@ -83,7 +95,7 @@ class ColorScaleLegend extends Renderable {
     maxValue = 1;
     tickIncrements = 10;
 
-    tickLength = 10;
+    tickLength = 0;
 
     flipTickSide = false;
 
@@ -160,6 +172,7 @@ class HeatmapGrid extends Renderable {
 
     spacing = 0;
     borderRadius = 0;
+    boundingBorderRadius = 10;
 
     borderStyles = LineStyles.make();
     static borderStyles_parser(value) { return LineStyles.make(value); }
@@ -195,38 +208,57 @@ class HeatmapGrid extends Renderable {
     
     validate() {
         const {spacing, width, height, position: {x, y}, data, colorScale} = this;
+        let rects = []
+
+        let clipPath = null;
+        if (this.boundingBorderRadius > 0) {
+            let boundingRect = Rect.make({
+                position: this.position.add(spacing/2),
+                width: this.width - spacing,
+                height: this.height - spacing,
+                styles: this.borderStyles,
+                borderRadius: this.boundingBorderRadius,
+            })
+            clipPath = ClipPath.make({
+                children: [boundingRect],
+            })
+            let defs = Defs.make({children: [clipPath]});
+            rects.push(defs);
+        }
+
+
         const rows = data.length;
         const cols = data[0].length;
-        const ch = (height - spacing * (rows + 1)) / rows;
-        const cw = (width - spacing * (cols + 1)) / cols;
-        let rects = []
+        const ch = height / rows;
+        const cw = width/ cols;
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < cols; j++) {
                 const value = data[i][j];
                 if (typeof value === "number") {
                     const [r, g, b] = colorScale(value);
+                    let styles = {
+                        fill: `rgb(${r}, ${g}, ${b})`,
+                        stroke: "none",
+                    }
+                    if (i === 0 || j === 0 || i === rows - 1 || j === cols - 1) {
+                        styles.clipPath = clipPath;
+                    }
                     rects.push(Rect.make({
                         position: new Vector(
-                            x + spacing + j * (cw + spacing),
-                            y + spacing + i * (ch + spacing)
+                            x + spacing/2 + j * (cw),
+                            y + spacing/2 + i * (ch)
                         ),
-                        width: cw,
-                        height: ch,
-                        styles: {
-                            fill: `rgb(${r}, ${g}, ${b})`,
-                            stroke: "none"
-                        }
+                        width: cw - spacing,
+                        height: ch - spacing,
+                        borderRadius: this.borderRadius,
+                        styles
                     }))
                 }
             }
         }
+
+        
      
-        rects.push(Rect.make({
-            position: new Vector(x, y),
-            width: width,
-            height: height,
-            styles: this.borderStyles
-        }))
 
         this.rects = rects;
         
@@ -270,14 +302,17 @@ class HeatmapPlot extends Renderable {
 
     title = "Heatmap Title";
 
-    spacing = 0;
+    spacing = 4;
 
-    borderRadius = 0;
+    borderRadius = 5;
 
-    scaleWidth = 20;
+    scaleWidth = 10;
+
 
     width = 400;
     height = 400;
+
+    showGrid = true;
 
     position = new Vector(0, 0)
     static position_parser(value) { return new Vector(value); }
@@ -288,7 +323,9 @@ class HeatmapPlot extends Renderable {
     gridLineStyles = LineStyles.make();
     static gridLineStyles_parser(value) { return LineStyles.make(value); }
 
-    tickTextStyles = TextStyles.make();
+    tickTextStyles = TextStyles.make({
+        fill: "#595a5c",
+    });
     static tickTextStyles_parser(value) { return TextStyles.make(value); }
 
     labelTextStyles = TextStyles.make();
@@ -369,56 +406,100 @@ class HeatmapPlot extends Renderable {
             borderStyles: this.gridLineStyles
         });
 
+        let gridLineStyles = this.showGrid ? this.gridLineStyles : LineStyles.make({stroke: "transparent"});
+
+        let nXTicks = Math.floor(this.data[0].length/2);
+        let xTicks = new Array(nXTicks).fill(0).map((_, i) => i/(nXTicks-1));
+        xTicks.shift();
+
+        let nYTicks = Math.floor(this.data.length/2);
+        let yTicks = new Array(nYTicks).fill(0).map((_, i) => i/(nYTicks-1));
+        yTicks.shift();
+
         const axisX = Axis.make({
             position: this.position,
             axisLength: this.width,
             tickLength: this.tickLength,
             portrait: false,
-            tickIncrements: this.data[0].length/2,
+
+            ticks: xTicks,
             tickLineStyles: this.tickLineStyles,
             tickTextStyles: this.tickTextStyles,
+            axisLineStyles: gridLineStyles,
             tickFormatFunction: this.tickXFormatFunction
         })
+
         const axisY = Axis.make({
             position: this.position,
             axisLength: this.height,
             tickLength: this.tickLength,
             portrait: true,
-            tickIncrements: this.data.length/2 ,
+            ticks: yTicks,
             tickLineStyles: this.tickLineStyles,
             tickTextStyles: this.tickTextStyles,
+            axisLineStyles: gridLineStyles,
             tickFormatFunction: this.tickYFormatFunction || this.tickXFormatFunction
         })
 
-        const yAxisLabel = Text.make({
-            content: this.yAxisLabel,
-            position: [
-                axisY.pos.x - this.tickLength,
-                axisY.pos.y + axisY.size.y / 2
-            ],
-            anchor: "center-bottom",
-            rotation: -90,
-            styles: this.labelTextStyles
-        });
-
-        const xAxisLabel = Text.make({
-            content: this.xAxisLabel,
-            position: [
-                axisX.pos.x + axisX.size.x / 2,
-                axisX.pos.y - this.tickLength
-            ],
-            anchor: "center-bottom",
-            styles: this.labelTextStyles
-        });
-
-        const grid = Grid.make({
-            xPositions: new Array(cols+1).fill(0).map((_, i) => this.width * i / (cols)),
-            yPositions: new Array(rows+1).fill(0).map((_, i) => this.height * i / (rows)),
+        const zeroValue = Text.make({
             position: this.position,
-            width: this.width,
-            height: this.height,
-            styles: this.gridLineStyles,
+            anchor: "right-bottom",
+            content: this.tickXFormatFunction(0),
+            styles: this.tickTextStyles
+        })
+        let children = [heatmap, axisX, axisY, zeroValue];
+
+        if (this.yAxisLabel) {
+            const yAxisLabel = Text.make({
+                content: this.yAxisLabel,
+                position: [
+                    axisY.pos.x - this.tickLength,
+                    axisY.pos.y + axisY.size.y / 2
+                ],
+                anchor: "center-bottom",
+                rotation: -90,
+                styles: this.labelTextStyles
+            });
+            children.push(yAxisLabel);
+        }
+
+        if (this.xAxisLabel) {
+            const xAxisLabel = Text.make({
+                content: this.xAxisLabel,
+                position: [
+                    axisX.pos.x + axisX.size.x / 2,
+                    axisX.pos.y - this.tickLength
+                ],
+                anchor: "center-bottom",
+                styles: this.labelTextStyles
+            });
+            children.push(xAxisLabel);
+        }
+
+
+        if (this.showGrid) {
+            const grid = Grid.make({
+                xPositions: new Array(cols+1).fill(0).map((_, i) => this.width * i / (cols)),
+                yPositions: new Array(rows+1).fill(0).map((_, i) => this.height * i / (rows)),
+                position: this.position,
+                width: this.width,
+                height: this.height,
+                styles: this.gridLineStyles,
+            });
+              rects.push(Rect.make({
+                position: this.position,
+                width: this.width,
+                height: this.height,
+                styles: this.gridLineStyles,
+            }))
+            children.push(grid);
+        }
+
+        let main = Group.make({
+            children
         });
+
+        children = [main]
 
         const colorScaleLegend = ColorScaleLegend.make({
             colorScale: {
@@ -427,12 +508,14 @@ class HeatmapPlot extends Renderable {
                 scaleFunction: (t) => this.colorScale(1-t),
                 position: this.portrait ? [
                     heatmap.pos.x,
-                    axisY.pos.y + axisY.size.y + this.tickLength
+                    main.pos.y + main.size.y + 10
                 ] : [
-                    axisX.pos.x + axisX.size.x + this.tickLength,
+                    main.pos.x + main.size.x + 10,
                     heatmap.pos.y 
                 ],
                 portrait: !this.portrait,
+                borderRadius: 5,
+                outlineStyles: {strokeWidth: 0}
             },
             flipTickSide: true,
             minValue: this.portrait ? this.zMinValue : this.zMaxValue,
@@ -443,35 +526,42 @@ class HeatmapPlot extends Renderable {
             tickFormatFunction: this.tickZFormatFunction || this.tickXFormatFunction
         })
 
-        const zAxisLabel = Text.make({
-            content: this.zAxisLabel,
-            position: this.portrait ? [
-                colorScaleLegend.pos.x + colorScaleLegend.size.x / 2,
-                colorScaleLegend.pos.y + colorScaleLegend.size.y + this.tickLength
-            ] : [
-                colorScaleLegend.pos.x + colorScaleLegend.size.x + this.tickLength,
-                colorScaleLegend.pos.y +  colorScaleLegend.size.y / 2
-            ],
-            anchor: this.portrait ? "center-top" : "center-bottom",
-            rotation: this.portrait ? 0 : 90,
-            styles: this.labelTextStyles
-        });
+        if (this.zAxisLabel) {
+            let width = this.portrait ? colorScaleLegend.size.y + this.tickLength : colorScaleLegend.size.x + this.tickLength;
+            width = this.zTickIncrements == 1 ? this.scaleWidth + this.tickLength : width;
+            const zAxisLabel = Text.make({
+                content: this.zAxisLabel,
+                position: this.portrait ? [
+                    colorScaleLegend.pos.x + colorScaleLegend.size.x / 2,
+                    colorScaleLegend.pos.y + width
+                ] : [
+                    colorScaleLegend.pos.x + width,
+                    colorScaleLegend.pos.y +  colorScaleLegend.size.y / 2
+                ],
+                anchor: this.portrait ? "center-top" : "center-bottom",
+                rotation: this.portrait ? 0 : 90,
+                styles: this.labelTextStyles
+            });
+            children.push(zAxisLabel);
+        }
 
-        const title = Text.make({
-            content: this.title,
-            position: [
-                xAxisLabel.pos.x + xAxisLabel.size.x / 2,
-                xAxisLabel.pos.y - this.tickLength - xAxisLabel.size.y /3
-            ],
-            anchor: "center-bottom",
-            styles: this.titleTextStyles
-         })
+        if (this.title) {
+            const title = Text.make({
+                content: this.title,
+                position: [
+                    this.position.x + this.width / 2,
+                    main.pos.y - this.tickLength
+                ],
+                anchor: "center-bottom",
+                styles: this.titleTextStyles
+            })
+            children.push(title);
+        }
+
+         children.push(colorScaleLegend);
 
         this._renderable = Group.make({
-            children: [
-                heatmap, axisX, axisY, xAxisLabel, yAxisLabel, grid, colorScaleLegend, title,
-                 zAxisLabel
-            ]
+            children
         });
 
 
@@ -485,92 +575,6 @@ class HeatmapPlot extends Renderable {
 }
 
 
-
-// let data = new Array(10).fill(0).map(() => new Array(20).fill(0).map(() => Math.random()));
-
-// let portrait = false;
-
-// let titleFontSize = 20;
-// let axisLabelFontSize = 14;
-// let textStyles = {
-//     fontFamily: "Supreme LL TT",
-//     fontSize: 10,
-// }
-
-// let hmap = Heatmap.make({
-//     position: new Vector(0, 0),
-//     width: 400,
-//     height: 200,
-//     spacing: 0,
-//     data,
-// });
-
-// let scale = ColorScaleLegend.make({
-//     colorScale: {
-//         position: portrait ? 
-//             [hmap.width + 10, 0] : [0, hmap.height + 10],
-//         width: portrait ? 20 : hmap.width,
-//         height: portrait ? hmap.height : 20,
-//         portrait: portrait,
-//     },
-//     flipTickSide: true,
-//     tickIncrements: 5,
-//     tickTextStyles: textStyles,
-// })
-
-// let ticks = TickAxis.make({
-//     position: [0,0],
-//     axisLength: 200,
-//     tickLength: 10,
-//     portrait: true,
-//     tickIncrements: 5,
-//     tickTextStyles: textStyles
-// })
-
-// let ticks2 = TickAxis.make({
-//     position: [0,0],
-//     axisLength: 400,
-//     tickLength: 10,
-//     tickSpace: 0,
-//     portrait: false,
-//     tickTextStyles: textStyles
-// })
-
-// let label1 = Text.make({
-//     content: "Vertical Axis",
-//     position: [
-//         ticks.pos.x - 5,
-//         ticks.pos.y + ticks.size.y / 2
-//     ],
-//     anchor: "center-bottom",
-//     rotation: -90,
-//     styles: {...textStyles, fontSize: axisLabelFontSize}
-// });
-
-// let label2 = Text.make({
-//     content: "Horizontal Axis",
-//     position: [
-//         ticks2.pos.x + ticks2.size.x / 2,
-//         ticks2.pos.y - 5
-//     ],
-//     anchor: "center-bottom",
-//     styles: {...textStyles, fontSize: axisLabelFontSize}
-// });
-
-// let title = Text.make({
-//     content: "Heatmap Title",
-//     position: [
-//         ticks2.pos.x + ticks2.size.x / 2,
-//         label2.pos.y - 5
-//     ],
-//     anchor: "center-bottom",
-//     styles: {...textStyles, fontSize: titleFontSize}
-// })
-
-
-// let g = Group.make({children: [
-//     scale, hmap, ticks, ticks2, label1, label2, title
-// ]})
 
 
 export {

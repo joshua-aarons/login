@@ -104,11 +104,11 @@ app-view table-plus p {
     visibility: visible;
 }
 
-table {
+table-plus table {
     width: 100%;
 }
 
-td img {
+table-plus td img {
     width: 36px;
     height: 36px;
     margin-right: .5rem;
@@ -117,13 +117,13 @@ td img {
     vertical-align: middle;
 }
 
-table, th, td {
+table-plus table, th, td {
     border-collapse: collapse;
     padding: 1rem;
     text-align: left;
 }
 
-thead th {
+table-plus thead th {
     position: sticky;
     top: 0;
     left: 0;
@@ -133,39 +133,39 @@ thead th {
     white-space: pre;
 }
 
-tbody tr:nth-child(even) {
+table-plus tbody tr:nth-child(even) {
     background-color: #0000000b;
 }
 
-tbody tr {
+table-plus tbody tr {
     --delay: .1s;
     transition: .5s ease-in-out var(--delay), background-color 0s;
 }
 
-tbody tr.hide {
+table-plus tbody tr.hide {
     opacity: 0;
     transform: translateX(100%);
 }
 
-tbody tr:hover {
+table-plus tbody tr:hover {
     background-color: #fff6 !important;
 }
 
-tbody tr td,
-tbody tr td p,
-tbody tr td img {
+table-plus tbody tr td,
+table-plus tbody tr td p,
+table-plus tbody tr td img {
     transition: .2s ease-in-out;
 }
 
-tbody tr.hide td,
-tbody tr.hide td p {
+table-plus tbody tr.hide td,
+table-plus tbody tr.hide td p {
     padding: 0;
     font-size: 0px;
     transition: .2s ease-in-out .5s;
     height: 0;
 }
 
-tbody tr.hide td img {
+table-plus tbody tr.hide td img {
     width: 0;
     height: 0;
     transition: .2s ease-in-out .5s;
@@ -240,11 +240,11 @@ td[key = "status"][value = "scheduled"] p {
 }
 
 
-thead th i {
+table-plus thead th i {
     transform: translateY(0.1rem);
 }
 
-thead th span {
+table-plus thead th span {
     display: inline-block;
     width: 1.3rem;
     height: 1.3rem;
@@ -259,24 +259,24 @@ thead th span {
     transition: .2s ease-in-out;
 }
 
-thead th:hover span {
+table-plus thead th:hover span {
     border: 1.4px solid var(--color-danger);
 }
 
-thead th:hover {
+table-plus thead th:hover {
     color: var(--color-danger-hover);
 }
 
-thead th.active span {
+table-plus thead th.active span {
     background-color: var(--color-danger);
     color: #fff;
 }
 
-thead th.asc span {
+table-plus thead th.asc span {
     transform: rotate(180deg);
 }
 
-thead th.active, tbody td.active {
+table-plus thead th.active, tbody td.active {
     color: var(--color-danger);
 }
 

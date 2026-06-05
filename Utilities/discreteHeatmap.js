@@ -143,9 +143,9 @@ export class DiscreteHeatmap {
 
 
     getSVG(aspectRatio, options = {
-        spacing: 0,
+        spacing: 1,
         width: 300,
-        borderRadius: 0,
+        borderRadius: 2,
         paddingX: 10,
         paddingY: 10,
         heatScaleWidth: 20,
@@ -157,27 +157,31 @@ export class DiscreteHeatmap {
     }) {
         const W = options.width ?? 300;
         const H = W / aspectRatio;
-        const spacing = options.spacing ?? 0;
-        const borderRadius = options.borderRadius ?? 0;
+        const spacing = options.spacing ?? 1;
+        const borderRadius = options.borderRadius ?? 2;
         const paddingX = options.paddingX ?? 10;
         const paddingY = options.paddingY ?? paddingX;
-        const scaleWidth = options.heatScaleWidth ?? 20;
+        const scaleWidth = options.heatScaleWidth ?? 10;
         const colorScale = options.colorScale;
         const min = this.minNonZeroValue;
         const max = this.maxValue;
         let norm = this.data.map(row => row.map(value => value / max));
         let g = HeatmapPlot.make({
+            showGrid: false,
             data: norm,
             width: W,
             height: H,
             borderRadius,
             spacing,
             scaleWidth,
+            tickLength: 3,
+            tickLineStyles: {stroke: "transparent"},
             portrait: aspectRatio < 1,
-            yAxisLabel: "Relative Screen Y",
-            xAxisLabel: "Relative Screen X",
-            zAxisLabel: "Relative Frequency",
-            title: options.title ?? "Heatmap",
+            yAxisLabel: null,
+            xAxisLabel: null,
+            zAxisLabel: null,
+            title: null,
+            zTickIncrements: 1,
             titleTextStyles: {fontSize: 20, fill: "#000"},
             tickXFormatFunction: value => (value * 100).toFixed(0) + "%",
             tickZFormatFunction: value => value.toFixed(2),
