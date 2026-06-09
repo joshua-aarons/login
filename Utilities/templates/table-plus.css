@@ -117,7 +117,9 @@ table-plus td img {
     vertical-align: middle;
 }
 
-table-plus table, th, td {
+table-plus table, 
+table-plus th, 
+table-plus td {
     border-collapse: collapse;
     padding: 1rem;
     text-align: left;
@@ -276,7 +278,7 @@ table-plus thead th.asc span {
     transform: rotate(180deg);
 }
 
-table-plus thead th.active, tbody td.active {
+table-plus thead th.active, table-plus tbody td.active {
     color: var(--color-danger);
 }
 

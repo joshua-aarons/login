@@ -745,6 +745,10 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
     --aqua-green: rgb(16, 185, 129);
     --aqua-green-light: rgba(16, 185, 129, 0.094);
 
+
+    --red: rgb(239, 68, 68);
+    --red-light: rgba(239, 68, 68, 0.1);
+
     --gray: rgb(160, 165, 181);
     --gray-light: rgba(160, 165, 181, 0.1);
 
@@ -783,14 +787,17 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
     --color-light: var(--blue-light);
 }
 [aqua-green] {
-    --color: var(--aqua);
-    --color-light: var(--aqua-light);
+    --color: var(--aqua-green);
+    --color-light: var(--aqua-green-light);
 }
 [gray] {
     --color: var(--gray);
     --color-light: var(--gray-light);
 }
-
+[red] {
+    --color: var(--red);
+    --color-light: var(--red-light);
+}
 
 .app-info-popup .header {
     display: flex;
@@ -898,7 +905,9 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 .interactions table .progress-bar{
   margin: 0 0.6em;
 }
-
+.interaction-key {
+  white-space: nowrap;
+}
 .user-type{ 
   color: var(--gray-text);
   font-size: 0.9em;
@@ -937,6 +946,35 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
     display: flex;
     gap: 0.5em;
     align-items: center;
+
+}
+
+.deltas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  font-size: 0.85em;
+}
+
+.bar-graph .bar {
+  height: 2em;
+  border-radius: 0.5em;
+  display: flex;
+  overflow: hidden;
+  gap: 2px;    
+  margin: 0.5em 0;
+}
+.legend {
+    display: flex;
+    gap: 0.5em;
+    flex-wrap: wrap;
+    margin-top: 0.5em;
+}
+.legend .legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    flex: unset;
 }
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /* ~~~~~~~~~~~~ APPS INFO OVERLAY / MODAL ~~~~~~~~~~ */

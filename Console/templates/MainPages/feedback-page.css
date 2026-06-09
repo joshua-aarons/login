@@ -371,7 +371,7 @@ feedback-page th:nth-child(5) {
     width: 10%;
 }
 
-th, td {
+feedback-page th, feedback-page td {
     padding: 1rem;
 }
 
