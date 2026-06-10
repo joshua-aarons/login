@@ -9,6 +9,65 @@ import * as AllSettings from "./settings.js";
 
 useCSSStyle("clients-page");
 
+class ToggleList extends SvgPlus {
+    #itemButtons = new Map();
+    #selected = null;
+    constructor(items) {
+        super("div");
+        this.class = "toggle-list";
+        this.toggleIndicator = this.createChild("div", {class: "toggle-indicator"});
+        items.forEach((item, i) => {
+            let btn = this.createChild("span", {innerHTML: item, events: {
+                click: () => { this.select(item); }
+            }});
+            this.#itemButtons.set(item, btn);
+        })
+
+        this.select(items[0], false);
+
+        let resizeObserver = new ResizeObserver(() => {
+            this.select(this.#selected, false);
+        });
+        resizeObserver.observe(this);
+    }
+
+    select(value, dispatch = true) {
+        let [pos, size] = this.bbox;
+        let selectedButton = this.#itemButtons.get(value);
+        if (selectedButton) {
+            let [bpos, bsize] = selectedButton.bbox;
+
+            let buttonBoxWidth = bsize.x;
+            let buttonBoxLeft = bpos.sub(pos).x;
+
+            this.toggleIndicator.styles = {
+                width: `${buttonBoxWidth}px`,
+                transform: `translateX(${buttonBoxLeft}px)`
+            }
+
+            this.#itemButtons.forEach((btn, item) => {
+                btn.toggleAttribute("active", item === value);
+            })
+
+            this.#selected = value;
+            if (dispatch) this.dispatchEvent(new CustomEvent("select", {detail: value}));
+        }
+    }
+
+    set selected(value) {
+        this.select(value, false);
+    }
+
+    get selected() {
+        return this.#selected;
+    }
+}
+
+const PanelModes = {
+    "Settings": "settings",
+    "Session History": "session-history",
+    "Session Trends": "session-trends",
+}
 class ProfilePanel extends UserDataComponent {
     constructor() {
         super("div");
@@ -21,22 +80,18 @@ class ProfilePanel extends UserDataComponent {
 
         // Create toggle button
         let row = h.createChild("div", {class: "row-space"});
-        this.toggleButton = row.createChild("div", {class: "toggle-button"});
-        this.toggleIndicator = this.toggleButton.createChild("div", {class: "toggle-indicator"});
-        this.settingsButton = this.toggleButton.createChild("span", {innerHTML: "Settings", events: {
-            click: () => this.setToggleState("settings")
-        }});
-        this.sessionsButton = this.toggleButton.createChild("span", {innerHTML: "Session History", events: {
-            click: () => this.setToggleState("sessions")
-        }});
-        this.trendsButton = this.toggleButton.createChild("span", {innerHTML: "Session Trends", events: {
-            click: () => this.setToggleState("trends")
-        }});
+        this.toggleButton = row.createChild(ToggleList, {events: {
+            select: (e) => {
+                this.setToggleState(e.detail);
+            }
+        }}, Object.keys(PanelModes));
 
         this.buttons2 = row.createChild("div", {class: "button-row"});
 
         // Main section        
         this.main = this.createChild("div", {class: "main"});
+
+        this.toggleButton.select("Settings");
     }
 
     onvalue(data) {
@@ -50,31 +105,33 @@ class ProfilePanel extends UserDataComponent {
     }
 
     setToggleState(state) {
-        this.setAttribute("mode", state);
-        this.toggleButton.setAttribute("toggle", state);
+        console.log("Toggling to state:", state, PanelModes[state]);
+        this.setAttribute("mode", PanelModes[state] || "");
     }
 
     /**
      * @param {SettingsFrame} frame
      */
     set settings(frame) {
-
         // Dispose of any existing panels
         if (this.settingsPanel) {
             this.settingsPanel.dispose();
             this.settingsPanel = null;
         }
        
+        // Dispose of any existing change listener
         if (this._changeListener) {
             this._changeListener();
             this._changeListener = null;
         }
 
+        // Clear main content and buttons
         this.main.innerHTML = "";
         this.buttons.innerHTML = "";
         this.buttons2.innerHTML = "";
 
         if (frame) {
+            // Create new settings panel
             this.settingsPanel = this.main.createChild(SettingsPanel, {}, frame);
 
             // Create static link button immediately in the header row for all profiles
@@ -111,7 +168,6 @@ class ProfilePanel extends UserDataComponent {
 
             const profileID = frame.id;
             this.selctedProfileID = profileID;
-            this.setToggleState("settings");
             this.historyPanel = this.main.createChild(ProfileSessionHistory, {name: "session-history"});
             this.trendsPanel  = this.main.createChild(ProfileSessionTrends,  {name: "session-trends"});
             this.value = this.value; // Trigger onvalue to load session logs for the selected profile

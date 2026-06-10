@@ -147,7 +147,7 @@ class StyleClass extends DataClass {
     get cssText() {
         let css = "";
         for (const key in this) {
-            if (!(this[key] instanceof Function)) {
+            if (!(this[key] instanceof Function) && this[key] !== null && this[key] !== undefined) {
                 const cssKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
                 css += ` ${cssKey}= "${this[key]}"`;
             }
@@ -165,6 +165,7 @@ class LineStyles extends StyleClass {
     fill = "none";
     strokeLinecap = "round";
     strokeLinejoin = "round";
+    strokeDasharray = null;
     clipPath = null;
     class = null;
 
@@ -177,13 +178,7 @@ class LineStyles extends StyleClass {
         }
         if (this.clipPath instanceof ClipPath) {
             this.clipPath = this.clipPath.link;
-        } else if (this.clipPath === null) {
-            delete this.clipPath;
-        }
-
-        if (this.class === null) {
-            delete this.class;
-        }
+        } 
     }
 }
 

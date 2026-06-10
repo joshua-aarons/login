@@ -88,13 +88,6 @@ class Series extends Renderable {
 
     renderTransformed(points, clipPath) {
         const l1 = Line.make({ points, styles: { ...this.styles, clipPath } });
-
-        let p0 = points[0];
-        let pn = points[points.length - 1];
-        p0.y = 0;
-        pn.y = 0;
-        points = [p0, ...points, pn];
-        const l2 = Line.make({ points, styles: { stroke: "none", fill: this.styles.stroke, clipPath } });
         return `<g>${l1}</g>`;
     }
 }
@@ -178,6 +171,7 @@ class PlotYAxis {
         this.label = label;
         this.side = side;
         this.tickFormatFunction = v => v.toFixed(2);
+        this.maxTickValue = null; // optional override for longestTickLabel estimation
     }
 
     /**
@@ -219,10 +213,13 @@ class PlotYAxis {
      * @returns {string}
      */
     longestTickLabel(pHeight, tickGuessY, minScale) {
+        if (this.maxTickValue !== null) {
+            return this.tickFormatFunction(this.maxTickValue);
+        }
         const effectiveScaleY = this.iScaleY * minScale;
         const visH = pHeight / Math.abs(effectiveScaleY);
         const intervalY = bestTickInterval(visH / tickGuessY);
-        const format = v => v.toFixed(2);
+        const format = this.tickFormatFunction;
         const longestOf = (...vals) => vals.map(format).reduce((a, b) => b.length > a.length ? b : a);
         const extremeBottom = Math.floor((this.iPosY - visH) / intervalY) * intervalY;
         const extremeTop    = Math.ceil((this.iPosY + Math.abs(this.iScaleY * pHeight / minScale) + visH) / intervalY) * intervalY;
@@ -282,7 +279,7 @@ export class InteractivePlot extends SvgPlus {
     static MAX_SCALE = 20;
     static MIN_SCALE = 0.8;
     static MAX_TICKS_PER_AXIS = 50;
-    static SNAP_THRESHOLD = 0.2; // fraction of a tick interval within which snapping fires
+    static SNAP_THRESHOLD = 0.13; // fraction of a tick interval within which snapping fires
 
 
     // Series: [{ points: Vector[], styles: {}, yAxisIndex: number }]
@@ -446,6 +443,23 @@ export class InteractivePlot extends SvgPlus {
         if (axisIndex < this.#yAxes.length && fn instanceof Function) {
             this.#yAxes[axisIndex].tickFormatFunction = fn;
             this.#change = true;
+            this.#build();
+        }
+    }
+
+    /**
+     * Sets a representative maximum tick value used to estimate Y-axis label width.
+     * Useful when the format function is non-monotonic in string length
+     * (e.g. formatMinutes where "1 hr 5 min" is longer than "200 min").
+     * Pass null to revert to automatic estimation.
+     * @param {number|null} value
+     * @param {number} axisIndex - which Y axis (default 0)
+     */
+    setYMaxTick(value, axisIndex = 0) {
+        if (axisIndex < this.#yAxes.length) {
+            this.#yAxes[axisIndex].maxTickValue = value;
+            this.#build();
+            this.#change = true;
         }
     }
 
@@ -499,7 +513,6 @@ export class InteractivePlot extends SvgPlus {
             const extremeRightX = Math.ceil((db.pos.x + db.size.x + visW) / intervalX) * intervalX;
             xSample = [extremeLeftX, extremeRightX].map(v => v.toFixed(2)).reduce((a, b) => b.length > a.length ? b : a);
         }
-
         return { x: xSample, yAxes: yLabels };
     }
 

@@ -77,7 +77,7 @@ class BarGraph extends SvgPlus {
         let legends = [];
         let bar = this.createChild("div", {class: "bar"});
         nonZero.forEach((e, i) => {
-            let color = e.color || `hsl(${i / n * 360}, 70%, 50%)`;
+            let color = e.color || `hsl(${i / n * 360}, 65%, 65%)`;
             let segment = bar.createChild("div", {
                 styles: {
                     background: color,

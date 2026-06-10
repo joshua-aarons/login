@@ -2,8 +2,8 @@ import { SvgPlus } from "../../../../SvgPlus/4.js";
 import { InteractivePlot } from "../../../../Utilities/Plots/interactive-plot.js";
 import { formatMinutes } from "../../../../Utilities/utils.js";
 
-const PLOT_W = 700;
-const PLOT_H = 210;
+const PLOT_W = 300 * 1.5;
+const PLOT_H = 200 * 1.5;
 
 // Each metric defines a title, y-axis label, and one or more data series to extract.
 const METRICS = [
@@ -11,9 +11,10 @@ const METRICS = [
         title: "Session Duration",
         shortTitle: "Duration",
         yLabel: null,
-        yFormat: formatMinutes,
+        yFormat: (v) => v >= 0 ? formatMinutes(v) : "",
+        maxTickValue: 133 * 60 + 33, // "1 hr 5 min" — representative longest label for formatMinutes
         series: [
-            { label: "", color: "#3b82f6", extractor: s => s.metadata?.duration ?? null },
+            { label: "", color: "#7380ec", extractor: s => s.metadata?.duration ?? null },
         ],
     },
     {
@@ -23,17 +24,19 @@ const METRICS = [
         yFormat: v => Math.round(v) == v ? v.toFixed(0) : "",
         avgFormat: v => Math.round(v) + "",
         series: [
-            { label: "Host",        color: "#2e9e5b", extractor: s => (s.totals?.host?.total && s.totals?.participant?.total) ? s.totals?.host?.total ?? null : null },
-            { label: "Participant", color: "#7380ec", extractor: s => (s.totals?.host?.total && s.totals?.participant?.total) ? s.totals?.participant?.total ?? null : null},
+            { label: "Participant", color: "rgb(246 180 61)", extractor:  s => (s.totals?.host?.total && s.totals?.participant?.total) ? ((s.totals?.host?.total ?? 0) + (s.totals?.participant?.total ?? 0)) : null },
+            { label: "Participant", strokeDasharray: "2 8", color: "rgb(16, 185, 129)", extractor: s => (s.totals?.host?.total && s.totals?.participant?.total) ? s.totals?.participant?.total ?? null : null},
+            { label: "Host",        strokeDasharray: "2 8", color: "rgb(59, 130, 246)", extractor: s => (s.totals?.host?.total && s.totals?.participant?.total) ? s.totals?.host?.total ?? null : null },
         ],
-        avgExtractor:  s => ((s.totals?.host?.total ?? 0) + (s.totals?.participant?.total ?? 0)),
     },
     {
         title: "AAC Words Used",
         shortTitle: "AAC Words",
         yLabel: null,
         series: [
-            { label: "", color: "#f59e0b", extractor: s => s.aac?.length ?? 0 },
+            { label: "Total", color: "#8f53c9", extractor: s => s.aac?.length ?? 0 },
+            { label: "Participant", strokeDasharray: "2 8", color: "rgb(16, 185, 129)", extractor: s => (s.aac || []).filter(([w, isHost]) => !isHost).length},
+            { label: "Host", strokeDasharray: "2 8", color: "rgb(59, 130, 246)", extractor: s => (s.aac || []).filter(([w, isHost]) => isHost).length},
         ],
         avgFormat: v => Math.round(v) + "",
         yFormat: v => Math.round(v) == v ? v.toFixed(0) : "",
@@ -45,7 +48,7 @@ const METRICS = [
         series: [
             {
                 label: "",
-                color: "#8b5cf6",
+                color: "#ff7782",
                 extractor: s => {
                     const p = s.totals?.participation;
                     return typeof p === "number" && p > 0 ? (p * 100) : null;
@@ -70,7 +73,7 @@ class StatSummaryCard extends SvgPlus {
         this.style.setProperty("--stat-color", metric.series[0].color);
         this._label = this.createChild("div", { class: "summary-stat-label", content: "Avg. " + (metric.shortTitle || metric.title) });
         this._value = this.createChild("div", { class: "summary-stat-value", content: "—" });
-        this._delta = this.createChild("div", { class: "summary-stat-delta" });
+        // this._delta = this.createChild("div", { class: "summary-stat-delta" });
         this._metric = metric;
     }
 
@@ -87,46 +90,68 @@ class StatSummaryCard extends SvgPlus {
             average = (avg !== null && !Number.isNaN(avg)) ? formatter(avg) : "—";
         }
         this._value.innerHTML = average;
-        this._delta.innerHTML = ""; // Clear previous delta
+        // this._delta.innerHTML = ""; // Clear previous delta
 
-        // Delta vs first session value
-        if (points.length >= 2) {
+        // // Delta vs first session value
+        // if (points.length >= 2) {
         
-            const first = extractor(points[0]);
-            const diff  = avg - first;
-            if (diff !== 0) {
-                const pos     = diff > 0;
-                const badge   = this._delta.createChild("span", { class: "summary-stat-badge" });
-                badge.toggleAttribute("positive", pos);
-                badge.toggleAttribute("negative", !pos);
-                badge.innerHTML = (pos ? "▲ " : "▼ ") + formatter(Math.abs(diff));
-                this._delta.createChild("span", { class: "summary-stat-vs", content: "vs first session" });
-            }
-        }
+        //     const first = extractor(points[0]);
+        //     const diff  = avg - first;
+        //     if (diff !== 0) {
+        //         const pos     = diff > 0;
+        //         const badge   = this._delta.createChild("span", { class: "summary-stat-badge" });
+        //         badge.toggleAttribute("positive", pos);
+        //         badge.toggleAttribute("negative", !pos);
+        //         badge.innerHTML = (pos ? "▲ " : "▼ ") + formatter(Math.abs(diff));
+        //         this._delta.createChild("span", { class: "summary-stat-vs", content: "vs first session" });
+        //     }
+        // }
     }
 }
 
 class TrendCard extends SvgPlus {
-    constructor(metric) {
+    constructor(metrics) {
         super("div");
         this.class = "trend-card";
 
         let header = this.createChild("div", { class: "trend-card-header" });
-        header.createChild("div", { class: "trend-card-title", content: metric.title });
+        header.createChild("div", { class: "trend-card-title", content: "Session Trends" });
+        this._selector = header.createChild("div", { class: "trend-selector" });
+        this._selectorBtns = metrics.map((m, i) => {
+            const btn = this._selector.createChild("button", {
+                class: "trend-selector-btn",
+                content: m.shortTitle || m.title,
+            });
+            btn.addEventListener("click", () => this._selectMetric(i));
+            return btn;
+        });
 
         this._plotWrap = this.createChild("div", { class: "trend-card-plot-wrap" });
-        this._empty   = this.createChild("div", { class: "trend-card-empty", content: "Not enough data variation to display trend" });
+        this._empty   = this.createChild("div", { class: "no-data", content: "Not enough data variation to display trend" });
 
         this._plot = new InteractivePlot(null);
         this._plot.size   = [PLOT_W, PLOT_H];
         this._plot.xTime  = true;
-        if (metric.yLabel) this._plot.yLabel = metric.yLabel;
         this._plotWrap.appendChild(this._plot);
 
-        this._metric = metric;
+        this.createChild("p", { class: "trends-intro", content: "Scroll to zoom  ·  Drag to pan  ·  Double-click to reset </br> Cmd/Ctrl + scroll to stretch" });
+
+        this._metrics = metrics;
+        this._sessions = [];
+        this._selectMetric(0);
+    }
+
+
+
+    _selectMetric(index) {
+        this._selectorBtns.forEach((btn, i) => btn.toggleAttribute("active", i === index));
+        this._metric = this._metrics[index];
+        this._plot.xLabel = null;
+        this.update(this._sessions);
     }
 
     update(sessions) {
+        this._sessions = sessions || [];
         this._plot.clearSeries();
 
         if (!sessions || sessions.length < 2) {
@@ -145,7 +170,7 @@ class TrendCard extends SvgPlus {
             if (hasVariation(points)) {
                 this._plot.addSeries(
                     points,
-                    { stroke: s.color, strokeWidth: 4},
+                    { stroke: s.color, strokeWidth: 4, strokeDasharray: s.strokeDasharray || null },
                     0,
                     multiSeries ? s.label : ""
                 );
@@ -155,6 +180,7 @@ class TrendCard extends SvgPlus {
         this._plot.xLabel = null;
         this._plot.setYLabel(this._metric.yLabel);
         if (this._metric.yFormat) this._plot.setYFormat(this._metric.yFormat);
+        this._plot.setYMaxTick(this._metric.maxTickValue ?? null);
 
         if (added === 0) {
             this._showEmpty("No variation in data across sessions");
@@ -176,25 +202,12 @@ export class ProfileSessionTrends extends SvgPlus {
         super("div");
         this.class = "profile-session-trends";
 
-        // Build a flat list of { card, series, metric } for the summary row
+        // Summary stat row
         let srow = this.createChild("div", { class: "summary-stats-row" });
-        this._summaryCards = METRICS.map(m => srow.createChild(StatSummaryCard, {}, m))
-        
-        // for (const m of METRICS) {
-        //     const fmt = m.yFormat || (v => v.toFixed(1));
-        //     this._summaryCards.push(thi)
-        //     for (const s of m.series) {
-        //         const label = m.series.length > 1 ? `Avg ${s.label} ${m.title}` : `Avg ${m.title}`;
-        //         const card  = this._summaryRow.createChild(StatSummaryCard, {}, label, s.color);
-        //         this._summaryCards.push({ card, extractor: s.extractor, fmt });
-        //     }
-        // }
+        this._summaryCards = METRICS.map(m => srow.createChild(StatSummaryCard, {}, m));
 
-        this.createChild("p", {
-            class: "trends-intro",
-            content: "Scroll to zoom  ·  Drag to pan  ·  Double-click to reset",
-        });
-        this._cards = METRICS.map(m => this.createChild(TrendCard, {}, m));
+        // Single card with selector + plot inside
+        this._card = this.createChild(TrendCard, {}, METRICS);
     }
 
     set logs(sessionLogs) {
@@ -205,6 +218,6 @@ export class ProfileSessionTrends extends SvgPlus {
             .sort((a, b) => a.metadata.time - b.metadata.time);
 
         this._summaryCards.forEach(card => card.update(sessions));
-        this._cards.forEach(card => card.update(sessions));
+        this._card.update(sessions);
     }
 }

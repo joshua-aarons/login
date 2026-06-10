@@ -226,13 +226,14 @@ export class ProfileSessionHistory extends SvgPlus {
     if (typeof sessionLogs !== "object" || sessionLogs === null) {
         sessionLogs = {};
     }
+    
     this.innerHTML = "";
     if (Object.keys(sessionLogs).length === 0) {
         this.createChild("span", {innerHTML: "No session history available."});
     } else {
-        for (let sid in sessionLogs) {
-            this.createChild(SessionCard, {}, sessionLogs[sid])
-        }
+      let logs = Object.values(sessionLogs);
+      logs.sort((a, b) => b.metadata.time - a.metadata.time);
+      logs.forEach(l => this.createChild(SessionCard, {}, l));
     }
   }
 }

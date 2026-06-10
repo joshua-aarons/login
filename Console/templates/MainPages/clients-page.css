@@ -91,7 +91,7 @@ profile-list {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 1.3em;
+  font-size: 1.1em;
 }
 
 .profile-card .img {
@@ -125,16 +125,15 @@ profile-list {
   gap: 1.5em;
 }
 
-.profile-panel[mode="sessions"] .profile-settings-panel,
-.profile-panel[mode="trends"] .profile-settings-panel {
+.profile-panel:not([mode="settings"])  .profile-settings-panel {
   display: none;
 }
 
-.profile-panel:not([mode="sessions"]) .profile-session-history {
+.profile-panel:not([mode="session-history"]) .profile-session-history {
   display: none;
 }
 
-.profile-panel:not([mode="trends"]) .profile-session-trends {
+.profile-panel:not([mode="session-trends"]) .profile-session-trends {
   display: none;
 }
 
@@ -412,7 +411,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
   display: none !important;
 }
 
-.toggle-button {
+.toggle-list {
   position: relative;
   display: flex;
   width: fit-content;
@@ -423,38 +422,30 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 
 .toggle-indicator {
   position: absolute;
-  width: calc(33.333% - 0.2em);
   height: calc(100% - 0.6em);
+  top:  .3em;
+  left: 0;
   border-radius: 1em;
   background: var(--toggle-select);
   transform: translateX(0);
   transition: transform 200ms ease;
 }
 
-.toggle-button[toggle="sessions"] .toggle-indicator {
-  transform: translateX(100%);
-}
-
-.toggle-button[toggle="trends"] .toggle-indicator {
-  transform: translateX(200%);
-}
-
-.toggle-button span {
-  z-index: 1;
+.toggle-list span {
   text-align: center;
   padding: 0.3em 1em;
   min-width: 8.5em;
   border-radius: 1em;
   cursor: pointer;
+  z-index: 1;
+}
+.toggle-list span[active] {
+  opacity: 1;
+}
+.toggle-list span:not([active]) {
+  opacity: 0.9;
 }
 
-.toggle-button span[active] {
-  font-weight: 500
-}
-
-.toggle-button span:not([active]) {
-  font-weight: 400;
-}
 
 #settings {
   display: flex;
@@ -808,6 +799,21 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
     --color-light: var(--red-light);
 }
 
+
+.no-data {
+    border-radius: 1em;
+    border: 2px dashed var(--color-disabled-wash);
+    color: var(--gray-text);
+    background: var(--tab-color);
+    padding: 1em;
+    text-align: center;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .app-info-popup .header {
     display: flex;
     flex-direction: column;
@@ -932,16 +938,6 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 
 .heatmap .no-data {
     height: 100%;
-    padding: 1em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    background-color: var(--border-color);
-    border: 2px dashed var(--color-disabled-wash);
-    border-radius: 1em;
-    font-size: 0.9em;
-    color: var(--color-dark);
 }
 
 .app-info-popup .info-area .app-view .user-data-view section .heatmap svg{
@@ -1118,6 +1114,37 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
     color: var(--gray-text);
 }
 
+/* ── Trend selector ── */
+
+.trend-selector {
+    display: flex;
+    gap: 0.4em;
+    flex-wrap: wrap;
+}
+
+.trend-selector-btn {
+    padding: 0.35em 1em;
+    border-radius: 2em;
+    border: 1.5px solid var(--border-color);
+    background: var(--color-white);
+    color: var(--gray-text);
+    font-size: 0.85em;
+    cursor: pointer;
+    transition: background 150ms, color 150ms, border-color 150ms;
+}
+
+.trend-selector-btn:hover {
+    border-color: var(--color-danger);
+    color: var(--color-danger);
+}
+
+.trend-selector-btn[active] {
+    background: var(--color-danger);
+    border-color: var(--color-danger);
+    color: white;
+    font-weight: 600;
+}
+
 /* ── Trend cards ── */
 
 .trend-card {
@@ -1133,7 +1160,6 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 .trend-card-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 1em;
     flex-wrap: wrap;
 }
@@ -1154,14 +1180,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
     height: auto;
 }
 
-.trend-card-empty {
-    padding: 2em 1em;
-    text-align: center;
-    color: var(--gray-text);
-    font-size: 0.9em;
-    background: var(--tab-color);
-    border-radius: 0.5em;
-}
+
 
 .trend-card .axis text {
   fill: var(--gray-text);
