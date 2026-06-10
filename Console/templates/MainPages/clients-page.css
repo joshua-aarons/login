@@ -1063,7 +1063,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
     min-width: 0;
     background: var(--color-white);
     border-radius: 12px;
-    border: 1px solid rgb(229, 227, 243);
+    border: 1px solid var(--border-color);
     padding: 14px 16px;
     display: flex;
     flex-direction: column;
@@ -1181,15 +1181,28 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 }
 
 
+.v-legend rect {
+  fill: var(--color-white);
+}
+.v-legend text {
+  fill: var(--color-dark);
+}
 
 .trend-card .axis text {
   fill: var(--gray-text);
 
 }
+.trend-card .background-rect {
+  fill: none;
+}
 .trend-card .background-rect,
+.trend-card .grid polyline,
 .trend-card .axis polyline {
   stroke: var(--gray-text);
   stroke-width: 0.5;
+}
+.trend-card .grid polyline {
+  opacity: 0.5;
 }
 .trend-card .zero-line {
   stroke: var(--gray-text);
