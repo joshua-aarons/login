@@ -1,0 +1,2877 @@
+{
+  "-OfXcjuq0hbmxBliV6yM": {
+    "-OmiYOP5Y1aaBpbxNobd": {
+      "aac": [
+        [
+          "Quick words",
+          false
+        ],
+        [
+          "Toilet",
+          true
+        ],
+        [
+          "I want",
+          true
+        ],
+        [
+          "Play something",
+          false
+        ],
+        [
+          "Something to drink",
+          true
+        ],
+        [
+          "Coffee",
+          false
+        ]
+      ],
+      "access": {
+        "eye-gaze": true,
+        "switch": false
+      },
+      "metadata": {
+        "duration": 3,
+        "profile": "-OfXcjuq0hbmxBliV6yM",
+        "time": 1772455048141
+      },
+      "settings": [
+        [
+          "participant/eye-gaze-enabled",
+          {
+            "newValue": false,
+            "oldValue": true
+          }
+        ],
+        [
+          "participant/languages/language",
+          {
+            "newValue": "english",
+            "oldValue": "korean"
+          }
+        ],
+        [
+          "participant/languages/voice",
+          {
+            "newValue": "theo",
+            "oldValue": "default"
+          }
+        ]
+      ],
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    }
+  },
+  "-OfXiuyXeuCW1atx6cIX": {
+    "-OnZQ4SoFPXx9-IJ3bxG": {
+      "aac": [
+        [
+          "Quick words",
+          false
+        ],
+        [
+          "I want",
+          true
+        ],
+        [
+          "Do something",
+          true
+        ],
+        [
+          "Baking",
+          true
+        ],
+        [
+          "I want",
+          false
+        ],
+        [
+          "Something to drink",
+          false
+        ],
+        [
+          "Milk",
+          false
+        ],
+        [
+          "Coffee",
+          false
+        ],
+        [
+          "Water",
+          false
+        ],
+        [
+          "Milk",
+          false
+        ],
+        [
+          "Coffee",
+          false
+        ],
+        [
+          "Drink",
+          false
+        ],
+        [
+          "Cordial",
+          false
+        ],
+        [
+          "Juice",
+          false
+        ]
+      ],
+      "access": {
+        "eye-gaze": true,
+        "switch": true
+      },
+      "apps": [
+        [
+          "LampAAC",
+          2
+        ],
+        [
+          "Starfin Adventure",
+          2
+        ]
+      ],
+      "metadata": {
+        "duration": 575,
+        "profile": "-OfXiuyXeuCW1atx6cIX",
+        "time": 1773359117158
+      },
+      "settings": [
+        [
+          "participant/keyboardShortcuts/x",
+          {
+            "newValue": true,
+            "oldValue": false
+          }
+        ]
+      ],
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OtSjupLWCCmnEQGLb5h": {
+      "access": {
+        "eye-gaze": false,
+        "switch": false
+      },
+      "apps": [
+        [
+          "PianoTrials",
+          3
+        ],
+        [
+          "Quick Core 24",
+          1
+        ]
+      ],
+      "metadata": {
+        "duration": 6,
+        "profile": "-OfXiuyXeuCW1atx6cIX",
+        "time": 1779689443109
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": -569,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OtSlz_omQ_J8bqzOLg0": {
+      "access": {
+        "eye-gaze": false,
+        "switch": false
+      },
+      "apps": [
+        [
+          "PianoTrials",
+          6
+        ],
+        [
+          "fruit-ninja-3d",
+          4
+        ]
+      ],
+      "metadata": {
+        "duration": 6,
+        "profile": "-OfXiuyXeuCW1atx6cIX",
+        "time": 1779689851255
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": 0,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-Ou5qkmzZWVn2VgpYEVI": {
+      "access": {
+        "eye-gaze": 61.57998333333333,
+        "switch": 0.21318333333333334
+      },
+      "apps": [
+        [
+          "letter-app",
+          1.3408166666666668
+        ],
+        [
+          "make-a-pizza",
+          0.3322833333333333
+        ]
+      ],
+      "metadata": {
+        "duration": 62.887933333333336,
+        "profile": "-OfXiuyXeuCW1atx6cIX",
+        "time": 1780387871985
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": 56.887933333333336,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    }
+  },
+  "-OfXj1ZeElfxvxv3dzS4": {
+    "-OmiURdXFJBKPr-_C6vg": {
+      "access": {
+        "eye-gaze": true,
+        "switch": false
+      },
+      "metadata": {
+        "duration": 3,
+        "profile": "-OfXj1ZeElfxvxv3dzS4",
+        "time": 1772454008196
+      },
+      "settings": [
+        [
+          "participant/eye-gaze-enabled",
+          {
+            "newValue": true,
+            "oldValue": true
+          }
+        ]
+      ],
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OstjpH4TObfHLlTU0zw": {
+      "access": {
+        "eye-gaze": false,
+        "switch": false
+      },
+      "apps": [
+        [
+          "PianoTrials",
+          2
+        ],
+        [
+          "fruit-ninja-3d",
+          3
+        ]
+      ],
+      "metadata": {
+        "duration": 2,
+        "profile": "-OfXj1ZeElfxvxv3dzS4",
+        "time": 1779085659614
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": -1,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-Ostm91kAyryVLTdoEbE": {
+      "access": {
+        "eye-gaze": false,
+        "switch": false
+      },
+      "metadata": {
+        "duration": 0,
+        "profile": "-OfXj1ZeElfxvxv3dzS4",
+        "time": 1779085912752
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": -2,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-Ostmy-aLOVqVGxC1Qxn": {
+      "access": {
+        "eye-gaze": false,
+        "switch": false
+      },
+      "metadata": {
+        "duration": 1,
+        "profile": "-OfXj1ZeElfxvxv3dzS4",
+        "time": 1779086125450
+      },
+      "settings": [
+        [
+          "participant/eye-gaze-enabled",
+          {
+            "newValue": false,
+            "oldValue": true
+          }
+        ]
+      ],
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": 1,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OstnKjvUwMwFDI356sg": {
+      "access": {
+        "eye-gaze": true,
+        "switch": false
+      },
+      "metadata": {
+        "duration": 0,
+        "profile": "-OfXj1ZeElfxvxv3dzS4",
+        "time": 1779086222730
+      },
+      "settings": [
+        [
+          "participant/eye-gaze-enabled",
+          {
+            "newValue": true,
+            "oldValue": false
+          }
+        ]
+      ],
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": -1,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OstnZlEamuXlO21H9u-": {
+      "access": {
+        "eye-gaze": true,
+        "switch": false
+      },
+      "metadata": {
+        "duration": 1,
+        "profile": "-OfXj1ZeElfxvxv3dzS4",
+        "time": 1779086284547
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": 1,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-Ostnw5kZoJYe-VD9Wbt": {
+      "access": {
+        "eye-gaze": false,
+        "switch": false
+      },
+      "metadata": {
+        "duration": 0,
+        "profile": "-OfXj1ZeElfxvxv3dzS4",
+        "time": 1779086379517
+      },
+      "settings": [
+        [
+          "participant/eye-gaze-enabled",
+          {
+            "newValue": false,
+            "oldValue": true
+          }
+        ]
+      ],
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": -1,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OtSoClmXDuz_ESRxyE3": {
+      "access": {
+        "eye-gaze": false,
+        "switch": false
+      },
+      "apps": [
+        [
+          "Starfin Adventure",
+          35
+        ],
+        [
+          "Noci",
+          34
+        ]
+      ],
+      "metadata": {
+        "duration": 35,
+        "profile": "-OfXj1ZeElfxvxv3dzS4",
+        "time": 1779690431971
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": 35,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    }
+  },
+  "-OfXjCp5RgCPlOYj7X7l": {
+    "-OmiZJ-8wxpdpJAJvF_b": {
+      "aac": [
+        [
+          "Quick words",
+          false
+        ],
+        [
+          "Toilet",
+          false
+        ],
+        [
+          "Now",
+          false
+        ]
+      ],
+      "access": {
+        "eye-gaze": true,
+        "switch": false
+      },
+      "apps": [
+        [
+          "LampAAC",
+          6
+        ],
+        [
+          "Starfin Adventure",
+          3
+        ],
+        [
+          "Cursor Splash",
+          3
+        ]
+      ],
+      "metadata": {
+        "duration": 36,
+        "profile": "-OfXjCp5RgCPlOYj7X7l",
+        "time": 1772455283442
+      },
+      "settings": [
+        [
+          "participant/eye-gaze-enabled",
+          {
+            "newValue": false,
+            "oldValue": true
+          }
+        ],
+        [
+          "participant/calibration/size",
+          {
+            "newValue": "4",
+            "oldValue": "5"
+          }
+        ],
+        [
+          "participant/access/switchTime",
+          {
+            "newValue": 1.1,
+            "oldValue": 1
+          }
+        ],
+        [
+          "participant/access/dwellTime",
+          {
+            "newValue": 1.4000000000000004,
+            "oldValue": 1
+          }
+        ],
+        [
+          "participant/calibration/speed",
+          {
+            "newValue": "slow",
+            "oldValue": "medium"
+          }
+        ]
+      ],
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    }
+  },
+  "-OfXzsD6eW-NQPwTeVXP": {
+    "-Onor64Z8wcOJi648rj0": {
+      "access": {
+        "eye-gaze": true,
+        "switch": false
+      },
+      "metadata": {
+        "duration": 3,
+        "profile": "-OfXzsD6eW-NQPwTeVXP",
+        "time": 1773634696245
+      },
+      "settings": [
+        [
+          "participant/access/switchTime",
+          {
+            "newValue": 2.2999999999999994,
+            "oldValue": 2.3999999999999995
+          }
+        ]
+      ],
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    }
+  },
+  "-OnWSTUNVWyvwZbZdxvt": {
+    "-OnVcGtC0EKPqRJAnsLh": {
+      "access": {
+        "eye-gaze": false,
+        "switch": false
+      },
+      "metadata": {
+        "duration": 446,
+        "profile": "-OnWSTUNVWyvwZbZdxvt",
+        "time": 1773295678364
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    }
+  },
+  "-OnWSb0GpzkDM2YBUKFR": {
+    "-OrXHYyMxEk4mU_w3rJ4": {
+      "aac": [
+        [
+          "I think",
+          false
+        ],
+        [
+          "It's not",
+          false
+        ],
+        [
+          "Same",
+          false
+        ],
+        [
+          "Fair",
+          false
+        ]
+      ],
+      "access": {
+        "eye-gaze": false,
+        "switch": false
+      },
+      "metadata": {
+        "duration": 1,
+        "profile": "-OnWSb0GpzkDM2YBUKFR",
+        "time": 1777618012212
+      },
+      "settings": [
+        [
+          "participant/access/dwellTime",
+          {
+            "newValue": 0.9,
+            "oldValue": 1
+          }
+        ],
+        [
+          "participant/access/switchTime",
+          {
+            "newValue": 0.9,
+            "oldValue": 1
+          }
+        ],
+        [
+          "participant/calibration/size",
+          {
+            "newValue": "4",
+            "oldValue": "5"
+          }
+        ],
+        [
+          "participant/cursors/cursorColour",
+          {
+            "newValue": "colour-3",
+            "oldValue": "colour-4"
+          }
+        ],
+        [
+          "participant/cursors/cursorStyle",
+          {
+            "newValue": "circle",
+            "oldValue": "arrow"
+          }
+        ]
+      ],
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    }
+  },
+  "-OnWht3bCuddiuyl3r0m": {
+    "-OtTsdjLkfVxcqorZKyw": {
+      "access": {
+        "eye-gaze": 0,
+        "switch": 0
+      },
+      "apps": [
+        [
+          "Noci",
+          0.09978333333333333
+        ],
+        [
+          "Starfin Adventure",
+          1.9373666666666667
+        ]
+      ],
+      "metadata": {
+        "duration": 2.7272333333333334,
+        "profile": "-OnWht3bCuddiuyl3r0m",
+        "time": 1779708391862
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OtUA0DDhs3LiK4j1IZQ": {
+      "access": {
+        "eye-gaze": 5.4180166666666665,
+        "switch": 0.03378333333333333
+      },
+      "apps": [
+        [
+          "Starfin Adventure",
+          2.6611666666666665
+        ],
+        [
+          "Noci",
+          0.67735
+        ]
+      ],
+      "calibrationScores": [
+        [
+          76,
+          false
+        ]
+      ],
+      "metadata": {
+        "duration": 5.956283333333333,
+        "profile": "-OnWht3bCuddiuyl3r0m",
+        "time": 1779713202653
+      },
+      "settings": [
+        [
+          "participant/eye-gaze-enabled",
+          {
+            "newValue": true,
+            "oldValue": false
+          }
+        ],
+        [
+          "participant/keyboardShortcuts/e",
+          {
+            "newValue": true,
+            "oldValue": false
+          }
+        ],
+        [
+          "participant/keyboardShortcuts/x",
+          {
+            "newValue": true,
+            "oldValue": false
+          }
+        ],
+        [
+          "participant/keyboardShortcuts/f",
+          {
+            "newValue": true,
+            "oldValue": false
+          }
+        ],
+        [
+          "participant/keyboardShortcuts/q",
+          {
+            "newValue": true,
+            "oldValue": false
+          }
+        ]
+      ],
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": 3.22905,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    }
+  },
+  "-OnorQD9p6A49X0ZqIL6": {
+    "-OtCSsmVl2B_kCT9jxQC": {
+      "access": {
+        "eye-gaze": true,
+        "switch": true
+      },
+      "apps": [
+        [
+          "Noci",
+          9
+        ]
+      ],
+      "metadata": {
+        "duration": 9,
+        "profile": "-OnorQD9p6A49X0ZqIL6",
+        "time": 1779416162556
+      },
+      "settings": [
+        [
+          "participant/cursors/cursorSize",
+          {
+            "newValue": "medium",
+            "oldValue": "small"
+          }
+        ],
+        [
+          "participant/cursors/cursorColour",
+          {
+            "newValue": "colour-4",
+            "oldValue": "colour-1"
+          }
+        ],
+        [
+          "participant/eye-gaze-enabled",
+          {
+            "newValue": false,
+            "oldValue": true
+          }
+        ],
+        [
+          "participant/display/effect",
+          {
+            "newValue": "enhanced-saturation",
+            "oldValue": "none"
+          }
+        ],
+        [
+          "participant/display/font",
+          {
+            "newValue": "inclusive",
+            "oldValue": "default"
+          }
+        ],
+        [
+          "participant/keyboardShortcuts/v",
+          {
+            "newValue": true,
+            "oldValue": false
+          }
+        ],
+        [
+          "participant/keyboardShortcuts/a",
+          {
+            "newValue": true,
+            "oldValue": false
+          }
+        ],
+        [
+          "participant/keyboardShortcuts/x",
+          {
+            "newValue": true,
+            "oldValue": false
+          }
+        ],
+        [
+          "participant/keyboardShortcuts/f",
+          {
+            "newValue": true,
+            "oldValue": false
+          }
+        ],
+        [
+          "participant/keyboardShortcuts/c",
+          {
+            "newValue": true,
+            "oldValue": false
+          }
+        ],
+        [
+          "participant/keyboardShortcuts/q",
+          {
+            "newValue": true,
+            "oldValue": false
+          }
+        ],
+        [
+          "participant/keyboardShortcuts/s",
+          {
+            "newValue": true,
+            "oldValue": false
+          }
+        ],
+        [
+          "participant/keyboardShortcuts/g",
+          {
+            "newValue": true,
+            "oldValue": false
+          }
+        ]
+      ],
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    }
+  },
+  "default": {
+    "-OmiSLLN5HLtWJZv1aoX": {
+      "access": {
+        "eye-gaze": true,
+        "switch": true
+      },
+      "metadata": {
+        "duration": 2,
+        "profile": "default",
+        "time": 1772453462184
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OmiVS3NMji5EnLPQpk9": {
+      "aac": [
+        [
+          "I want",
+          false
+        ],
+        [
+          "Something to drink",
+          false
+        ],
+        [
+          "Coffee",
+          false
+        ],
+        [
+          "Tea",
+          false
+        ],
+        [
+          "Straw",
+          false
+        ],
+        [
+          "Milk",
+          false
+        ],
+        [
+          "Describing words",
+          false
+        ],
+        [
+          "Chat",
+          false
+        ],
+        [
+          "I use a communication aid to talk",
+          false
+        ],
+        [
+          "I've got to go now",
+          false
+        ],
+        [
+          "Bye",
+          false
+        ],
+        [
+          "I've got to go now",
+          false
+        ],
+        [
+          "I use a communication aid to talk",
+          false
+        ],
+        [
+          "Hi",
+          false
+        ],
+        [
+          "Give me time to write my message",
+          false
+        ],
+        [
+          "Tell me more",
+          false
+        ],
+        [
+          "I want",
+          false
+        ],
+        [
+          "Something to drink",
+          false
+        ],
+        [
+          "Coffee",
+          false
+        ],
+        [
+          "Juice",
+          false
+        ],
+        [
+          "Water",
+          false
+        ],
+        [
+          "Tea",
+          false
+        ]
+      ],
+      "access": {
+        "eye-gaze": true,
+        "switch": true
+      },
+      "apps": [
+        [
+          "LampAAC",
+          1
+        ]
+      ],
+      "metadata": {
+        "duration": 11,
+        "profile": "default",
+        "time": 1772454272451
+      },
+      "quizzes": [
+        [
+          "Grade 6 General Knowledge",
+          1
+        ]
+      ],
+      "settings": [
+        [
+          "participant/access/dwellTime",
+          {
+            "newValue": 1.2000000000000002,
+            "oldValue": 1.6000000000000005
+          }
+        ]
+      ],
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": 9,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-Ona_k7ITAW-82N1TJE0": {
+      "access": {
+        "eye-gaze": true,
+        "switch": false
+      },
+      "apps": [
+        [
+          "LampAAC",
+          2
+        ],
+        [
+          "Starfin Adventure",
+          2
+        ]
+      ],
+      "metadata": {
+        "duration": 6,
+        "profile": "default",
+        "time": 1773395208266
+      },
+      "settings": [
+        [
+          "participant/cursors/cursorColour",
+          {
+            "newValue": "colour-5",
+            "oldValue": "colour-4"
+          }
+        ],
+        [
+          "participant/eye-gaze-enabled",
+          {
+            "newValue": true,
+            "oldValue": true
+          }
+        ]
+      ],
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": -5,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-Onz05RCDCRX7mEhB9Hz": {
+      "aac": [
+        [
+          "People",
+          false
+        ],
+        [
+          "My friends",
+          false
+        ],
+        [
+          "Someone else",
+          false
+        ],
+        [
+          "I want",
+          true
+        ]
+      ],
+      "access": {
+        "eye-gaze": false,
+        "switch": true
+      },
+      "apps": [
+        [
+          "LampAAC",
+          4
+        ]
+      ],
+      "metadata": {
+        "duration": 129,
+        "profile": "default",
+        "time": 1773805033488
+      },
+      "quizzes": [
+        [
+          "Grade 6 General Knowledge",
+          68
+        ],
+        [
+          "Echidna Facts",
+          1
+        ]
+      ],
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": 123,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OrS5FP-GnBAxJLE9Qgt": {
+      "aac": [
+        [
+          "Quick words",
+          false
+        ],
+        [
+          "Stop",
+          false
+        ]
+      ],
+      "access": {
+        "eye-gaze": false,
+        "switch": false
+      },
+      "metadata": {
+        "duration": 1,
+        "profile": "default",
+        "time": 1777530926694
+      },
+      "settings": [
+        [
+          "participant/display/layout",
+          {
+            "newValue": "v-side",
+            "oldValue": "v-side"
+          }
+        ],
+        [
+          "participant/calibration/size",
+          {
+            "newValue": "5",
+            "oldValue": "4"
+          }
+        ]
+      ],
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": -128,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OrXGM7zzA2hqSLQtWm5": {
+      "aac": [
+        [
+          "I want",
+          false
+        ],
+        [
+          "Do something",
+          false
+        ]
+      ],
+      "access": {
+        "eye-gaze": false,
+        "switch": false
+      },
+      "metadata": {
+        "duration": 1,
+        "profile": "default",
+        "time": 1777617714382
+      },
+      "settings": [
+        [
+          "participant/display/layout",
+          {
+            "newValue": "v-side",
+            "oldValue": "v-top"
+          }
+        ],
+        [
+          "participant/cursors/cursorStyle",
+          {
+            "newValue": "arrow",
+            "oldValue": "circle"
+          }
+        ]
+      ],
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": 0,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-Os_TEVgXOC6OsHNvtaV": {
+      "access": {
+        "eye-gaze": false,
+        "switch": false
+      },
+      "apps": [
+        [
+          "Unity 28",
+          0
+        ]
+      ],
+      "metadata": {
+        "duration": 184,
+        "profile": "default",
+        "time": 1778745168222
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": 183,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OstoIcbOJs_bwc95O84": {
+      "aac": [
+        [
+          "Can I ask you something?",
+          true
+        ]
+      ],
+      "access": {
+        "eye-gaze": true,
+        "switch": false
+      },
+      "apps": [
+        [
+          "Quick Core 40",
+          120
+        ],
+        [
+          "Unity 28",
+          300
+        ],
+        [
+          "LampAAC",
+          118
+        ],
+        [
+          "Quick Core 24",
+          55
+        ],
+        [
+          "Cursor Splash",
+          1
+        ],
+        [
+          "fruit-ninja-3d",
+          1
+        ],
+        [
+          "Quick Core 60",
+          1
+        ],
+        [
+          "whack-a-mole",
+          1
+        ]
+      ],
+      "metadata": {
+        "duration": 210,
+        "profile": "default",
+        "time": 1779086653916
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": 26,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-Ot7BwxpMelJq9kh577n": {
+      "access": {
+        "eye-gaze": false,
+        "switch": false
+      },
+      "apps": [
+        [
+          "Unity 28",
+          137
+        ],
+        [
+          "Cursor Splash",
+          314
+        ],
+        [
+          "nocitrack-pain-management-demo",
+          3867
+        ],
+        [
+          "Nocki",
+          4
+        ]
+      ],
+      "metadata": {
+        "duration": 689,
+        "profile": "default",
+        "time": 1779327851916
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": 479,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OtSj8_DpaEevLViO5iM": {
+      "access": {
+        "eye-gaze": false,
+        "switch": false
+      },
+      "apps": [
+        [
+          "Quick Core 24",
+          1
+        ],
+        [
+          "Starfin Adventure",
+          1
+        ],
+        [
+          "Quick Core 40",
+          1
+        ]
+      ],
+      "metadata": {
+        "duration": 0,
+        "profile": "default",
+        "time": 1779689185712
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": -689,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OtX9ubt7Y75RP3dR6LE": {
+      "aac": [
+        [
+          "Chat",
+          true
+        ]
+      ],
+      "access": {
+        "eye-gaze": 0,
+        "switch": 0
+      },
+      "apps": [
+        [
+          "Quick Core 24",
+          79.62398333333333
+        ],
+        [
+          "Starfin Adventure",
+          0.12398333333333333
+        ],
+        [
+          "fruit-ninja-3d",
+          6.4597
+        ]
+      ],
+      "metadata": {
+        "duration": 129.76003333333333,
+        "profile": "default",
+        "time": 1779763703732
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": 129.76003333333333,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OtYFZeEmWC4rebTC4cB": {
+      "access": {
+        "eye-gaze": 0,
+        "switch": 0
+      },
+      "apps": [
+        [
+          "make-a-pizza",
+          18.204466666666665
+        ]
+      ],
+      "calibrationScores": [
+        [
+          71,
+          true
+        ]
+      ],
+      "metadata": {
+        "duration": 291.7981833333333,
+        "profile": "default",
+        "time": 1779781803270
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": 162.03815,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OtakZN8LwdN1JenUsp2": {
+      "access": {
+        "eye-gaze": 203.2728,
+        "switch": 0
+      },
+      "apps": [
+        [
+          "make-a-pizza",
+          161.7729
+        ],
+        [
+          "LampAAC",
+          4.936966666666667
+        ]
+      ],
+      "metadata": {
+        "duration": 218.29248333333334,
+        "profile": "default",
+        "time": 1779843689796
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": -73.50569999999999,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-Oth3eWOcFMv9dz0IyEi": {
+      "access": {
+        "eye-gaze": 127.05176666666667,
+        "switch": 0
+      },
+      "apps": [
+        [
+          "letter-app",
+          178.47435000000002
+        ],
+        [
+          "make-a-pizza",
+          0
+        ]
+      ],
+      "metadata": {
+        "duration": 181.67605,
+        "profile": "default",
+        "time": 1779946426511
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": -36.61643333333333,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-Ou52Hly4SBaM7bH_oMY": {
+      "access": {
+        "eye-gaze": 0,
+        "switch": 0
+      },
+      "apps": [
+        [
+          "make-a-pizza",
+          49.28786666666667
+        ],
+        [
+          "Noci",
+          57.33451666666667
+        ]
+      ],
+      "metadata": {
+        "duration": 119.72985,
+        "profile": "default",
+        "time": 1780365667534
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": -61.946200000000005,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-Ou9bEi71x_ISSvLi8Ug": {
+      "access": {
+        "eye-gaze": 85.20716666666668,
+        "switch": 0
+      },
+      "apps": [
+        [
+          "fruit-ninja-3d",
+          0.7606
+        ],
+        [
+          "make-a-pizza",
+          8.09505
+        ],
+        [
+          "Cursor Splash",
+          63.7949
+        ],
+        [
+          "PianoTrials",
+          0.14271666666666666
+        ],
+        [
+          "letter-app",
+          0.08426666666666667
+        ],
+        [
+          "Noci",
+          0.31275
+        ]
+      ],
+      "calibrationScores": [
+        [
+          83,
+          false
+        ],
+        [
+          76,
+          false
+        ]
+      ],
+      "metadata": {
+        "duration": 291.8000666666667,
+        "profile": "default",
+        "time": 1780442049299
+      },
+      "quizzes": [
+        [
+          "Animal Trivia",
+          0.0623
+        ],
+        [
+          "BMET5953 Workshop",
+          0.09605
+        ],
+        [
+          "Adapted QUEST 2.0",
+          0.06378333333333333
+        ]
+      ],
+      "settings": [
+        [
+          "participant/calibration/size",
+          {
+            "newValue": "3",
+            "oldValue": "5"
+          }
+        ],
+        [
+          "participant/calibration/speed",
+          {
+            "newValue": "fast",
+            "oldValue": "medium"
+          }
+        ]
+      ],
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": 172.07021666666668,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OuAeRrvXbLAILN5mCSa": {
+      "access": {
+        "eye-gaze": 0,
+        "switch": 0
+      },
+      "apps": [
+        [
+          "letter-app",
+          0.6326833333333334
+        ],
+        [
+          "fruit-ninja-3d",
+          0.09013333333333333
+        ],
+        [
+          "LampAAC",
+          3.3816166666666665
+        ]
+      ],
+      "metadata": {
+        "duration": 8.356633333333333,
+        "profile": "default",
+        "time": 1780459681757
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": -283.44343333333336,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OuB1l9WD1F3T0Z_tOWy": {
+      "access": {
+        "eye-gaze": 4.329883333333333,
+        "switch": 0
+      },
+      "apps": [
+        [
+          "Noci",
+          1.7597166666666666
+        ],
+        [
+          "LampAAC",
+          0.5301
+        ],
+        [
+          "letter-app",
+          98.30825
+        ],
+        [
+          "Quick Core 40",
+          2.46795
+        ]
+      ],
+      "metadata": {
+        "duration": 183.41766666666666,
+        "profile": "default",
+        "time": 1780466008703
+      },
+      "totals": {
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      },
+      "deltas": {
+        "duration": 175.06103333333334,
+        "host": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participant": {
+          "click": 0,
+          "dwell": 0,
+          "switch": 0,
+          "total": 0
+        },
+        "participation": 0
+      }
+    },
+    "-OuGTcZiQ19VW707_8ci": {
+      "access": {
+        "eye-gaze": 4.9446666666666665,
+        "switch": 0
+      },
+      "apps": [
+        [
+          "make-a-pizza",
+          0.8907
+        ],
+        [
+          "Noci",
+          1.77225
+        ]
+      ],
+      "appsInfo": [
+        [
+          "make-a-pizza",
+          {
+            "duration": 0.8907,
+            "host": {
+              "interactions": {
+                "click": 6,
+                "dwell": 0,
+                "switch": 0
+              }
+            },
+            "participant": {
+              "interactions": {
+                "click": 13,
+                "dwell": 0,
+                "switch": 0
+              }
+            }
+          }
+        ],
+        [
+          "Noci",
+          {
+            "duration": 1.77225,
+            "host": {
+              "interactions": {
+                "click": 1,
+                "dwell": 7,
+                "switch": 0
+              }
+            },
+            "participant": {
+              "interactions": {
+                "click": 35,
+                "dwell": 0,
+                "switch": 0
+              }
+            }
+          }
+        ]
+      ],
+      "calibrationScores": [
+        [
+          82,
+          true
+        ]
+      ],
+      "metadata": {
+        "duration": 6.259516666666666,
+        "profile": "default",
+        "time": 1780557197971,
+        "version": 2
+      },
+      "totals": {
+        "host": {
+          "click": 7,
+          "dwell": 7,
+          "switch": 0,
+          "total": 14
+        },
+        "participant": {
+          "click": 48,
+          "dwell": 0,
+          "switch": 0,
+          "total": 48
+        },
+        "participation": 0.7741935483870968
+      },
+      "deltas": {
+        "duration": -177.15815,
+        "host": {
+          "click": 7,
+          "dwell": 7,
+          "switch": 0,
+          "total": 14
+        },
+        "participant": {
+          "click": 48,
+          "dwell": 0,
+          "switch": 0,
+          "total": 48
+        },
+        "participation": 0.7741935483870968
+      }
+    },
+    "-OuGWPo51QQY9gv_ngXt": {
+      "access": {
+        "eye-gaze": 1.4483666666666666,
+        "switch": 0
+      },
+      "apps": [
+        [
+          "PianoTrials",
+          1.2274666666666667
+        ]
+      ],
+      "appsInfo": [
+        [
+          "PianoTrials",
+          {
+            "duration": 1.2274666666666667,
+            "host": {
+              "heatmaps": [
+                "AAAAAAoAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGgAAAAcAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIQAAACkAAAACAAAAHQAAABMAAAATAAAACgAAAAoAAAAAAAAAAAAAACoAAAA3AAAAJwAAAGMAAABgAAAAUAAAAAcAAABiAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAsAAAAAAAAAAIAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+                "AQAAAAoAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAADAAAABgAAABwAAAAOAAAAJAAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAAAAAACAAAAAgAAAAoAAAAAAAAAAAAAAAQAAAABAAAAAQAAAAEAAAAFAAAAFQAAABAAAAAHAAAAAAAAAAIAAAAOAAAAEwAAAAcAAAADAAAAFgAAABEAAAADAAAANwAAAAAAAAAKAAAAGwAAABMAAAAlAAAAJAAAABUAAAALAAAAFAAAAAYAAAABAAAABQAAAEYAAABEAAAAOwAAAFYAAABsAAAACQAAAAEAAAAAAAAAHwAAAA0AAAAcAAAAGwAAAAoAAAB0AAAAMQAAAAEAAAAAAAAAAAAAABUAAAAUAAAADwAAAAAAAAABAAAABAAAAAAAAAABAAAAAAAAAAAAAAASAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAABAAAAAQAAAAEAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAACgAAAA=="
+              ],
+              "interactions": {
+                "click": 10,
+                "dwell": 3,
+                "switch": 0
+              }
+            },
+            "participant": {
+              "heatmaps": [
+                "AAAAAAoAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJAAAABgAAAAAAAAAAAAAABgAAAB8AAAAeAAAABAAAAC8AAAAsAAAAEAAAACwAAAAAAAAAAAAAAB4AAAAwAAAADwAAACIAAAA0AAAAWAAAAA4AAAAUAAAAAAAAAAAAAAAAAAAAGAAAADsAAAAJAAAAMwAAADAAAAAkAAAAEgAAAAAAAAAAAAAAAAAAAAAAAAAXAAAARwAAAAkAAAApAAAAWgAAAD4AAAAAAAAAAAAAAAAAAAAAAAAADgAAABIAAAAQAAAAAAAAAAAAAAARAAAAAAAAAA=="
+              ],
+              "interactions": {
+                "click": 15,
+                "dwell": 0,
+                "switch": 0
+              }
+            }
+          }
+        ]
+      ],
+      "metadata": {
+        "duration": 1.7101,
+        "profile": "default",
+        "time": 1780557923331,
+        "version": 2
+      },
+      "totals": {
+        "host": {
+          "click": 10,
+          "dwell": 3,
+          "switch": 0,
+          "total": 13
+        },
+        "participant": {
+          "click": 15,
+          "dwell": 0,
+          "switch": 0,
+          "total": 15
+        },
+        "participation": 0.5357142857142857
+      },
+      "deltas": {
+        "duration": -4.549416666666667,
+        "host": {
+          "click": 3,
+          "dwell": -4,
+          "switch": 0,
+          "total": -1
+        },
+        "participant": {
+          "click": -33,
+          "dwell": 0,
+          "switch": 0,
+          "total": -33
+        },
+        "participation": -0.23847926267281105
+      }
+    },
+    "-OuGe5vBVvAEHpPrk3fs": {
+      "access": {
+        "eye-gaze": 3.2578,
+        "switch": 0
+      },
+      "apps": [
+        [
+          "fruit-ninja-3d",
+          1.9861
+        ],
+        [
+          "Noci",
+          0.6715833333333333
+        ],
+        [
+          "LampAAC",
+          1.0572666666666666
+        ]
+      ],
+      "appsInfo": [
+        [
+          "fruit-ninja-3d",
+          {
+            "duration": 1.9861,
+            "host": {
+              "heatmaps": [
+                "AAAAAAoAAAAKAAAAAAAAAAAAAAABAAAAAAAAAAMAAAAAAAAAAAAAAAIAAAAEAAAAAAAAAAAAAAAAAAAAAQAAAAcAAAAIAAAAAAAAAAwAAAAsAAAAIQAAAAAAAAAAAAAAAAAAAAAAAAARAAAADQAAAAcAAAAOAAAAEgAAABoAAAAAAAAAAAAAAAAAAAAAAAAAGQAAABkAAAAyAAAAPAAAAAsAAAAoAAAAAAAAAAAAAAAAAAAAAAAAAAYAAABPAAAAlgAAAEMAAAAFAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAwQAAACUBAAAuAAAAAQAAAAQAAAAAAAAAAAAAAAAAAAAAAAAABgAAAFwAAABhAAAACAAAAAIAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAGAAAAAAAAAAAAAAAXAAAAEwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+                "AQAAAAoAAAAKAAAAAAAAAAAAAAAJAAAACgAAABkAAAARAAAADQAAAAQAAAAJAAAAPAIAAAAAAAAFAAAADwAAABQAAAAWAAAAEwAAAAwAAAAMAAAABQAAAA8AAAAFAAAADwAAABQAAAAvAAAAIQAAABYAAAARAAAADQAAAAMAAAAKAAAABQAAAAsAAAAUAAAAOQAAABYAAAAaAAAAFwAAAA4AAAAWAAAAGAAAAAcAAAAZAAAAGQAAADEAAAA2AAAAHgAAABIAAAAOAAAABQAAAA0AAAAHAAAABAAAABIAAAAMAAAACwAAAA0AAAAOAAAAEgAAABQAAAAKAAAACwAAAAIAAAAJAAAACQAAAAcAAAALAAAACAAAAAYAAAADAAAAAAAAABMAAAABAAAACwAAAAAAAAABAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+              ],
+              "interactions": {
+                "click": 3,
+                "dwell": 0,
+                "switch": 0
+              }
+            },
+            "participant": {
+              "heatmaps": [
+                "AAAAAAoAAAAKAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFwAAAAQAAAAAAAAABgAAAAAAAAALAAAAAgAAAAAAAAAAAAAAAAAAAAEAAAAKAAAADAAAAAAAAAAmAAAAGQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGwAAAA8AAAAvAAAAYgAAACkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiAAAAdgAAALQAAAAdAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHQAAAHEAAABOAAAAHwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+              ],
+              "interactions": {
+                "click": 1,
+                "dwell": 0,
+                "switch": 0
+              }
+            }
+          }
+        ],
+        [
+          "Noci",
+          {
+            "duration": 0.6715833333333333,
+            "host": {
+              "heatmaps": [
+                "AAAAAAoAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAABAAAAAAAAAAAAAAAAAAAAAAAAAApQAAAAAAAAAAAAAAFgAAAAgAAAAMAAAAIQAAABkAAAAgAAAAHwAAAIMAAAAMAAAAAAAAAAMAAAACAAAAAAAAAAoAAAAhAAAAOQAAAAsAAAAsAAAAAAAAAAAAAAAAAAAAEwAAAAYAAAAKAAAAGAAAAGMAAAAMAAAAHQAAAAAAAAAAAAAAAAAAAAAAAAADAAAABwAAAD4AAAALAAAAEAAAABkAAAAAAAAAAAAAAAAAAAAAAAAABQAAAAYAAAAYAAAAFQAAACsAAAAYAAAAAAAAAAAAAAAAAAAAAAAAACQAAAANAAAAJQAAAC8AAABfAAAAkgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIwAAAA4AAAAZAAAAEAAAAHYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+                "AQAAAAoAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALAAAAZQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+              ],
+              "interactions": {
+                "click": 17,
+                "dwell": 0,
+                "switch": 0
+              }
+            },
+            "participant": {
+              "heatmaps": [
+                "AAAAAAoAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAFAAAABwAAAHkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANAAAAAAAAAAMAAAARAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIwAAAAAAAAAGAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC0AAAAEAAAABgAAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAApAAAACQAAAAgAAAALAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAPAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXAAAADQAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAAAAAAAAAA=="
+              ],
+              "interactions": {
+                "click": 9,
+                "dwell": 0,
+                "switch": 0
+              }
+            }
+          }
+        ],
+        [
+          "LampAAC",
+          {
+            "duration": 1.0572666666666666,
+            "host": {
+              "heatmaps": [
+                "AAAAAAoAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJAAAAGAAAAAUAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUAAAAKAAAADgAAAAAAAAAAAAAACwAAAAAAAAAAAAAAAAAAAAAAAAABAAAABwAAAEkAAABIAAAAGQAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA0AAAAhAAAAUgAAAEoAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAAF8AAAAaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+                "AQAAAAoAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAACAAAABwAAADQAAABRAAAAGgIAAAAAAAAAAAAAAQAAAAYAAAALAAAABQAAABIAAAAPAAAAAAAAAAcAAAABAAAAAQAAAAAAAAAPAAAAGgAAACQAAAAGAAAABAAAAAAAAAADAAAAAQAAAAAAAAABAAAAHgAAAAkAAAAuAAAAZQAAAAAAAAAAAAAABAAAAAMAAAAEAAAACwAAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+              ],
+              "interactions": {
+                "click": 6,
+                "dwell": 10,
+                "switch": 4
+              }
+            },
+            "participant": {
+              "interactions": {
+                "click": 0,
+                "dwell": 0,
+                "switch": 0
+              }
+            }
+          }
+        ]
+      ],
+      "metadata": {
+        "duration": 4.628566666666667,
+        "profile": "default",
+        "time": 1780560207671,
+        "version": 2
+      },
+      "totals": {
+        "host": {
+          "click": 26,
+          "dwell": 10,
+          "switch": 4,
+          "total": 40
+        },
+        "participant": {
+          "click": 10,
+          "dwell": 0,
+          "switch": 0,
+          "total": 10
+        },
+        "participation": 0.2
+      },
+      "deltas": {
+        "duration": 2.918466666666667,
+        "host": {
+          "click": 16,
+          "dwell": 7,
+          "switch": 4,
+          "total": 27
+        },
+        "participant": {
+          "click": -5,
+          "dwell": 0,
+          "switch": 0,
+          "total": -5
+        },
+        "participation": -0.3357142857142857
+      }
+    },
+    "-OueZUtvKIZkZ1nUMWKz": {
+      "access": {
+        "eye-gaze": 0,
+        "switch": 0
+      },
+      "apps": [
+        [
+          "make-a-pizza",
+          0.83595
+        ],
+        [
+          "Noci",
+          0.36655
+        ],
+        [
+          "fruit-ninja-3d",
+          0.7391166666666666
+        ]
+      ],
+      "appsInfo": [
+        [
+          "make-a-pizza",
+          {
+            "duration": 0.83595,
+            "host": {
+              "heatmaps": [
+                "AAAAAAoAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEgAAAAAAAAAAAAAAAAAAAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAAAAAAAeAAAAAQAAAAAAAAAAAAAABgAAAAUAAAAIAAAAAAAAABYAAAAoAAAAGAAAACUAAAAAAAAAAQAAAAYAAAAFAAAAVgAAABQAAAAAAAAACAAAAA4AAAAbAAAARwAAAAsAAAAPAAAACAAAABYAAAAAAAAAAAAAAAAAAAAPAAAADgAAAAsAAAA+AAAAHgAAAAEAAABjAAAAAAAAAAAAAAAAAAAAAQAAAAQAAAABAAAAAAAAAAAAAAAAAAAADgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+                "AQAAAAoAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwAAAGUAAAA4AAAACgAAABoAAAAJAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAkAAAAPwAAADUAAAAgAAAADgAAAAgAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAQAAABKAAAADgAAAAQAAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+              ],
+              "interactions": {
+                "click": 10,
+                "dwell": 6,
+                "switch": 0
+              }
+            },
+            "participant": {
+              "heatmaps": [
+                "AAAAAAoAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAADgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAcAAAAHAAAABwAAACMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMAAAAtAAAABwAAAA0AAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAMAAAAHAAAAPAAAAAgAAAAFAAAAHQAAAAAAAAAAAAAAAAAAAAAAAAADAAAARQAAAE8AAAAJAAAADgAAAAsAAAAYAAAAAAAAAAAAAAABAAAAAQAAADEAAAAVAAAAFgAAABIAAAAHAAAAAgAAAAAAAAAAAAAABAAAAAYAAAALAAAABgAAAAQAAAAHAAAAEQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+              ],
+              "interactions": {
+                "click": 6,
+                "dwell": 0,
+                "switch": 0
+              }
+            }
+          }
+        ],
+        [
+          "Noci",
+          {
+            "duration": 0.36655,
+            "host": {
+              "heatmaps": [
+                "AAAAAAoAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFwAAAB8AAAANAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAABIAAAAKAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIQAAAA8AAAArAAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFAAAAFQAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+              ],
+              "interactions": {
+                "click": 3,
+                "dwell": 0,
+                "switch": 0
+              }
+            },
+            "participant": {
+              "heatmaps": [
+                "AAAAAAoAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAABAAAAFAAAAAAAAAAAAAAACgAAAA0AAAAAAAAABQAAAAEAAAAFAAAABgAAAMcAAAAAAAAAAAAAAAAAAAAFAAAAAgAAAAUAAAAGAAAAAAAAAA4AAAASAAAAAAAAAAAAAAAAAAAAAwAAAAoAAAADAAAALgAAAAUAAAApAAAACgAAAAAAAAAAAAAAAAAAAAIAAAACAAAACQAAABcAAAANAAAAIAAAAAoAAAAAAAAAAAAAAAEAAAABAAAAAwAAAAAAAAAXAAAAGgAAAAwAAAABAAAAAAAAAAAAAAAEAAAAAAAAAAoAAAAIAAAAGAAAAA4AAAAcAAAADwAAAAAAAAAAAAAABQAAAAYAAAADAAAAMgAAABwAAAAMAAAADQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAGAAAAAwAAAAIAAAAAAAAAAAAAAA=="
+              ],
+              "interactions": {
+                "click": 7,
+                "dwell": 0,
+                "switch": 0
+              }
+            }
+          }
+        ],
+        [
+          "fruit-ninja-3d",
+          {
+            "duration": 0.7391166666666666,
+            "host": {
+              "heatmaps": [
+                "AAAAAAoAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQAAAAQAAAAMAAAACAAAAAoAAAAOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFAAAABAAAAAUAAAAGAAAABQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAkAAAADAAAABQAAAAIAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAJAAAAGIAAAALAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAUAAAAMAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsAAAAIAAAADQAAABUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+                "AQAAAAoAAAAKAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAYAAAAOAAAAAwAAAAEAAAABAAAAAQAAAAIAAAAAAAAAAgAAAAAAAAAFAAAACQAAAAEAAAAEAAAAAQAAAAAAAAAAAAAAAAAAAAEAAAAAAAAACQAAAA0AAAAMAAAAGAAAAAoAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAQAAAAHAAAAFgAAABUAAAARAAAACAAAAA8AAAAHAAAAAgAAAAAAAAARAAAAEQAAAAkAAAAIAAAACQAAABEAAAAJAAAAAAAAAAIAAAACAAAAJAAAAAcAAAAPAAAACAAAAAgAAAAJAAAAAwAAAAMAAAACAAAAAgAAACoAAAAEAAAABQAAAA8AAAAEAAAABQAAAA0AAAALAAAAAwAAAAcAAABJAAAABgAAAAAAAAACAAAABgAAAAkAAAADAAAAAwAAAAMAAAAAAAAAZAAAAAEAAAADAAAABgAAAAMAAAAFAAAAAgAAAAAAAAAFAAAAAAAAAA=="
+              ],
+              "interactions": {
+                "click": 1,
+                "dwell": 0,
+                "switch": 0
+              }
+            },
+            "participant": {
+              "heatmaps": [
+                "AAAAAAoAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAwAAAAAAAAADAAAAAwAAAAMAAAAAAAAAAAAAAAAAAAAAAAAANQAAAA0AAAABAAAAAQAAAAwAAAAGAAAAAQAAAAAAAAAAAAAAAQAAAAkAAAAOAAAADAAAAAQAAAAHAAAADwAAAAMAAAAAAAAAAAAAAAQAAAAIAAAACQAAAAwAAAApAAAAAgAAAAwAAAAAAAAAAAAAAAAAAAAFAAAADAAAAAQAAAAZAAAAJAAAACMAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAHAAAACgAAABQAAAATAAAAEQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoAAAAPAAAACQAAABkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+              ],
+              "interactions": {
+                "click": 1,
+                "dwell": 0,
+                "switch": 0
+              }
+            }
+          }
+        ]
+      ],
+      "metadata": {
+        "duration": 4.776133333333333,
+        "profile": "default",
+        "time": 1780978166234,
+        "version": 2
+      },
+      "totals": {
+        "host": {
+          "click": 14,
+          "dwell": 6,
+          "switch": 0,
+          "total": 20
+        },
+        "participant": {
+          "click": 14,
+          "dwell": 0,
+          "switch": 0,
+          "total": 14
+        },
+        "participation": 0.4117647058823529
+      },
+      "deltas": {
+        "duration": 0.14756666666666618,
+        "host": {
+          "click": -12,
+          "dwell": -4,
+          "switch": -4,
+          "total": -20
+        },
+        "participant": {
+          "click": 4,
+          "dwell": 0,
+          "switch": 0,
+          "total": 4
+        },
+        "participation": 0.2117647058823529
+      }
+    }
+  }
+}

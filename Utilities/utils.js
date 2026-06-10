@@ -464,12 +464,13 @@ export function formatMinutes(minutes) {
   } else if (minutes < 1) {
     res =  `${Math.round(minutes * 60)}s`;
   } else if (minutes < 60) {
-    const minute1dp = minutes.toFixed(1);
-    if (minute1dp.endsWith(".0")) {
-      res = `${Math.round(minutes)}m`;
-    } else {
-      res = `${minute1dp}m`;
-    }
+    const minute1dp = minutes.toFixed(0);
+    // if (minute1dp.endsWith(".0")) {
+    //   res = `${Math.round(minutes)}m`;
+    // } else {
+    //   res = `${minute1dp}m`;
+    // }
+    res = `${minute1dp}m`;
   } else {
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = Math.round(minutes % 60);
@@ -480,6 +481,14 @@ export function formatMinutes(minutes) {
     }
   }
   return res;
+}
+
+export function formatDateTime(timestamp) {
+  if (!timestamp) return "—";
+  const d = new Date(timestamp);
+  let date = d.toLocaleDateString(undefined, {month: "short", day: "2-digit", year: "numeric"});
+  let time = d.toLocaleTimeString(undefined, {hour: "numeric", minute: "2-digit", hour12: true});
+  return [date,time]
 }
 
 

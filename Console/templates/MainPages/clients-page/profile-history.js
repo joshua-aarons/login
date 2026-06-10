@@ -1,5 +1,5 @@
 import { SvgPlus } from "../../../../SvgPlus/4.js";
-import { camelCaseToText, snakeCaseToText, formatMinutes } from "../../../../Utilities/utils.js";
+import { camelCaseToText, snakeCaseToText, formatMinutes, formatDateTime } from "../../../../Utilities/utils.js";
 import { AppInfoPopup } from "./apps-info-popup.js";
 
 const Option2Text = {
@@ -55,15 +55,12 @@ class SHistoryRow extends SvgPlus {
   }
 }
 
-
 class SessionCard extends SvgPlus {
   constructor(sessionData) {
     super("div");
     this.class = "session-card";
 
-    const d = new Date(sessionData.metadata.time);
-    let date = d.toLocaleDateString(undefined, {month: "short", day: "2-digit", year: "numeric"});
-    let time = d.toLocaleTimeString(undefined, {hour: "numeric", minute: "2-digit", hour12: true});
+    const [date, time] = formatDateTime(sessionData.metadata.time);
 
     // Session header
     this.session = this.createChild("div", {class: "session"})

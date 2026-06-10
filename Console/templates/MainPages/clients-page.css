@@ -125,11 +125,16 @@ profile-list {
   gap: 1.5em;
 }
 
-.profile-panel[mode="sessions"] .profile-settings-panel {
+.profile-panel[mode="sessions"] .profile-settings-panel,
+.profile-panel[mode="trends"] .profile-settings-panel {
   display: none;
 }
 
 .profile-panel:not([mode="sessions"]) .profile-session-history {
+  display: none;
+}
+
+.profile-panel:not([mode="trends"]) .profile-session-trends {
   display: none;
 }
 
@@ -418,7 +423,7 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
 
 .toggle-indicator {
   position: absolute;
-  width: calc(50% - 0.3em);
+  width: calc(33.333% - 0.2em);
   height: calc(100% - 0.6em);
   border-radius: 1em;
   background: var(--toggle-select);
@@ -430,11 +435,15 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
   transform: translateX(100%);
 }
 
+.toggle-button[toggle="trends"] .toggle-indicator {
+  transform: translateX(200%);
+}
+
 .toggle-button span {
   z-index: 1;
   text-align: center;
   padding: 0.3em 1em;
-  min-width: 10em;
+  min-width: 8.5em;
   border-radius: 1em;
   cursor: pointer;
 }
@@ -826,7 +835,6 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
     flex-direction: column;
     gap: 1em;
     padding: 1em;
-    overflow-x: scroll;;
 }
 .app-info-popup .app-view {
     display: grid;
@@ -954,6 +962,10 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
   flex-wrap: wrap;
   gap: 1em;
   font-size: 0.85em;
+  align-items: center;
+}
+.deltas .compared-to {
+  color: var(--gray-text);
 }
 
 .bar-graph .bar {
@@ -1022,3 +1034,144 @@ section[name="keyboardShortcuts"] input:checked ~ .checkmark::after {
     color: #111;
 }
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~ SESSION TRENDS PANEL ~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+.profile-session-trends {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    box-sizing: border-box;
+}
+
+.trends-intro {
+    margin: 0;
+    text-align: center;
+    font-size: 0.8em;
+    color: var(--gray-text);
+    letter-spacing: 0.02em;
+}
+
+/* ── Summary stat row ── */
+
+.summary-stats-row {
+  grid-template-columns: 1fr 1fr;
+  display: grid;
+  gap: 0.75em;
+}
+
+.summary-stat-card {
+    flex: 1 1 0;
+    min-width: 0;
+    background: var(--color-white);
+    border-radius: 12px;
+    border: 1px solid rgb(229, 227, 243);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.summary-stat-label {
+    font-size: 11px;
+    color: var(--gray-text);
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.summary-stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--stat-color);
+    line-height: 1.1;
+}
+
+.summary-stat-delta {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 1.4em;
+}
+
+.summary-stat-badge {
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 1px 6px;
+}
+
+.summary-stat-badge[positive] {
+    color: #16a34a;
+    background: #dcfce7;
+}
+
+.summary-stat-badge[negative] {
+    color: #f43f5e;
+    background: #ffe4e6;
+}
+
+.summary-stat-vs {
+    font-size: 10px;
+    color: var(--gray-text);
+}
+
+/* ── Trend cards ── */
+
+.trend-card {
+    background: var(--color-white);
+    border-radius: 1em;
+    padding: 1.2em 1.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+    filter: drop-shadow(0 0.1em 0.4em var(--shadow-color));
+}
+
+.trend-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+    flex-wrap: wrap;
+}
+
+.trend-card-title {
+    font-weight: 600;
+    font-size: 0.95em;
+}
+
+.trend-card-plot-wrap {
+    width: 100%;
+    overflow: hidden;
+}
+
+.trend-card-plot-wrap svg {
+    width: 100%;
+    display: block;
+    height: auto;
+}
+
+.trend-card-empty {
+    padding: 2em 1em;
+    text-align: center;
+    color: var(--gray-text);
+    font-size: 0.9em;
+    background: var(--tab-color);
+    border-radius: 0.5em;
+}
+
+.trend-card .axis text {
+  fill: var(--gray-text);
+
+}
+.trend-card .background-rect,
+.trend-card .axis polyline {
+  stroke: var(--gray-text);
+  stroke-width: 0.5;
+}
+.trend-card .zero-line {
+  stroke: var(--gray-text);
+  stroke-dasharray: 4 2;
+}

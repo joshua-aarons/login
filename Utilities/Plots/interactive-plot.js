@@ -20,6 +20,54 @@ function bestTickInterval(tickGuess) {
     return base * 10 * guessSign;
 }
 
+/** Ordered list of "nice" time intervals in milliseconds used for tick snapping. */
+const TIME_INTERVALS_MS = [
+    1, 2, 5, 10, 50, 100, 250, 500,                          // ms
+    1e3, 2e3, 5e3, 10e3, 15e3, 30e3,                         // seconds
+    60e3, 2*60e3, 5*60e3, 10*60e3, 15*60e3, 30*60e3,         // minutes
+    3600e3, 2*3600e3, 4*3600e3, 6*3600e3, 12*3600e3,          // hours
+    86400e3, 2*86400e3, 7*86400e3,                            // days / weeks
+    30*86400e3, 91*86400e3, 182*86400e3,                      // months (approx)
+    365*86400e3, 2*365*86400e3, 5*365*86400e3, 10*365*86400e3,// years
+];
+
+/**
+ * Like bestTickInterval but snaps to human-meaningful time durations.
+ * @param {number} tickGuessMs - target interval size in milliseconds
+ * @returns {number} interval in milliseconds
+ */
+function bestTimeInterval(tickGuessMs) {
+    tickGuessMs = Math.abs(tickGuessMs);
+    for (const interval of TIME_INTERVALS_MS) {
+        if (interval >= tickGuessMs) return interval;
+    }
+    return TIME_INTERVALS_MS[TIME_INTERVALS_MS.length - 1];
+}
+
+/**
+ * Formats a Unix-ms timestamp as a compact human-readable string,
+ * choosing precision based on the current tick interval.
+ * @param {number} ms - timestamp in milliseconds
+ * @param {number} intervalMs - the active tick interval in milliseconds
+ * @returns {string}
+ */
+function formatTimestamp(ms, intervalMs) {
+    const d = new Date(ms);
+    const pad = n => String(Math.floor(n)).padStart(2, "0");
+    if (intervalMs < 1e3) {
+        return `${pad(d.getSeconds())}.${String(d.getMilliseconds()).padStart(3, "0")}`;
+    } else if (intervalMs < 60e3) {
+        return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    } else if (intervalMs < 86400e3) {
+        return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    } else if (intervalMs < 365 * 86400e3) {
+        const M = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+        return `${M[d.getMonth()]} ${d.getDate()}`;
+    } else {
+        return String(d.getFullYear());
+    }
+}
+
 class SeriesStyles extends LineStyles {
 
 }
@@ -110,7 +158,6 @@ class VerticalLegend extends Renderable {
 }
 
 
-
 /**
  * Encapsulates the per-Y-axis state and tick/transform logic for InteractivePlot.
  * Each instance tracks its own data bounds, initial transform, and rendering position.
@@ -130,6 +177,7 @@ class PlotYAxis {
     constructor(label = "Y", side = "left") {
         this.label = label;
         this.side = side;
+        this.tickFormatFunction = v => v.toFixed(2);
     }
 
     /**
@@ -224,6 +272,7 @@ class PlotYAxis {
             ticks,
             flipTickSide: this.side === "right",
             tickLineStyles: { stroke: "gray", strokeWidth: 1 },
+            tickFormatFunction: this.tickFormatFunction,
         });
     }
 }
@@ -231,9 +280,9 @@ class PlotYAxis {
 
 export class InteractivePlot extends SvgPlus {
     static MAX_SCALE = 20;
-    static MIN_SCALE = 0.25;
+    static MIN_SCALE = 0.8;
     static MAX_TICKS_PER_AXIS = 50;
-    static SNAP_THRESHOLD = 0.1; // fraction of a tick interval within which snapping fires
+    static SNAP_THRESHOLD = 0.2; // fraction of a tick interval within which snapping fires
 
 
     // Series: [{ points: Vector[], styles: {}, yAxisIndex: number }]
@@ -253,6 +302,9 @@ export class InteractivePlot extends SvgPlus {
 
     // X axis label
     #xLabel = "X";
+
+    // When true, X values are treated as Unix-ms timestamps
+    #xIsTime = false;
 
     // View state (shared X transform + per-axis Y through PlotYAxis)
     #viewOffset = new Vector(0, 0);
@@ -340,11 +392,24 @@ export class InteractivePlot extends SvgPlus {
     get size() { return this.#pSize; }
 
     set xLabel(label) {
-        this.#xLabel = String(label);
+        this.#xLabel = label === null ? null : String(label);
         if (this.#series.length > 0) this.#build();
         this.#change = true;
     }
     get xLabel() { return this.#xLabel; }
+
+    /**
+     * When set to true, X values are interpreted as Unix millisecond timestamps.
+     * Tick intervals snap to human-meaningful durations (seconds, minutes, hours, …)
+     * and labels are formatted as times/dates.
+     * @param {boolean} v
+     */
+    set xTime(v) {
+        this.#xIsTime = Boolean(v);
+        if (this.#series.length > 0) this.#build();
+        this.#change = true;
+    }
+    get xTime() { return this.#xIsTime; }
 
     /**
      * Sets the label for a Y axis.
@@ -353,7 +418,7 @@ export class InteractivePlot extends SvgPlus {
      */
     setYLabel(label, axisIndex = 0) {
         if (axisIndex < this.#yAxes.length) {
-            this.#yAxes[axisIndex].label = String(label);
+            this.#yAxes[axisIndex].label = label === null ? null : String(label);
             if (this.#series.length > 0) this.#build();
             this.#change = true;
         }
@@ -372,11 +437,34 @@ export class InteractivePlot extends SvgPlus {
         }
     }
 
+    /**
+     * Sets the tick format function for a Y axis.
+     * @param {function(number): string} fn - receives the tick value, returns a label string
+     * @param {number} axisIndex - which Y axis (default 0)
+     */
+    setYFormat(fn, axisIndex = 0) {
+        if (axisIndex < this.#yAxes.length && fn instanceof Function) {
+            this.#yAxes[axisIndex].tickFormatFunction = fn;
+            this.#change = true;
+        }
+    }
+
     // Keep a yLabel setter for backward compatibility (sets axis 0)
     set yLabel(label) { this.setYLabel(label, 0); }
     get yLabel() { return this.#yAxes[0]?.label ?? "Y"; }
 
     // ── Private ───────────────────────────────────────────────────────────────
+
+    /** Returns the best X tick interval for a given visible data width. */
+    #bestXInterval(visibleDataW) {
+        const guess = visibleDataW / this.#ticks.x;
+        return this.#xIsTime ? bestTimeInterval(guess) : bestTickInterval(guess);
+    }
+
+    /** Formats an X axis tick value given the current interval. */
+    #formatX(v, interval) {
+        return this.#xIsTime ? formatTimestamp(v, interval) : v.toFixed(2);
+    }
 
     /**
      * Returns the longest formatted tick label string for each axis at max zoom-out.
@@ -385,30 +473,34 @@ export class InteractivePlot extends SvgPlus {
      */
     #longestTickLabels() {
         if (this.#series.length === 0) {
-            return { x: "-100.00", yAxes: this.#yAxes.map(() => "-100.00") };
+            return { x: this.#xIsTime ? "00:00:00" : "-100.00", yAxes: this.#yAxes.map(() => "-100.00") };
         }
-
-        const format = v => v.toFixed(2);
-        const longestOf = (...vals) => vals.map(format).reduce((a, b) => b.length > a.length ? b : a);
 
         const minScaleX = InteractivePlot.MIN_SCALE;
         const effectiveScaleX = this.#iScaleX * minScaleX;
         const visW = this.#pSize.x / effectiveScaleX;
-        const intervalX = bestTickInterval(visW / this.#ticks.x);
+        const intervalX = this.#bestXInterval(visW);
 
-        const allPoints = this.#series.flatMap(s => s.points);
-        const db = BBox.fromPoints(allPoints, false);
-        const extremeLeftX  = Math.floor((db.pos.x - visW) / intervalX) * intervalX;
-        const extremeRightX = Math.ceil((db.pos.x + db.size.x + visW) / intervalX) * intervalX;
+        const yLabels = this.#yAxes.map((yAxis) =>
+            yAxis.longestTickLabel(this.#pSize.y, this.#ticks.y, InteractivePlot.MIN_SCALE)
+        );
 
-        const yLabels = this.#yAxes.map((yAxis, i) => {
-            return yAxis.longestTickLabel(this.#pSize.y, this.#ticks.y, InteractivePlot.MIN_SCALE);
-        });
+        let xSample;
+        if (this.#xIsTime) {
+            if (intervalX < 1e3)              xSample = "00.000";
+            else if (intervalX < 60e3)        xSample = "00:00:00";
+            else if (intervalX < 86400e3)     xSample = "00:00";
+            else if (intervalX < 365*86400e3) xSample = "Sep 30";
+            else                              xSample = "2024";
+        } else {
+            const allPoints = this.#series.flatMap(s => s.points);
+            const db = BBox.fromPoints(allPoints, false);
+            const extremeLeftX  = Math.floor((db.pos.x - visW) / intervalX) * intervalX;
+            const extremeRightX = Math.ceil((db.pos.x + db.size.x + visW) / intervalX) * intervalX;
+            xSample = [extremeLeftX, extremeRightX].map(v => v.toFixed(2)).reduce((a, b) => b.length > a.length ? b : a);
+        }
 
-        return {
-            x: longestOf(extremeLeftX, extremeRightX),
-            yAxes: yLabels,
-        };
+        return { x: xSample, yAxes: yLabels };
     }
 
     /**
@@ -459,16 +551,17 @@ export class InteractivePlot extends SvgPlus {
         ).sub(bPos);
         let bbox = new BBox(bPos, bSize);
 
-        // X axis label (centered below the plot)
-        const xAxisLabel = Text.make({
+        // X axis label (centered below the plot) — omitted when xLabel is null
+        const xAxisLabel = this.#xLabel !== null ? Text.make({
             content: this.#xLabel,
             position: [pWidth / 2, bbox.bottom + tickLength * 2],
             styles: { fontSize: 12, class: "axis-label" },
             anchor: "center-top",
-        });
+        }) : null;
 
-        // Y axis labels — one per axis
+        // Y axis labels — one per axis, omitted when the axis label is null
         const yAxisLabelElements = this.#yAxes.map((yAxis, i) => {
+            if (yAxis.label === null) return null;
             const leftTick2 = yTickSamples[i];
             const xPos = yAxis.side === "right"
                 ? pWidth + leftTick2.size.x + tickLength * 2
@@ -489,15 +582,16 @@ export class InteractivePlot extends SvgPlus {
             styles: { class: "background-rect", stroke: "gray", strokeWidth: 1, fill: "white"},
         });
 
-        this.#bbox = yAxisLabelElements.reduce(
-            (b, el) => b.union(el.boundingBox),
-            bbox.union(xAxisLabel.boundingBox)
-        );
+        const labelBBoxes = [
+            ...(xAxisLabel ? [xAxisLabel.boundingBox] : []),
+            ...yAxisLabelElements.filter(Boolean).map(el => el.boundingBox),
+        ];
+        this.#bbox = labelBBoxes.reduce((b, bb) => b.union(bb), bbox);
         this.setAttribute("viewBox", this.#bbox);
 
         if (this.#staticGroup) this.#staticGroup.remove();
         this.#staticGroup = this.createChild("g", {
-            content: defs + xAxisLabel + yAxisLabelElements.join("") + plotBox
+            content: defs + (xAxisLabel || "") + yAxisLabelElements.filter(Boolean).join("") + plotBox
         });
 
         if (this.#dynamicGroup) this.#dynamicGroup.remove();
@@ -539,7 +633,7 @@ export class InteractivePlot extends SvgPlus {
         // ── X (shared across all series) ──────────────────────────────────────
         const allPoints = this.#series.flatMap(s => s.points);
         const dbX = BBox.fromPoints(allPoints, false);
-        const intervalX = bestTickInterval(dbX.size.x / this.#ticks.x);
+        const intervalX = this.#bestXInterval(dbX.size.x);
         const tickStartX = Math.floor(dbX.pos.x / intervalX) * intervalX;
         const tickEndX   = Math.ceil((dbX.pos.x + dbX.size.x) / intervalX) * intervalX;
         this.#iPosX  = tickStartX;
@@ -623,7 +717,7 @@ export class InteractivePlot extends SvgPlus {
         const viewDataEndX    = viewDataOriginX + pWidth / effectiveScaleX;
 
         const visibleDataW = pWidth / effectiveScaleX;
-        const intervalX = bestTickInterval(visibleDataW / this.#ticks.x);
+        const intervalX = this.#bestXInterval(visibleDataW);
         const tickStartX = Math.ceil(viewDataOriginX / intervalX) * intervalX;
         const MAX = InteractivePlot.MAX_TICKS_PER_AXIS;
 
@@ -672,6 +766,7 @@ export class InteractivePlot extends SvgPlus {
             ticks: xTicks,
             flipTickSide: true,
             tickLineStyles: { stroke: "gray", strokeWidth: 1 },
+            tickFormatFunction: v => this.#formatX(v, intervalX),
         });
 
         // Y axes (one per PlotYAxis)
@@ -710,7 +805,7 @@ export class InteractivePlot extends SvgPlus {
 
 
         // Zero lines
-        const zeroLineStyles = { strokeWidth: 1, stroke: "#0006", clipPath: this.#regionClipPath };
+        const zeroLineStyles = { class: "zero-line", strokeWidth: 1, stroke: "#0006", clipPath: this.#regionClipPath };
         const zeroChildren = [];
 
         const xZero = (0 - this.#iPosX) * effectiveScaleX - this.#viewOffset.x;
@@ -754,7 +849,7 @@ export class InteractivePlot extends SvgPlus {
 
         const visW = this.#pSize.x / effectiveScaleX;
         const visH = this.#pSize.y / Math.abs(effectiveScaleY);
-        const intervalX = bestTickInterval(visW / this.#ticks.x);
+        const intervalX = this.#bestXInterval(visW);
         const intervalY = bestTickInterval(visH / this.#ticks.y); // negative
 
         const viewDataOriginX = this.#iPosX + this.#viewOffset.x / effectiveScaleX;
@@ -795,7 +890,7 @@ export class InteractivePlot extends SvgPlus {
         // Snap the uniform viewScale based on effective X scale (includes X-stretch)
         const effectiveScaleX = this.#iScaleX * this.#viewScale * this.#viewScaleX;
         const visW = this.#pSize.x / effectiveScaleX;
-        const intervalX = bestTickInterval(visW / this.#ticks.x);
+        const intervalX = this.#bestXInterval(visW);
         const currentTickCount = visW / intervalX;
         const snappedTickCount = Math.max(1, Math.round(currentTickCount));
 
@@ -911,38 +1006,3 @@ export class InteractivePlot extends SvgPlus {
         }, { passive: false });
     }
 }
-
-// ── Example usage ─────────────────────────────────────────────────────────────
-
-const plot = new InteractivePlot("#contanier");
-plot.size = [550, 400];
-plot.xLabel = "X Axis Label";
-
-
-// Series on primary (left) Y axis
-plot.addSeries(
-    new Array(1000).fill(0).map((_, i) => new Vector(
-        Math.PI * i / 99,
-        Math.random() + Math.cos(i / 300) * 30 +  Math.cos(i / 15) * 9 + Math.sin(i / 5) * 5
-    )),
-    { stroke: "#009cff", strokeWidth: 2 },
-    0, // yAxisIndex 0 (primary, left)
-    "Primary Signal"
-);
-
-// Series on secondary (right) Y axis — different scale
-plot.addSeries(
-    new Array(1000).fill(0).map((_, i) => new Vector(
-        Math.PI * i / 99,
-        (Math.random() + Math.cos(i / 300) * 30 + Math.sin(i / 15) * 9 + Math.cos(i / 5) * 5) * 77
-    )),
-    { stroke: "#ff7d00", strokeWidth: 2 },
-    1, // yAxisIndex 1 (secondary, right)
-    "Secondary Signal"
-);
-plot.setYLabel("Primary Y (left)", 0);
-plot.setYAxisSide("left", 0);
-plot.setYLabel("Secondary Y (right)", 1);
-plot.setYAxisSide("right", 1);
-
-document.getElementById("contanier").appendChild(plot);

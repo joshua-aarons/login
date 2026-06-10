@@ -1,6 +1,7 @@
 import { DataComponent, SvgPlus, UserDataComponent } from "../../../../Utilities/CustomComponent.js";
 import { useCSSStyle } from "../../../../Utilities/template.js";
 import { ProfileSessionHistory } from "./profile-history.js";
+import { ProfileSessionTrends } from "./profile-trends.js";
 import { ProfileList } from "./profile-list.js";
 import { SettingsFrame } from "./settings-base.js";
 import { SettingsPanel } from "./settings-panel.js";
@@ -28,6 +29,9 @@ class ProfilePanel extends UserDataComponent {
         this.sessionsButton = this.toggleButton.createChild("span", {innerHTML: "Session History", events: {
             click: () => this.setToggleState("sessions")
         }});
+        this.trendsButton = this.toggleButton.createChild("span", {innerHTML: "Session Trends", events: {
+            click: () => this.setToggleState("trends")
+        }});
 
         this.buttons2 = row.createChild("div", {class: "button-row"});
 
@@ -36,8 +40,12 @@ class ProfilePanel extends UserDataComponent {
     }
 
     onvalue(data) {
+        const logs = data?.sessionLogs?.[this.selctedProfileID] || {};
         if (this.historyPanel && data) {
-            this.historyPanel.logs = data?.sessionLogs?.[this.selctedProfileID] || {};
+            this.historyPanel.logs = logs;
+        }
+        if (this.trendsPanel && data) {
+            this.trendsPanel.logs = logs;
         }
     }
 
@@ -64,54 +72,48 @@ class ProfilePanel extends UserDataComponent {
 
         this.main.innerHTML = "";
         this.buttons.innerHTML = "";
+        this.buttons2.innerHTML = "";
 
         if (frame) {
             this.settingsPanel = this.main.createChild(SettingsPanel, {}, frame);
+
+            // Create static link button immediately in the header row for all profiles
+            let staticLinkBtn = this.buttons.createChild("button", {class: "btn", innerHTML: "Static Link"});
+            staticLinkBtn.createChild("i", {class: "fa-solid fa-clipboard", style: {"margin-left": "0.5em"}});
+            staticLinkBtn.addEventListener("click", async () => {
+                const proxyID = frame.getValue("proxyID");
+                try {
+                    const url = `${window.location.origin}/Session/?${proxyID}&proxy`;
+                    staticLinkBtn.styles = { opacity: "0.5", pointerEvents: "none" };
+                    await navigator.clipboard.writeText(url);
+                    showNotification("Static link copied to clipboard.", 3000, "success");
+                    setTimeout(() => {
+                        staticLinkBtn.styles = { opacity: "1", pointerEvents: "auto" };
+                    }, 500);
+                } catch (e) {
+                    showNotification("Failed to copy static link.", 3000, "error");
+                }
+            });
+
             if (frame.isDefault) {
                 this.headerText.innerHTML = "Default Profile";
             } else {
                 this._changeListener = frame.addChangeListener((path, value) => {
                     if (path === "profileSettings/name") {
                         this.headerText.innerHTML = value || "Untitled Profile";
-                    } else if (path === "proxyID") {
-                        this.buttons2.innerHTML = "";
-                        let b = this.buttons2.createChild("button", {class: "btn", innerHTML: "Static Link", events: {
-                            click: async () => {
-                                try {
-                                    const url = `${window.location.origin}/Session/?${value}&proxy`;
-                                    b.styles = {
-                                        opacity: "0.5",
-                                        pointerEvents: "none",
-                                    }
-                                    await navigator.clipboard.writeText(url);
-
-                                    showNotification("Static link copied to clipboard.", 3000, "success");
-                                    setTimeout(() => {
-                                        b.styles = {
-                                            opacity: "1",
-                                            pointerEvents: "auto",
-                                        }
-                                    }, 500);
-                                } catch (e) {
-                                    showNotification("Failed to copy static link.", 3000, "error");
-                                }
-                                
-                            }
-                        }})
-                        b.createChild("i", {class: "fa-solid fa-clipboard", style: {"margin-left": "0.5em"}})
                     }
                 })
 
                 this.buttons.createChild("button", {innerHTML: "Delete", events: {
                     click: () => frame.delete(),
                 }, class: "btn"}).createChild("i", {class: "fa-solid fa-trash", style: {"margin-left": "0.5em"}})
-                
-                
             }
 
             const profileID = frame.id;
             this.selctedProfileID = profileID;
+            this.setToggleState("settings");
             this.historyPanel = this.main.createChild(ProfileSessionHistory, {name: "session-history"});
+            this.trendsPanel  = this.main.createChild(ProfileSessionTrends,  {name: "session-trends"});
             this.value = this.value; // Trigger onvalue to load session logs for the selected profile
         }
     }

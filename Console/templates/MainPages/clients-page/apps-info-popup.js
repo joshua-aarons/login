@@ -1,6 +1,6 @@
 import { SvgPlus } from "../../../../SvgPlus/4.js";
 import { DiscreteHeatmap } from "../../../../Utilities/discreteHeatmap.js";
-import { camelCaseToText, formatMinutes, snakeCaseToText } from "../../../../Utilities/utils.js";
+import { camelCaseToText, formatDateTime, formatMinutes, snakeCaseToText } from "../../../../Utilities/utils.js";
 
 const mode2name = {
     "0": "Mouse",
@@ -151,10 +151,13 @@ class AppView extends SvgPlus {
             Object.values(appData[u].interactions).reduce((a, b) => a + b, 0) : 0
         );
 
-        this.createChild(BalanceCard, {styles: {
-            "grid-column-end": 3,
-            "grid-column-start": 1
-        }}, nInts[0], nInts[1]);
+        if (nInts.some(i => i > 0)) {
+            this.createChild(BalanceCard, {styles: {
+                "grid-column-end": 3,
+                "grid-column-start": 1
+            }}, nInts[0], nInts[1]);
+        }
+
         users.map(u => {
             let nInts = appData[u].interactions ? 
                 Object.values(appData[u].interactions).reduce((a, b) => a + b, 0) : 0;
@@ -190,6 +193,7 @@ class OverviewView extends SvgPlus {
         this.class = "app-view";
 
         if (sessionData.deltas) {
+            
             let dc = this.createChild("div", {class: "deltas card",
                 styles: { "grid-column-end": 3, "grid-column-start": 1 }
             });
@@ -213,6 +217,11 @@ class OverviewView extends SvgPlus {
                 class: "word-tag",
                 content: (pt > 0 ? "▲" : pt < 0 ? "▼" : "") + Math.abs(Math.round(pt*100)) + "%",
                 [pt >= 0 ? "aqua-green" : "red"]: true,
+            });
+
+            let comparedTo = dc.createChild("div", {
+                class: "compared-to",
+                content: "vs " +formatDateTime(sessionData.deltas.comparedTo)[0],
             });
         }
 

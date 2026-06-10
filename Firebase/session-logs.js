@@ -8,15 +8,20 @@ export function watch(uid, allData, updateCallback) {
 
         for (let pid in sessionLogs) {
             let lastDuration = 0
+            let lastTime = null;
             let last = null;
             let profileLogs = sessionLogs[pid];
+
             for (let sid in profileLogs) {
                 let slogs = profileLogs[sid];
+
                 let duration = slogs.metadata.duration || 0;
+
                 let totalInteractions = {
                     host: {click: 0, dwell: 0, switch: 0, total: 0},
-                    participant:{click: 0, dwell: 0, switch: 0, total: 0},
+                    participant: {click: 0, dwell: 0, switch: 0, total: 0},
                 }
+
                 if (slogs.appsInfo) {
                     for (let [appName, appData] of slogs.appsInfo) {
                         for (let user in totalInteractions) {
@@ -47,14 +52,16 @@ export function watch(uid, allData, updateCallback) {
                             total: totalInteractions.participant.total - last.participant.total,
                         },
                         participation: totalInteractions.participation - (last.participation || 0),
+                        comparedTo: lastTime,
                     }
+
                 }
+                lastTime = slogs.metadata?.time; 
                 last = totalInteractions;
                 lastDuration = duration;
             }
         }
-
-        console.log("Session Logs Updated:", sessionLogs);
+        console.log(sessionLogs)
 
         allData.sessionLogs = sessionLogs;
         updateCallback();
