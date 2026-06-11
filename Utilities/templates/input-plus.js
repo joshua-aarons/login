@@ -679,8 +679,8 @@ const typeInformation = {
 }
 
 class InputPlus extends InputProxy {
-
-    onconnect() {
+    constructor(el) {
+        super(el);
         this.#build();
     }
 
@@ -698,12 +698,16 @@ class InputPlus extends InputProxy {
     #build() {
         let innerHTML = this.innerHTML.trim();
         this.innerHTML = "";
-        this._name = this.getAttribute("name") || "";
+        
+        this.name = this.getAttribute("name") || "";
+
         let type = this.getAttribute("type") || "text";
         let TypeInfo = typeInformation[type] || typeInformation["text"];
         let Element = TypeInfo.element;
         this.type = type;
         this.input = this.createChild(Element, {});
+
+        this.validater = this.validater
 
         // get all set attributes and set them to the input element
         Array.from(this.attributes).forEach(attr => {
@@ -717,10 +721,14 @@ class InputPlus extends InputProxy {
 
     set validater(validater) {
         if (validater instanceof Function) {
-            this.input.validater = validater;
-        } else {
-            this.input.validater = null;
+            if (this.input) {
+                this.input.validater = validater;
+            } 
+            this._validater = validater;
         }
+    }
+    get validater() {
+        return this._validater;
     }
 
     validate() {
@@ -729,12 +737,8 @@ class InputPlus extends InputProxy {
 
     static get observedAttributes() {
         return [
-            "label", 
-            "type", 
-            "value", 
-            "required", 
-            "placeholder", 
-            "autocomplete",
+            "name",
+            "type",
         ];
     }
 }

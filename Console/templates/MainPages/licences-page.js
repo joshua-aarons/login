@@ -79,7 +79,7 @@ export class LicenceProductCard extends DataComponent {
                     label = "users"
                     icon="group"
                     required
-                    >
+                ></input-plus>
                 <button name = "submit" onclick = "openBilling" class = "btn call-to-action"></button>
                 <small class = "trial">7 day free trial.</small>
             </div>
