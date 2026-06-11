@@ -161,6 +161,7 @@ class CustomForm extends CustomComponent {
         let valid = true;
         for(let input of this.inputs){
             let isvalid = input.validate()
+            console.log(`validate ${input.name}: ${isvalid}`)
             valid = valid && isvalid
         }
         return valid

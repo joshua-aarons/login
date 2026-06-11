@@ -5,50 +5,76 @@
         <p class="text">Or reach us via: <a href="mailto:contact@squidly.com.au">contact@squidly.com.au</a></p>
         <div class="col top-margin">
             <div class="row"> 
-                <input-plus>
-                    <input autocomplete="off" name="firstName" type="text" required>
-                    <label>First Name</label>
-                    <i class="icon fa-solid fa-address-card"></i>
-                </input-plus>
-                <input-plus>
-                    <input autocomplete="on" name="lastName" type="text" required>
-                    <label>Last Name</label>
-                    <i class="icon fa-solid fa-address-card"></i>
-                </input-plus>
+                <input-plus
+                    name="firstName"
+                    type="text"
+                    label="First Name"
+                    icon="fa-solid fa-address-card"
+                    autocomplete="off"
+                    required
+                ></input-plus>
+
+                
+                <input-plus
+                    name="lastName"
+                    type="text"
+                    label="Last Name"
+                    icon="fa-solid fa-address-card"
+                    autocomplete="off"
+                    required
+                ></input-plus>
+              
             </div>
             <div class="row">
-                <input-plus>
-                    <input autocomplete="on" name="email" type="email" required>
-                    <label>Email</label>
-                    <i class="icon fa-solid fa-envelope"></i>
-                </input-plus>
-                <input-plus>
-                    <input autocomplete="on" name="jobTitle" type="text" required>
-                    <label>Job title</label>
-                    <i class="icon fa-solid fa-briefcase"></i>
-                </input-plus>
+                <input-plus
+                    name = "email"
+                    type="email"
+                    label="Email"
+                    icon="fa-solid fa-envelope"
+                    autocomplete="off"
+                    required
+                ></input-plus>
+
+
+                <input-plus
+                    name="jobTitle"
+                    type="text"
+                    label="Job Title"   
+                    icon="fa-solid fa-briefcase"
+                    autocomplete="off"
+                    required
+                ></input-plus>
             </div>
 
             <div class="row">
-                <input-plus>
-                    <input autocomplete="on" name="company" type="text" required>
-                    <label>Company name</label>
-                    <i class="icon fa-solid fa-building"></i>
-                </input-plus>
-                <input-plus>
-                    <input autocomplete="on" name="users" type = "number" required>
-                    <label>Number of users</label>
-                    <i class="icon fa-solid fa-users"></i>
-                </input-plus>
+                <input-plus
+                    name="company"
+                    type="text"
+                    label="Company Name"
+                    icon="fa-solid fa-building"
+                    autocomplete="off"
+                    required
+                ></input-plus>
+           
+                <input-plus 
+                    name="users" 
+                    type="number"
+                    label="Number of users"
+                    icon="fa-solid fa-users"
+                    autocomplete="off"
+                    required
+                ></input-plus>
             </div>
 
             <div>How can we help get your team started on Squidly?</div>
-            <input-plus>
-                <textarea name="message" autocomplete="off" required></textarea>
-                <label>Message</label>
-                <i class="icon fa-solid fa-inbox"></i>
-            </input-plus>
-
+            <input-plus
+                name="message"
+                type="textarea"
+                label="Your Message"
+                icon="fa-solid fa-comment"
+                autocomplete="off"
+                required
+            ></input-plus>
             <div class="row">
                 <button class="btn" name="submit">Send</button>
             </div>

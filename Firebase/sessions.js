@@ -374,6 +374,7 @@ export async function createSession(sessionInfo) {
         sid = null
         throw new Error("Failed to create session: " + errors.join(", "));
     } else {
+        delete sessionInfo.anonymous;
         await update(ref(`sessions-v3/${sid}/info`), sessionInfo)
     }
 

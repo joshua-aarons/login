@@ -5,7 +5,15 @@
             <h1>Sign in</h1>
         
             <div class = "col">
-                <input-plus name="email"><input type="email" required><label>Email</label></input-plus>
+                <input-plus 
+                    name="email"
+                    type="email"
+                    label="Email"
+                    icon="fa-solid fa-envelope"
+                    autocomplete="off"
+                    required
+                ></input-plus>
+                
                 <div id="error-message" name = "emailError"></div>
                 <button onclick = "signInWithOTP" class = "btn">Continue</button>
             </div>
@@ -25,8 +33,22 @@
             <div class="ctext">Looks like this is your first time signing into Squidly. Please tell us your name so we can get started.</div>
             <div class = "col">
                 <div class="row">
-                    <input-plus name="firstName"><input required type="text"><label>First name</label></input-plus>
-                    <input-plus name="lastName"><input required type="text"><label>Last name</label></input-plus>
+                    <input-plus 
+                        name="firstName"
+                        type="text"                        
+                        label="First name"
+                        icon="person"
+                        autocomplete="off"
+                        required></input-plus>
+
+                    <input-plus 
+                        name="lastName"
+                        type="text"
+                        label="Last name"
+                        icon="person"
+                        autocomplete="off"
+                        required
+                    ></input-plus>
                 </div>
             </div> 
             

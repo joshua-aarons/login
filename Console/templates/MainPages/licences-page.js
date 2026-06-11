@@ -70,11 +70,16 @@ export class LicenceProductCard extends DataComponent {
             </div>
                 
             <div class="col c-align">
-                <input-plus name = "seats" style = "width: min(100%, 8em);">
-                    <input min="1" max="999" value="1" type="number" key="seats">
-                    <label>users</label>
-                    <span class="icon material-symbols-outlined">group</span>
-                </input-plus>
+                <input-plus 
+                    name = "seats" 
+                    style = "width: min(100%, 8em);"
+                    min="1" max="999" value="1" 
+                    type="number" 
+                    key="seats"
+                    label = "users"
+                    icon="group"
+                    required
+                    >
                 <button name = "submit" onclick = "openBilling" class = "btn call-to-action"></button>
                 <small class = "trial">7 day free trial.</small>
             </div>

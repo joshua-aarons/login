@@ -79,14 +79,13 @@ class MeetingScheduler extends CustomForm {
      */
     _buildTimezoneSelection(){
         this.initialised = true;
-        const timezoneSelection = this.getInput("timezone").input;
+        const timezoneSelection = this.getInput("timezone").input
         if (!timezoneSelection) return;
-        timezoneSelection.innerHTML = "";
         for (let {name, offsetString} of TimeZoneList) {
-            let option = new SvgPlus("option");
-            option.value = name;
-            option.textContent = `${name} (${offsetString})`
-            timezoneSelection.appendChild(option);
+            // let option = new SvgPlus("option");
+            // option.value = name;
+            // option.textContent = `${name} (${offsetString})`
+            timezoneSelection.addOption(name, `${name} (${offsetString})`)
         }
     }
 
@@ -99,14 +98,17 @@ class MeetingScheduler extends CustomForm {
      * @returns {Promise<void>}
      */
     async save(){
+        console.warn("save meeting", this.validate())
         if (this.validate()) {
-            let {value: {duration, description, timezone, startTime}, sid} = this;
+            console.warn("validated")
+            let {value: {duration, description, timezone, startTime, anonymous}, sid} = this;
             const startDate = startTime + TimeZonesByName[timezone].offsetStringPlain
             let sessionInfo = {
                 duration: parseInt(duration) || 5,
                 description: description || "My Meeting",
                 timezone: timezone,
                 startDate,  
+                anonymous: !!anonymous,
                 startTime: new Date(startDate).getTime() // start time in milliseconds
             }
 
