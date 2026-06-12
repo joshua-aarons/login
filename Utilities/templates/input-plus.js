@@ -428,9 +428,9 @@ class TextInputWrapper extends InputProxy {
 
     set name(value) {
         this._name = value;
-        if (this.input) {
-            this.input.name = value;
-        }
+        // if (this.input) {
+        //     this.input.name = value;
+        // }
     }
 
     get name() {

@@ -345,7 +345,6 @@ class OptionSlider extends SvgPlus {
 
 }
 
-
 class OtpInput extends SvgPlus {
     constructor(el = "opt-input") {
         super(el);

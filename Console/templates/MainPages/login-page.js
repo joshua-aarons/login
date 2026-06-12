@@ -296,7 +296,8 @@ export class LoginPage extends CustomComponent {
     }
 
     async signInWithOTP() {
-        let {email} = this.els;
+        const email = this.els.email;
+        console.log(email)
         if (email.validate()) {
             await this.requestOTP(email.value);
         }
