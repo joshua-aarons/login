@@ -24,7 +24,7 @@ const METRICS = [
         yFormat: v => Math.round(v) == v ? v.toFixed(0) : "",
         avgFormat: v => Math.round(v) + "",
         series: [
-            { label: "Participant", color: "rgb(246 180 61)", extractor:  s => (s.totals?.host?.total && s.totals?.participant?.total) ? ((s.totals?.host?.total ?? 0) + (s.totals?.participant?.total ?? 0)) : null },
+            { label: "Total", color: "rgb(246 180 61)", extractor:  s => (s.totals?.host?.total && s.totals?.participant?.total) ? ((s.totals?.host?.total ?? 0) + (s.totals?.participant?.total ?? 0)) : null },
             { label: "Participant", strokeDasharray: "2 8", color: "rgb(16, 185, 129)", extractor: s => (s.totals?.host?.total && s.totals?.participant?.total) ? s.totals?.participant?.total ?? null : null},
             { label: "Host",        strokeDasharray: "2 8", color: "rgb(59, 130, 246)", extractor: s => (s.totals?.host?.total && s.totals?.participant?.total) ? s.totals?.host?.total ?? null : null },
         ],
