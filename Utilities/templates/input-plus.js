@@ -642,7 +642,7 @@ const typeInformation = {
         element: TextInputWrapper,
         inputType: "email",
         validator: (email) => {
-            let expression = /^[^@]+@\w+(\.\w+)+\w$/
+            let expression = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
             if (expression.test(email) == true) {
                 return true
             } else {
