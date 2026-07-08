@@ -114,32 +114,6 @@
                     </div>
                 </div>
             </div>
-    
-            <!--- OPEN SCHEDULER MODAL --->
-            <div class="popup" name = "meetingSchedulerPopup">
-                <meeting-scheduler name="meetingScheduler"></meeting-scheduler>
-            </div>
-    
-            <div class="popup" name = "meetingDisplayPopup">
-                <meeting-display name="meetingDisplay"></meeting-display>
-            </div>
-
-            <div class="popup" name = "gridEditorPopup">
-                <div name = "gridEditorRoot" class = "grid-editor">
-                    <grid-creator-app></grid-creator-app>
-                </div>
-                <i onclick="closeGridEditor"><span class="material-symbols-outlined">
-                    close
-                    </span></i>
-            </div>
-            <div class="popup" name = "quizEditorPopup">
-                <div name = "gridEditorRoot" class = "grid-editor">
-                    <quiz-editor-container></quiz-editor-container>
-                </div>
-                <i onclick="closeQuizEditor"><span class="material-symbols-outlined">
-                    close
-                    </span></i>
-            </div>
         </div>
         <div class="meeting">
             <h2>Editors</h2>
@@ -179,6 +153,15 @@
                     <grid-creator-app></grid-creator-app>
                 </div>
                 <i onclick="closeGridEditor"><span class="material-symbols-outlined">
+                    close
+                    </span></i>
+            </div>
+
+            <div class="popup" name = "quizEditorPopup">
+                <div name = "gridEditorRoot" class = "grid-editor">
+                    <quiz-editor-container></quiz-editor-container>
+                </div>
+                <i onclick="closeQuizEditor"><span class="material-symbols-outlined">
                     close
                     </span></i>
             </div>

@@ -45,6 +45,8 @@ export class Session {
      **/
     startTime = null;
 
+    anonymous = false;
+
     /**
      * @type {number} duration in minutes
      **/
@@ -128,8 +130,9 @@ export class Session {
                 this[key] = value;
             }
         }
-      
 
+        this.anonymous = !!session.anonymous;
+      
         if (isHistory) {
             this.scheduledTime = this.startTime;
             this.scheduledDuration = this.duration;
@@ -238,7 +241,6 @@ export class Session {
 }
 
 
-
 let watchers = {}
 
 let UID = null;
@@ -286,9 +288,9 @@ export function watch(uid, allData, updateCallback) {
 
     // Stop watching the info of a session
     let watchSessionInfo = (sid) => {
-         watchers[`session-${sid}`] = onValue(ref(`sessions-v3/${sid}/info`), (snapshot) => {
+         watchers[`session-${sid}`] = onValue(ref(`sessions-v3/${sid}`), (snapshot) => {
             try {
-                let sdata = new Session(sid, {info: snapshot.val()});
+                let sdata = new Session(sid, snapshot.val());
                 format();
                 if (activeSID === sid) {
                     sdata.active = true;
@@ -304,8 +306,6 @@ export function watch(uid, allData, updateCallback) {
 
     watchers.activeSessions = onValue(ref(`users/${uid}/active-session`), (snapshot) => {
         activeSID = snapshot.val();
-        console.log("Active session ID:", activeSID);
-        
         format();
         // Set all sessions to inactive
         for (let sid in allData.sessionsBySID) {
@@ -361,6 +361,8 @@ export function stopWatch() {
     }
 }
 
+
+
 export async function createSession(sessionInfo) {
     if (sessionInfo === "empty") {
         sessionInfo = Session.createEmptySessionInfo();
@@ -384,19 +386,35 @@ export async function createSession(sessionInfo) {
 }
 
 export async function deleteSession(sid) {
-    
     await callFunction("sessions-end", {sid:sid}, "australia-southeast1");
-    // await set(ref(`users/${UID}/session-history`), null);
 }
 
+
+const validKeys = {
+    "startTime": true,
+    "description": true,
+    "startDate": true,
+    "duration": true,
+    "timezone": true,
+    "profileID": true,
+}
 export async function updateSession(sid, sessionInfo) {
     try {
-        await update(ref(`sessions-v3/${sid}/info`), sessionInfo);
+        await set(ref(`sessions-v3/${sid}/anonymous`), sessionInfo.anonymous || false);
+
+        let onlyValidKeys = {};
+        for (let key in sessionInfo) {
+            if (key in validKeys) {
+                onlyValidKeys[key] = sessionInfo[key];
+            }
+        }
+        await update(ref(`sessions-v3/${sid}/info`), onlyValidKeys);
     } catch (e) {
         throw "Can't update past sessions";
     }
 
     return new Session(sid, {
+        anonymous: sessionInfo.anonymous || false,
         info: sessionInfo,
     });
 }

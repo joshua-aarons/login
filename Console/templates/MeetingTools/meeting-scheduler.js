@@ -5,15 +5,18 @@ import {} from "../../../Utilities/templates/input-plus.js"
 import { getFormattedParts, TimeZoneList, TimeZonesByName } from "../../../Utilities/timezones.js";
 
 useCSSStyle("theme")
-
+const DEBUG = () => {};
+// (...args) => console.log("%cMS:", "color: rgb(115, 255, 150); background: black; padding: 4px; border-radius: 4px;", ...args);
 class MeetingScheduler extends CustomForm {
     onconnect(){
         this.sid = null;
         this.innerHTML = getHTMLTemplate("meeting-scheduler");
         this.attachEvents();
         this.appView = document.querySelector("app-view");
+        this.isOpen = false;
 
         this._buildTimezoneSelection();
+        DEBUG("initial reset")
         this._resetForm();
 
         this.getInput("duration").validater = (value) => {
@@ -26,6 +29,7 @@ class MeetingScheduler extends CustomForm {
             return true;
         }
         addUserDataListener( (userData) => {
+
             let name = userData?.info?.displayName || userData?.info?.name || "";
             name = name.trim();
 
@@ -35,6 +39,7 @@ class MeetingScheduler extends CustomForm {
             }
             this.defaultDescription = description;
 
+            DEBUG(`data updated class: "${this.parentNode.getAttribute("class")}" ${this.isOpen ? "" : "-> resetting form"}`);
             if (!this.isOpen) {
                 this._resetForm();
             }
@@ -42,9 +47,9 @@ class MeetingScheduler extends CustomForm {
 
     }
 
-    get isOpen() {
-        return this.parentNode.classList.contains("open");
-    }
+    // get isOpen() {
+    //     return this.parentNode.classList.contains("open");
+    // }
 
 
     _resetForm(){
@@ -98,9 +103,8 @@ class MeetingScheduler extends CustomForm {
      * @returns {Promise<void>}
      */
     async save(){
-        console.warn("save meeting", this.validate())
         if (this.validate()) {
-            console.warn("validated")
+            DEBUG("saving meeting");
             let {value: {duration, description, timezone, startTime, anonymous}, sid} = this;
             const startDate = startTime + TimeZonesByName[timezone].offsetStringPlain
             let sessionInfo = {
@@ -116,17 +120,20 @@ class MeetingScheduler extends CustomForm {
             try {
                 // Create or update the session
                 let session = await (sid == null ? createSession(sessionInfo) : updateSession(sid, sessionInfo));
-                
+                DEBUG("session created/updated", session);
                 // Display the meeting in the app view
                 this.appView.displayMeeting(session);
 
+                DEBUG("meeting displayed in app view");
                 // Close the scheduler
                 this.close();
+    
             } catch (e) {
                 // Handle errors (e.g., missing license)
                 window.showNotification("You will need a licence to schedule meetings.", 5000, "error");
                 console.warn(e);
             }
+            DEBUG("done saving meeting");
             this.loading = false;
         }
     }
@@ -140,12 +147,11 @@ class MeetingScheduler extends CustomForm {
      * @returns {Object} - The processed value object.
      */
     onValue(value){
+        this.sid = null;
         if (value && typeof value === "object") {
             if (value.sid) {
                 this.sid = value.sid;
-            } else {
-                this.sid = null;
-            }
+            } 
             if (value.startDate && value.timezone) {
                 const {startDate} = value;
                 let match = startDate.match(/\d{4}-\d{2}-\d{2}[T]\d{2}:\d{2}/);
@@ -161,9 +167,13 @@ class MeetingScheduler extends CustomForm {
      * and resetting the form fields to their default state.
      */
     close(){
-        this.value = "";
+        DEBUG("closing")
+        this.isOpen = false;
         this.parentNode.classList.remove("open");
-        this._resetForm();
+        setTimeout(() => {
+            this.value = "";
+            this._resetForm();
+        }, 500);
     }
 
 }

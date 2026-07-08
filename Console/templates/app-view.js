@@ -99,6 +99,7 @@ export class AppView extends UserDataComponent {
             this.els.meetingScheduler.value = meeting;
         }
         this.els.meetingSchedulerPopup.classList.add("open")
+        this.els.meetingScheduler.isOpen = true;
     }
 
     openGridEditor(){
@@ -134,6 +135,4 @@ export class AppView extends UserDataComponent {
     updateBilling(){
         window.open(window.location.origin + `/Billing`);
     }
-
-
 }
