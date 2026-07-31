@@ -1,5 +1,5 @@
 import { DataComponent, SvgPlus, UserDataComponent } from "../../../Utilities/CustomComponent.js";
-import { getStripeCheckout, getStripeCheckoutFromClientSecret, openBillingPortal } from "../../../Firebase/licences.js";
+import { getSpecialOfferCheckout, getStripeCheckout, getStripeCheckoutFromClientSecret, openBillingPortal } from "../../../Firebase/licences.js";
 import { getHTMLTemplate, useCSSStyle } from "../../../Utilities/template.js";
 
 useCSSStyle("theme");
@@ -156,6 +156,8 @@ class LicencesPage extends UserDataComponent {
                 this.openBillingFromClientSecret(value.clientSecret);
             } else if ("productID" in value) {
                 this.openBilling(value.productID, value.priceIndex, value.seats);
+            } else if ("specialOfferToken" in value) {
+                this.openBillingPopup(getSpecialOfferCheckout(value.specialOfferToken, value.seats));
             }
         }
         this._params = value;
@@ -172,8 +174,9 @@ class LicencesPage extends UserDataComponent {
         });
     }
 
-    async openBillingFromClientSecret(clientSecret) {
-         const {els: {stripeMount, stripeMountPopup}} = this;
+    async openBillingPopup(checkoutPromise) {
+        console.log("openBillingPopup", checkoutPromise);
+        const {els: {stripeMount, stripeMountPopup}} = this;
 
         if (this.stripeCheckout) {
             this.stripeCheckout.unmount();
@@ -181,7 +184,7 @@ class LicencesPage extends UserDataComponent {
         }
         
         try {
-            const checkout = await getStripeCheckoutFromClientSecret(clientSecret)
+            const checkout = await checkoutPromise;
             checkout.mount(stripeMount);
             this.stripeCheckout = checkout;
             stripeMountPopup.classList.add("open");
@@ -192,24 +195,12 @@ class LicencesPage extends UserDataComponent {
         }
     }
 
-    async openBilling(productID, priceIndex = 0, seats = 1) {
-        const {els: {stripeMount, stripeMountPopup}} = this;
+    async openBillingFromClientSecret(clientSecret) {
+        this.openBillingPopup(getStripeCheckoutFromClientSecret(clientSecret));
+    }
 
-        if (this.stripeCheckout) {
-            this.stripeCheckout.unmount();
-            this.stripeCheckout.destroy();
-        }
-        
-        try {
-            const checkout = await getStripeCheckout(productID, priceIndex, seats);
-            checkout.mount(stripeMount);
-            this.stripeCheckout = checkout;
-            stripeMountPopup.classList.add("open");
-        } catch (e) {
-            console.warn(e);
-            showNotification(typeof e === "string" ? e : "We were unable to connect with stripe,\nplease try again later", 3000, "error");
-            stripeMountPopup.remove("open");
-        }
+    async openBilling(productID, priceIndex = 0, seats = 1) {
+        this.openBillingPopup(getStripeCheckout(productID, priceIndex, seats));
     }
 
     onvalue(value) {

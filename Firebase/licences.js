@@ -266,6 +266,31 @@ export async function getStripeCheckoutFromClientSecret(clientSecret) {
     return checkout;
 }
 
+export async function getSpecialOfferCheckout(specialOfferToken, seats = 1) {
+    seats = parseInt(seats || 1);
+    let error = null;
+    const checkout = await stripe.initEmbeddedCheckout({
+        fetchClientSecret: async () => {
+            const res = await callFunction("stripe-createLicenceCheckout", {
+                specialOfferToken,
+                seats,
+                return_url: window.location.origin,
+            })
+            let {errors, client_secret} = res.data;
+            
+            if (errors.length > 0) {
+                console.warn(errors);
+                error = errors.join("\n");
+                showNotification(error, 3000, "error");
+            }
+            return client_secret || "-";
+        },
+    });
+
+    return checkout;
+
+}
+
 export async function getStripeCheckout(productID, priceIndex, seats) {
     seats = parseInt(seats);
     priceIndex = parseInt(priceIndex);
