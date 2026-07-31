@@ -274,7 +274,7 @@ export async function getSpecialOfferCheckout(specialOfferToken, seats = 1) {
             const res = await callFunction("stripe-createLicenceCheckout", {
                 specialOfferToken,
                 seats,
-                return_url: window.location.origin,
+                return_url: window.location.origin + "/Console/#licences-page",
             })
             let {errors, client_secret} = res.data;
             
@@ -302,7 +302,7 @@ export async function getStripeCheckout(productID, priceIndex, seats) {
                 priceIndex,
                 productID,
                 seats,
-                return_url: window.location.origin,
+                return_url: window.location.origin + "/Console/#licences-page",
             })
             let {errors, client_secret} = res.data;
             
