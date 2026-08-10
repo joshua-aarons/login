@@ -1,0 +1,31 @@
+image_number,page_heading,class,alt,file,source_mime,replaced_with_attached_image,sha256
+1,Using Squidly,brand-mark,,image-01-brand-mark.png,image/png,no,3b7c1bb5a5c6ab9382193a5a444589d1c21ce85703f79238a958de077d89c349
+2,Using Squidly,brand-word,Squidly,image-02-brand-word.png,image/png,no,84f3bd61dd8e5b63e22817a6866455ba69fa6e73ecdc70b3fbfcc57abb0a6979
+3,Using Squidly,guide-image img-wide,A person and support person smiling together beside a laptop,image-03-cover.png,image/png,no,18fa30c484f7609c15fc0287eb0096d77b0d310da5227cfd3ef87f85e0799742
+4,What is Squidly?,brand-mark,,image-04-brand-mark.png,image/png,no,3b7c1bb5a5c6ab9382193a5a444589d1c21ce85703f79238a958de077d89c349
+5,What is Squidly?,brand-word,Squidly,image-05-brand-word.png,image/png,no,84f3bd61dd8e5b63e22817a6866455ba69fa6e73ecdc70b3fbfcc57abb0a6979
+6,What is Squidly?,guide-image,"A Squidly session with an AAC board, participant and clinician",image-06-what-is-squidly.png,image/png,yes,b546f359bab43712a90e7c126fc105e536989712f30643082aef9bf11ea7c9ad
+7,Get ready for your session,brand-mark,,image-07-brand-mark.png,image/png,no,3b7c1bb5a5c6ab9382193a5a444589d1c21ce85703f79238a958de077d89c349
+8,Get ready for your session,brand-word,Squidly,image-08-brand-word.png,image/png,no,84f3bd61dd8e5b63e22817a6866455ba69fa6e73ecdc70b3fbfcc57abb0a6979
+9,Get ready for your session,guide-image img-ready,A child using Squidly on a laptop with family or support people nearby,image-09-get-ready.jpg,image/jpeg,no,4aaa476615164f848035ae4b1c29a24b799c946249b8300998759bb692efefb3
+10,How to join,brand-mark,,image-10-brand-mark.png,image/png,no,3b7c1bb5a5c6ab9382193a5a444589d1c21ce85703f79238a958de077d89c349
+11,How to join,brand-word,Squidly,image-11-brand-word.png,image/png,no,84f3bd61dd8e5b63e22817a6866455ba69fa6e73ecdc70b3fbfcc57abb0a6979
+12,How to join,guide-image step-image,A secure Squidly web link in a browser,image-12-secure-link.png,image/png,no,017399b557a0b2d3cd05ffe7e64ad8b53f68542f49bf0fbf6af89346f2aa6318
+13,How to join,guide-image step-image permissions,Browser settings showing camera and microphone turned on,image-13-camera-microphone-permissions.png,image/png,no,3959b6ec5cb8f38bcc035189ba3b27873c8b86e8ed95c1cd19c900720d44f949
+14,How to join,guide-image step-image,A Squidly call waiting for the participant and clinician,image-14-waiting-room.png,image/png,no,a5a758b0f9085f021390d9226428d7560f912134735a0743df637a9645f3fdb9
+15,Your camera and microphone,brand-mark,,image-15-brand-mark.png,image/png,no,3b7c1bb5a5c6ab9382193a5a444589d1c21ce85703f79238a958de077d89c349
+16,Your camera and microphone,brand-word,Squidly,image-16-brand-word.png,image/png,no,84f3bd61dd8e5b63e22817a6866455ba69fa6e73ecdc70b3fbfcc57abb0a6979
+17,Your camera and microphone,guide-image,"Squidly device settings for speaker, microphone and video",image-17-device-settings.png,image/png,no,bc2b9eadca3950eacfb083fcbad703a86284f7ba293291be0e2bca45adc67813
+18,Take part your way,brand-mark,,image-18-brand-mark.png,image/png,no,3b7c1bb5a5c6ab9382193a5a444589d1c21ce85703f79238a958de077d89c349
+19,Take part your way,brand-word,Squidly,image-19-brand-word.png,image/png,no,84f3bd61dd8e5b63e22817a6866455ba69fa6e73ecdc70b3fbfcc57abb0a6979
+20,Take part your way,guide-image,"Squidly participant settings for devices, display, access, cursors, calibration and volume",image-20-participant-settings.png,image/png,no,d7c55320bbd04a69343c53ac60eb5d061e3a64d8cfdacc8644ea0b66d59b7ec6
+21,Things you can do,brand-mark,,image-21-brand-mark.png,image/png,no,3b7c1bb5a5c6ab9382193a5a444589d1c21ce85703f79238a958de077d89c349
+22,Things you can do,brand-word,Squidly,image-22-brand-word.png,image/png,no,84f3bd61dd8e5b63e22817a6866455ba69fa6e73ecdc70b3fbfcc57abb0a6979
+23,Things you can do,activity-image,An AAC communication activity inside a Squidly call,image-23-aac-activity.png,image/png,no,4453fe7f8b1114da2b61f7ee15700cf018a37ba5860a5124a432f47e8bc8137e
+24,Things you can do,activity-image,An accessible pizza game inside a Squidly call,image-24-pizza-game.png,image/png,no,93847c98f951e679cd13707b119ab19f5a050d718f34009ee5f471387a771135
+25,Things you can do,activity-image,A word-building literacy activity inside a Squidly call,image-25-word-building.png,image/png,no,44b1dc2790783f5af457539e272b2e08c982a3f88754f2adb67ad7f744678ba0
+26,Things you can do,activity-image,A visual quiz activity inside a Squidly call,image-26-visual-quiz.png,image/png,no,5fcc59c7dd3a3377f9cad4077d977f11758f2f4e8a673af14d5f864df7cd842b
+27,Frequently asked questions,brand-mark,,image-27-brand-mark.png,image/png,no,3b7c1bb5a5c6ab9382193a5a444589d1c21ce85703f79238a958de077d89c349
+28,Frequently asked questions,brand-word,Squidly,image-28-brand-word.png,image/png,no,84f3bd61dd8e5b63e22817a6866455ba69fa6e73ecdc70b3fbfcc57abb0a6979
+29,Getting help,brand-mark,,image-29-brand-mark.png,image/png,no,3b7c1bb5a5c6ab9382193a5a444589d1c21ce85703f79238a958de077d89c349
+30,Getting help,brand-word,Squidly,image-30-brand-word.png,image/png,no,84f3bd61dd8e5b63e22817a6866455ba69fa6e73ecdc70b3fbfcc57abb0a6979
