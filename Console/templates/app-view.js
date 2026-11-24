@@ -103,7 +103,7 @@ export class AppView extends UserDataComponent {
     }
 
     openGridEditor(){
-        this.els.gridEditorPopup.classList.add("open")
+        window.location = window.location.origin + `/AAC`;
     }
     closeGridEditor(){
         this.els.gridEditorPopup.classList.remove("open")
